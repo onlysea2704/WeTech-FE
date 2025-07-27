@@ -1,47 +1,29 @@
 import React, { useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
+import LeftLoginRegisterForm from "../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 
 const Login = () => {
 
-    const [index, setIndex] = useState(0);
-
-    const texts = [
-        {
-            title: "Giải Pháp Vượt Trội...",
-            content:
-                "Sự hài lòng của Quý khách hàng chính là động lực để chúng tôi không ngừng cải tiến và nâng cao chất lượng dịch vụ.",
-        },
-        {
-            title: "Chuyên Nghiệp Dẫn Đầu",
-            content:
-                "We-tech tự hào đồng hành cùng quý khách hàng trên hành trình phát triển bền vững.",
-        },
-    ];
+    const navigate = useNavigate();
+    const handleClose = async () => {
+        navigate("/");
+    }
 
     return (
         <div className="login-background">
             <div className="login-wrapper">
-                <div className="login-left">
-                    <div className="text-slider">
-                        <h2>{texts[index].title}</h2>
-                        <p>{texts[index].content}</p>
-                        <div className="slider-dots">
-                            {texts.map((_, i) => (
-                                <span
-                                    key={i}
-                                    className={`dot ${i === index ? "active" : ""}`}
-                                    onClick={() => setIndex(i)}
-                                ></span>
-                            ))}
-                        </div>
-                    </div>
-                </div>
+                <LeftLoginRegisterForm />
                 <div className="login-right">
                     <div className="login-box">
-                        <h2>Đăng Nhập</h2>
-                        <p>
-                            Bạn chưa có tài khoản? <a href="#">Đăng Ký</a>
+                        <div class="login-header">
+                            <h2>Đăng nhập</h2>
+                            <button class="close-btn" onClick={handleClose}>
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <p className="register-text">
+                            Bạn chưa có tài khoản? <Link to="/register">Đăng Ký</Link>
                         </p>
                         <input type="email" placeholder="Email" />
                         <input type="password" placeholder="Mật khẩu" />

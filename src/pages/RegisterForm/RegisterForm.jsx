@@ -1,56 +1,37 @@
 import React, { useState } from "react";
-import "./LoginForm.css";
+import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
+import LeftLoginRegisterForm from "../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 
 const RegisterForm = () => {
 
-    const [index, setIndex] = useState(0);
-
-    const texts = [
-        {
-            title: "Giải Pháp Vượt Trội...",
-            content:
-                "Sự hài lòng của Quý khách hàng chính là động lực để chúng tôi không ngừng cải tiến và nâng cao chất lượng dịch vụ.",
-        },
-        {
-            title: "Chuyên Nghiệp Dẫn Đầu",
-            content:
-                "We-tech tự hào đồng hành cùng quý khách hàng trên hành trình phát triển bền vững.",
-        },
-    ];
+    const navigate = useNavigate();
+    const handleClose = () => {
+        navigate("/");
+    }
 
     return (
-        <div className="login-background">
-            <div className="login-wrapper">
-                <div className="login-left">
-                    <div className="text-slider">
-                        <h2>{texts[index].title}</h2>
-                        <p>{texts[index].content}</p>
-                        <div className="slider-dots">
-                            {texts.map((_, i) => (
-                                <span
-                                    key={i}
-                                    className={`dot ${i === index ? "active" : ""}`}
-                                    onClick={() => setIndex(i)}
-                                ></span>
-                            ))}
+        <div className="register-background">
+            <div className="register-wrapper">
+                <LeftLoginRegisterForm />
+                <div className="register-right">
+                    <div className="register-box">
+                        <div class="register-header">
+                            <h2>Đăng nhập</h2>
+                            <button class="close-btn" onClick={handleClose}>
+                                <i class="fas fa-times"></i>
+                            </button>
                         </div>
-                    </div>
-                </div>
-                <div className="login-right">
-                    <div className="login-box">
-                        <h2>Đăng Nhập</h2>
-                        <p>
-                            Bạn chưa có tài khoản? <a href="#">Đăng Ký</a>
+                        <p className="login-text">
+                            Bạn đã có tài khoản? <Link to="/login">Đăng Nhập</Link>
                         </p>
                         <input type="email" placeholder="Email" />
-                        <input type="password" placeholder="Mật khẩu" />
                         <div class="name-row">
                             <input type="text" placeholder="Họ" class="name-input" />
                             <input type="text" placeholder="Tên" class="name-input" />
                         </div>
-                        <p className="forgot-password">Quên mật khẩu?</p>
-                        <button className="btn-login">Đăng Nhập</button>
+                        <input type="password" placeholder="Mật khẩu" />
+                        <button className="btn-register">Tạo tài khoản</button>
                         <div className="divider">
                             <span className="line"></span>
                             <span>or</span>
@@ -63,10 +44,11 @@ const RegisterForm = () => {
                             />
                             Đăng nhập với Google
                         </button>
-                        <p className="terms">
-                            Protected by reCAPTCHA and subject to the Prism{" "}
-                            <a href="#">Privacy Policy</a> and{" "}
-                            <a href="#">Terms of Service</a>.
+                        <p className="terms-register">
+                            <input type="checkbox" id="acceptTerms" />
+                            <label htmlFor="acceptTerms">
+                                Bằng cách nhấp vào Tạo tài khoản, tôi đồng ý rằng tôi đã đọc và chấp nhận Điều khoản sử dụng và Chính sách bảo mật.
+                            </label>
                         </p>
                     </div>
                 </div>
