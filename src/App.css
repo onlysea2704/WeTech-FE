@@ -28,6 +28,19 @@
   color: #61dafb;
 }
 
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+html,
+.login-background {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
