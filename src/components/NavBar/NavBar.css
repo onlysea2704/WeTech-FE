@@ -1,0 +1,109 @@
+/* Phần dải màu xanh đậm ở trên */
+.navbar-top-bar {
+    height: 40px;
+    background-color: #1a1a4e; /* Xanh đậm */
+}
+
+/* Phần navbar chính */
+.navbar-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 40px;
+    background-color: white;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
+.logo {
+    height: 60px;
+    margin-right: 10px;
+}
+
+.search-navbar{
+    margin: 0px;
+}
+
+.navbar-menu {
+    display: flex;
+    list-style: none;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+    color: #1a1a4e;
+    font-size: 14px;
+}
+
+.navbar-menu li {
+    cursor: pointer;
+    position: relative;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.search-box {
+    position: relative;
+    background: #f1f1f1;
+    border-radius: 20px;
+    padding: 4px 12px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.search-box input {
+    border: none;
+    background: transparent;
+    padding: 6px 8px;
+    outline: none;
+    width: 120px;
+    font-size: 14px;
+}
+
+.search-icon {
+    color: #888;
+    font-size: 12px;
+    margin-right: 6px;
+}
+
+.cart-icon {
+    font-size: 20px;
+    color: #1a1a4e;
+    cursor: pointer;
+}
+
+.btn-outline {
+    border: 1px solid #1a1a4e;
+    color: #1a1a4e;
+    background: white;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.btn-outline a{
+    color: #1a1a4e;
+    text-decoration: none;
+}
+
+.btn-filled a{
+    color: white;
+    text-decoration: none;
+}
+
+.btn-filled {
+    background: #1a1a4e;
+    color: white;
+    border: none;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
+}
