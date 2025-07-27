@@ -3,6 +3,8 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 // import Navbar from "./Components/NavBar/NavBar";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import RegisterForm from "./pages/RegisterForm/RegisterForm";
+import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
+import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -20,6 +22,8 @@ function App() {
         <Route path="/explore-course" element={<CategoryCourse isPurchase={false}/>} /> */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/update-password" element={<UpdatePassword />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

@@ -3,7 +3,7 @@ import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 
-const Login = () => {
+const LoginForm = () => {
 
     const navigate = useNavigate();
     const handleClose = async () => {
@@ -27,7 +27,7 @@ const Login = () => {
                         </p>
                         <input type="email" placeholder="Email" />
                         <input type="password" placeholder="Mật khẩu" />
-                        <p className="forgot-password">Quên mật khẩu?</p>
+                        <p className="forgot-password"> <Link to="/forgot-password">Quên mật khẩu?</Link> </p>
                         <button className="btn-login">Đăng Nhập</button>
                         <div className="divider">
                             <span className="line"></span>
@@ -53,4 +53,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default LoginForm;
