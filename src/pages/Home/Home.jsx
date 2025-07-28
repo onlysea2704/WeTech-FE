@@ -8,6 +8,7 @@ import TopProcedures from "../../components/TopProcedures/TopProcedures";
 import About from "../../components/About/About";
 import Services from "../../components/Services/Services";
 import Customers from "../../components/Customers/Customers";
+import Footer from "../../components/Footer/Footer";
 
 const Home = () => {
 
@@ -24,6 +25,7 @@ const Home = () => {
             <About/>
             <Services/>
             <Customers/>
+            <Footer/>
         </div>
     );
 };
