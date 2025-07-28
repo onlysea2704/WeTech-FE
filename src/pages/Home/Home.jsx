@@ -5,6 +5,9 @@ import LeftLoginRegisterForm from "../../components/LeftLoginRegisterForm/LeftLo
 import Navbar from "../../components/NavBar/NavBar";
 import Hero from "../../components/Hero/Hero";
 import TopProcedures from "../../components/TopProcedures/TopProcedures";
+import About from "../../components/About/About";
+import Services from "../../components/Services/Services";
+import Customers from "../../components/Customers/Customers";
 
 const Home = () => {
 
@@ -18,6 +21,9 @@ const Home = () => {
             <Navbar/>
             <Hero/>
             <TopProcedures/>
+            <About/>
+            <Services/>
+            <Customers/>
         </div>
     );
 };
