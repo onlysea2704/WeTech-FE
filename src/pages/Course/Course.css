@@ -1,0 +1,28 @@
+.courses-page{
+    padding: 0 120px 10px 120px;
+}
+
+.category-bar {
+  margin-top: 16px;
+  display: flex;
+  gap: 10px;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.category-btn {
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 8px;
+  padding: 8px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.category-btn:hover {
+  background: #1a1a4d; /* xanh đậm */
+  color: white; /* chữ trắng */
+  border-color: #0066cc;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}

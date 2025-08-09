@@ -6,6 +6,7 @@ import RegisterForm from "./pages/RegisterForm/RegisterForm";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
 import UpdatePassword from "./pages/UpdatePassword/UpdatePassword";
 import Home from "./pages/Home/Home";
+import Courses from "./pages/Course/Course";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -25,6 +26,7 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
+        <Route path="/courses" element={<Courses />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
