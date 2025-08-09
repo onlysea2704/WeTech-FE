@@ -37,6 +37,8 @@ const Courses = () => {
                     ))}
                 </div>
                 <ListCourses/>
+
+                <ListCourses/>
             </div>
 
             <Footer />

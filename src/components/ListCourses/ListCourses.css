@@ -16,6 +16,7 @@
 .header p {
   font-size: 14px;
   color: #666;
+  margin-top: 0;
 }
 
 .view-more {
@@ -36,7 +37,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cột */
   gap: 16px;
-  margin-top: 20px;
+  /* margin-top: 20px; */
 }
 
 .course-card {
@@ -89,15 +90,12 @@
   font-size: 14px;
   font-weight: bold;
   margin: 0;
-  font-family:Arial, Helvetica, sans-serif;
-
 }
 
 .description {
   font-size: 12px;
   color: #666;
   margin: 4px 0;
-  font-family:Arial, Helvetica, sans-serif;
 }
 
 .price {
