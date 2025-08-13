@@ -6,6 +6,57 @@ import Banner from "../../components/Banner/Banner";
 import Footer from "../../components/Footer/Footer";
 import ListCourses from "../../components/ListCourses/ListCourses";
 
+const courses = [
+    {
+        bgColor: "#FF5C5C",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "VUE JAVASCRIPT COURSE",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#9C5CFF",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "WEBSITE DEV ZERO TO HERO",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#9C5CFF",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "WEBSITE DEV ZERO TO HERO",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#4CC96D",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "MOBILE DEV REACT NATIVE",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+];
+
 const Courses = () => {
 
     // const navigate = useNavigate();
@@ -29,6 +80,13 @@ const Courses = () => {
 
             <div className="courses-page">
                 <Banner />
+
+                <ListCourses
+                    title="HOÀN THÀNH KHÓA HỌC CỦA BẠN"
+                    description="Các khoá học đã đăng ký"
+                    courses={courses}
+                />
+
                 <div className="category-bar">
                     {categories.map((cat) => (
                         <button className="category-btn">
@@ -36,9 +94,16 @@ const Courses = () => {
                         </button>
                     ))}
                 </div>
-                <ListCourses/>
-
-                <ListCourses/>
+                <ListCourses
+                    title="KHÓA HỌC MỚI"
+                    description="Các khoá học mới nhất được update."
+                    courses={courses}
+                />
+                <ListCourses
+                    title="KHÓA HỌC NỔI BẬT"
+                    description="Khóa học có lượt đăng ký nhiều nhất."
+                    courses={courses}
+                />
             </div>
 
             <Footer />
