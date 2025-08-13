@@ -1,0 +1,37 @@
+.breadcrumb-container {
+  width: 100%;
+  background-color: #f5f5f5; /* Màu nền xám nhạt */
+  padding: 12px 24px;
+  border-bottom: 1px solid #e9ecef;
+  box-sizing: border-box; /* Đảm bảo padding không làm tăng kích thước */
+}
+
+.breadcrumb-list {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  margin-left: 45px;
+  padding: 0;
+  font-size: 14px;
+}
+
+.breadcrumb-item a {
+  color: #6c757d; /* Màu chữ xám */
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.breadcrumb-item a:hover {
+  color: #007bff; /* Đổi màu khi hover */
+}
+
+.breadcrumb-item.active {
+  color: #343a40; /* Màu chữ đậm hơn cho trang hiện tại */
+  font-weight: 500;
+}
+
+.breadcrumb-separator {
+  margin: 0 10px;
+  color: #6c757d;
+}

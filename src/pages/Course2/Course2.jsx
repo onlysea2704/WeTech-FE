@@ -1,115 +1,175 @@
-import React from "react";
-import "./Course2.css";
-import Navbar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
+import React from 'react';
+import './Course2.css';
+import ListCourses2 from '../../components/ListCourses2/ListCourses2';
+import Navbar from '../../components/NavBar/NavBar';
+import Footer from '../../components/Footer/Footer';
+import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+
+const courseCategories = [
+    'Thành lập Công ty',
+    'Thành lập Hộ kinh doanh',
+    'Giải thể Công ty',
+    'Giải thể Hộ kinh doanh',
+    'Đăng ký thay đổi',
+    'Sáp nhập Tỉnh',
+    'Cập nhật lên CCCD',
+];
+
+const priceOptions = ['Trả phí', 'Miễn phí'];
+
+const courses = [
+    {
+        bgColor: "#FF5C5C",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "VUE JAVASCRIPT COURSE",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#9C5CFF",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "WEBSITE DEV ZERO TO HERO",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#9C5CFF",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "WEBSITE DEV ZERO TO HERO",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+    {
+        bgColor: "#4CC96D",
+        img: "https://via.placeholder.com/150",
+        badges: ["Best Seller", "20% OFF"],
+        title: "MOBILE DEV REACT NATIVE",
+        author: "Kitani Studio",
+        courseName: "VUE JS SCRATCH COURSE",
+        description:
+            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+        price: "$24.92",
+        oldPrice: "$32.90",
+    },
+];
 
 const Course2 = () => {
-    const courses = [
-        {
-            title: "Đăng ký thành lập mới - Công Ty TNHH 1 Tv",
-            teacher: "Mộc Lan",
-            desc: "Đăng ký thành lập mới đối với công ty TNHH một thành viên do cá nhân làm chủ sở hữu.",
-            price: "399.000đ",
-            oldPrice: "800.000đ",
-            tag: "Best Seller",
-            img: "https://via.placeholder.com/300x200"
-        },
-        {
-            title: "Đăng ký thành lập mới - Công ty TNHH 2 Tv",
-            teacher: "Mộc Lan",
-            desc: "Đăng ký thành lập mới đối với công ty TNHH 2 thành viên trở lên.",
-            price: "399.000đ",
-            oldPrice: "800.000đ",
-            tag: "Best Seller",
-            img: "https://via.placeholder.com/300x200"
-        },
-        {
-            title: "Đăng ký thành lập mới - Công ty Cổ phần",
-            teacher: "Mộc Lan",
-            desc: "Đăng ký thành lập mới đối với công ty cổ phần.",
-            price: "399.000đ",
-            oldPrice: "800.000đ",
-            tag: "Best Seller",
-            img: "https://via.placeholder.com/300x200"
-        },
-        {
-            title: "Đăng ký thành lập Chi nhánh - Văn phòng",
-            teacher: "Mộc Lan",
-            desc: "Đăng ký thành lập chi nhánh - văn phòng đại diện.",
-            price: "399.000đ",
-            oldPrice: "800.000đ",
-            tag: "Best Seller",
-            img: "https://via.placeholder.com/300x200"
-        }
-    ];
+    // State để quản lý các mục được chọn
+    const [selectedCategories, setSelectedCategories] = React.useState(['Thành lập Công ty']);
+    const [selectedPrice, setSelectedPrice] = React.useState('Miễn phí');
+
+    // State để quản lý việc thu gọn/mở rộng các section
+    const [isCategoryOpen, setCategoryOpen] = React.useState(true);
+    const [isPriceOpen, setPriceOpen] = React.useState(true);
+
+    // Hàm xử lý khi chọn một checkbox danh mục
+    const handleCategoryChange = (category) => {
+        setSelectedCategories(prev =>
+            prev.includes(category)
+                ? prev.filter(item => item !== category) // Bỏ chọn nếu đã được chọn
+                : [...prev, category] // Thêm vào nếu chưa được chọn
+        );
+    };
+
+    // Hàm xử lý khi chọn một radio button giá
+    const handlePriceChange = (event) => {
+        setSelectedPrice(event.target.value);
+    };
+
+    // Hàm để xóa tất cả các filter
+    const handleClearFilters = () => {
+        setSelectedCategories([]);
+        setSelectedPrice('');
+    };
+
 
     return (
 
         <div>
             <Navbar />
-            <div className="courses-container">
-                {/* Left Content */}
-                <div className="courses-list-section">
-                    <h1>Tất cả khoá học</h1>
-
-                    <div className="category-title">Khóa Học: Thành lập Công ty</div>
-                    <p className="category-desc">
-                        Khoá học đăng ký thành lập mới công ty
-                    </p>
-
-                    <div className="courses-grid">
-                        {courses.map((course, index) => (
-                            <div key={index} className="course-card">
-                                <img src={course.img} alt={course.title} />
-                                <div className="tag">{course.tag}</div>
-                                <h3>{course.title}</h3>
-                                <p className="teacher">{course.teacher}</p>
-                                <p className="desc">{course.desc}</p>
-                                <div className="price">
-                                    <span className="current">{course.price}</span>
-                                    <span className="old">{course.oldPrice}</span>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
+            <Breadcrumb/>
+            <div className="courses-page-layout">
+                <div className="main-content">
+                    <ListCourses2
+                        title="KHÓA HỌC MỚI"
+                        description="Các khoá học mới nhất được update."
+                        courses={courses}
+                    />
                 </div>
+                <div className="filter-sidebar">
+                    <div className="filter-container">
+                        <div className="filter-header">
+                            <h2 className="filter-title">Filter</h2>
+                            <button onClick={handleClearFilters} className="clear-button">Xoá</button>
+                        </div>
 
-                {/* Right Filter */}
-                <div className="filter-section">
-                    <h3>Filter</h3>
-                    <div className="filter-group">
-                        <h4>Danh mục khoá học</h4>
-                        <label>
-                            <input type="checkbox" defaultChecked /> Thành lập Công ty
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Thành lập Hộ kinh doanh
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Giải thể Công ty
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Giải thể Hộ kinh doanh
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Đăng ký thay đổi
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Sáp nhập Tỉnh
-                        </label>
-                        <label>
-                            <input type="checkbox" /> Cập nhật lên CCCD
-                        </label>
-                    </div>
+                        <div className="filter-divider"></div>
 
-                    <div className="filter-group">
-                        <h4>Giá</h4>
-                        <label>
-                            <input type="radio" name="price" /> Trả phí
-                        </label>
-                        <label>
-                            <input type="radio" name="price" defaultChecked /> Miễn phí
-                        </label>
+                        {/* Section Danh mục khoá học */}
+                        <div className="filter-section">
+                            <div className="section-header" onClick={() => setCategoryOpen(!isCategoryOpen)}>
+                                <span>Danh mục khoá học</span>
+                                <span className={`chevron ${isCategoryOpen ? 'up' : 'down'}`}></span>
+                            </div>
+                            {isCategoryOpen && (
+                                <div className="section-content">
+                                    {courseCategories.map(category => (
+                                        <label key={category} className="filter-option checkbox-label">
+                                            <input
+                                                type="checkbox"
+                                                value={category}
+                                                checked={selectedCategories.includes(category)}
+                                                onChange={() => handleCategoryChange(category)}
+                                            />
+                                            <span className="custom-checkbox"></span>
+                                            {category}
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+
+                        <div className="filter-divider"></div>
+
+                        {/* Section Giá */}
+                        <div className="filter-section">
+                            <div className="section-header" onClick={() => setPriceOpen(!isPriceOpen)}>
+                                <span>Giá</span>
+                                <span className={`chevron ${isPriceOpen ? 'up' : 'down'}`}></span>
+                            </div>
+                            {isPriceOpen && (
+                                <div className="section-content">
+                                    {priceOptions.map(option => (
+                                        <label key={option} className="filter-option radio-label">
+                                            <input
+                                                type="radio"
+                                                name="price"
+                                                value={option}
+                                                checked={selectedPrice === option}
+                                                onChange={handlePriceChange}
+                                            />
+                                            <span className="custom-radio"></span>
+                                            {option}
+                                        </label>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
