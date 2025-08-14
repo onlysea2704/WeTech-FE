@@ -1,12 +1,13 @@
 /* Tổng thể container */
 .course-container {
   max-width: 1200px;
-  margin: 0.5rem auto;
+  margin: 0.5rem 4rem;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   color: #333;
   background-color: #f9f9f9;
   padding: 1rem 2rem;
   border-radius: 8px;
+  margin-bottom: 2rem;
 }
 
 /* Phần điều hướng Tabs */
