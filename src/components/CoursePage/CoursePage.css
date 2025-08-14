@@ -1,0 +1,54 @@
+/* Tổng thể container */
+.course-container {
+  max-width: 1200px;
+  margin: 0.5rem auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  color: #333;
+  background-color: #f9f9f9;
+  padding: 1rem 2rem;
+  border-radius: 8px;
+}
+
+/* Phần điều hướng Tabs */
+.course-tabs {
+  display: flex;
+  border-bottom: 2px solid #eee;
+  margin-bottom: 10px;
+}
+
+.tab-button {
+  border: none;
+  background: none;
+  padding: 1rem 0;
+  margin-right: 2rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #555;
+  cursor: pointer;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.tab-button:hover {
+  color: #007bff;
+}
+
+/* Đường gạch chân cho tab đang hoạt động */
+.tab-button.active {
+  color: #fd7e14; /* Orange color */
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #fd7e14; /* Orange color */
+}
+
+.course-content {
+  padding: 1rem 0;
+  padding-top: 5px;
+}

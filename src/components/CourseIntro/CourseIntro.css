@@ -1,0 +1,23 @@
+/* --- Styles cho Introduction.jsx --- */
+.intro-section .section-title {
+  font-size: 1.5rem;
+  margin-top: 0rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.intro-section p {
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.intro-section .learning-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+.intro-section .learning-list li {
+  margin-bottom: 0.75rem;
+  line-height: 1.5;
+}
