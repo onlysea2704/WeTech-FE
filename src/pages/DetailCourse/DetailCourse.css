@@ -4,14 +4,10 @@
 }
 
 .video-container {
-  position: relative;
   width: 100%;
-}
-
-.course-video {
-  width: 100%;
+  overflow: hidden;
+  border-radius: 20px;
   height: 360px;
-  border-radius: 8px;
 }
 
 .course-card {

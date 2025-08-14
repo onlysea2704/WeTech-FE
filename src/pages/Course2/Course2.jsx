@@ -3,7 +3,7 @@ import './Course2.css';
 import ListCourses2 from '../../components/ListCourses2/ListCourses2';
 import Navbar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 
 const courseCategories = [
     'Thành lập Công ty',
@@ -96,7 +96,6 @@ const Course2 = () => {
         setSelectedCategories([]);
         setSelectedPrice('');
     };
-
 
     return (
 

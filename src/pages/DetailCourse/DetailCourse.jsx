@@ -14,18 +14,15 @@ const DetailCourse = () => {
             <div className="course-card">
                 {/* Phần bên trái: hình + tiêu đề */}
                 <div className="course-left">
-                    {/* <img
-                        src="https://via.placeholder.com/500x300" // thay bằng ảnh thật
-                        alt="Course"
-                        className="course-image"
-                    /> */}
                     <div className="video-container">
-                        <video
-                            className="course-video"
-                            controls
-                        >
-                            <source src="https://www.youtube.com/embed/yYX4bvQSqbo" type="video/mp4" />
-                        </video>
+                        <iframe
+                            width="100%"
+                            height="360px"
+                            src="https://www.youtube.com/embed/yYX4bvQSqbo"
+                            title="YouTube video player"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            allowFullScreen
+                        ></iframe>
                     </div>
                 </div>
 
