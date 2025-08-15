@@ -37,7 +37,7 @@ const DetailCourse = () => {
                     <button className="buy-now">MUA NGAY</button>
                     <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
 
-                    <div className="course-info">
+                    <div className="course-info-detail">
                         <p>📹 Bài giảng: 5 Videos</p>
                         <p>📄 Tài Liệu: Hồ sơ thủ tục</p>
                         <p>⏱ Thời lượng: 01h 30m</p>

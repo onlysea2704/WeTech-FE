@@ -16,7 +16,8 @@
   background-color: #F8FAFC;
   border: 1px solid #e0e0e0;
   border-radius: 12px;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
+  padding-bottom: 1rem;
 }
 
 .accordion-item {
@@ -56,6 +57,7 @@
 .accordion-content {
   padding: 0 1rem 0rem 1rem; 
   background-color: #fff;
+  border-radius: 10px;
 }
 
 .lesson-item {
