@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
-import './CoursePage.css';
+import './CourseInfo.css';
 import CourseContent from '../CourseContent/CourseContent';
 import CourseIntro from '../CourseIntro/CourseIntro';
 import Faq from '../Faq/Faq';
 
-const CoursePage = () => {
+const CourseInfo = () => {
     const [activeTab, setActiveTab] = useState('content'); // 'intro' hoặc 'content'
 
     return (
@@ -33,4 +33,4 @@ const CoursePage = () => {
     );
 };
 
-export default CoursePage;
+export default CourseInfo;

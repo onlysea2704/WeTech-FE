@@ -1,5 +1,5 @@
 import React from 'react';
-import './Course2.css';
+import './CourseFilter.css';
 import Navbar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
@@ -67,7 +67,7 @@ const courses = [
     },
 ];
 
-const Course2 = () => {
+const CourseFilter = () => {
     // State để quản lý các mục được chọn
     const [selectedCategories, setSelectedCategories] = React.useState(['Thành lập Công ty']);
     const [selectedPrice, setSelectedPrice] = React.useState('Miễn phí');
@@ -176,4 +176,4 @@ const Course2 = () => {
     );
 };
 
-export default Course2;
+export default CourseFilter;
