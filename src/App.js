@@ -9,6 +9,7 @@ import Home from "./pages/Home/Home";
 import Courses from "./pages/Course/Course";
 import CourseFilter from "./pages/CourseFilter/CourseFilter";
 import DetailCourse from "./pages/DetailCourse/DetailCourse";
+import ListProcedures from "./pages/ListProcedures/ListProcedures";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -31,6 +32,7 @@ function App() {
         <Route path="/courses" element={<Courses />} />
         <Route path="/course-filter" element={<CourseFilter />} />
         <Route path="/detail-course" element={<DetailCourse />} />
+        <Route path="/list-procedures" element={<ListProcedures />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
