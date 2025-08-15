@@ -46,7 +46,7 @@ const FaqItem = ({ item, index, openIndex, setOpenIndex }) => {
 // Component chính
 const Faq = () => {
   // Mặc định mở mục thứ 2 giống trong ảnh
-  const [openIndex, setOpenIndex] = useState(1); 
+  const [openIndex, setOpenIndex] = useState(0);
 
   return (
     <div className="faq-container">

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/NavBar/NavBar";
 import Banner from "../../components/Banner/Banner";
 import Footer from "../../components/Footer/Footer";
-import ListCourses from "../../components/ListCourses/ListCourses";
+import CourseCard from "../../components/CourseCard/CourseCard";
 
 const courses = [
     {
@@ -56,6 +56,26 @@ const courses = [
         oldPrice: "$32.90",
     },
 ];
+
+const ListCourses = ({ title, description, courses }) => {
+    return (
+        <div className="new-courses-container">
+            <div className="header">
+                <div>
+                    <h2>{title}</h2>
+                    <p>{description}</p>
+                </div>
+                <button className="view-more">Xem thêm</button>
+            </div>
+
+            <div className="course-list">
+                {courses.map((course, index) => (
+                    <CourseCard key={index} index={index} course={course} />
+                ))}
+            </div>
+        </div>
+    );
+};
 
 const Courses = () => {
 

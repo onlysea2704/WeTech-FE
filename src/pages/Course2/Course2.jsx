@@ -1,6 +1,5 @@
 import React from 'react';
 import './Course2.css';
-import ListCourses2 from '../../components/ListCourses2/ListCourses2';
 import Navbar from '../../components/NavBar/NavBar';
 import Footer from '../../components/Footer/Footer';
 import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
@@ -104,11 +103,11 @@ const Course2 = () => {
             <Breadcrumb/>
             <div className="courses-page-layout">
                 <div className="main-content">
-                    <ListCourses2
+                    {/* <ListCourses
                         title="KHÓA HỌC MỚI"
                         description="Các khoá học mới nhất được update."
                         courses={courses}
-                    />
+                    /> */}
                 </div>
                 <div className="filter-sidebar">
                     <div className="filter-container">

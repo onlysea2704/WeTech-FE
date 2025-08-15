@@ -31,7 +31,7 @@ const syllabusData = [
 
 const materialsData = [
   {
-    id: 'phan1',
+    id: 1,
     title: 'Phần 1',
     fileCount: '1 Tài liệu',
     files: [
@@ -41,7 +41,7 @@ const materialsData = [
     ],
   },
   {
-    id: 'soanHoSo',
+    id: 2,
     title: 'Soạn Hồ Sơ',
     fileCount: '3 Tài liệu',
     files: [
@@ -51,7 +51,7 @@ const materialsData = [
     ]
   },
   {
-    id: 'phan3',
+    id: 3,
     title: 'Phần 3',
     fileCount: '1 Tài liệu',
     files: [
@@ -61,7 +61,6 @@ const materialsData = [
     ],
   }
 ];
-
 
 // --- Component con cho cột trái ---
 const SyllabusAccordion = ({ section, isOpen, onToggle }) => (
@@ -101,13 +100,13 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
       <div className="material-content">
         {section.files.map((file, index) => (
           <div key={index} className="material-item">
-            <span className={`material-name ${file.isHighlighted ? 'highlighted' : ''}`}>
-              ☑️ {file.name}
+            <span className="material-name">
+              <i class="fa-solid fa-file-lines"></i> {file.name}
             </span>
             <div className="material-actions">
               <button className="download-btn">Download</button>
               {/* <span>{file.time}</span> */}
-              {file.isLocked && <span>🔒</span>}
+              {file.isLocked && <span><i class="fa-solid fa-lock"></i></span>}
             </div>
           </div>
         ))}
@@ -116,11 +115,10 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
   </div>
 );
 
-
 // --- Component Content chính ---
 const CourseContent = () => {
-  const [openSyllabusSection, setOpenSyllabusSection] = useState(2);
-  const [openMaterialSection, setOpenMaterialSection] = useState('soanHoSo');
+  const [openSyllabusSection, setOpenSyllabusSection] = useState(1);
+  const [openMaterialSection, setOpenMaterialSection] = useState(1);
 
   const handleSyllabusToggle = (id) => {
     setOpenSyllabusSection(openSyllabusSection === id ? null : id);

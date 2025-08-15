@@ -12,7 +12,7 @@ const DetailCourse = () => {
             <Navbar />
             <Breadcrumb />
             <h2>Đăng ký thành lập mới - Công ty TNHH 1 thành viên</h2>
-            <div className="course-card">
+            <div className="course-card-detail">
                 {/* Phần bên trái: hình + tiêu đề */}
                 <div className="course-left">
                     <div className="video-container">

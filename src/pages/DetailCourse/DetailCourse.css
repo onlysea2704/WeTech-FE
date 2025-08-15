@@ -10,7 +10,7 @@
   height: 360px;
 }
 
-.course-card {
+.course-card-detail {
   display: flex;
   gap: 20px;
   background: #fff;
