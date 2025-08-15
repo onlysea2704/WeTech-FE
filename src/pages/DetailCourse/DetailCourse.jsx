@@ -3,7 +3,7 @@ import "./DetailCourse.css";
 import Navbar from "../../components/NavBar/NavBar";
 import Footer from "../../components/Footer/Footer";
 import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import CoursePage from "../../components/CoursePage/CoursePage";
+import CoursePage from "../../components/CourseInfo/CourseInfo";
 
 const DetailCourse = () => {
     return (

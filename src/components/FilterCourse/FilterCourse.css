@@ -1,0 +1,163 @@
+.filter-container {
+  width: 185px;
+  padding: 10px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  color: #333;
+}
+
+.filter-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.filter-title {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.clear-button {
+  background: none;
+  border: none;
+  color: #00aaff;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.clear-button:hover {
+  text-decoration: underline;
+}
+
+/* Đường kẻ ngăn cách */
+.filter-divider {
+  border-top: 1px solid #e0e0e0;
+  margin: 16px 0;
+}
+
+
+/* Mỗi section của filter (Danh mục, Giá) */
+.filter-section {
+  margin-bottom: 16px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  margin-bottom: 12px;
+}
+
+/* Mũi tên lên/xuống */
+.chevron {
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  display: inline-block;
+  padding: 3px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.chevron.up {
+  transform: rotate(-135deg);
+}
+
+.chevron.down {
+  transform: rotate(45deg);
+}
+
+/* Nội dung các lựa chọn */
+.section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filter-option {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* Ẩn input mặc định */
+.filter-option input[type="checkbox"],
+.filter-option input[type="radio"] {
+  display: none;
+}
+
+/* Thiết kế checkbox tùy chỉnh */
+.custom-checkbox {
+  width: 14px;
+  height: 14px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  margin-right: 8px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.filter-option input[type="checkbox"]:checked + .custom-checkbox {
+  background-color: #1abc9c; /* Màu teal */
+  border-color: #1abc9c;
+}
+
+/* Dấu tick trong checkbox */
+.custom-checkbox::after {
+  content: '';
+  position: absolute;
+  display: none;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.filter-option input[type="checkbox"]:checked + .custom-checkbox::after {
+  display: block;
+}
+
+/* Thiết kế radio button tùy chỉnh */
+.custom-radio {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #ccc;
+  border-radius: 50%;
+  margin-right: 12px;
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s;
+}
+
+.filter-option input[type="radio"]:checked + .custom-radio {
+  border-color: #1abc9c; /* Màu teal */
+}
+
+/* Chấm tròn bên trong radio */
+.custom-radio::after {
+  content: '';
+  position: absolute;
+  display: none;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #1abc9c;
+}
+
+.filter-option input[type="radio"]:checked + .custom-radio::after {
+  display: block;
+}

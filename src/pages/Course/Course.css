@@ -56,12 +56,6 @@
   cursor: pointer;
 }
 
-/* .course-list {
-  display: flex;
-  gap: 16px;
-  margin-top: 20px;
-} */
-
 .course-list {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cột */
