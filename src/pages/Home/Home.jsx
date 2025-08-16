@@ -9,6 +9,7 @@ import About from "../../components/About/About";
 import Services from "../../components/Services/Services";
 import Customers from "../../components/Customers/Customers";
 import Footer from "../../components/Footer/Footer";
+import imageRegister from "../../assets/image-register-home.jpg";
 
 const Home = () => {
 
@@ -19,13 +20,17 @@ const Home = () => {
 
     return (
         <div>
-            <Navbar/>
-            <Hero/>
-            <TopProcedures/>
-            <About/>
-            <Services/>
-            <Customers/>
-            <Footer/>
+            <Navbar />
+            <Hero />
+            <TopProcedures />
+            <About />
+            <Services />
+            <Customers />
+            <div className="register-section">
+                <p>Learn more about our listing process, as well as our additional staging and design work.</p>
+                <button>Đăng ký ngay</button>
+            </div>
+            <Footer />
         </div>
     );
 };

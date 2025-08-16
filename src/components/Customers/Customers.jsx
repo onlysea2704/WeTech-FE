@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Customers.css';
-import imageCustomer from '../../assets/customer.jpg'
+import imageCustomer from '../../assets/customer.jpg';
 
+// Thêm một vài bình luận để kiểm tra logic hoạt động tốt khi có nhiều hơn 3
 const testimonials = [
   {
     name: 'Khánh Dư',
@@ -24,33 +25,97 @@ const testimonials = [
     feedback: 'Thực sự hài lòng! Lần đầu sử dụng nhưng phải nói là quá bất ngờ. Xử lý nhanh chóng, hỗ trợ tận tình, tiết kiệm được bao nhiêu thời gian. Nhờ kế biết đến sớm thì tốt quá!',
     img: '/images/user3.png',
   },
+  {
+    name: 'Anh Tuấn',
+    role: 'Giám đốc Marketing',
+    rating: 5,
+    feedback: 'Dịch vụ tuyệt vời, đội ngũ hỗ trợ rất chuyên nghiệp và giải đáp thắc mắc nhanh chóng. Sẽ tiếp tục hợp tác lâu dài với công ty.',
+    img: '/images/user4.png',
+  },
+  {
+    name: 'Chị Mai',
+    role: 'Trưởng phòng nhân sự',
+    rating: 4,
+    feedback: 'Quy trình làm việc rõ ràng, minh bạch. Mọi thứ đều được xử lý đúng hẹn và hiệu quả. Rất đáng tin cậy.',
+    img: '/images/user5.png',
+  },
 ];
 
 const Customers = () => {
+  // State để theo dõi chỉ số của bình luận đầu tiên đang hiển thị
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  // Hàm xử lý khi nhấn nút "tiếp theo"
+  const handleNext = () => {
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length);
+  };
+
+  // Hàm xử lý khi nhấn nút "quay lại"
+  const handlePrev = () => {
+    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length);
+  };
+
+  // Hàm xử lý khi nhấn vào các dấu chấm
+  const goToTestimonial = (index) => {
+    setCurrentIndex(index);
+  }
+
+  // Lấy ra 3 bình luận để hiển thị dựa trên currentIndex
+  const getVisibleTestimonials = () => {
+    // Nếu có 3 bình luận trở xuống, hiển thị tất cả
+    if (testimonials.length <= 3) {
+      return testimonials;
+    }
+    const visible = [];
+    for (let i = 0; i < 3; i++) {
+      const index = (currentIndex + i) % testimonials.length;
+      visible.push(testimonials[index]);
+    }
+    return visible;
+  };
+
+  const visibleTestimonials = getVisibleTestimonials();
+
   return (
     <div className="testimonials">
       <h2 className="title">Khách hàng của chúng tôi</h2>
-      <div className="cards-container">
-        {testimonials.map((item, index) => (
-          <div className="card" key={index}>
-            <div className="user-info">
-              <img src={imageCustomer} alt={item.name} className="avatar" />
-              <div>
-                <h4 className='customer-name'>{item.name}</h4>
-                <p className="role">{item.role} <span className="stars">{'⭐'.repeat(item.rating)}</span></p>
+
+      <div className='comments-container'>
+
+        <i className="fas fa-chevron-left" onClick={handlePrev}></i>
+
+        <div className="cards-container">
+          {visibleTestimonials.map((item, index) => (
+            <div className="card" key={index}>
+              <div className="user-info">
+                {/* Lưu ý: Code gốc của bạn dùng imageCustomer cho tất cả, nên tôi giữ nguyên.
+                    Nếu muốn dùng ảnh riêng, hãy đổi src thành {item.img} */}
+                <img src={imageCustomer} alt={item.name} className="avatar" />
+                <div>
+                  <h4 className='customer-name'>{item.name}</h4>
+                  <p className="role">{item.role} <span className="stars">{'⭐'.repeat(item.rating)}</span></p>
+                </div>
               </div>
+              <p className="feedback">{item.feedback}</p>
             </div>
-            <p className="feedback">{item.feedback}</p>
-          </div>
-        ))}
+          ))}
+        </div>
+
+        <i className="fas fa-chevron-right" onClick={handleNext}></i>
       </div>
-      <div className="dots">
-        <span className="dot active"></span>
-        <span className="dot"></span>
-        <span className="dot"></span>
-        <span className="dot"></span>
-        <span className="dot"></span>
-      </div>
+
+      {/* Chỉ hiển thị các dấu chấm nếu có nhiều hơn 3 bình luận */}
+      {testimonials.length > 3 && (
+        <div className="dots">
+          {testimonials.map((_, index) => (
+            <span
+              key={index}
+              className={`dot ${currentIndex === index ? 'active' : ''}`}
+              onClick={() => goToTestimonial(index)}
+            ></span>
+          ))}
+        </div>
+      )}
     </div>
   );
 };

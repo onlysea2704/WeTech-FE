@@ -89,3 +89,14 @@
 .dot.active {
   background-color: #1e144f;
 }
+
+.comments-container{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.comments-container i{
+  margin: 0 40px;
+  font-size: 25px;
+}
