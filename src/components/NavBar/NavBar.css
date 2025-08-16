@@ -107,3 +107,117 @@
     font-size: 14px;
     cursor: pointer;
 }
+
+
+/* Existing styles */
+
+.user-profile {
+ position: relative;
+ display: flex;
+ align-items: center;
+ cursor: pointer;
+ margin-left: 20px; /* Adjust spacing */
+}
+
+.avatar-container {
+ display: flex;
+ align-items: center;
+}
+
+/* Style cho avatar bằng ảnh */
+.user-avatar-img {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;     /* Bo tròn ảnh */
+    object-fit: cover;      /* Đảm bảo ảnh không bị méo */
+    margin-right: 8px;
+    border: 1px solid #ddd; /* Thêm viền mỏng */
+}
+
+.dropdown-arrow {
+ font-size: 0.8em;
+ color: #555;
+}
+
+/* --- CSS MỚI ĐỂ STYLE DROPDOWN --- */
+
+/* Style cho phần thông tin người dùng trong dropdown */
+.dropdown-user-info {
+    padding: 10px 15px;
+    line-height: 1.4;
+    padding-bottom: 0px;
+}
+
+.dropdown-user-info h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #0056b3; /* Màu xanh dương đậm */
+    font-weight: 600;
+}
+
+.dropdown-user-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #6c757d; /* Màu xám */
+}
+
+/* Style cho đường kẻ ngang phân cách */
+.dropdown-divider {
+    border: none;
+    border-top: 1px solid #e9ecef; /* Màu xám rất nhạt */
+    margin: 5px 0; /* Khoảng cách trên dưới */
+}
+
+/* Reset lại padding cho ul để các divider sát hơn */
+.dropdown-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 5px 0;
+}
+
+/* Các style cũ đã có */
+.dropdown-menu {
+    position: absolute;
+    top: 120%;
+    left: 0;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 240px; /* Tăng chiều rộng để vừa nội dung */
+    padding: 5px 0; /* Thêm padding trên dưới cho dropdown */
+    overflow: hidden;
+}
+
+.dropdown-menu li a {
+    display: block;
+    padding: 6px 15px;
+    color: #333;
+}
+
+.dropdown-menu li {
+    padding: 0;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.dropdown-menu li:hover {
+    background-color: #f5f5f5;
+}
+
+.logout-item {
+    color: #d9534f;
+    padding: 10px 15px;
+    font-weight: 500;
+    margin-left: 18px;
+}
+
+.logout-item:hover {
+    color: #c9302c;
+}
+
+.dropdown-menu a{
+    text-decoration: none;
+}
