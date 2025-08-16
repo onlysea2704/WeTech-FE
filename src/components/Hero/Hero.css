@@ -60,17 +60,23 @@
 
 .slider-buttons {
     position: absolute;
-    width: 95%;
+    width: 100%;
     top: 50%;
     transform: translateY(-50%);
-    display: flex;
-    justify-content: space-between;
-    padding: 0 20px;
 }
 
 .arrow {
+    position: absolute;
     color: white;
     font-size: 24px;
     cursor: pointer;
     padding: 10px;
+}
+
+.arrow.left {
+    left: 20px; /* cách mép trái 20px */
+}
+
+.arrow.right {
+    right: 20px; /* cách mép phải 20px */
 }
