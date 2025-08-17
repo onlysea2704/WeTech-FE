@@ -29,9 +29,9 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
-        <Route path="/courses" element={<Courses />} />
+        <Route path="/list-courses" element={<Courses />} />
         <Route path="/course-filter" element={<CourseFilter />} />
-        <Route path="/detail-course" element={<DetailCourse />} />
+        <Route path="/detail-course/:id_course" element={<DetailCourse />} />
         <Route path="/list-procedures" element={<ListProcedures />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />

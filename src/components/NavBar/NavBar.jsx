@@ -51,11 +51,11 @@ const Navbar = () => {
                 </div>
 
                 <ul className="navbar-menu">
-                    <li>TRANG CHỦ</li>
-                    <li>GIỚI THIỆU</li>
-                    <li>DỊCH VỤ PHÁP LÝ</li>
-                    <li>KHÓA HỌC</li>
-                    <li>LIÊN HỆ</li>
+                    <li><Link to="/">TRANG CHỦ</Link></li>
+                    <li><Link to="/my-courses">GIỚI THIỆU</Link></li>
+                    <li><Link to="/list-procedures">DỊCH VỤ PHÁP LÝ</Link></li>
+                    <li><Link to="/list-courses">KHÓA HỌC</Link></li>
+                    <li><Link to="/my-courses">LIÊN HỆ</Link></li>
                 </ul>
 
                 <div className="navbar-right">

@@ -34,6 +34,13 @@
     font-size: 14px;
 }
 
+.navbar-menu li a {
+    text-decoration: none;
+    color: #1a1a4e;
+    font-family: sans-serif;
+    font-weight: 600;
+}
+
 .navbar-menu li {
     cursor: pointer;
     position: relative;
