@@ -4,6 +4,7 @@
   overflow: hidden;
   width: 270px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
 }
 
 .course-image {

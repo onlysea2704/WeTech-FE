@@ -55,7 +55,7 @@ const Navbar = () => {
                     <li><Link to="/my-courses">GIỚI THIỆU</Link></li>
                     <li><Link to="/list-procedures">DỊCH VỤ PHÁP LÝ</Link></li>
                     <li><Link to="/list-courses">KHÓA HỌC</Link></li>
-                    <li><Link to="/my-courses">LIÊN HỆ</Link></li>
+                    <li><Link to="/contact-us">LIÊN HỆ</Link></li>
                 </ul>
 
                 <div className="navbar-right">

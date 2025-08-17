@@ -10,6 +10,7 @@ import Courses from "./pages/Course/Course";
 import CourseFilter from "./pages/CourseFilter/CourseFilter";
 import DetailCourse from "./pages/DetailCourse/DetailCourse";
 import ListProcedures from "./pages/ListProcedures/ListProcedures";
+import ContactUs from "./pages/ContactUs/ContactUs";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -33,6 +34,7 @@ function App() {
         <Route path="/course-filter" element={<CourseFilter />} />
         <Route path="/detail-course/:id_course" element={<DetailCourse />} />
         <Route path="/list-procedures" element={<ListProcedures />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

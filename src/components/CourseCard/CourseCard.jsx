@@ -1,10 +1,18 @@
 import React from "react";
 import "./CourseCard.css";
 import thumbnailCourse from '../../assets/thumbnail-course.png'
+import { useNavigate } from "react-router-dom";
 
 const CourseCard = ({ index, course }) => {
+
+    const navigate = useNavigate();
+    const handleClick = async () => {
+        // navigate("/detail-course/" + course.id_course);
+        navigate("/detail-course/" + 1);
+    }
+
     return (
-        <div className="course-card" key={index}>
+        <div className="course-card" key={index} onClick={handleClick}>
             <div
                 className="course-image"
                 style={{ backgroundColor: course.bgColor }}
