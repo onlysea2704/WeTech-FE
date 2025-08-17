@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import Navbar from "./Components/NavBar/NavBar";
 import LoginForm from "./pages/LoginForm/LoginForm";
 import RegisterForm from "./pages/RegisterForm/RegisterForm";
 import ForgotPassword from "./pages/ForgotPassword/ForgotPassword";
@@ -12,6 +11,7 @@ import DetailCourse from "./pages/DetailCourse/DetailCourse";
 import ListProcedures from "./pages/ListProcedures/ListProcedures";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Profile from "./pages/Profile/Profile";
+import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -24,9 +24,6 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
-        {/* <Route path="/lesson" element={<Lesson />} />
-        <Route path="/my-course" element={<CategoryCourse isPurchase={true}/>} />
-        <Route path="/explore-course" element={<CategoryCourse isPurchase={false}/>} /> */}
         <Route path="/login" element={<LoginForm />} />
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -37,6 +34,7 @@ function App() {
         <Route path="/list-procedures" element={<ListProcedures />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/not-found" element={<NotFoundPage />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

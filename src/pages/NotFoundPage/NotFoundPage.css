@@ -1,0 +1,95 @@
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+  width: 100%;
+}
+
+/* Kiểu dáng cho phần breadcrumb */
+.breadcrumb {
+  width: 100%;
+  padding: 25px 0;
+  text-align: center;
+  background: linear-gradient(90deg, rgba(230,235,255,1) 0%, rgba(250,235,255,1) 100%);
+  margin-bottom: 30px;
+}
+
+.breadcrumb p {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.breadcrumb span {
+  color: #6c757d;
+  font-size: 1rem;
+}
+
+/* Kiểu dáng cho phần nội dung chính */
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 80px; /* Khoảng cách giữa văn bản và hình ảnh */
+  max-width: 1200px;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.text-content {
+  max-width: 500px;
+}
+
+.text-content h1 {
+  font-size: 2.2rem;
+  font-weight: 600;
+  color: #1a2c5e;
+  margin-bottom: 20px;
+}
+
+.text-content .message {
+  font-size: 1rem;
+  color: #6c757d;
+  line-height: 1.6;
+  margin-bottom: 30px;
+}
+
+/* Kiểu dáng cho nút bấm */
+.home-button {
+  background-color: #04378a; /* Màu xanh dương */
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 15px 30px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+}
+
+.home-button:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+}
+
+/* Kiểu dáng cho hình ảnh */
+.image-content img {
+  max-width: 450px;
+  height: auto;
+}
+
+/* Responsive cho màn hình nhỏ */
+@media (max-width: 992px) {
+  .content-wrapper {
+    flex-direction: column;
+    text-align: center;
+    gap: 40px;
+  }
+  .image-content {
+    order: -1; /* Đưa hình ảnh lên trên trên mobile */
+  }
+}
