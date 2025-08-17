@@ -12,6 +12,7 @@ import ListProcedures from "./pages/ListProcedures/ListProcedures";
 import ContactUs from "./pages/ContactUs/ContactUs";
 import Profile from "./pages/Profile/Profile";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
+import FaqPage from "./pages/FaqPage/FaqPage";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -31,10 +32,11 @@ function App() {
         <Route path="/list-courses" element={<Courses />} />
         <Route path="/course-filter" element={<CourseFilter />} />
         <Route path="/detail-course/:id_course" element={<DetailCourse />} />
-        <Route path="/list-procedures" element={<ListProcedures />} />
+        <Route path="/list-procedures/:type_procedure" element={<ListProcedures />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/not-found" element={<NotFoundPage />} />
+        <Route path="/faq" element={<FaqPage />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

@@ -1,0 +1,116 @@
+/* --- Main Container --- */
+.faq-page-container {
+    width: 100%;
+}
+
+/* --- Header Section --- */
+.faq-header {
+    background: linear-gradient(90deg, rgba(253, 242, 243, 1) 0%, rgba(239, 243, 253, 1) 100%);
+    text-align: center;
+    padding: 3rem 1.5rem;
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+    width: 100%;
+}
+
+.faq-header h1 {
+    margin: 0;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #2c3e50;
+}
+
+.faq-header .breadcrumb {
+    margin: 0.5rem 0 0;
+    color: #555;
+}
+
+/* --- Accordion Container --- */
+.faq-accordion-container {
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    margin: 0 190px;
+}
+
+/* --- Individual FAQ Item --- */
+.faq-page-item {
+    border-bottom: 1px solid #e9ecef;
+}
+
+.faq-page-item:last-child {
+    border-bottom: none;
+}
+
+/* --- FAQ Question --- */
+.faq-question-page {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.faq-question-page p {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    flex-grow: 1;
+}
+
+.faq-page-icon {
+    font-size: 1.5rem;
+    font-weight: 300;
+    margin-left: 1rem;
+    color: #888;
+}
+
+/* --- Active/Open State for Question --- */
+.faq-question-page.active {
+    background-color: #3b5998;
+    color: #ffffff;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.faq-question-page.active .faq-icon {
+    color: #ffffff;
+}
+
+/* --- FAQ Answer --- */
+.faq-page-answer {
+    padding: 0 1.5rem 0% 1.5rem;
+    background-color: #ffffff;
+    display: flex;
+    gap: 1.5rem;
+    align-items: flex-start;
+    animation: fadeIn 0.4s ease-in-out;
+}
+
+.answer-text {
+    flex: 1;
+    margin: 0;
+    /* line-height: 1.7; */
+    color: #495057;
+    text-align: justify;
+    padding: 15px 0;
+}
+
+.answer-image {
+    max-width: 160px;
+    height: auto;
+    border-radius: 8px;
+}
+
+/* --- Fade In Animation --- */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
