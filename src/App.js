@@ -38,7 +38,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/faq" element={<FaqPage />} />
-        <Route path="/process-procedure" element={<ProcessProcedure />} />
+        <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

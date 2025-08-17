@@ -7,7 +7,7 @@ import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
 
 const ProcessProcedure = () => {
     // Sử dụng useState để theo dõi tab đang hoạt động
-    const [activeTab, setActiveTab] = useState(1); // Bắt đầu ở tab 2 như trong hình
+    const [activeTab, setActiveTab] = useState(0); // Bắt đầu ở tab 2 như trong hình
 
     const tabs = [
         { id: 0, title: 'Hồ Sơ' },
