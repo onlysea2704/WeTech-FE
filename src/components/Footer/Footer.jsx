@@ -2,6 +2,8 @@ import React from "react";
 import "./Footer.css";
 import imageLogoFooter from '../../assets/logo-footer.png'
 import iconLogoZalo from '../../assets/icon-zalo.png'
+import iconLogoYoutube from '../../assets/logo-youtube.png'
+import iconLogoFacebook from '../../assets/logo-facebook.png'
 
 const Footer = () => {
     return (
@@ -14,9 +16,9 @@ const Footer = () => {
                         CÔNG TY CỔ PHẦN GIẢI PHÁP CÔNG NGHỆ SỐ WE-TECH
                     </p>
                     <div className="social-icons">
-                        <img src={iconLogoZalo} alt="Facebook" />
+                        <img src={iconLogoFacebook} alt="Facebook" />
                         <img src={iconLogoZalo} alt="Zalo" />
-                        <img src={iconLogoZalo} alt="YouTube" />
+                        <img src={iconLogoYoutube} alt="YouTube" />
                     </div>
                 </div>
 
@@ -54,13 +56,6 @@ const Footer = () => {
 
                 </div>
 
-                {/* Cột 3: Liên hệ */}
-                {/* <div className="footer-column contact-column">
-                    <h4>Liên Hệ</h4>
-                    <p><i className="fa fa-map-marker" /> SN37, Liền kề 18, KĐT Văn Khê, Hà Đông, Hà Nội</p>
-                    <p><i className="fa fa-envelope" /> wetechsoft.vn@gmail.com</p>
-                    <p><i className="fa fa-phone" /> 0989-466-992 / 0383-466-992</p>
-                </div> */}
             </div>
 
             {/* Dòng cuối */}
