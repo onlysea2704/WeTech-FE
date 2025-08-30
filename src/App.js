@@ -14,6 +14,7 @@ import Profile from "./pages/Profile/Profile";
 import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FaqPage from "./pages/FaqPage/FaqPage";
 import ProcessProcedure from "./pages/ProcessProcedure/ProcessProcedure";
+import RegisterPayment from "./pages/RegisterPayment/RegisterPayment";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -38,6 +39,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/faq" element={<FaqPage />} />
+        <Route path="/register-payment" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
