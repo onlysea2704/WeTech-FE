@@ -1,10 +1,14 @@
 import React from "react";
 import "./DashBoard.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import CourseTable from "../../../components/CourseTable/CourseTable";
 
 const DashBoard = () => {
   return (
-    <Sidebar/>
+    <div>
+      <Sidebar />
+      <CourseTable />
+    </div>
   );
 };
 

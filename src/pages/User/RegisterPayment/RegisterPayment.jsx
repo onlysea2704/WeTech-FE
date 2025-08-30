@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./RegisterPayment.css";
-import logoImage from "../../../assets/logo.png";
+// import logoImage from "../../../assets/logo.png";
 import demoProcedure from "../../../assets/demo-procedure.jpg"
 import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 

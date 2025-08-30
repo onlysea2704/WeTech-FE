@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
@@ -43,8 +43,8 @@ const LoginForm = () => {
                         </button>
                         <p className="terms">
                             Protected by reCAPTCHA and subject to the Prism{" "}
-                            <a href="#">Privacy Policy</a> and{" "}
-                            <a href="#">Terms of Service</a>.
+                            <a href="a">Privacy Policy</a> and{" "}
+                            <a href="a">Terms of Service</a>.
                         </p>
                     </div>
                 </div>
