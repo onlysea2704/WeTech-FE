@@ -1,10 +1,10 @@
 import React from 'react';
 import './CourseFilter.css';
-import Navbar from '../../components/NavBar/NavBar';
-import Footer from '../../components/Footer/Footer';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
-import FilterCourse from '../../components/FilterCourse/FilterCourse';
-import CourseCard from '../../components/CourseCard/CourseCard';
+import Navbar from '../../../components/NavBar/NavBar';
+import Footer from '../../../components/Footer/Footer';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import FilterCourse from '../../../components/FilterCourse/FilterCourse';
+import CourseCard from '../../../components/CourseCard/CourseCard';
 import { useState } from 'react';
 
 const courseCategories = [

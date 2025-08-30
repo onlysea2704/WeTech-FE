@@ -1,10 +1,10 @@
 import React from 'react';
 import './Profile.css';
 import { useState } from 'react';
-import avatarImage from '../../assets/customer.jpg';
-import Footer from '../../components/Footer/Footer';
-import Navbar from '../../components/NavBar/NavBar';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import avatarImage from '../../../assets/customer.jpg';
+import Footer from '../../../components/Footer/Footer';
+import Navbar from '../../../components/NavBar/NavBar';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 
 const Profile = () => {
 

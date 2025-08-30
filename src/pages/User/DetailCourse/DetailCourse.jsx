@@ -1,10 +1,10 @@
 // src/pages/DetailCourse/DetailCourse.js
 import React, { useState, useEffect } from "react";
 import "./DetailCourse.css";
-import Navbar from "../../components/NavBar/NavBar";
-import Footer from "../../components/Footer/Footer";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
-import CoursePage from "../../components/CourseInfo/CourseInfo";
+import Navbar from "../../../components/NavBar/NavBar";
+import Footer from "../../../components/Footer/Footer";
+import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
+import CoursePage from "../../../components/CourseInfo/CourseInfo";
 
 // playlist có thêm videoUrl để phát
 const playlistData = [

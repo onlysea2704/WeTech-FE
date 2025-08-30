@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './FaqPage.css';
-import answerImage from '../../assets/error-image.png'; // <-- THAY ĐỔI đường dẫn đến hình ảnh của bạn
-import Footer from '../../components/Footer/Footer';
-import Navbar from '../../components/NavBar/NavBar';
+import answerImage from '../../../assets/error-image.png'; // <-- THAY ĐỔI đường dẫn đến hình ảnh của bạn
+import Footer from '../../../components/Footer/Footer';
+import Navbar from '../../../components/NavBar/NavBar';
 
 // Dữ liệu câu hỏi và câu trả lời
 const faqData = [

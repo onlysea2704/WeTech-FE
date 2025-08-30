@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import "./Course.css";
 import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/NavBar/NavBar";
-import Banner from "../../components/Banner/Banner";
-import Footer from "../../components/Footer/Footer";
-import CourseCard from "../../components/CourseCard/CourseCard";
+import Navbar from "../../../components/NavBar/NavBar";
+import Banner from "../../../components/Banner/Banner";
+import Footer from "../../../components/Footer/Footer";
+import CourseCard from "../../../components/CourseCard/CourseCard";
 
 const courses = [
     {

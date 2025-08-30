@@ -1,9 +1,9 @@
 import React from 'react';
 import './NotFoundPage.css';
 // Hãy chắc chắn rằng bạn đã tải một hình ảnh minh họa và đặt nó trong thư mục src/assets
-import errorImage from '../../assets/error-image.png';
-import Navbar from '../../components/NavBar/NavBar';
-import Footer from '../../components/Footer/Footer';
+import errorImage from '../../../assets/error-image.png';
+import Navbar from '../../../components/NavBar/NavBar';
+import Footer from '../../../components/Footer/Footer';
 
 const NotFoundPage = () => {
   return (

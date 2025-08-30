@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import "./ListProcedures.css";
-import ProcedureCard from "../../components/ProcedureCard/ProcedureCard";
-import Footer from "../../components/Footer/Footer";
-import Navbar from "../../components/NavBar/NavBar";
-import Breadcrumb from "../../components/Breadcrumb/Breadcrumb";
+import ProcedureCard from "../../../components/ProcedureCard/ProcedureCard";
+import Footer from "../../../components/Footer/Footer";
+import Navbar from "../../../components/NavBar/NavBar";
+import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 
 const tabs = [
     "Công ty TNHH một thành viên",

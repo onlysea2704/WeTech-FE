@@ -1,9 +1,9 @@
 import React from 'react';
 import './ContactUs.css';
-import Navbar from '../../components/NavBar/NavBar';
-import Footer from '../../components/Footer/Footer';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
-import map from '../../assets/map.png'
+import Navbar from '../../../components/NavBar/NavBar';
+import Footer from '../../../components/Footer/Footer';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import map from '../../../assets/map.png'
 
 const ContactUs = () => {
   return (
