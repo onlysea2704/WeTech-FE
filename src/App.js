@@ -15,6 +15,7 @@ import NotFoundPage from "./pages/NotFoundPage/NotFoundPage";
 import FaqPage from "./pages/FaqPage/FaqPage";
 import ProcessProcedure from "./pages/ProcessProcedure/ProcessProcedure";
 import RegisterPayment from "./pages/RegisterPayment/RegisterPayment";
+import ScanQR from "./pages/ScanQR/ScanQR";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -41,6 +42,7 @@ function App() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/register-payment" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
+        <Route path="/scan-qr" element={<ScanQR />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
