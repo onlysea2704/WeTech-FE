@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import './ProcessProcedure.css';
-import Footer from '../../components/Footer/Footer';
-import Navbar from '../../components/NavBar/NavBar';
-import Breadcrumb from '../../components/Breadcrumb/Breadcrumb';
+import Footer from '../../../components/Footer/Footer';
+import Navbar from '../../../components/NavBar/NavBar';
+import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 // import HoSo from './HoSo'; // Import component cho tab đầu tiên
 
 const ProcessProcedure = () => {

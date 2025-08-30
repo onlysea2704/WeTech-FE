@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "./ScanQR.css";
-import PaymentHeader from "../../components/PaymentHeader/PaymentHeader";
-import SuccessPayment from "../../components/SuccessPayment/SuccessPayment";
-import FailurePayment from "../../components/FailurePayment/FailurePayment";
+import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
+import SuccessPayment from "../../../components/SuccessPayment/SuccessPayment";
+import FailurePayment from "../../../components/FailurePayment/FailurePayment";
 
 const ScanQR = () => {
   const [showPopup, setShowPopup] = useState(false);

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./RegisterPayment.css";
 import logoImage from "../../assets/logo.png";
 import demoProcedure from "../../assets/demo-procedure.jpg"
-import PaymentHeader from "../../components/PaymentHeader/PaymentHeader";
+import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 
 const RegisterPayment = () => {
     const [discount] = useState(100000);
