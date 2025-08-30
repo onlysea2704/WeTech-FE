@@ -1,0 +1,74 @@
+/* Header */
+.header-payment {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.image-icon-payment{
+    display: flex;
+    align-items: center;
+}
+
+.image-icon-payment i{
+    margin-right: 15px;
+}
+
+.logo {
+  height: 50px;
+}
+
+.steps {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+}
+
+.step-item {
+  display: flex;
+  align-items: center;
+}
+
+.step-label {
+  color: #999;
+  font-weight: 500;
+}
+
+.step-label.active {
+  color: teal;
+  font-weight: bold;
+}
+
+.step-label.done {
+  color: teal;
+  font-weight: 600;
+}
+
+.step-label.success {
+  color: green;
+  font-weight: bold;
+}
+
+.step-label.failed {
+  color: red;
+  font-weight: bold;
+}
+
+.separator {
+  margin: 0 8px;
+  color: #ccc;
+}
+
+.check {
+  font-size: 14px;
+  margin: 0 6px;
+  color: #ccc;
+}
+
+.check.done {
+  color: teal;
+}
+

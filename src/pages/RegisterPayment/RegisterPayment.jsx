@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import "./RegisterPayment.css";
 import logoImage from "../../assets/logo.png";
 import demoProcedure from "../../assets/demo-procedure.jpg"
+import PaymentHeader from "../../components/PaymentHeader/PaymentHeader";
 
 const RegisterPayment = () => {
     const [discount] = useState(100000);
     const [price] = useState(399000);
-    const [currentStep, setCurrentStep] = useState(1); // 1: Thông tin, 2: Thanh toán, 3: Thành công
     const [status, setStatus] = useState("edit");
     const total = price - discount;
 
@@ -14,46 +14,9 @@ const RegisterPayment = () => {
         setStatus(currentStatus);
     }
 
-    const steps = [
-        { id: 1, label: "Thông tin" },
-        { id: 2, label: "Thanh toán" },
-        { id: 3, label: "Thành công" },
-    ];
-
     return (
         <div>
-            {/* HEADER với logo và steps */}
-            <div className="header-payment">
-                <div className="image-icon-payment">
-                    <i className="fa fa-arrow-left back-icon"></i>
-                    <img src={logoImage} alt="Logo" className="logo" />
-                </div>
-                <div className="steps">
-                    {steps.map((step, index) => (
-                        <div key={step.id} className="step-item">
-                            <span
-                                className={`step-label ${currentStep === step.id ? "active" : ""
-                                    }`}
-                            >
-                                {step.label}
-                            </span>
-                            {index < steps.length - 1 && (
-                                <span className="separator">—</span>
-                            )}
-                            {index < steps.length - 1 && (
-                                <span className={`check ${currentStep > step.id ? "done" : ""}`}>
-                                    ✓
-                                </span>
-                            )}
-                            {index < steps.length - 1 && (
-                                <span className="separator">—</span>
-                            )}
-                        </div>
-                    ))}
-                </div>
-                <div></div>
-            </div>
-
+            <PaymentHeader />
             {/* BODY */}
             <div className="register-container">
                 {/* Bên trái */}
@@ -99,25 +62,6 @@ const RegisterPayment = () => {
 
                 {/* Bên phải */}
                 <div className="register-right">
-                    {/* <div className="register-right-form">
-                        <h3>Thông tin đăng ký</h3>
-                        <div className="form-row">
-                            <input type="text" placeholder="Họ" />
-                            <input type="text" placeholder="Tên" />
-                        </div>
-                        <input type="email" placeholder="Email" />
-                        <input type="tel" placeholder="Số điện thoại" />
-
-                        <button
-                            className="submit-btn"
-                            onClick={() =>
-                                setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev))
-                            }
-                        >
-                            Tiếp tục
-                        </button>
-                    </div> */}
-
                     {status === "edit" ?
                         (<div className="register-right-form">
                             <h3>Thông tin đăng ký</h3>
@@ -128,10 +72,7 @@ const RegisterPayment = () => {
                             <input type="email" placeholder="Email" />
                             <input type="tel" placeholder="Số điện thoại" />
                             <button className="submit-btn"
-                                onClick={() => {
-                                    setCurrentStep((prev) => (prev < 3 ? prev + 1 : prev));
-                                    changeStatus("confirm");
-                                }}
+                                onClick={() => changeStatus("confirm")}
                             > Tiếp tục
                             </button>
                         </div>) : (<div className="payment-container">
