@@ -1,0 +1,129 @@
+.table-container {
+  width: 100%;
+  margin: 20px auto;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  background: white;
+}
+
+.custom-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
+}
+
+.custom-table th,
+.custom-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.custom-table th {
+  background: #eaf6ff;
+  font-weight: 600;
+  color: #0077cc;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+.custom-table tr:hover td {
+  background: #f9fbfd;
+}
+
+/* .pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background-color: #f8faff;
+  border-top: 1px solid #eee;
+}
+
+.pagination button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+  background: #0077cc;
+  color: white;
+  border-color: #0077cc;
+}
+
+.pagination button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination span {
+  font-size: 14px;
+  color: #333;
+} */
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  background-color: #f8faff;
+  border-top: 1px solid #eee;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pagination-table {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pagination-table button {
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  background: white;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.pagination-table button:hover:not(:disabled) {
+  background: #0077cc;
+  color: white;
+  border-color: #0077cc;
+}
+
+.pagination-table button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.pagination-table span {
+  font-size: 14px;
+  color: #333;
+}
+
+/* Selectbox styling */
+.page-size {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+}
+
+.page-size select {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background: white;
+  cursor: pointer;
+  font-size: 14px;
+}
