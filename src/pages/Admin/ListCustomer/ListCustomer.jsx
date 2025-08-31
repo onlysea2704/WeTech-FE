@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import "./DashBoard.css";
+import "./ListCustomer.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
 
-const DashBoard = () => {
+const ListCustomer = () => {
 
   const columns = [
     { headerName: "Họ tên", field: "name" },
@@ -40,7 +40,7 @@ const DashBoard = () => {
         <div className="toolbar-container">
           {/* Phần bên trái */}
           <div className="toolbar-left">
-            <h1 className="toolbar-title">Thông tin chi tiết khóa học</h1>
+            <h1 className="toolbar-title">Danh sách khách hàng</h1>
           </div>
 
           {/* Phần bên phải */}
@@ -79,4 +79,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default ListCustomer;

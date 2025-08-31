@@ -29,17 +29,17 @@ const Sidebar = () => {
           <span>Dashboard</span>
         </Link>
 
-        <Link to="/renew" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+        <Link to="" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
           <i className="fa-solid fa-calendar-days menu-icon"></i>
           <span>Khóa học</span>
         </Link>
 
-        <Link to="/renew" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+        <Link to="" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
           <i className="fa-solid fa-calendar-days menu-icon"></i>
           <span>Thủ tục pháp lý</span>
         </Link>
 
-        <Link to="/customers" className={`menu-item ${isActive("/customers") ? "active" : ""}`}>
+        <Link to="/list-customer" className={`menu-item ${isActive("/list-customer") ? "active" : ""}`}>
           <i className="fa-solid fa-user menu-icon"></i>
           <span>Khách hàng</span>
         </Link>
@@ -49,14 +49,12 @@ const Sidebar = () => {
           <span>Doanh số</span>
         </Link>
 
-        
-
-        <Link to="/consult" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
+        <Link to="" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
           <i className="fa-solid fa-comments menu-icon"></i>
           <span>Tư vấn</span>
         </Link>
 
-        <Link to="/questions" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
+        <Link to="" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
           <i className="fa-solid fa-circle-question menu-icon"></i>
           <span>Câu hỏi</span>
         </Link>

@@ -17,6 +17,7 @@ import ProcessProcedure from "./pages/User/ProcessProcedure/ProcessProcedure";
 import RegisterPayment from "./pages/User/RegisterPayment/RegisterPayment";
 import ScanQR from "./pages/User/ScanQR/ScanQR";
 import DashBoard from "./pages/Admin/DashBoard/DashBoard";
+import ListCustomer from "./pages/Admin/ListCustomer/ListCustomer";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -45,6 +46,7 @@ function App() {
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
         <Route path="/scan-qr" element={<ScanQR />} />
         <Route path="/dashboard" element={<DashBoard />} />
+        <Route path="/list-customer" element={<ListCustomer />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
