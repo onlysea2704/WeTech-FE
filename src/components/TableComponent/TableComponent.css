@@ -127,3 +127,36 @@
   cursor: pointer;
   font-size: 14px;
 }
+
+
+.action-cell {
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.action-btn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 4px;
+  transition: all 0.2s ease;
+}
+
+.action-btn.edit {
+  color: #0077cc;
+}
+
+.action-btn.edit:hover {
+  color: #005fa3;
+}
+
+.action-btn.delete {
+  color: #e63946;
+}
+
+.action-btn.delete:hover {
+  color: #c1121f;
+}

@@ -4,11 +4,13 @@ import "./TableComponent.css";
 const TableComponent = ({
   columns,
   data,
-  pageSize = 8,
+  pageSize = 5,
   currentPage,
   totalItems,
   onPageChange,
-  onPageSizeChange, // thêm prop
+  onPageSizeChange,
+  onEdit,   // callback edit
+  onDelete, // callback delete
 }) => {
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -20,6 +22,7 @@ const TableComponent = ({
             {columns.map((col) => (
               <th key={col.field}>{col.headerName}</th>
             ))}
+            <th style={{ width: "100px", textAlign: "center" }}>Hành động</th>
           </tr>
         </thead>
         <tbody>
@@ -29,11 +32,25 @@ const TableComponent = ({
                 {columns.map((col) => (
                   <td key={col.field}>{row[col.field]}</td>
                 ))}
+                <td className="action-cell">
+                  <button
+                    className="action-btn edit"
+                    onClick={() => onEdit && onEdit(row)}
+                  >
+                    <i className="fas fa-edit"></i>
+                  </button>
+                  <button
+                    className="action-btn delete"
+                    onClick={() => onDelete && onDelete(row)}
+                  >
+                    <i className="fas fa-trash-alt"></i>
+                  </button>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={columns.length} style={{ textAlign: "center" }}>
+              <td colSpan={columns.length + 1} style={{ textAlign: "center" }}>
                 Không có dữ liệu
               </td>
             </tr>
@@ -43,23 +60,6 @@ const TableComponent = ({
 
       {/* Pagination + Selectbox */}
       <div className="pagination-container">
-
-        {/* Selectbox item per page */}
-        <div className="page-size">
-          <label htmlFor="pageSize">Hiển thị:</label>
-          <select
-            id="pageSize"
-            value={pageSize}
-            onChange={(e) => onPageSizeChange(Number(e.target.value))}
-          >
-            <option value={7}>7</option>
-            <option value={10}>10</option>
-            <option value={20}>20</option>
-            <option value={50}>50</option>
-          </select>
-          <span>/ trang</span>
-        </div>
-
         <div className="pagination-table">
           <button
             onClick={() => onPageChange(1)}
@@ -88,7 +88,22 @@ const TableComponent = ({
           >
             <i className="fas fa-angle-double-right"></i>
           </button>
-          <span> ({totalItems} bản ghi)</span>
+          <span>({totalItems} bản ghi)</span>
+        </div>
+
+        <div className="page-size">
+          <label htmlFor="pageSize">Hiển thị:</label>
+          <select
+            id="pageSize"
+            value={pageSize}
+            onChange={(e) => onPageSizeChange(Number(e.target.value))}
+          >
+            <option value={7}>7</option>
+            <option value={10}>10</option>
+            <option value={20}>20</option>
+            <option value={50}>50</option>
+          </select>
+          <span>/ trang</span>
         </div>
       </div>
     </div>

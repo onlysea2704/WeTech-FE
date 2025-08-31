@@ -83,29 +83,6 @@
   font-size: 16px;
 }
 
-/* Ô tìm kiếm */
-.search-box-table {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #f8f9fa;
-}
-
-.search-box-table i {
-  color: #6c757d;
-}
-
-.search-box-table input {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  width: 160px;
-}
-
-.search-box-table input::placeholder {
-  color: #6c757d;
-}
-
 /* Dropdown sắp xếp */
 .sort-dropdown-wrapper {
   position: relative;

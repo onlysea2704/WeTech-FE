@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from "react";
-import "./DashBoard.css";
+import "./Transactions.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
 
-const DashBoard = () => {
+const Transactions = () => {
 
   const columns = [
-    { headerName: "Danh mục", field: "name" },
-    { headerName: "Khách hàng", field: "name" },
-    { headerName: "Dịch vụ đăng ký", field: "email" },
+    { headerName: "STT", field: "name" },
+    { headerName: "Họ tên", field: "name" },
+    { headerName: "Liên hệ", field: "email" },
+    { headerName: "Khóa học", field: "email" },
     { headerName: "Doanh thu", field: "email" },
-    { headerName: "Thống kê", field: "email" },
+    { headerName: "Ngày đăng ký", field: "email" },
   ];
 
   const allData = Array.from({ length: 42 }, (_, i) => ({
@@ -40,16 +41,26 @@ const DashBoard = () => {
         <div className="toolbar-container">
           {/* Phần bên trái */}
           <div className="toolbar-left">
-            <h1 className="toolbar-title">Thông tin chi tiết khóa học</h1>
+            <h1 className="toolbar-title">Danh sách khách hàng</h1>
           </div>
 
           {/* Phần bên phải */}
           <div className="toolbar-right">
+            <button className="export-button">
+              <i className="fa-solid fa-file-excel"></i>
+              <span>Export to Excel</span>
+            </button>
+
+            <div className="search-box-table">
+              <i className="fa-solid fa-magnifying-glass"></i>
+              <input type="text" placeholder="Search" />
+            </div>
+
             <div className="sort-dropdown-wrapper">
               <select className="sort-dropdown">
-                <option value="newest">Tháng 1</option>
-                <option value="oldest">Tháng 2</option>
-                <option value="name_asc">Tháng 3</option>
+                <option value="newest">Short : Mới nhất</option>
+                <option value="oldest">Short : Cũ nhất</option>
+                <option value="name_asc">Short : A-Z</option>
               </select>
             </div>
           </div>
@@ -69,4 +80,4 @@ const DashBoard = () => {
   );
 };
 
-export default DashBoard;
+export default Transactions;
