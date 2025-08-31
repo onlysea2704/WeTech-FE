@@ -1,48 +1,66 @@
 import React from "react";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
+import imageAdmin from "../../assets/customer.jpg";
 
 const Sidebar = () => {
+  const location = useLocation();
+
+  // Hàm kiểm tra active
+  const isActive = (path) => location.pathname === path;
+
   return (
     <div className="sidebar">
       {/* User Info */}
       <div className="sidebar-header">
-        <img
-          src="https://via.placeholder.com/50" // thay avatar thật vào
-          alt="avatar"
-          className="sidebar-avatar"
-        />
+        <img src={imageAdmin} alt="avatar" className="sidebar-avatar" />
         <div>
           <h3 className="sidebar-title">Admin Panel</h3>
-          <p className="sidebar-username">admin1 <i className="fa-solid fa-caret-down"></i></p>
+          <p className="sidebar-username">
+            admin1 <i className="fa-solid fa-caret-down"></i>
+          </p>
         </div>
       </div>
 
       {/* Menu */}
       <div className="sidebar-menu">
-        <div className="menu-item active">
+        <Link to="/dashboard" className={`menu-item ${isActive("/dashboard") ? "active" : ""}`}>
           <i className="fa-solid fa-table-cells-large menu-icon"></i>
-          <span>Dash Board</span>
-        </div>
-        <div className="menu-item">
-          <i className="fa-solid fa-users menu-icon"></i>
+          <span>Dashboard</span>
+        </Link>
+
+        <Link to="/renew" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+          <i className="fa-solid fa-calendar-days menu-icon"></i>
+          <span>Khóa học</span>
+        </Link>
+
+        <Link to="/renew" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+          <i className="fa-solid fa-calendar-days menu-icon"></i>
+          <span>Thủ tục pháp lý</span>
+        </Link>
+
+        <Link to="/customers" className={`menu-item ${isActive("/customers") ? "active" : ""}`}>
+          <i className="fa-solid fa-user menu-icon"></i>
           <span>Khách hàng</span>
-        </div>
-        <div className="menu-item">
+        </Link>
+
+        <Link to="/sales" className={`menu-item ${isActive("/sales") ? "active" : ""}`}>
           <i className="fa-solid fa-clipboard-list menu-icon"></i>
           <span>Doanh số</span>
-        </div>
-        <div className="menu-item">
-          <i className="fa-solid fa-calendar-days menu-icon"></i>
-          <span>Gia hạn</span>
-        </div>
-        <div className="menu-item">
+        </Link>
+
+        
+
+        <Link to="/consult" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
           <i className="fa-solid fa-comments menu-icon"></i>
           <span>Tư vấn</span>
-        </div>
-        <div className="menu-item">
+        </Link>
+
+        <Link to="/questions" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
           <i className="fa-solid fa-circle-question menu-icon"></i>
           <span>Câu hỏi</span>
-        </div>
+        </Link>
+
       </div>
 
       {/* Footer */}

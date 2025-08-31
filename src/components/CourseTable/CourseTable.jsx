@@ -51,6 +51,14 @@ const CourseTable = () => {
       percent: 7,
       color: "#10b981", // xanh lá nhạt
     },
+    {
+      name: "Sáp nhập Tỉnh",
+      customers: "42 Khách hàng",
+      orders: "25 Đơn hàng",
+      revenue: "1,6M",
+      percent: 7,
+      color: "#10b981", // xanh lá nhạt
+    },
   ];
 
   return (

@@ -44,7 +44,7 @@ function App() {
         <Route path="/register-payment" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
         <Route path="/scan-qr" element={<ScanQR />} />
-        <Route path="/dash-board" element={<DashBoard />} />
+        <Route path="/dashboard" element={<DashBoard />} />
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
