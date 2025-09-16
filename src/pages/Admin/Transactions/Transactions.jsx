@@ -14,7 +14,6 @@ const Transactions = () => {
     { headerName: "Doanh thu", field: "email" },
     { headerName: "Ngày đăng ký", field: "email" },
   ];
-
   const allData = Array.from({ length: 42 }, (_, i) => ({
     id: i + 1,
     name: `Người dùng ${i + 1}`,
