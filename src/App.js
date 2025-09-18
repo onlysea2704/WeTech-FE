@@ -20,6 +20,8 @@ import DashBoard from "./pages/Admin/DashBoard/DashBoard";
 import ListCustomer from "./pages/Admin/ListCustomer/ListCustomer";
 import Transactions from "./pages/Admin/Transactions/Transactions";
 import DocxPreviewerFromUrl from "./pages/User/DocxPreviewerFromUrl/DocxPreviewerFromUrl";
+import ListCourse from "./pages/Admin/ListCourse/ListCourse";
+import CourseManager from "./pages/Admin/CourseManager/CourseManager";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -52,6 +54,9 @@ function App() {
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/list-customer" element={<ListCustomer />} />
         <Route path="/sales" element={<Transactions />} />
+        <Route path="/list-course" element={<ListCourse />} />
+        <Route path="/manage-course" element={<CourseManager />} />
+
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
           <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />

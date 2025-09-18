@@ -29,7 +29,7 @@ const Sidebar = () => {
           <span>Dashboard</span>
         </Link>
 
-        <Link to="" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+        <Link to="/manage-course" className={`menu-item ${isActive("/manage-course") ? "active" : ""}`}>
           <i className="fa-solid fa-calendar-days menu-icon"></i>
           <span>Khóa học</span>
         </Link>
