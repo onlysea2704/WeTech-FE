@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import "./CourseManager.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
+import CourseForm from "../../../components/CourseForm/CourseForm";
 
 const CourseManager = () => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -8,7 +9,7 @@ const CourseManager = () => {
   const renderContent = () => {
     switch (activeTab) {
       case "basic":
-        return <div className="tab-content">[Thông tin cơ bản]</div>;
+        return <CourseForm />;
       case "advanced":
         return <div className="tab-content">[Thông tin nâng cao]</div>;
       case "curriculum":
