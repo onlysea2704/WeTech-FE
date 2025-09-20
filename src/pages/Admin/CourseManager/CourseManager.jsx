@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./CourseManager.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import CourseForm from "../../../components/CourseForm/CourseForm";
+import CourseContentManager from "../../../components/CourseContentManager/CourseContentManager";
 
 const CourseManager = () => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -11,7 +12,7 @@ const CourseManager = () => {
       case "basic":
         return <CourseForm />;
       case "advanced":
-        return <div className="tab-content">[Thông tin nâng cao]</div>;
+        return <CourseContentManager />;
       case "curriculum":
         return <div className="tab-content">[Chương trình giảng dạy]</div>;
       case "materials":
@@ -34,7 +35,7 @@ const CourseManager = () => {
         </div>
 
         {/* Navigator */}
-        <nav className="navigator">
+        <div className="navigator-course-manager">
           <button
             className={activeTab === "basic" ? "nav-btn active" : "nav-btn"}
             onClick={() => setActiveTab("basic")}
@@ -59,7 +60,7 @@ const CourseManager = () => {
           >
             Tài liệu khóa học
           </button>
-        </nav>
+        </div>
 
         {/* Nội dung */}
         <div className="content-course-manager">{renderContent()}</div>

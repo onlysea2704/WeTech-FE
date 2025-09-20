@@ -48,13 +48,13 @@
 }
 
 /* Navigator */
-.navigator {
+.navigator-course-manager {
   display: flex;
   justify-content: space-around;
   gap: 12px;
   padding: 12px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  /* border-bottom: 1px solid #e5e7eb; */
+  background-color: #f8f9fd;
 }
 
 .nav-btn {
@@ -79,12 +79,6 @@
   color: #fff;
   font-weight: 600;
   box-shadow: 0 2px 6px rgba(30,136,229,0.3);
-}
-
-
-/* Content */
-.content-course-manager {
-  /* padding: 20px; */
 }
 
 .tab-content {

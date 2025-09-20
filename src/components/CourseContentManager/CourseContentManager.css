@@ -1,0 +1,209 @@
+.course-content-manager {
+  padding: 20px;
+  /* max-width: 1000px; */
+  margin: auto;
+  /* font-family: Arial, sans-serif; */
+}
+
+.course-content-manager h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.section {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  background: #f8f9fd;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.input-text {
+  width: 70%;
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-right: 10px;
+}
+
+.input-text:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.input-file {
+  margin: 5px 0;
+}
+
+.videos {
+  margin-top: 15px;
+  padding-left: 20px;
+}
+
+.video {
+  border: 1px solid #eee;
+  padding: 12px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  background: #fff;
+}
+
+.video-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.input-text {
+  flex: 1;
+  min-width: 200px;
+}
+
+.input-file {
+  flex: 1;
+}
+
+.video-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.video-preview {
+  display: block;
+  margin-top: 10px;
+  border-radius: 8px;
+}
+
+.video-actions {
+  /* margin-top: 8px; */
+  display: flex;
+  gap: 8px;
+}
+
+button.btn {
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+button.btn.add,
+button.btn.add-section {
+  background: #28a745;
+  color: #fff;
+  margin-top: 10px;
+}
+
+button.btn.add:hover,
+button.btn.add-section:hover {
+  background: #1e7e34;
+}
+
+button.btn.delete {
+  background: #dc3545;
+  color: #fff;
+}
+
+button.btn.delete:hover {
+  background: #b02a37;
+}
+
+button.btn.update {
+  background: #007bff;
+  color: #fff;
+}
+
+button.btn.update:hover {
+  background: #0056b3;
+}
+
+button.btn.preview {
+  background: #ffc107;
+  color: #000;
+}
+
+button.btn.preview:hover {
+  background: #e0a800;
+}
+
+button.btn.close {
+  background: #6c757d;
+  color: #fff;
+  margin-top: 10px;
+}
+
+button.btn.close:hover {
+  background: #545b62;
+}
+
+/* Modal cho preview video */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  text-align: center;
+}
+
+.modal-video {
+  max-width: 90vw;
+  max-height: 70vh;
+  border-radius: 10px;
+}
+
+.upload-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.input-file {
+  display: none; /* Ẩn input gốc */
+}
+
+.upload-btn {
+  background: #1e88e5;
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 14px;
+  border: none;
+}
+
+.upload-btn:hover {
+  background: #1565c0;
+}
+
+.file-name {
+  font-size: 13px;
+  color: #555;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -42,7 +42,7 @@ const CourseForm = () => {
       <form className="course-form" onSubmit={handleSubmit}>
         <div className="form-content">
           {/* Cột trái */}
-          <div className="form-column">
+          <div className="form-column-left">
             <div className="form-group-course-info">
               <label>Mã khóa học</label>
               <input
@@ -127,7 +127,7 @@ const CourseForm = () => {
           </div>
 
           {/* Cột phải */}
-          <div className="form-column">
+          <div className="form-column-right">
             <div className="form-group-course-info">
               <label>Mô tả</label>
               <textarea

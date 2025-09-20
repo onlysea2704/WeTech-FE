@@ -19,7 +19,6 @@ import ScanQR from "./pages/User/ScanQR/ScanQR";
 import DashBoard from "./pages/Admin/DashBoard/DashBoard";
 import ListCustomer from "./pages/Admin/ListCustomer/ListCustomer";
 import Transactions from "./pages/Admin/Transactions/Transactions";
-import DocxPreviewerFromUrl from "./pages/User/DocxPreviewerFromUrl/DocxPreviewerFromUrl";
 import ListCourse from "./pages/Admin/ListCourse/ListCourse";
 import CourseManager from "./pages/Admin/CourseManager/CourseManager";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
@@ -49,7 +48,6 @@ function App() {
         <Route path="/register-payment" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
         <Route path="/scan-qr" element={<ScanQR />} />
-        <Route path="/view-docx" element={<DocxPreviewerFromUrl />} />
 
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/list-customer" element={<ListCustomer />} />
