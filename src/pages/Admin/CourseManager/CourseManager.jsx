@@ -3,6 +3,7 @@ import "./CourseManager.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import CourseForm from "../../../components/CourseForm/CourseForm";
 import CourseContentManager from "../../../components/CourseContentManager/CourseContentManager";
+import ManageDocs from "../../../components/ManageDocs/ManageDocs";
 
 const CourseManager = () => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -14,7 +15,7 @@ const CourseManager = () => {
       case "advanced":
         return <CourseContentManager />;
       case "curriculum":
-        return <div className="tab-content">[Chương trình giảng dạy]</div>;
+        return <ManageDocs />;
       case "materials":
         return <div className="tab-content">[Tài liệu khóa học]</div>;
       default:
