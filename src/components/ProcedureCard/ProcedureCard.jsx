@@ -3,7 +3,7 @@ import "./ProcedureCard.css";
 import demoProcedure from "../../assets/demo-procedure.jpg"
 import { useNavigate } from "react-router-dom";
 
-const ProcedureCard = ({ image, title, desc, price }) => {
+const ProcedureCard = ({ image, title, description, realPrice }) => {
 
     const navigate = useNavigate();
     const handleClick = async () => {
@@ -16,8 +16,8 @@ const ProcedureCard = ({ image, title, desc, price }) => {
         <div className="procedure-card" onClick={handleClick}>
             <img src={demoProcedure} alt={title} className="procedure-image" />
             <h3 className="procedure-title">{title}</h3>
-            <p className="procedure-desc">{desc}</p>
-            <div className="procedure-price">{price}₫</div>
+            <p className="procedure-desc">{description}</p>
+            <div className="procedure-price">{realPrice}₫</div>
             <div className="procedure-actions">
                 <a href="#">→ Chi tiết</a>
                 <button>
