@@ -2,13 +2,41 @@ import React from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
+import { useState } from 'react';
+import { authAxios } from '../../../services/axios-instance';
+import { publicAxios } from "../../../services/axios-instance";
 
 const LoginForm = () => {
 
+    const [loading, setLoading] = useState(false);
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const handleClose = async () => {
         navigate("/");
     }
+
+    const login = async (email, password) => {
+        try {
+            // setLoading(true)
+            const token = await publicAxios.post('/api/auth/login', { username: email, password });
+            
+            console.log(token.data.token);
+            // Lưu vào sessionStorage
+            sessionStorage.setItem('authToken', token.data.token);
+
+            const userInfo = await authAxios.get('/api/auth/get-info');
+            console.log(userInfo);
+            //   setNameStudent(userInfo.data.name);
+            // cần lưu vào localStorage vì khi reload lại trang thì các context state sẽ bị xóa sạch
+            localStorage.setItem('username', userInfo.data.name);
+
+            navigate("/");
+        } catch (error) {
+            console.log(error.message);
+            alert("Lỗi đăng nhập:", error.message);
+        }
+    };
 
     return (
         <div className="login-background">
@@ -25,10 +53,26 @@ const LoginForm = () => {
                         <p className="register-text">
                             Bạn chưa có tài khoản? <Link to="/register">Đăng Ký</Link>
                         </p>
-                        <input type="email" placeholder="Email" />
-                        <input type="password" placeholder="Mật khẩu" />
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <input
+                            type="password"
+                            placeholder="Mật khẩu"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
                         <p className="forgot-password"> <Link to="/forgot-password">Quên mật khẩu?</Link> </p>
-                        <button className="btn-login">Đăng Nhập</button>
+                        <button
+                            className="btn-login"
+                            onClick={() => login(email, password)}
+                            disabled={loading}
+                        >
+                            Đăng Nhập
+                        </button>
                         <div className="divider">
                             <span className="line"></span>
                             <span>or</span>

@@ -14,7 +14,7 @@ const RegisterForm = () => {
         <div className="register-background">
             <div className="register-wrapper">
                 <LeftLoginRegisterForm />
-                <div className="register-right">
+                <div className="register-right-form">
                     <div className="register-box">
                         <div class="register-header">
                             <h2>Đăng nhập</h2>
