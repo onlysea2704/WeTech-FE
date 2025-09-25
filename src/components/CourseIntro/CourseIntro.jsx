@@ -1,19 +1,18 @@
 import React from 'react';
 import './CourseIntro.css';
 
-const CourseIntro = () => {
+const CourseIntro = ({courseDetails}) => {
   return (
     <div className="intro-section">
       <h2 className="section-title">Mô tả khoá học</h2>
       <p>
-        Khoá học này sẽ hướng dẫn bạn toàn bộ quy trình đăng ký thành lập công ty TNHH một thành viên – từ việc chuẩn bị hồ sơ cho đến khi có giấy chứng nhận đăng ký doanh nghiệp trong tay, mà không cần thuê dịch vụ bên ngoài.
+        {courseDetails?.intro1}
       </p>
 
       <h2 className="section-title">Phương pháp học</h2>
       <p>
-        Học qua video hướng dẫn thực tế từng bước trên hệ thống – từ tạo tài khoản, điền hồ sơ, ký số đến nhận kết quả. Tải về trọn bộ hồ sơ mẫu kèm checklist thứ tự thực hiện rõ ràng.
+        {courseDetails?.intro2}
       </p>
-      <p>Có nhóm hỗ trợ riêng và giảng viên đồng hành, sẵn sàng giải đáp khi cần.</p>
 
       <h2 className="section-title">Bạn sẽ học được gì ?</h2>
       <ul className="learning-list">

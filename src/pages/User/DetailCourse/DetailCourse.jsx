@@ -1,10 +1,11 @@
-// src/pages/DetailCourse/DetailCourse.js
 import React, { useState, useEffect } from "react";
 import "./DetailCourse.css";
 import Navbar from "../../../components/NavBar/NavBar";
 import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import CoursePage from "../../../components/CourseInfo/CourseInfo";
+import CourseInfo from "../../../components/CourseInfo/CourseInfo";
+import { publicAxios } from "../../../services/axios-instance";
+import { useParams } from "react-router-dom";
 
 // playlist có thêm videoUrl để phát
 const playlistData = [
@@ -32,7 +33,7 @@ const CoursePlaylist = ({ onSelectVideo, currentVideo }) => {
                         className={`video-item ${currentVideo.id === video.id ? "active" : ""}`}
                         onClick={() => onSelectVideo(video)}
                     >
-                        <div className="video-icon">▶️</div>
+                        <div className="video-icon"><i className="fas fa-play"></i></div> {/* Font Awesome icon */}
                         <div className="video-info">
                             <p className="video-title">{video.title}</p>
                             <span className="video-duration">({video.duration})</span>
@@ -46,21 +47,35 @@ const CoursePlaylist = ({ onSelectVideo, currentVideo }) => {
 };
 
 const DetailCourse = () => {
+
+    const { courseId } = useParams();
     const [isPurchased, setIsPurchased] = useState(false);
     const [currentVideo, setCurrentVideo] = useState(playlistData[0]); // mặc định phát video đầu
+    const [courseDetails, setCourseDetails] = useState(null);  // State to store course details
+    const [loading, setLoading] = useState(true);  // Loading state
 
+    // Fetch course details from the API
     useEffect(() => {
+        const fetchCourseDetails = async () => {
+            try {
+                const res = await publicAxios.get(`/api/course/find-by-course-id?courseId=${courseId}`);
+                setCourseDetails(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchCourseDetails();
         const token = localStorage.getItem('user_token');
         if (token) {
             setIsPurchased(true);
         }
-    }, []);
+    }, [courseId]);
 
     return (
         <div className="detail-course-container">
             <Navbar />
             <Breadcrumb />
-            <h2>Đăng ký thành lập mới - Công ty TNHH 1 thành viên</h2>
+            <h2>{courseDetails?.title}</h2> {/* Dynamic course name */}
             <div className="course-card-detail">
                 {/* Bên trái: video player */}
                 <div className="course-left">
@@ -78,31 +93,31 @@ const DetailCourse = () => {
 
                 {/* Bên phải: điều kiện hiển thị */}
                 <div className="course-right">
-                    {!isPurchased ? (
+                    {isPurchased ? (
                         // Nếu đã mua → hiện playlist
                         <CoursePlaylist onSelectVideo={setCurrentVideo} currentVideo={currentVideo} />
                     ) : (
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
                             <h3 className="course-price">
-                                399.000đ <span className="old-price">800.000đ</span>
+                                {courseDetails?.realPrice} <span className="old-price">{courseDetails?.salePrice}</span>
                             </h3>
-                            <span className="discount">50% OFF</span>
+                            <span className="discount">{courseDetails?.discount}% OFF</span>
 
                             <button className="buy-now">MUA NGAY</button>
                             <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-info-detail">
-                                <p><i className="fas fa-video"></i> Bài giảng: 5 Videos</p>
-                                <p><i className="fas fa-file-alt"></i> Tài Liệu: Hồ sơ thủ tục</p>
-                                <p><i className="fas fa-clock"></i> Thời lượng: 01h 30m</p>
-                                <p><i className="fas fa-comment-dots"></i> Phụ Đề</p>
+                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetails?.videoCount} Videos</p>
+                                <p><i className="fas fa-file-alt"></i> <b>Tài Liệu:</b> Hồ sơ thủ tục</p>
+                                <p><i className="fas fa-clock"></i> <b>Thời lượng:</b> 02h 30m</p>
+                                <p><i className="fas fa-comment-dots"></i> <b>Phụ Đề</b></p>
                             </div>
                         </>
                     )}
                 </div>
             </div>
-            <CoursePage />
+            <CourseInfo courseDetails={courseDetails} />
             <Footer />
         </div>
     );

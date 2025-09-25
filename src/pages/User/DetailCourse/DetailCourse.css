@@ -44,6 +44,7 @@
   font-size: 22px;
   font-weight: bold;
   color: #000;
+  margin: 5px 0;
 }
 
 .old-price {
@@ -94,7 +95,7 @@
 }
 
 .course-info-detail p {
-  margin: 5px 0;
+  margin: 17px 0;
 }
 
 
@@ -132,92 +133,4 @@
 .playlist-header .progress-text {
     color: #f39c12; /* Orange color for progress */
     font-weight: bold;
-}
-
-.video-list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-}
-
-.video-item {
-    display: flex;
-    align-items: center;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.video-item:hover {
-    background-color: #f9f9f9;
-}
-
-/* Styling for the currently playing video */
-.video-item.playing {
-    background-color: #eaf2ff; /* Light blue background */
-}
-
-.video-icon {
-    margin-right: 12px;
-    font-size: 12px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    color: #007bff;
-}
-
-/* Style for completed video icon */
-.video-item.completed .video-icon {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-}
-
-/* Style for playing video icon */
-.video-item.playing .video-icon {
-    border-color: #007bff;
-}
-
-.video-info {
-    flex-grow: 1;
-    display: flex;
-    align-items: baseline;
-}
-
-.video-title {
-    margin: 0;
-    font-size: 15px;
-    color: #333;
-}
-
-.video-duration {
-    font-size: 13px;
-    color: #777;
-    margin-left: 8px;
-}
-
-.status-tag {
-    font-size: 12px;
-    font-weight: bold;
-    padding: 4px 8px;
-    border-radius: 4px;
-    color: #fff;
-}
-
-.status-tag.completed {
-    background-color: #28a745; /* Green */
-}
-
-.status-tag.playing {
-    background-color: #fd7e14; /* Orange */
-}
-
-.extra-space {
-  margin-right: 8px; /* chỉ áp dụng cho file-alt */
 }

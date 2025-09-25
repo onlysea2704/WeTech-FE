@@ -1,66 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { publicAxios } from "../../services/axios-instance";
 import './CourseContent.css';
-
-// --- Cột bên trái ---
-const syllabusData = [
-  {
-    id: 1, title: 'Phần 1: Giới Thiệu', videos: '1/1 Videos', duration: '18m', lessons: [
-      { name: 'Chuẩn bị Hồ Sơ', time: '10m' },
-      { name: 'Thông tin cần thiết', time: '10m' },
-    ]
-  },
-  {
-    id: 2,
-    title: 'Phần 2: Soạn Hồ Sơ',
-    videos: '5/5 Videos',
-    duration: '48m',
-    lessons: [
-      { name: 'Chuẩn bị Hồ Sơ', time: '10m' },
-      { name: 'Thông tin cần thiết', time: '10m' },
-      { name: 'Thông tin', time: '10m' },
-      { name: 'Thông tin', time: '8m' },
-    ],
-  },
-  {
-    id: 3, title: 'Phần 3: Nộp Hồ Sơ', videos: '1/1 Videos', duration: '24m', lessons: [
-      { name: 'Chuẩn bị Hồ Sơ', time: '10m' },
-      { name: 'Thông tin cần thiết', time: '10m' },
-    ]
-  },
-];
-
-const materialsData = [
-  {
-    id: 1,
-    title: 'Phần 1',
-    fileCount: '1 Tài liệu',
-    files: [
-      { name: 'Danh Sách Chủ Sở Hữu Hưởng Lợi', time: '2:30', isLocked: true },
-      { name: 'Giấy Uỷ Quyền', time: '8:05', isLocked: true, isHighlighted: true },
-      { name: 'Giấy Đề Nghị', time: '2:25', isLocked: true },
-    ],
-  },
-  {
-    id: 2,
-    title: 'Soạn Hồ Sơ',
-    fileCount: '3 Tài liệu',
-    files: [
-      { name: 'Danh Sách Chủ Sở Hữu Hưởng Lợi', time: '2:30', isLocked: true },
-      { name: 'Giấy Uỷ Quyền', time: '8:05', isLocked: true, isHighlighted: true },
-      { name: 'Giấy Đề Nghị', time: '2:25', isLocked: true },
-    ]
-  },
-  {
-    id: 3,
-    title: 'Phần 3',
-    fileCount: '1 Tài liệu',
-    files: [
-      { name: 'Danh Sách Chủ Sở Hữu Hưởng Lợi', time: '2:30', isLocked: true },
-      { name: 'Giấy Uỷ Quyền', time: '8:05', isLocked: true, isHighlighted: true },
-      { name: 'Giấy Đề Nghị', time: '2:25', isLocked: true },
-    ],
-  }
-];
 
 // --- Component con cho cột trái ---
 const SyllabusAccordion = ({ section, isOpen, onToggle }) => (
@@ -93,7 +33,6 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
         <span className="accordion-arrow-material">{isOpen ? '▼' : '▶'}</span>
         <strong>{section.title}</strong>
       </div>
-      <span></span>
       <span className="material-time-header">{section.fileCount}</span>
     </div>
     {isOpen && (
@@ -101,12 +40,11 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
         {section.files.map((file, index) => (
           <div key={index} className="material-item">
             <span className="material-name">
-              <i class="fa-solid fa-file-lines"></i> {file.name}
+              <i className="fa-solid fa-file-lines"></i> {file.name}
             </span>
             <div className="material-actions">
               <button className="download-btn">Download</button>
-              {/* <span>{file.time}</span> */}
-              {file.isLocked && <span><i class="fa-solid fa-lock"></i></span>}
+              {file.isLocked && <span><i className="fa-solid fa-lock"></i></span>}
             </div>
           </div>
         ))}
@@ -116,14 +54,63 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
 );
 
 // --- Component Content chính ---
-const CourseContent = () => {
+const CourseContent = ({ courseDetails }) => {
+  const [sections, setSections] = useState([]);
+  const [sectionDetails, setSectionDetails] = useState([]);
   const [openSyllabusSection, setOpenSyllabusSection] = useState(1);
   const [openMaterialSection, setOpenMaterialSection] = useState(1);
 
+  useEffect(() => {
+    // Fetch course sections
+    if (!courseDetails) return;
+    const fetchSections = async () => {
+      try {
+        console.log(courseDetails)
+        const response = await publicAxios.get(`/api/section/get-section-by-course-id?courseId=${courseDetails?.courseId}`);
+        setSections(response.data);
+      } catch (error) {
+        console.error("Error fetching course sections:", error);
+      }
+    };
+
+    fetchSections();
+  }, [courseDetails]);
+
+  useEffect(() => {
+    const fetchSectionDetails = async (sectionId) => {
+      try {
+        // Fetch videos and documents for each section
+        const videoResponse = await publicAxios.get(`/api/video/find-by-sectionId?sectionId=${sectionId}`);
+        const documentResponse = await publicAxios.get(`/api/document/get-by-section-id?sectionId=${sectionId}`);
+
+        console.log(videoResponse.data);
+        console.log(documentResponse.data);
+        // Update section with videos and documents
+        setSectionDetails(prevSections =>
+          prevSections.map(section =>
+            section.sectionId === sectionId
+              ? { ...section, videos: videoResponse.data, documents: documentResponse.data }
+              : section
+          )
+        );
+      } catch (error) {
+        console.error("Error fetching section details:", error);
+      }
+    };
+
+    if (sections.length > 0) {
+      sections.forEach(section => {
+        fetchSectionDetails(section.sectionId);
+      });
+    }
+  }, [sections]); 
+
+  // Toggle syllabus section
   const handleSyllabusToggle = (id) => {
     setOpenSyllabusSection(openSyllabusSection === id ? null : id);
   };
 
+  // Toggle material section
   const handleMaterialToggle = (id) => {
     setOpenMaterialSection(openMaterialSection === id ? null : id);
   };
@@ -132,12 +119,12 @@ const CourseContent = () => {
     <div className="content-layout">
       {/* Cột trái - Syllabus */}
       <div className="syllabus-column">
-        {syllabusData.map(section => (
+        {sections.map(section => (
           <SyllabusAccordion
-            key={section.id}
+            key={section.sectionId}
             section={section}
-            isOpen={openSyllabusSection === section.id}
-            onToggle={() => handleSyllabusToggle(section.id)}
+            isOpen={openSyllabusSection === section.sectionId}
+            onToggle={() => handleSyllabusToggle(section.sectionId)}
           />
         ))}
       </div>
@@ -147,13 +134,12 @@ const CourseContent = () => {
         <div className="materials-card">
           <h4>Tài Liệu Khoá Học</h4>
           <p>Tài liệu thủ tục pháp lý đi kèm tải về máy và thực hành cùng videos.</p>
-          {materialsData.map(section => (
+          {sectionDetails.map(section => (
             <MaterialAccordion
               key={section.id}
               section={section}
               isOpen={openMaterialSection === section.id}
               onToggle={() => handleMaterialToggle(section.id)}
-              isActive={section.id === 'soanHoSo'} // Đánh dấu active dựa trên logic của bạn
             />
           ))}
         </div>

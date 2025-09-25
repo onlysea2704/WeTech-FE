@@ -4,7 +4,7 @@ import CourseContent from '../CourseContent/CourseContent';
 import CourseIntro from '../CourseIntro/CourseIntro';
 import Faq from '../Faq/Faq';
 
-const CourseInfo = () => {
+const CourseInfo = ({courseDetails}) => {
     const [activeTab, setActiveTab] = useState('content'); // 'intro' hoặc 'content'
 
     return (
@@ -25,9 +25,10 @@ const CourseInfo = () => {
             </div>
 
             <div className="course-content">
-                {activeTab === 'intro' ? <CourseIntro /> : <CourseContent />}
+                {activeTab === 'intro' 
+                ? <CourseIntro courseDetails={courseDetails} /> 
+                : <CourseContent courseDetails={courseDetails} />}
             </div>
-
             <Faq />
         </div>
     );
