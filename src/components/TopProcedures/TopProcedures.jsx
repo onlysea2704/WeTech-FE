@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ProcedureCard from "../ProcedureCard/ProcedureCard";
 import "./TopProcedures.css";
-import { authAxios } from '../../services/axios-instance';
 import { publicAxios } from "../../services/axios-instance";
 // const procedures = [
 //     {

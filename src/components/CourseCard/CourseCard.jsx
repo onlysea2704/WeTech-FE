@@ -11,30 +11,32 @@ const CourseCard = ({ index, course }) => {
         navigate("/detail-course/" + 1);
     }
 
+    const discountPercentage = Math.round(((course.realPrice - course.salePrice) / course.realPrice) * 100);
+    // Hàm định dạng giá
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN').format(price);
+    };
+
     return (
         <div className="course-card" key={index} onClick={handleClick}>
-            <div
-                className="course-image"
-                style={{ backgroundColor: course.bgColor }}
-            >
+            <div className="course-image">
                 <div className="badge-container">
-                    {course.badges?.map((badge, idx) => (
-                        <span
-                            key={idx}
-                            className={`badge ${idx === 1 ? "second-badge" : ""}`}
-                        >
-                            {badge}
-                        </span>
-                    ))}
+                    <span className="badge second-badge">
+                        Best Seller
+                    </span>
+                    <span className="badge">
+                        {discountPercentage}% OFF
+                    </span>
                 </div>
-                <img src={thumbnailCourse} alt={course.courseName} />
+
+                <img src={thumbnailCourse} alt={course.title} />
             </div>
             <div className="course-info">
-                <h4>{course.courseName}</h4>
+                <h4>{course.title}</h4>
                 <p className="description">{course.description}</p>
                 <div className="price">
-                    <span className="new-price">{course.price}</span>
-                    <span className="old-price">{course.oldPrice}</span>
+                    <span className="new-price">{formatPrice(course.realPrice)}đ</span>
+                    <span className="old-price">{formatPrice(course.salePrice)}đ</span>
                 </div>
             </div>
         </div>

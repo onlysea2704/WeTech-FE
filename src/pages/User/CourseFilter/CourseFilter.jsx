@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './CourseFilter.css';
 import Navbar from '../../../components/NavBar/NavBar';
 import Footer from '../../../components/Footer/Footer';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import FilterCourse from '../../../components/FilterCourse/FilterCourse';
 import CourseCard from '../../../components/CourseCard/CourseCard';
-import { useState } from 'react';
+import { publicAxios } from "../../../services/axios-instance";
+
 
 const courseCategories = [
     'Thành lập Công ty',
@@ -19,248 +20,248 @@ const courseCategories = [
 
 const priceOptions = ['Trả phí', 'Miễn phí'];
 
-const courses = [
-    {
-        bgColor: "#FF5C5C",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "VUE JAVASCRIPT COURSE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#FF5C5C",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "VUE JAVASCRIPT COURSE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#FF5C5C",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "VUE JAVASCRIPT COURSE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#FF5C5C",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "VUE JAVASCRIPT COURSE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-];
+// const courses = [
+//     {
+//         bgColor: "#FF5C5C",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "VUE JAVASCRIPT COURSE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#FF5C5C",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "VUE JAVASCRIPT COURSE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#FF5C5C",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "VUE JAVASCRIPT COURSE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#FF5C5C",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "VUE JAVASCRIPT COURSE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#9C5CFF",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "WEBSITE DEV ZERO TO HERO",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+//     {
+//         bgColor: "#4CC96D",
+//         img: "https://via.placeholder.com/150",
+//         badges: ["Best Seller", "20% OFF"],
+//         title: "MOBILE DEV REACT NATIVE",
+//         author: "Kitani Studio",
+//         courseName: "VUE JS SCRATCH COURSE",
+//         description:
+//             "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
+//         price: "$24.92",
+//         oldPrice: "$32.90",
+//     },
+// ];
 
 const CourseFilter = () => {
     // State để quản lý các mục được chọn
@@ -291,6 +292,26 @@ const CourseFilter = () => {
         setSelectedPrice('');
     };
 
+    const [courses, setCourses] = useState([]);
+
+    useEffect(() => {
+        const fetchProcedures = async () => {
+            try {
+                // setLoading(true);
+                const res = await publicAxios.get("/api/course/get-all");
+                // 👆 sửa endpoint này cho đúng API backend của bạn
+                setCourses(res.data);
+                console.log(res.data);
+            } catch (error) {
+                console.error(error);
+                // setErrorMsg("Không thể tải dữ liệu thủ tục.");
+            } finally {
+                // setLoading(false);
+            }
+        };
+        fetchProcedures();
+    }, []);
+
     const itemsPerPage = 16; // số khóa học / trang
     const [currentPage, setCurrentPage] = useState(1);
     // Tính tổng số trang
@@ -308,7 +329,6 @@ const CourseFilter = () => {
                 <div className="main-content">
 
                     <div className="course-header">
-                        {/* Tiêu đề */}
                         <h2 className="course-title">Tất cả khoá học</h2>
 
                         {/* Ô tìm kiếm */}
