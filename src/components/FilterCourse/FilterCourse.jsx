@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import './FilterCourse.css';
+import { publicAxios } from "../../services/axios-instance";
 
 const courseCategories = [
     'Thành lập Công ty',
@@ -13,7 +14,7 @@ const courseCategories = [
 
 const priceOptions = ['Trả phí', 'Miễn phí'];
 
-const FilterCourse = () => {
+const FilterCourse = ({ courses, setCourses }) => {
     // State để quản lý các mục được chọn
     const [selectedCategories, setSelectedCategories] = React.useState(['Thành lập Công ty']);
     const [selectedPrice, setSelectedPrice] = React.useState('Miễn phí');
@@ -30,6 +31,19 @@ const FilterCourse = () => {
                 : [...prev, category] // Thêm vào nếu chưa được chọn
         );
     };
+
+    useEffect(() => {
+        const fetchProcedures = async () => {
+            try {
+                const res = await publicAxios.post("/api/course/find-by-type", selectedCategories);
+                setCourses(res.data);
+                console.log(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchProcedures();
+    }, [selectedCategories]);
 
     // Hàm xử lý khi chọn một radio button giá
     const handlePriceChange = (event) => {

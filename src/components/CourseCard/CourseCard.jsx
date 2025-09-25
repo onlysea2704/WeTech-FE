@@ -8,7 +8,7 @@ const CourseCard = ({ index, course }) => {
     const navigate = useNavigate();
     const handleClick = async () => {
         // navigate("/detail-course/" + course.id_course);
-        navigate("/detail-course/" + 1);
+        navigate("/detail-course/" + course.courseId);
     }
 
     const discountPercentage = Math.round(((course.realPrice - course.salePrice) / course.realPrice) * 100);
