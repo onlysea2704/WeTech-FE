@@ -3,13 +3,34 @@ import "./ScanQR.css";
 import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 import SuccessPayment from "../../../components/SuccessPayment/SuccessPayment";
 import FailurePayment from "../../../components/FailurePayment/FailurePayment";
+import { useParams, useNavigate } from "react-router-dom";
+import { authAxios, publicAxios } from "../../../services/axios-instance";
 
 const ScanQR = () => {
+
+  const { code } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [amount, setAmount] = useState(0);
 
   // Countdown 10 phút = 600 giây
   const [timeLeft, setTimeLeft] = useState(600);
+
+  useEffect(() => {
+    const fetchTransactionDetails = async () => {
+      try {
+        const res = await publicAxios.get(
+          `/payment/get?code=${code}`
+        );
+        console.log(res.data);
+        setAmount(res.data?.transferAmount || 0);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTransactionDetails();
+
+  }, [code]);
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -28,7 +49,7 @@ const ScanQR = () => {
   return (
     <div>
       <PaymentHeader />
-      <div className="payment-container">
+      <div className="payment-container-qr">
         {/* Thông tin đơn hàng */}
         <div className="order-info">
           <h3>Thông tin đơn hàng</h3>
@@ -46,11 +67,11 @@ const ScanQR = () => {
           </div>
           <div className="info-item-qr-page">
             <p>Nội dung</p>
-            <p>WETECH1135</p>
+            <p>{code}</p>
           </div>
           <div className="amount">
             <p>Số tiền</p>
-            <p>299.000đ</p>
+            <p>{amount}</p>
           </div>
           <div className="countdown">
             <p>Đơn hàng sẽ hết hạn sau:</p>
@@ -68,7 +89,7 @@ const ScanQR = () => {
           <h3>Quét mã QR thanh toán trực tiếp</h3>
           <div className="qr-box">
             <img
-              src="https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=2000&des=sdf1111111112&template=compact"
+              src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
               alt="QR Code"
             />
             <p>Lê Thị Lan</p>

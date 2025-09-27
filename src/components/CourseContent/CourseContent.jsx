@@ -7,17 +7,19 @@ const SyllabusAccordion = ({ section, isOpen, onToggle }) => (
   <div className="accordion-item">
     <div className="accordion-header" onClick={onToggle}>
       <div className="accordion-title">
-        <strong>{section.title}</strong>
-        <span>{`${section.videos} - ${section.duration}`}</span>
+        <strong>{section.name}</strong>
+        <span>{`${section?.videos?.length || 0} videos - ${section?.duration || 10}m`}</span>
       </div>
-      <span className="accordion-arrow">{isOpen ? '▲' : '▼'}</span>
+      <span className="accordion-arrow">
+        <i className={`fa-solid ${isOpen ? "fa-chevron-up" : "fa-chevron-down"}`}></i>
+      </span>
     </div>
     {isOpen && (
       <div className="accordion-content">
-        {section.lessons.map((lesson, index) => (
+        {section?.videos?.map((video, index) => (
           <div key={index} className="lesson-item">
-            <p>{lesson.name}</p>
-            <span className="lesson-duration">{lesson.time}</span>
+            <p>{video?.description}</p>
+            <span className="lesson-duration">{video?.time || 0}m</span>
           </div>
         ))}
       </div>
@@ -26,48 +28,72 @@ const SyllabusAccordion = ({ section, isOpen, onToggle }) => (
 );
 
 // --- Component con cho cột phải ---
-const MaterialAccordion = ({ section, isOpen, onToggle, isActive }) => (
-  <div className={`material-section ${isActive ? 'active' : ''}`}>
-    <div className="material-header" onClick={onToggle}>
-      <div className="material-title">
-        <span className="accordion-arrow-material">{isOpen ? '▼' : '▶'}</span>
-        <strong>{section.title}</strong>
+const MaterialAccordion = ({ section, isOpen, onToggle, isActive, isPurchased }) => {
+  const handleDownload = (link) => {
+    if (link) {
+      window.location.href = link;
+    }
+  };
+
+  return (
+    <div className={`material-section ${isActive ? "active" : ""}`}>
+      <div className="material-header" onClick={onToggle}>
+        <div className="material-title">
+          <span className="accordion-arrow-material">
+            <i className={`fa-solid ${isOpen ? "fa-angle-down" : "fa-angle-right"}`}></i>
+          </span>
+          <strong>{section.name}</strong>
+        </div>
+        <span className="material-time-header">{section?.documents?.length || 0}</span>
       </div>
-      <span className="material-time-header">{section.fileCount}</span>
-    </div>
-    {isOpen && (
-      <div className="material-content">
-        {section.files.map((file, index) => (
-          <div key={index} className="material-item">
-            <span className="material-name">
-              <i className="fa-solid fa-file-lines"></i> {file.name}
-            </span>
-            <div className="material-actions">
-              <button className="download-btn">Download</button>
-              {file.isLocked && <span><i className="fa-solid fa-lock"></i></span>}
+      {isOpen && (
+        <div className="material-content">
+          {section?.documents?.map((document, index) => (
+            <div key={index} className="material-item">
+              <span className="material-name">
+                <i className="fa-solid fa-file-lines"></i> {document?.name}
+              </span>
+              <div className="material-actions">
+                <button
+                  className="download-btn"
+                  disabled={!isPurchased}
+                  onClick={() => isPurchased && handleDownload(document?.link)}
+                >
+                  Download
+                </button>
+                {!isPurchased && (
+                  <span>
+                    <i className="fa-solid fa-lock"></i>
+                  </span>
+                )}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-    )}
-  </div>
-);
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 
 // --- Component Content chính ---
-const CourseContent = ({ courseDetails }) => {
+const CourseContent = ({ courseDetails, isPurchased }) => {
+
+  console.log(isPurchased);
+
   const [sections, setSections] = useState([]);
   const [sectionDetails, setSectionDetails] = useState([]);
   const [openSyllabusSection, setOpenSyllabusSection] = useState(1);
   const [openMaterialSection, setOpenMaterialSection] = useState(1);
 
+  // Fetch course sections
   useEffect(() => {
-    // Fetch course sections
     if (!courseDetails) return;
     const fetchSections = async () => {
       try {
-        console.log(courseDetails)
         const response = await publicAxios.get(`/api/section/get-section-by-course-id?courseId=${courseDetails?.courseId}`);
         setSections(response.data);
+        setSectionDetails(response.data);
       } catch (error) {
         console.error("Error fetching course sections:", error);
       }
@@ -82,12 +108,10 @@ const CourseContent = ({ courseDetails }) => {
         // Fetch videos and documents for each section
         const videoResponse = await publicAxios.get(`/api/video/find-by-sectionId?sectionId=${sectionId}`);
         const documentResponse = await publicAxios.get(`/api/document/get-by-section-id?sectionId=${sectionId}`);
-
-        console.log(videoResponse.data);
         console.log(documentResponse.data);
-        // Update section with videos and documents
-        setSectionDetails(prevSections =>
-          prevSections.map(section =>
+        // Update section with videos and 
+        setSectionDetails(prev =>
+          prev.map(section =>
             section.sectionId === sectionId
               ? { ...section, videos: videoResponse.data, documents: documentResponse.data }
               : section
@@ -99,11 +123,12 @@ const CourseContent = ({ courseDetails }) => {
     };
 
     if (sections.length > 0) {
+      console.log(sections)
       sections.forEach(section => {
         fetchSectionDetails(section.sectionId);
       });
     }
-  }, [sections]); 
+  }, [sections]);
 
   // Toggle syllabus section
   const handleSyllabusToggle = (id) => {
@@ -119,7 +144,7 @@ const CourseContent = ({ courseDetails }) => {
     <div className="content-layout">
       {/* Cột trái - Syllabus */}
       <div className="syllabus-column">
-        {sections.map(section => (
+        {sectionDetails.map(section => (
           <SyllabusAccordion
             key={section.sectionId}
             section={section}
@@ -136,10 +161,11 @@ const CourseContent = ({ courseDetails }) => {
           <p>Tài liệu thủ tục pháp lý đi kèm tải về máy và thực hành cùng videos.</p>
           {sectionDetails.map(section => (
             <MaterialAccordion
-              key={section.id}
+              key={section.sectionId}
               section={section}
-              isOpen={openMaterialSection === section.id}
-              onToggle={() => handleMaterialToggle(section.id)}
+              isOpen={openMaterialSection === section.sectionId}
+              onToggle={() => handleMaterialToggle(section.sectionId)}
+              isPurchased={isPurchased}
             />
           ))}
         </div>

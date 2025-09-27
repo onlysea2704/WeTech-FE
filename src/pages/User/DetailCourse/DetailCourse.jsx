@@ -4,44 +4,33 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import CourseInfo from "../../../components/CourseInfo/CourseInfo";
-import { publicAxios } from "../../../services/axios-instance";
-import { useParams } from "react-router-dom";
-
-// playlist có thêm videoUrl để phát
-const playlistData = [
-    { id: 1, title: '01 - Giới thiệu!', duration: '18:26', status: 'completed', videoUrl: 'https://www.youtube.com/embed/yYX4bvQSqbo' },
-    { id: 2, title: '02 - Chuẩn bị hồ sơ', duration: '10:09', status: 'playing', videoUrl: 'https://www.youtube.com/embed/ScMzIvxBSi4' },
-    { id: 4, title: '04 - Thông tin cần thiết', duration: '10:16', status: 'pending', videoUrl: 'https://www.youtube.com/embed/ysz5S6PUM-U' },
-    { id: 5, title: '05 - Thông tin', duration: '10:03', status: 'pending', videoUrl: 'https://www.youtube.com/embed/kJQP7kiw5Fk' },
-    { id: 6, title: '06 - Thông tin', duration: '10:42', status: 'pending', videoUrl: 'https://www.youtube.com/embed/aqz-KE-bpKQ' },
-    { id: 7, title: '07 - Thông tin', duration: '08:24', status: 'pending', videoUrl: 'https://www.youtube.com/embed/V-_O7nl0Ii0' },
-    { id: 8, title: '08 - Nộp hồ sơ', duration: '24:36', status: 'pending', videoUrl: 'https://www.youtube.com/embed/tgbNymZ7vqY' },
-];
+import { authAxios, publicAxios } from "../../../services/axios-instance";
+import { useParams, useNavigate  } from "react-router-dom";
 
 // Component Playlist nhận props onSelectVideo để đổi video
-const CoursePlaylist = ({ onSelectVideo, currentVideo }) => {
+const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
     return (
         <div className="playlist-container">
             <div className="playlist-header">
                 <h3>Danh sách phát</h3>
-                <span>{playlistData.length} Videos</span>
+                <span>{videoOfCourse.length} Videos</span>
             </div>
-            <ul className="video-list">
-                {playlistData.map(video => (
-                    <li
-                        key={video.id}
-                        className={`video-item ${currentVideo.id === video.id ? "active" : ""}`}
+            <div className="video-list">
+                {videoOfCourse.map(video => (
+                    <div
+                        key={video?.videoId}
+                        className={`video-item ${currentVideo?.videoId === video?.videoId ? "active" : ""}`}
                         onClick={() => onSelectVideo(video)}
                     >
                         <div className="video-icon"><i className="fas fa-play"></i></div> {/* Font Awesome icon */}
                         <div className="video-info">
-                            <p className="video-title">{video.title}</p>
-                            <span className="video-duration">({video.duration})</span>
+                            <p className="video-title">{video?.description}</p>
+                            <span className="video-duration">{video?.duration || 10}m</span>
                         </div>
-                        {currentVideo.id === video.id && <span className="status-tag playing">Playing</span>}
-                    </li>
+                        {currentVideo?.videoId === video?.videoId && <span className="status-tag playing">Playing</span>}
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };
@@ -49,10 +38,12 @@ const CoursePlaylist = ({ onSelectVideo, currentVideo }) => {
 const DetailCourse = () => {
 
     const { courseId } = useParams();
+    const navigate = useNavigate();
     const [isPurchased, setIsPurchased] = useState(false);
-    const [currentVideo, setCurrentVideo] = useState(playlistData[0]); // mặc định phát video đầu
-    const [courseDetails, setCourseDetails] = useState(null);  // State to store course details
-    const [loading, setLoading] = useState(true);  // Loading state
+    const [videoOfCourse, setVideoOfCourse] = useState([]);
+    const [currentVideo, setCurrentVideo] = useState(videoOfCourse[0]); 
+    const [courseDetails, setCourseDetails] = useState(null);  
+    // const [loading, setLoading] = useState(true);  // Loading state
 
     // Fetch course details from the API
     useEffect(() => {
@@ -65,11 +56,28 @@ const DetailCourse = () => {
             }
         };
         fetchCourseDetails();
-        const token = localStorage.getItem('user_token');
+        const token = sessionStorage.getItem('authToken');
         if (token) {
-            setIsPurchased(true);
+            const fetchCheckMyCourse = async () => {
+                try {
+                    const res = await authAxios.get(`/api/course/check-have-course?courseId=${courseId}`);
+                    setIsPurchased(res.data);
+                    if(res.data) {
+                        const videoOfCourse = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
+                        console.log(videoOfCourse.data);
+                        setVideoOfCourse(videoOfCourse.data);
+                    }
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+            fetchCheckMyCourse();
         }
     }, [courseId]);
+
+    const handleBuyNow = () => {
+        navigate(`/register-payment/${courseId}`);
+    };
 
     return (
         <div className="detail-course-container">
@@ -83,8 +91,8 @@ const DetailCourse = () => {
                         <iframe
                             width="100%"
                             height="360px"
-                            src={currentVideo.videoUrl}   // đổi link khi click
-                            title={currentVideo.title}
+                            src={currentVideo?.link}   // đổi link khi click
+                            title={currentVideo?.description}
                             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                             allowFullScreen
                         ></iframe>
@@ -95,7 +103,10 @@ const DetailCourse = () => {
                 <div className="course-right">
                     {isPurchased ? (
                         // Nếu đã mua → hiện playlist
-                        <CoursePlaylist onSelectVideo={setCurrentVideo} currentVideo={currentVideo} />
+                        <CoursePlaylist 
+                        onSelectVideo={setCurrentVideo} 
+                        currentVideo={currentVideo} 
+                        videoOfCourse={videoOfCourse}/>
                     ) : (
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
@@ -104,7 +115,7 @@ const DetailCourse = () => {
                             </h3>
                             <span className="discount">{courseDetails?.discount}% OFF</span>
 
-                            <button className="buy-now">MUA NGAY</button>
+                            <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
                             <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-info-detail">
@@ -117,7 +128,7 @@ const DetailCourse = () => {
                     )}
                 </div>
             </div>
-            <CourseInfo courseDetails={courseDetails} />
+            <CourseInfo courseDetails={courseDetails} isPurchased={isPurchased} />
             <Footer />
         </div>
     );

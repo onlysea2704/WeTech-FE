@@ -45,9 +45,9 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/faq" element={<FaqPage />} />
-        <Route path="/register-payment" element={<RegisterPayment/>} />
+        <Route path="/register-payment/:courseId" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
-        <Route path="/scan-qr" element={<ScanQR />} />
+        <Route path="/scan-qr/:code" element={<ScanQR />} />
 
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/list-customer" element={<ListCustomer />} />
