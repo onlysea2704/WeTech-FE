@@ -57,24 +57,24 @@
   color: #666;
 }
 
-.right {
+.right-about {
   flex: 1;
 }
 
-.subtitle {
+.subtitle-about {
   color: #0f0855;
   font-size: 20px;
   margin-bottom: 8px;
 }
 
-.title {
+.title-about {
   font-size: 28px;
   font-weight: bold;
   color: #1e1b4b;
   margin-bottom: 16px;
 }
 
-.description {
+.description-about {
   color: #444;
   margin-bottom: 24px;
   line-height: 1.6;

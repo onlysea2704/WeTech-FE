@@ -5,9 +5,9 @@ const Services = () => {
   return (
     <div className="other-solutions-container">
       <div className="left-content">
-        <p className="subtitle">Dịch vụ hỗ trợ</p>
-        <h2 className="title">Giải pháp khác từ <span>WETECH</span></h2>
-        <p className="description">
+        <p className="subtitle-service">Dịch vụ hỗ trợ</p>
+        <h2 className="title-service">Giải pháp khác từ <span>WETECH</span></h2>
+        <p className="description-service">
           Chúng tôi chuyên cung cấp giải pháp phần mềm kế toán giúp tiết kiệm thời gian, chi phí và nâng cao hiệu quả làm việc.
         </p>
         <button className="discover-button">Khám Phá Thêm</button>

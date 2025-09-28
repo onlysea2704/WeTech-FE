@@ -32,10 +32,10 @@ const About = () => {
       </div>
 
       {/* Right Content */}
-      <div className="right">
-        <h3 className="subtitle">Về Chúng Tôi</h3>
-        <h2 className="title">Tại sao nên lựa chọn chúng tôi?</h2>
-        <p className="description">
+      <div className="right-about">
+        <h3 className="subtitle-about">Về Chúng Tôi</h3>
+        <h2 className="title-about">Tại sao nên lựa chọn chúng tôi?</h2>
+        <p className="description-about">
           Chúng tôi cung cấp tổng hợp giải pháp hồ sơ pháp lý toàn diện cho doanh nghiệp,
           hỗ trợ kinh doanh đảm bảo tuân thủ pháp luật và tối ưu quy trình.
         </p>

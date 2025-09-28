@@ -11,23 +11,23 @@
   max-width: 35%;
 }
 
-.subtitle {
+.subtitle-service {
   color: #888;
   font-weight: 600;
   margin-bottom: 8px;
 }
 
-.title {
+.title-service {
   font-size: 28px;
   font-weight: bold;
   margin-bottom: 16px;
 }
 
-.title span {
+.title-service span {
   color: #2b1faa;
 }
 
-.description {
+.description-service {
   margin-bottom: 20px;
   line-height: 1.6;
 }

@@ -1,63 +1,20 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Course.css";
 import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../../components/NavBar/NavBar";
 import Banner from "../../../components/Banner/Banner";
 import Footer from "../../../components/Footer/Footer";
 import CourseCard from "../../../components/CourseCard/CourseCard";
+import { publicAxios, authAxios } from "../../../services/axios-instance";
 
-const courses = [
-    {
-        bgColor: "#FF5C5C",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "VUE JAVASCRIPT COURSE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#9C5CFF",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "WEBSITE DEV ZERO TO HERO",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-    {
-        bgColor: "#4CC96D",
-        img: "https://via.placeholder.com/150",
-        badges: ["Best Seller", "20% OFF"],
-        title: "MOBILE DEV REACT NATIVE",
-        author: "Kitani Studio",
-        courseName: "VUE JS SCRATCH COURSE",
-        description:
-            "More than 8yr Experience as Illustrator. Learn how to becoming professional Illustrator Now...",
-        price: "$24.92",
-        oldPrice: "$32.90",
-    },
-];
 
 const ListCourses = ({ title, description, courses }) => {
+    const [visibleCount, setVisibleCount] = useState(4);
+
+    const handleViewMore = () => {
+        setVisibleCount((prev) => prev + 4); // mỗi lần bấm tăng thêm 4
+    };
+
     return (
         <div className="new-courses-container">
             <div className="header">
@@ -65,11 +22,15 @@ const ListCourses = ({ title, description, courses }) => {
                     <h2>{title}</h2>
                     <p>{description}</p>
                 </div>
-                <button className="view-more">Xem thêm</button>
+                {visibleCount < courses.length && (
+                    <button className="view-more" onClick={handleViewMore}>
+                        Xem thêm
+                    </button>
+                )}
             </div>
 
             <div className="course-list">
-                {courses.map((course, index) => (
+                {courses.slice(0, visibleCount).map((course, index) => (
                     <CourseCard key={index} index={index} course={course} />
                 ))}
             </div>
@@ -77,22 +38,52 @@ const ListCourses = ({ title, description, courses }) => {
     );
 };
 
+const categories = [
+    "Tất cả khóa học",
+    "Thành lập Công ty",
+    "Giải thể Công ty",
+    "Sáp nhập Tinh",
+    "Cập nhật từ CMT lên CCCD",
+    "Đăng ký Thay đổi",
+    "Tạm ngưng - Tiếp tục KD"
+];
+
 const Courses = () => {
 
-    // const navigate = useNavigate();
-    // const handleClose = async () => {
-    //     navigate("/");
-    // }
+    const [myCourse, setMyCourse] = useState([]);
+    const [newCourse, setNewCourse] = useState([]);
+    const [topCourse, setTopCourse] = useState([]);
 
-    const categories = [
-        "Tất cả khóa học",
-        "Thành lập Công ty",
-        "Giải thể Công ty",
-        "Sáp nhập Tinh",
-        "Cập nhật từ CMT lên CCCD",
-        "Đăng ký Thay đổi",
-        "Tạm ngưng - Tiếp tục KD"
-    ];
+    useEffect(() => {
+        const fetchCourses = async () => {
+            const token = sessionStorage.getItem('authToken');
+
+            if (token) {
+                try {
+                    const myCourseResponse = await authAxios.get("/api/course/find-my-course");
+                    setMyCourse(myCourseResponse.data);
+                } catch (error) {
+                    console.error("Lỗi khi load courses:", error);
+                }
+            }
+
+            try {
+                const newCourseResponse = await publicAxios.get("/api/course/get-all");
+                setNewCourse(newCourseResponse.data);
+            } catch (error) {
+                console.error("Lỗi khi load courses:", error);
+            }
+
+            try {
+                const topCourseResponse = await publicAxios.get("/api/course/get-top");
+                setTopCourse(topCourseResponse.data);
+            } catch (error) {
+                console.error("Lỗi khi load courses:", error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
 
     return (
         <div>
@@ -101,11 +92,13 @@ const Courses = () => {
             <div className="courses-page">
                 <Banner />
 
-                <ListCourses
-                    title="HOÀN THÀNH KHÓA HỌC CỦA BẠN"
-                    description="Các khoá học đã đăng ký"
-                    courses={courses}
-                />
+                {myCourse.length > 0 && (
+                    <ListCourses
+                        title="HOÀN THÀNH KHÓA HỌC CỦA BẠN"
+                        description="Các khoá học đã đăng ký"
+                        courses={myCourse}
+                    />
+                )}
 
                 <div className="category-bar">
                     {categories.map((cat) => (
@@ -117,12 +110,12 @@ const Courses = () => {
                 <ListCourses
                     title="KHÓA HỌC MỚI"
                     description="Các khoá học mới nhất được update."
-                    courses={courses}
+                    courses={newCourse}
                 />
                 <ListCourses
                     title="KHÓA HỌC NỔI BẬT"
                     description="Khóa học có lượt đăng ký nhiều nhất."
-                    courses={courses}
+                    courses={topCourse}
                 />
             </div>
 
