@@ -69,7 +69,7 @@ const RegisterPayment = () => {
         const payload = {
             transaction: {
                 transferAmount: courseDetails?.salePrice,
-                code: "WETECH" + Date.now()
+                code: "WT" + Date.now()
             },
             listItems: [
                 {

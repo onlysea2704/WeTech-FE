@@ -1,5 +1,6 @@
 import React from "react";
 import "./TableComponent.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const TableComponent = ({
   columns,
@@ -13,6 +14,12 @@ const TableComponent = ({
   onDelete, // callback delete
 }) => {
   const totalPages = Math.ceil(totalItems / pageSize);
+
+  const navigate = useNavigate();
+  const handleClick = async (courseId) => {
+    window.scrollTo(0, 0);
+    navigate(`/manage-course/${courseId}`);
+  }
 
   return (
     <div className="table-container">
@@ -37,7 +44,7 @@ const TableComponent = ({
                     className="action-btn edit"
                     onClick={() => onEdit && onEdit(row)}
                   >
-                    <i className="fas fa-edit"></i>
+                    <i className="fas fa-edit" onClick={() => handleClick(row[columns[0].field])}></i>
                   </button>
                   <button
                     className="action-btn delete"

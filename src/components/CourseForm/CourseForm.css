@@ -53,6 +53,7 @@
 }
 
 .form-group-course-info input,
+.form-group-course-info select,
 .form-group-course-info textarea {
   padding: 10px;
   border: 1px solid #ddd;

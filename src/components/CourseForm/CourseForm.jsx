@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CourseForm.css";
+import { useParams } from "react-router-dom";
+import { publicAxios } from "../../services/axios-instance";
 
 const CourseForm = () => {
+  const { courseId } = useParams(); // lấy id từ param
   const [formData, setFormData] = useState({
     courseId: "",
     title: "",
@@ -14,10 +17,56 @@ const CourseForm = () => {
     intro2: "",
     numberRegister: "",
     createdAt: "",
+    linkImage: "",
     imageFile: null,
   });
 
   const [previewImage, setPreviewImage] = useState(null);
+
+  // Danh sách loại khóa học (chỉ cần string)
+  const typeCourseOptions = [
+    'Thành lập Công ty',
+    'Thành lập Hộ kinh doanh',
+    'Giải thể Công ty',
+    'Giải thể Hộ kinh doanh',
+    'Đăng ký thay đổi',
+    'Sáp nhập Tỉnh',
+    'Cập nhật lên CCCD',
+  ];
+
+  // Lấy dữ liệu khóa học từ API
+  useEffect(() => {
+    const fetchCourseById = async () => {
+      try {
+        const res = await publicAxios.get(
+          `/api/course/find-by-course-id?courseId=${courseId}`
+        );
+        const course = res.data;
+        setFormData({
+          courseId: course.courseId,
+          title: course.title || "",
+          description: course.description || "",
+          author: course.author || "",
+          realPrice: course.realPrice || "",
+          salePrice: course.salePrice || "",
+          typeCourse: course.typeCourse || "",
+          intro1: course.intro1 || "",
+          intro2: course.intro2 || "",
+          numberRegister: course.numberRegister || "",
+          createdAt: course.createdAt ? course.createdAt.substring(0, 10) : "",
+          linkImage: course.linkImage || "",
+          imageFile: null,
+        });
+        if (course.linkImage) {
+          setPreviewImage(course.linkImage);
+        }
+      } catch (error) {
+        console.error("Lỗi khi lấy dữ liệu khóa học:", error);
+      }
+    };
+
+    if (courseId) fetchCourseById();
+  }, [courseId]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -32,25 +81,45 @@ const CourseForm = () => {
     }
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Dữ liệu khóa học:", formData);
+  const handleSave = async () => {
+    try {
+      // Tách object course (không chứa imageFile)
+      const { imageFile, ...courseData } = formData;
+
+      // Tạo formData
+      const formDataToSend = new FormData();
+
+      // courseData phải là JSON string
+      formDataToSend.append("course", new Blob([JSON.stringify(courseData)], { type: "application/json" }));
+
+      // Nếu có file ảnh thì append
+      if (imageFile) {
+        formDataToSend.append("image", imageFile);
+      }
+
+      const res = await publicAxios.post("/api/course/update-course", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Cập nhật thành công:", res.data);
+      alert("Lưu khóa học thành công!");
+    } catch (error) {
+      console.error("Lỗi khi lưu khóa học:", error);
+      alert("Có lỗi xảy ra khi lưu khóa học!");
+    }
   };
 
   return (
     <div className="course-form-container">
-      <form className="course-form" onSubmit={handleSubmit}>
+      <div className="course-form">
         <div className="form-content">
           {/* Cột trái */}
           <div className="form-column-left">
             <div className="form-group-course-info">
               <label>Mã khóa học</label>
-              <input
-                type="number"
-                name="courseId"
-                value={formData.courseId}
-                onChange={handleChange}
-              />
+              <input type="number" name="courseId" value={formData.courseId} readOnly />
             </div>
 
             <div className="form-group-course-info">
@@ -97,32 +166,28 @@ const CourseForm = () => {
 
             <div className="form-group-course-info">
               <label>Loại khóa học</label>
-              <input
-                type="text"
+              <select
                 name="typeCourse"
                 value={formData.typeCourse}
                 onChange={handleChange}
-              />
+              >
+                <option value="">-- Chọn loại khóa học --</option>
+                {typeCourseOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="form-group-course-info">
               <label>Số người đăng ký</label>
-              <input
-                type="number"
-                name="numberRegister"
-                value={formData.numberRegister}
-                onChange={handleChange}
-              />
+              <input type="number" name="numberRegister" value={formData.numberRegister} readOnly />
             </div>
 
             <div className="form-group-course-info">
               <label>Ngày tạo</label>
-              <input
-                type="date"
-                name="createdAt"
-                value={formData.createdAt}
-                onChange={handleChange}
-              />
+              <input type="date" name="createdAt" value={formData.createdAt} readOnly />
             </div>
           </div>
 
@@ -167,10 +232,10 @@ const CourseForm = () => {
           </div>
         </div>
 
-        <button type="submit" className="submit-btn">
+        <button type="button" className="submit-btn" onClick={handleSave}>
           Lưu khóa học
         </button>
-      </form>
+      </div>
     </div>
   );
 };

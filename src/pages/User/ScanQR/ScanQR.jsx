@@ -12,6 +12,7 @@ const ScanQR = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [amount, setAmount] = useState(0);
+  const navigate = useNavigate();
 
   // Countdown 10 phút = 600 giây
   const [timeLeft, setTimeLeft] = useState(600);
@@ -31,6 +32,28 @@ const ScanQR = () => {
     fetchTransactionDetails();
 
   }, [code]);
+
+  // Hàm check giao dịch
+  const handleCheckTransaction = async () => {
+    try {
+      const res = await publicAxios.get(`/payment/get?code=${code}`);
+      if (res.data?.status === "SUCCESS") {
+        setIsSuccess(true);
+        setShowPopup(true);
+        // Tự động chuyển sang trang khóa học sau 2 giây
+        setTimeout(() => {
+          navigate("/list-courses");
+        }, 2000);
+      } else {
+        setIsSuccess(false);
+        setShowPopup(true);
+      }
+    } catch (err) {
+      console.error(err);
+      setIsSuccess(false);
+      setShowPopup(true);
+    }
+  };
 
   useEffect(() => {
     if (timeLeft <= 0) return;
@@ -92,10 +115,13 @@ const ScanQR = () => {
               src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
               alt="QR Code"
             />
-            <p>Lê Thị Lan</p>
-            <p>0989466992</p>
+            <p>Lê Thị Lan - 0989466992</p>
           </div>
           <p className="qr-note">Mở ứng dụng ngân hàng để Quét Mã QR</p>
+          {/* Nút check giao dịch */}
+          <button className="check-transaction-btn" onClick={handleCheckTransaction}>
+            Kiểm tra giao dịch
+          </button>
         </div>
       </div>
 

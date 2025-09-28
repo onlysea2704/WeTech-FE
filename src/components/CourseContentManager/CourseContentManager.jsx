@@ -1,78 +1,151 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./CourseContentManager.css";
+import { useParams, useNavigate } from "react-router-dom";
+import { authAxios, publicAxios } from "../../services/axios-instance";
 
 export default function CourseContentManager() {
-    const [sections, setSections] = useState([
-        {
-            id: Date.now(),
-            title: "Phần 1: Giới thiệu",
-            videos: [],
-        },
-    ]);
-
+    const [sections, setSections] = useState([]);
+    const [videoFiles, setVideoFiles] = useState({}); // lưu file upload tạm
+    const { courseId } = useParams();
+    const navigate = useNavigate();
     const [previewVideo, setPreviewVideo] = useState(null);
 
-    // thêm 1 phần
-    const addSection = () => {
-        const newSection = {
-            id: Date.now(),
-            title: `Phần ${sections.length + 1}`,
-            videos: [],
+    // Fetch dữ liệu từ API
+    useEffect(() => {
+        const fetchCourseContent = async () => {
+            try {
+                const sectionRes = await publicAxios.get(
+                    `/api/section/get-section-by-course-id?courseId=${courseId}`
+                );
+                const sectionData = sectionRes.data;
+
+                const sectionsWithVideos = await Promise.all(
+                    sectionData.map(async (s) => {
+                        try {
+                            const videoRes = await publicAxios.get(
+                                `/api/video/find-by-sectionId?sectionId=${s.sectionId}`
+                            );
+                            return { ...s, videos: videoRes.data || [] };
+                        } catch {
+                            return { ...s, videos: [] };
+                        }
+                    })
+                );
+                setSections(sectionsWithVideos);
+            } catch (error) {
+                console.error("Error fetching sections:", error);
+            }
         };
-        setSections([...sections, newSection]);
+
+        fetchCourseContent();
+    }, [courseId]);
+
+    // === Section CRUD ===
+    const addSection = async () => {
+        try {
+            const res = await authAxios.post("/api/section/create", {
+                courseId,
+                name: `Phần ${sections.length + 1}`,
+            });
+            setSections([...sections, { ...res.data, videos: [] }]);
+        } catch (err) {
+            console.error("Error creating section:", err);
+        }
     };
 
-    // xóa phần
-    const deleteSection = (sectionId) => {
-        setSections(sections.filter((s) => s.id !== sectionId));
+    const updateSection = async (section) => {
+        try {
+            await authAxios.post(
+                `/api/section/update?sectionId=${section.sectionId}`,
+                section
+            );
+        } catch (err) {
+            console.error("Error updating section:", err);
+        }
     };
 
-    // thêm video
-    const addVideo = (sectionId) => {
-        setSections(
-            sections.map((s) =>
-                s.id === sectionId
-                    ? {
-                        ...s,
-                        videos: [
-                            ...s.videos,
-                            { id: Date.now(), title: "", file: null, url: "" },
-                        ],
-                    }
-                    : s
-            )
+    const deleteSection = async (sectionId) => {
+        try {
+            await authAxios.post(`/api/section/delete?sectionId=${sectionId}`);
+            setSections(sections.filter((s) => s.sectionId !== sectionId));
+        } catch (err) {
+            console.error("Error deleting section:", err);
+        }
+    };
+
+    // === Video CRUD ===
+    const addVideo = async (sectionId) => {
+        try {
+            const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
+            setSections(
+                sections.map((s) =>
+                    s.sectionId === sectionId
+                        ? { ...s, videos: [...s.videos, res.data] }
+                        : s
+                )
+            );
+        } catch (err) {
+            console.error("Error adding video:", err);
+        }
+    };
+
+    const updateVideo = async (videoInfo, file) => {
+        const formData = new FormData();
+        formData.append(
+            "videoInfo",
+            new Blob([JSON.stringify(videoInfo)], { type: "application/json" })
         );
+        formData.append("video", file);
+
+        try {
+            const res = await authAxios.post("/api/video/update", formData, {
+                headers: { "Content-Type": "multipart/form-data" },
+            });
+
+            setSections((prev) =>
+                prev.map((s) =>
+                    s.sectionId === videoInfo.sectionId
+                        ? {
+                            ...s,
+                            videos: s.videos.map((v) =>
+                                v.videoId === videoInfo.videoId ? res.data : v
+                            ),
+                        }
+                        : s
+                )
+            );
+        } catch (err) {
+            console.error("Error updating video:", err);
+        }
     };
 
-    // xóa video
     const deleteVideo = (sectionId, videoId) => {
         setSections(
             sections.map((s) =>
-                s.id === sectionId
-                    ? { ...s, videos: s.videos.filter((v) => v.id !== videoId) }
+                s.sectionId === sectionId
+                    ? { ...s, videos: s.videos.filter((v) => v.videoId !== videoId) }
                     : s
             )
         );
     };
 
-    // cập nhật tiêu đề phần
+    // cập nhật tiêu đề
     const updateTitle = (sectionId, newTitle) => {
         setSections(
             sections.map((s) =>
-                s.id === sectionId ? { ...s, title: newTitle } : s
+                s.sectionId === sectionId ? { ...s, name: newTitle } : s
             )
         );
     };
 
-    // cập nhật video
-    const updateVideo = (sectionId, videoId, field, value) => {
+    const updateVideoTitle = (sectionId, videoId, newTitle) => {
         setSections(
             sections.map((s) =>
-                s.id === sectionId
+                s.sectionId === sectionId
                     ? {
                         ...s,
                         videos: s.videos.map((v) =>
-                            v.id === videoId ? { ...v, [field]: value } : v
+                            v.videoId === videoId ? { ...v, description: newTitle } : v
                         ),
                     }
                     : s
@@ -80,102 +153,137 @@ export default function CourseContentManager() {
         );
     };
 
+    // lưu file upload vào state
+    const handleFileChange = (videoId, file) => {
+        setVideoFiles((prev) => ({
+            ...prev,
+            [videoId]: file,
+        }));
+    };
+
     return (
         <div className="course-content-manager">
             {sections.map((section) => (
-                <div key={section.id} className="section">
+                <div key={section.sectionId} className="section">
                     <div className="section-header">
                         <input
                             className="input-text"
                             type="text"
-                            value={section.title}
-                            onChange={(e) => updateTitle(section.id, e.target.value)}
+                            value={section?.name || ""}
+                            onChange={(e) =>
+                                updateTitle(section.sectionId, e.target.value)
+                            }
                             placeholder="Tên phần..."
                         />
                         <div className="section-actions">
-                            <button className="btn update">Cập nhật</button>
-                            <button className="btn delete" onClick={() => deleteSection(section.id)}>Xóa phần</button>
+                            <button
+                                className="btn update"
+                                onClick={() => updateSection(section)}
+                            >
+                                Cập nhật
+                            </button>
+                            <button
+                                className="btn delete"
+                                onClick={() => deleteSection(section.sectionId)}
+                            >
+                                Xóa phần
+                            </button>
                         </div>
                     </div>
 
                     <div className="videos">
-                        {section.videos.map((video) => (
-                            <div key={video.id} className="video">
-                                <div className="video-row">
-                                    <input
-                                        className="input-text"
-                                        type="text"
-                                        value={video.title}
-                                        onChange={(e) =>
-                                            updateVideo(section.id, video.id, "title", e.target.value)
-                                        }
-                                        placeholder="Tiêu đề video..."
-                                    />
+                        {section.videos.map((video) => {
+                            // Nếu đã upload file mới thì lấy link preview từ file đó
+                            const previewUrl = videoFiles[video.videoId]
+                                ? URL.createObjectURL(videoFiles[video.videoId])
+                                : video.link;
 
-
-                                    <input
-                                        className="input-file"
-                                        type="file"
-                                        accept="video/*"
-                                        onChange={(e) => {
-                                            const file = e.target.files[0];
-                                            if (file) {
-                                                updateVideo(section.id, video.id, "file", file);
-                                                updateVideo(section.id, video.id, "url", URL.createObjectURL(file));
-                                            }
-                                        }}
-                                    />
-
-                                    {/* Nút upload custom */}
-                                    <div className="upload-wrapper">
+                            return (
+                                <div key={video.videoId} className="video">
+                                    <div className="video-row">
                                         <input
-                                            id={`upload-${video.id}`}
-                                            className="input-file"
-                                            type="file"
-                                            accept="video/*"
-                                            onChange={(e) => {
-                                                const file = e.target.files[0];
-                                                if (file) {
-                                                    updateVideo(section.id, video.id, "file", file);
-                                                    updateVideo(section.id, video.id, "url", URL.createObjectURL(file));
-                                                }
-                                            }}
+                                            className="input-text"
+                                            type="text"
+                                            value={video.description || ""}
+                                            onChange={(e) =>
+                                                updateVideoTitle(
+                                                    section.sectionId,
+                                                    video.videoId,
+                                                    e.target.value
+                                                )
+                                            }
+                                            placeholder="Tiêu đề video..."
                                         />
-                                        <label htmlFor={`upload-${video.id}`} className="btn upload-btn">
-                                            📂 Upload
-                                        </label>
-                                        {video.file && <span className="file-name">{video.file.name}</span>}
-                                    </div>
 
-
-                                    <div className="video-actions">
-                                        <button className="btn update">Cập nhật</button>
-                                        {video.url && (
-                                            <button
-                                                className="btn preview"
-                                                onClick={() => setPreviewVideo(video.url)}
+                                        {/* Upload file */}
+                                        <div className="upload-wrapper">
+                                            <input
+                                                id={`upload-${video.videoId}`}
+                                                className="input-file"
+                                                type="file"
+                                                accept="video/*"
+                                                onChange={(e) =>
+                                                    handleFileChange(video.videoId, e.target.files[0])
+                                                }
+                                            />
+                                            <label
+                                                htmlFor={`upload-${video.videoId}`}
+                                                className="btn upload-btn"
                                             >
-                                                Xem
+                                                📂 Chọn video
+                                            </label>
+                                            {videoFiles[video.videoId] && (
+                                                <span className="file-name">
+                                                    {videoFiles[video.videoId].name}
+                                                </span>
+                                            )}
+                                        </div>
+
+                                        <div className="video-actions">
+                                            <button
+                                                className="btn update"
+                                                onClick={() =>
+                                                    updateVideo(
+                                                        {
+                                                            videoId: video.videoId,
+                                                            sectionId: section.sectionId,
+                                                            description: video.description,
+                                                        },
+                                                        videoFiles[video.videoId]
+                                                    )
+                                                }
+                                            >
+                                                Cập nhật
                                             </button>
-                                        )}
-                                        <button
-                                            className="btn delete"
-                                            onClick={() => deleteVideo(section.id, video.id)}
-                                        >
-                                            Xóa
-                                        </button>
+                                            <button
+                                                className="btn delete"
+                                                onClick={() =>
+                                                    deleteVideo(section.sectionId, video.videoId)
+                                                }
+                                            >
+                                                Xóa
+                                            </button>
+                                        </div>
                                     </div>
+
+                                    {/* Preview video: ưu tiên file upload mới, nếu không thì link từ server */}
+                                    {previewUrl && (
+                                        <video
+                                            className="video-preview"
+                                            src={previewUrl}
+                                            controls
+                                            width="300"
+                                        />
+                                    )}
                                 </div>
-
-                                {video.url && (
-                                    <video className="video-preview" src={video.url} controls width="300" />
-                                )}
-                            </div>
-
-                        ))}
+                            );
+                        })}
                     </div>
 
-                    <button className="btn add" onClick={() => addVideo(section.id)}>
+                    <button
+                        className="btn add"
+                        onClick={() => addVideo(section.sectionId)}
+                    >
                         + Thêm video
                     </button>
                 </div>
@@ -187,9 +295,22 @@ export default function CourseContentManager() {
 
             {previewVideo && (
                 <div className="modal" onClick={() => setPreviewVideo(null)}>
-                    <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-                        <video src={previewVideo} controls autoPlay className="modal-video" />
-                        <button className="btn close" onClick={() => setPreviewVideo(null)}>Đóng</button>
+                    <div
+                        className="modal-content"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <video
+                            src={previewVideo}
+                            controls
+                            autoPlay
+                            className="modal-video"
+                        />
+                        <button
+                            className="btn close"
+                            onClick={() => setPreviewVideo(null)}
+                        >
+                            Đóng
+                        </button>
                     </div>
                 </div>
             )}

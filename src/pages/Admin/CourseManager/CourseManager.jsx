@@ -47,20 +47,20 @@ const CourseManager = () => {
             className={activeTab === "advanced" ? "nav-btn active" : "nav-btn"}
             onClick={() => setActiveTab("advanced")}
           >
-            Thông tin nâng cao
+            Video bài học
           </button>
           <button
             className={activeTab === "curriculum" ? "nav-btn active" : "nav-btn"}
             onClick={() => setActiveTab("curriculum")}
           >
-            Chương trình giảng dạy
+            Tài liệu bài học
           </button>
-          <button
+          {/* <button
             className={activeTab === "materials" ? "nav-btn active" : "nav-btn"}
             onClick={() => setActiveTab("materials")}
           >
             Tài liệu khóa học
-          </button>
+          </button> */}
         </div>
 
         {/* Nội dung */}

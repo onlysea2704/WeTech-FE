@@ -89,3 +89,29 @@
   color: #555;
   margin-bottom: 5px;
 }
+
+
+.check-transaction-btn {
+  margin-top: 15px;
+  padding: 12px 20px;
+  background: linear-gradient(135deg, #00bfff, #1e90ff); /* xanh gradient */
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 191, 255, 0.3);
+}
+
+.check-transaction-btn:hover {
+  background: linear-gradient(135deg, #1e90ff, #0077b6); /* xanh đậm hơn */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 119, 182, 0.4);
+}
+
+.check-transaction-btn:active {
+  transform: scale(0.97);
+  box-shadow: 0 3px 8px rgba(0, 119, 182, 0.3);
+}
