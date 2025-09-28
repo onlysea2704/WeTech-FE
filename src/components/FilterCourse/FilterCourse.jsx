@@ -16,12 +16,12 @@ const priceOptions = ['Trả phí', 'Miễn phí'];
 
 const FilterCourse = ({ courses, setCourses }) => {
     // State để quản lý các mục được chọn
-    const [selectedCategories, setSelectedCategories] = React.useState(['Thành lập Công ty']);
-    const [selectedPrice, setSelectedPrice] = React.useState('Miễn phí');
+    const [selectedCategories, setSelectedCategories] = useState(courseCategories);
+    const [selectedPrice, setSelectedPrice] = useState('Miễn phí');
 
     // State để quản lý việc thu gọn/mở rộng các section
-    const [isCategoryOpen, setCategoryOpen] = React.useState(true);
-    const [isPriceOpen, setPriceOpen] = React.useState(true);
+    const [isCategoryOpen, setCategoryOpen] = useState(true);
+    const [isPriceOpen, setPriceOpen] = useState(true);
 
     // Hàm xử lý khi chọn một checkbox danh mục
     const handleCategoryChange = (category) => {

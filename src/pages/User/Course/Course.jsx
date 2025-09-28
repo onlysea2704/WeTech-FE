@@ -54,6 +54,12 @@ const Courses = () => {
     const [newCourse, setNewCourse] = useState([]);
     const [topCourse, setTopCourse] = useState([]);
 
+    const navigate = useNavigate();
+    const handleClick = async () => {
+        window.scrollTo(0, 0);
+        navigate("/course-filter");
+    }
+
     useEffect(() => {
         const fetchCourses = async () => {
             const token = sessionStorage.getItem('authToken');
@@ -102,7 +108,7 @@ const Courses = () => {
 
                 <div className="category-bar">
                     {categories.map((cat) => (
-                        <button className="category-btn">
+                        <button className="category-btn" onClick={handleClick}>
                             {cat}
                         </button>
                     ))}

@@ -16,12 +16,10 @@ const CourseFilter = () => {
             try {
                 // setLoading(true);
                 const res = await publicAxios.get("/api/course/get-all");
-                // 👆 sửa endpoint này cho đúng API backend của bạn
                 setCourses(res.data);
                 console.log(res.data);
             } catch (error) {
                 console.error(error);
-                // setErrorMsg("Không thể tải dữ liệu thủ tục.");
             }
         };
         fetchProcedures();
