@@ -138,7 +138,6 @@ const TopProcedures = () => {
                 const res = await publicAxios.get("/api/procedurer/get-top");
                 // 👆 sửa endpoint này cho đúng API backend của bạn
                 setProcedures(res.data);
-                console.log(res.data);
             } catch (error) {
                 console.error(error);
                 // setErrorMsg("Không thể tải dữ liệu thủ tục.");

@@ -5,7 +5,7 @@ import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import CourseInfo from "../../../components/CourseInfo/CourseInfo";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
-import { useParams, useNavigate  } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 // Component Playlist nhận props onSelectVideo để đổi video
 const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
@@ -41,8 +41,8 @@ const DetailCourse = () => {
     const navigate = useNavigate();
     const [isPurchased, setIsPurchased] = useState(false);
     const [videoOfCourse, setVideoOfCourse] = useState([]);
-    const [currentVideo, setCurrentVideo] = useState(videoOfCourse[0]); 
-    const [courseDetails, setCourseDetails] = useState(null);  
+    const [currentVideo, setCurrentVideo] = useState(videoOfCourse[0]);
+    const [courseDetails, setCourseDetails] = useState(null);
     // const [loading, setLoading] = useState(true);  // Loading state
 
     // Fetch course details from the API
@@ -62,7 +62,7 @@ const DetailCourse = () => {
                 try {
                     const res = await authAxios.get(`/api/course/check-have-course?courseId=${courseId}`);
                     setIsPurchased(res.data);
-                    if(res.data) {
+                    if (res.data) {
                         const videoOfCourse = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
                         console.log(videoOfCourse.data);
                         setVideoOfCourse(videoOfCourse.data);
@@ -88,25 +88,36 @@ const DetailCourse = () => {
                 {/* Bên trái: video player */}
                 <div className="course-left">
                     <div className="video-container">
-                        <iframe
-                            width="100%"
-                            height="360px"
-                            src={currentVideo?.link}   // đổi link khi click
-                            title={currentVideo?.description}
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            allowFullScreen
-                        ></iframe>
+                        {currentVideo?.link ? (
+                            <iframe
+                                width="100%"
+                                height="360px"
+                                src={currentVideo.link}
+                                title={currentVideo?.description || "Video bài học"}
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowFullScreen
+                            ></iframe>
+                        ) : (
+                            <img
+                                src={courseDetails?.linkImage}   // ảnh khóa học (truyền vào props hoặc import)
+                                alt="Khóa học"
+                                width="100%"
+                                height="360px"
+                                style={{ objectFit: "cover" }}
+                            />
+                        )}
                     </div>
                 </div>
+
 
                 {/* Bên phải: điều kiện hiển thị */}
                 <div className="course-right">
                     {isPurchased ? (
                         // Nếu đã mua → hiện playlist
-                        <CoursePlaylist 
-                        onSelectVideo={setCurrentVideo} 
-                        currentVideo={currentVideo} 
-                        videoOfCourse={videoOfCourse}/>
+                        <CoursePlaylist
+                            onSelectVideo={setCurrentVideo}
+                            currentVideo={currentVideo}
+                            videoOfCourse={videoOfCourse} />
                     ) : (
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>

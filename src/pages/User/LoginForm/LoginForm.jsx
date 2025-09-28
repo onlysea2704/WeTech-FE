@@ -20,7 +20,7 @@ const LoginForm = () => {
         try {
             // setLoading(true)
             const token = await publicAxios.post('/api/auth/login', { username: email, password });
-            
+
             console.log(token.data.token);
             // Lưu vào sessionStorage
             sessionStorage.setItem('authToken', token.data.token);
@@ -30,8 +30,12 @@ const LoginForm = () => {
             //   setNameStudent(userInfo.data.name);
             // cần lưu vào localStorage vì khi reload lại trang thì các context state sẽ bị xóa sạch
             localStorage.setItem('username', userInfo.data.name);
-
-            navigate("/");
+            if (userInfo.data.role === 'USER') {
+                navigate("/");
+            }
+            else {
+                navigate("/dashboard");
+            }
         } catch (error) {
             console.log(error.message);
             alert("Lỗi đăng nhập:", error.message);

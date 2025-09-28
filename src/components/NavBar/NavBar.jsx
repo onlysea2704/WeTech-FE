@@ -4,18 +4,12 @@ import logoImage from "../../assets/logo.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-    const [token, setToken] = useState(localStorage.getItem('token'));
-    
-    // SỬA: Đổi tên state để rõ ràng hơn
+    const [token, setToken] = useState(sessionStorage.getItem('authToken'));
+
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-    // MỚI: State để quản lý dropdown của Dịch vụ pháp lý
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
-
     const navigate = useNavigate();
-
-    // SỬA: Đổi tên ref để rõ ràng hơn
-    const userDropdownRef = useRef(null); 
-    // MỚI: Ref cho dropdown của Dịch vụ pháp lý
+    const userDropdownRef = useRef(null);
     const servicesDropdownRef = useRef(null);
 
     // SỬA: Đổi tên hàm để rõ ràng hơn
@@ -31,7 +25,7 @@ const Navbar = () => {
     };
 
     const handleLogout = () => {
-        localStorage.removeItem('token');
+        sessionStorage.removeItem('authToken');
         setToken(null);
         setIsUserDropdownOpen(false);
         navigate('/login');
@@ -121,8 +115,7 @@ const Navbar = () => {
 
                     <i className="fas fa-shopping-cart cart-icon"></i>
 
-                    {/* SỬA: Sửa lại logic hiển thị. Nếu KHÔNG có token -> hiện nút Đăng nhập */}
-                    {token ? (
+                    {!token ? (
                         <>
                             <button className="btn-outline"> <Link to='/register'>Đăng Ký</Link></button>
                             <button className="btn-filled"> <Link to='/login'>Đăng Nhập</Link></button>
