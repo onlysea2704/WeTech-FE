@@ -1,13 +1,20 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./Sidebar.css";
 import imageAdmin from "../../assets/customer.jpg";
 
 const Sidebar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Hàm kiểm tra active
   const isActive = (path) => location.pathname === path;
+
+  // Hàm xử lý đăng xuất
+  const handleLogout = () => {
+    sessionStorage.clear(); // hoặc sessionStorage.removeItem("tên_key");
+    navigate("/login");
+  };
 
   return (
     <div className="sidebar">
@@ -29,12 +36,12 @@ const Sidebar = () => {
           <span>Dashboard</span>
         </Link>
 
-        <Link to="/manage-course" className={`menu-item ${isActive("/manage-course") ? "active" : ""}`}>
-          <i className="fa-solid fa-calendar-days menu-icon"></i>
+        <Link to="/list-course" className={`menu-item ${isActive("/manage-course") ? "active" : ""}`}>
+          <i className="fa-solid fa-graduation-cap menu-icon"></i>
           <span>Khóa học</span>
         </Link>
 
-        <Link to="" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
+        <Link to="/list-course" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
           <i className="fa-solid fa-calendar-days menu-icon"></i>
           <span>Thủ tục pháp lý</span>
         </Link>
@@ -49,16 +56,21 @@ const Sidebar = () => {
           <span>Doanh số</span>
         </Link>
 
-        <Link to="" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
+        <Link to="/sales" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
           <i className="fa-solid fa-comments menu-icon"></i>
           <span>Tư vấn</span>
         </Link>
 
-        <Link to="" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
+        <Link to="/sales" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
           <i className="fa-solid fa-circle-question menu-icon"></i>
           <span>Câu hỏi</span>
         </Link>
 
+        {/* Đăng xuất */}
+        <div className={`menu-item ${isActive("/questions") ? "active" : ""}`} onClick={handleLogout}>
+          <i className="fa-solid fa-right-from-bracket menu-icon"></i>
+          <span>Đăng xuất</span>
+        </div>
       </div>
 
       {/* Footer */}

@@ -53,7 +53,7 @@ function App() {
         <Route path="/list-customer" element={<ListCustomer />} />
         <Route path="/sales" element={<Transactions />} />
         <Route path="/list-course" element={<ListCourse />} />
-        <Route path="/manage-course" element={<CourseManager />} />
+        <Route path="/manage-course/:courseId" element={<CourseManager />} />
 
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />

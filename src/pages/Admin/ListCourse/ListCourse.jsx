@@ -2,34 +2,63 @@ import React, { useState, useEffect } from "react";
 import "./ListCourse.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
+import { authAxios, publicAxios } from "../../../services/axios-instance";
+import { useNavigate } from "react-router-dom";
 
 const ListCourse = () => {
+    const navigate = useNavigate();
 
     const columns = [
-        { headerName: "Họ tên", field: "name" },
-        { headerName: "Số điện thoại", field: "name" },
-        { headerName: "Email", field: "email" },
-        { headerName: "Khóa học", field: "email" },
-        { headerName: "Ngày đăng ký", field: "email" },
+        { headerName: "ID Khóa học", field: "courseId" },
+        { headerName: "Tên khóa học", field: "title" },
+        { headerName: "Loại khóa học", field: "typeCourse" },
+        { headerName: "Giá gốc", field: "realPrice" },
+        { headerName: "Giá bán", field: "salePrice" },
     ];
 
-    const allData = Array.from({ length: 42 }, (_, i) => ({
-        id: i + 1,
-        name: `Người dùng ${i + 1}`,
-        email: `user${i + 1}@gmail.com`,
-    }));
-
+    const [allCourses, setAllCourses] = useState([]);
     const [data, setData] = useState([]);
-    const [pageSize, setPageSize] = useState(9);
+    const [pageSize, setPageSize] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
-    const totalItems = allData.length;
+    const [totalItems, setTotalItems] = useState(0);
 
     useEffect(() => {
-        // Giả lập gọi API server: lấy slice dữ liệu theo page
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
-        setData(allData.slice(start, end));
+        setData(allCourses.slice(start, end));
     }, [currentPage, pageSize]);
+
+    // Gọi API lấy danh sách khóa học
+    useEffect(() => {
+        const fetchCourses = async () => {
+            try {
+                const res = await publicAxios.get("/api/course/get-all"); // <-- API backend
+                const courses = res.data || [];
+                setTotalItems(courses.length);
+                setAllCourses(courses);
+                setData(courses.slice(0, pageSize));
+            } catch (error) {
+                console.error("Lỗi khi tải danh sách khóa học:", error);
+            }
+        };
+
+        fetchCourses();
+    }, []);
+
+    // Hàm tạo khóa học mới
+    const handleCreateCourse = async () => {
+        try {
+            const res = await authAxios.get("/api/course/create-course");
+
+            console.log("Khóa học mới đã được tạo:", res.data);
+            if (res.data && res.data.courseId) {
+                // Chuyển hướng sang trang tạo/sửa khóa học
+                navigate(`/manage-course/${res.data.courseId}`);
+            }
+        } catch (error) {
+            console.error("Lỗi khi tạo khóa học:", error);
+        } 
+    };
 
     return (
         <div className="dash-board-page">
@@ -43,7 +72,7 @@ const ListCourse = () => {
 
                     {/* Phần bên phải */}
                     <div className="toolbar-right">
-                        <button className="export-button">
+                        <button className="export-button" onClick={handleCreateCourse }>
                             <span>Tạo khóa học mới</span>
                         </button>
 
