@@ -40,7 +40,7 @@ function App() {
         <Route path="/list-courses" element={<Courses />} />
         <Route path="/course-filter" element={<CourseFilter />} />
         <Route path="/detail-course/:courseId" element={<DetailCourse />} />
-        <Route path="/list-procedures/:type_procedure" element={<ListProcedures />} />
+        <Route path="/list-procedures/:typeProcedure" element={<ListProcedures />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/not-found" element={<NotFoundPage />} />

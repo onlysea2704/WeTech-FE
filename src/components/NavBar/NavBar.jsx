@@ -99,10 +99,11 @@ const Navbar = () => {
                             <div className="dropdown-menu">
                                 <ul>
                                     {/* Thay thế bằng các link dịch vụ của bạn */}
-                                    <li><Link to="/list-procedures/business-setup">Thành lập doanh nghiệp</Link></li>
-                                    <li><Link to="/list-procedures/intellectual-property">Sở hữu trí tuệ</Link></li>
-                                    <li><Link to="/list-procedures/investment-consulting">Tư vấn đầu tư</Link></li>
-                                    <li><Link to="/list-procedures/all">Xem tất cả dịch vụ</Link></li>
+                                    <li><Link to="/list-procedures/thanh_lap_cong_ty">Thành lập công ty</Link></li>
+                                    <li><Link to="/list-procedures/dang_ki_thay_doi">Đăng kí thay đổi</Link></li>
+                                    <li><Link to="/list-procedures/thong_bao_thay_doi">Thông báo thay đổi</Link></li>
+                                    <li><Link to="/list-procedures/tn_tt_kinh_doanh">Tạm ngừng - Tiếp tục kinh doanh trước thời hạn</Link></li>
+                                    <li><Link to="/list-procedures/giai_the">Giải thể</Link></li>
                                 </ul>
                             </div>
                         )}

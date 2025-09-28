@@ -3,12 +3,12 @@ import "./ProcedureCard.css";
 import demoProcedure from "../../assets/demo-procedure.jpg"
 import { useNavigate } from "react-router-dom";
 
-const ProcedureCard = ({ image, title, description, realPrice }) => {
+const ProcedureCard = ({ image, title, description, realPrice, procedureId }) => {
 
     const navigate = useNavigate();
     const handleClick = async () => {
         // navigate("/detail-course/" + course.id_course);
-        navigate("/process-procedure/" + 1);
+        navigate("/process-procedure/" + procedureId);
         window.scrollTo(0, 0);
     }
 
@@ -17,7 +17,9 @@ const ProcedureCard = ({ image, title, description, realPrice }) => {
             <img src={demoProcedure} alt={title} className="procedure-image" />
             <h3 className="procedure-title">{title}</h3>
             <p className="procedure-desc">{description}</p>
-            <div className="procedure-price">{realPrice}₫</div>
+            <div className="procedure-price">
+                {Number(realPrice).toLocaleString("vi-VN")}₫
+            </div>
             <div className="procedure-actions">
                 <a href="#">→ Chi tiết</a>
                 <button>

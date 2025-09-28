@@ -1,45 +1,38 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./ListProcedures.css";
 import ProcedureCard from "../../../components/ProcedureCard/ProcedureCard";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
+import { useParams, useNavigate } from "react-router-dom";
+import { publicAxios } from "../../../services/axios-instance";
 
 const tabs = [
-    "Công ty TNHH một thành viên",
-    "Công ty TNHH hai thành viên trở lên",
-    "Công ty Cổ phần",
-];
-
-// Dữ liệu demo
-const servicesData = [
-    Array.from({ length: 25 }, (_, i) => ({
-        id: i + 1,
-        title: `Đăng ký thành lập DN-Công ty TNHH 2 thành viên trở lên`,
-        desc: "Đăng ký thành lập mới đối với công ty TNHH một thành viên do cá nhân làm chủ sở hữu.",
-        price: "300.000",
-    })),
-    Array.from({ length: 8 }, (_, i) => ({
-        id: i + 101,
-        title: `Đăng ký thành lập DN-Công ty TNHH 2 thành viên trở lên`,
-        img: "https://via.placeholder.com/200x150",
-        desc: "Đăng ký thành lập mới đối với công ty TNHH một thành viên do cá nhân làm chủ sở hữu.",
-        price: "300.000",
-    })),
-    Array.from({ length: 5 }, (_, i) => ({
-        id: i + 201,
-        title: `Đăng ký thành lập DN-Công ty TNHH 2 thành viên trở lên`,
-        img: "https://via.placeholder.com/200x150",
-        desc: "Đăng ký thành lập mới đối với công ty TNHH một thành viên do cá nhân làm chủ sở hữu.",
-        price: "300.000",
-    })),
+    { label: "Công ty TNHH một thành viên", value: "cong_ty_tnhh_mot_thanh_vien" },
+    { label: "Công ty TNHH hai thành viên trở lên", value: "cong_ty_tnhh_hai_thanh_vien_tro_len" },
+    { label: "Công ty Cổ phần", value: "cong_ty_co_phan" },
 ];
 
 const ListProcedures = () => {
     const [activeTab, setActiveTab] = useState(0);
     const [currentPage, setCurrentPage] = useState(1);
+    const [listProcedures, setListProcedures] = useState([]);
 
     const itemsPerPage = 12;
+    const { typeProcedure } = useParams();
+
+    useEffect(() => {
+        const fetchCourseDetails = async () => {
+            try {
+                const res = await publicAxios.get(`/api/procedurer/find-by-type?type=${typeProcedure}`);
+                setListProcedures(res.data);
+                console.log(res.data);
+            } catch (error) {
+                console.error(error);
+            }
+        };
+        fetchCourseDetails();
+    }, [typeProcedure]);
 
     // Reset về page 1 khi đổi tab
     const handleTabChange = (index) => {
@@ -47,19 +40,22 @@ const ListProcedures = () => {
         setCurrentPage(1);
     };
 
-    const currentTabData = servicesData[activeTab];
-    const totalPages = Math.ceil(currentTabData.length / itemsPerPage);
+    // Lọc dữ liệu theo tab
+    const filteredProcedures = listProcedures.filter(
+        (item) => item.typeCompany === tabs[activeTab].value
+    );
 
+    const totalPages = Math.ceil(filteredProcedures.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentItems = currentTabData.slice(startIndex, startIndex + itemsPerPage);
+    const currentItems = filteredProcedures.slice(startIndex, startIndex + itemsPerPage);
 
     return (
 
         <div>
             <Navbar />
-            <Breadcrumb/>
+            <Breadcrumb />
             <div className="company-services">
-                <h2 className="title">DỊCH VỤ THÀNH LẬP CÔNG TY</h2>
+                <h2 className="title-type-procedure">DỊCH VỤ THÀNH LẬP CÔNG TY</h2>
 
                 {/* Tabs */}
                 <div className="tabs">
@@ -69,7 +65,7 @@ const ListProcedures = () => {
                             className={activeTab === index ? "active" : ""}
                             onClick={() => handleTabChange(index)}
                         >
-                            {tab}
+                            {tab.label}
                         </button>
                     ))}
                 </div>

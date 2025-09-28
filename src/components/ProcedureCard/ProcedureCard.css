@@ -1,5 +1,5 @@
 .procedure-card {
-    background: #FAFAFA;
+    background: #FFFFFF;
     /* border: 1px solid #ddd; */
     /* border-radius: 8px; */
     padding: 0px;
@@ -39,7 +39,7 @@
     font-size: 14px;
     color: #555;
     margin-bottom: 8px;
-
+    margin-top: 5px;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* Giới hạn 2 dòng */
     -webkit-box-orient: vertical;
