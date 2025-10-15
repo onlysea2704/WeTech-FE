@@ -10,21 +10,20 @@ export default function CourseContentManager() {
     const navigate = useNavigate();
     const [previewVideo, setPreviewVideo] = useState(null);
 
+    const fetchCourseContent = async () => {
+        try {
+            const res = await publicAxios.get(
+                `/api/video/find-by-courseId?courseId=${courseId}`
+            );
+            setSections(res.data || []);
+        } catch (error) {
+            console.error("Error fetching course content:", error);
+            setSections([]); // fallback tránh lỗi khi render
+        }
+    };
+
     // Fetch dữ liệu từ API
     useEffect(() => {
-        const fetchCourseContent = async () => {
-            try {
-                // Gọi 1 API duy nhất
-                const res = await publicAxios.get(
-                    `/api/video/find-by-courseId?courseId=${courseId}`
-                );
-                // API trả về mảng section + videos như ví dụ bạn đưa
-                setSections(res.data || []);
-            } catch (error) {
-                console.error("Error fetching course content:", error);
-                setSections([]); // fallback tránh lỗi khi render
-            }
-        };
         fetchCourseContent();
     }, [courseId]);
 
@@ -36,7 +35,8 @@ export default function CourseContentManager() {
                 courseId,
                 name: `Phần ${sections.length + 1}`,
             });
-            setSections([...sections, { ...res.data, videos: [] }]);
+            console.log("Created section:", res.data);
+            fetchCourseContent();
         } catch (err) {
             console.error("Error creating section:", err);
         }
@@ -48,6 +48,7 @@ export default function CourseContentManager() {
                 `/api/section/update?sectionId=${section.sectionId}`,
                 section
             );
+            fetchCourseContent();
         } catch (err) {
             console.error("Error updating section:", err);
         }
@@ -56,7 +57,7 @@ export default function CourseContentManager() {
     const deleteSection = async (sectionId) => {
         try {
             await authAxios.post(`/api/section/delete?sectionId=${sectionId}`);
-            setSections(sections.filter((s) => s.sectionId !== sectionId));
+            fetchCourseContent();
         } catch (err) {
             console.error("Error deleting section:", err);
         }
@@ -66,13 +67,8 @@ export default function CourseContentManager() {
     const addVideo = async (sectionId) => {
         try {
             const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
-            // setSections(
-            //     sections.map((s) =>
-            //         s.sectionId === sectionId
-            //             ? { ...s, videos: [...s.videos, res.data] }
-            //             : s
-            //     )
-            // );
+            console.log("Created video:", res.data);
+            fetchCourseContent();
         } catch (err) {
             console.error("Error adding video:", err);
         }
@@ -90,7 +86,8 @@ export default function CourseContentManager() {
             const res = await authAxios.post("/api/video/update", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-
+            console.log("Updated video:", res.data);
+            fetchCourseContent();
         } catch (err) {
             console.error("Error updating video:", err);
         }
@@ -98,22 +95,17 @@ export default function CourseContentManager() {
 
     const deleteVideo = async (videoId) => {
         const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
-        // setSections(
-        //     sections.map((s) =>
-        //         s.sectionId === sectionId
-        //             ? { ...s, videos: s.videos.filter((v) => v.videoId !== videoId) }
-        //             : s
-        //     )
-        // );
+        console.log("Deleted video:", res.data);
+        fetchCourseContent();
     };
 
     // cập nhật tiêu đề
     const updateTitle = (sectionId, newTitle) => {
-        // setSections(
-        //     sections.map((s) =>
-        //         s.sectionId === sectionId ? { ...s, name: newTitle } : s
-        //     )
-        // );
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId ? { ...s, name: newTitle } : s
+            )
+        );
     };
 
     const updateVideoTitle = (sectionId, videoId, newTitle) => {
