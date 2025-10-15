@@ -14,31 +14,20 @@ export default function CourseContentManager() {
     useEffect(() => {
         const fetchCourseContent = async () => {
             try {
-                const sectionRes = await publicAxios.get(
-                    `/api/section/get-section-by-course-id?courseId=${courseId}`
+                // Gọi 1 API duy nhất
+                const res = await publicAxios.get(
+                    `/api/video/find-by-courseId?courseId=${courseId}`
                 );
-                const sectionData = sectionRes.data;
-
-                const sectionsWithVideos = await Promise.all(
-                    sectionData.map(async (s) => {
-                        try {
-                            const videoRes = await publicAxios.get(
-                                `/api/video/find-by-sectionId?sectionId=${s.sectionId}`
-                            );
-                            return { ...s, videos: videoRes.data || [] };
-                        } catch {
-                            return { ...s, videos: [] };
-                        }
-                    })
-                );
-                setSections(sectionsWithVideos);
+                // API trả về mảng section + videos như ví dụ bạn đưa
+                setSections(res.data || []);
             } catch (error) {
-                console.error("Error fetching sections:", error);
+                console.error("Error fetching course content:", error);
+                setSections([]); // fallback tránh lỗi khi render
             }
         };
-
         fetchCourseContent();
     }, [courseId]);
+
 
     // === Section CRUD ===
     const addSection = async () => {
@@ -77,13 +66,13 @@ export default function CourseContentManager() {
     const addVideo = async (sectionId) => {
         try {
             const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
-            setSections(
-                sections.map((s) =>
-                    s.sectionId === sectionId
-                        ? { ...s, videos: [...s.videos, res.data] }
-                        : s
-                )
-            );
+            // setSections(
+            //     sections.map((s) =>
+            //         s.sectionId === sectionId
+            //             ? { ...s, videos: [...s.videos, res.data] }
+            //             : s
+            //     )
+            // );
         } catch (err) {
             console.error("Error adding video:", err);
         }
@@ -102,55 +91,44 @@ export default function CourseContentManager() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
-            setSections((prev) =>
-                prev.map((s) =>
-                    s.sectionId === videoInfo.sectionId
-                        ? {
-                            ...s,
-                            videos: s.videos.map((v) =>
-                                v.videoId === videoInfo.videoId ? res.data : v
-                            ),
-                        }
-                        : s
-                )
-            );
         } catch (err) {
             console.error("Error updating video:", err);
         }
     };
 
-    const deleteVideo = (sectionId, videoId) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId
-                    ? { ...s, videos: s.videos.filter((v) => v.videoId !== videoId) }
-                    : s
-            )
-        );
+    const deleteVideo = async (videoId) => {
+        const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
+        // setSections(
+        //     sections.map((s) =>
+        //         s.sectionId === sectionId
+        //             ? { ...s, videos: s.videos.filter((v) => v.videoId !== videoId) }
+        //             : s
+        //     )
+        // );
     };
 
     // cập nhật tiêu đề
     const updateTitle = (sectionId, newTitle) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId ? { ...s, name: newTitle } : s
-            )
-        );
+        // setSections(
+        //     sections.map((s) =>
+        //         s.sectionId === sectionId ? { ...s, name: newTitle } : s
+        //     )
+        // );
     };
 
     const updateVideoTitle = (sectionId, videoId, newTitle) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId
-                    ? {
-                        ...s,
-                        videos: s.videos.map((v) =>
-                            v.videoId === videoId ? { ...v, description: newTitle } : v
-                        ),
-                    }
-                    : s
-            )
-        );
+        // setSections(
+        //     sections.map((s) =>
+        //         s.sectionId === sectionId
+        //             ? {
+        //                 ...s,
+        //                 videos: s.videos.map((v) =>
+        //                     v.videoId === videoId ? { ...v, description: newTitle } : v
+        //                 ),
+        //             }
+        //             : s
+        //     )
+        // );
     };
 
     // lưu file upload vào state

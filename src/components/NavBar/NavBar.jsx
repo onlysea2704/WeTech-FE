@@ -82,7 +82,7 @@ const Navbar = () => {
 
                 <ul className="navbar-menu">
                     <li><Link to="/">TRANG CHỦ</Link></li>
-                    <li><Link to="/about">GIỚI THIỆU</Link></li>
+                    <li><Link to="/">GIỚI THIỆU</Link></li>
 
                     {/* SỬA: Thay thế Link bằng cấu trúc dropdown */}
                     <li className="menu-item-dropdown" ref={servicesDropdownRef}>
