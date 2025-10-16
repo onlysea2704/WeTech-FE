@@ -73,7 +73,6 @@ export default function CourseContentManager() {
             console.error("Error adding video:", err);
         }
     };
-
     const updateVideo = async (videoInfo, file) => {
         const formData = new FormData();
         formData.append(
@@ -92,7 +91,6 @@ export default function CourseContentManager() {
             console.error("Error updating video:", err);
         }
     };
-
     const deleteVideo = async (videoId) => {
         const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
         console.log("Deleted video:", res.data);
@@ -100,27 +98,26 @@ export default function CourseContentManager() {
     };
 
     // cập nhật tiêu đề
-    const updateTitle = (sectionId, newTitle) => {
+    const onChangeTitleSection = (sectionId, newTitle) => {
         setSections(
             sections.map((s) =>
                 s.sectionId === sectionId ? { ...s, name: newTitle } : s
             )
         );
     };
-
-    const updateVideoTitle = (sectionId, videoId, newTitle) => {
-        // setSections(
-        //     sections.map((s) =>
-        //         s.sectionId === sectionId
-        //             ? {
-        //                 ...s,
-        //                 videos: s.videos.map((v) =>
-        //                     v.videoId === videoId ? { ...v, description: newTitle } : v
-        //                 ),
-        //             }
-        //             : s
-        //     )
-        // );
+    const onChangeTitleVideo = (sectionId, videoId, newTitle) => {
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId
+                    ? {
+                        ...s,
+                        videos: s.videos.map((v) =>
+                            v.videoId === videoId ? { ...v, description: newTitle } : v
+                        ),
+                    }
+                    : s
+            )
+        );
     };
 
     // lưu file upload vào state
@@ -141,7 +138,7 @@ export default function CourseContentManager() {
                             type="text"
                             value={section?.name || ""}
                             onChange={(e) =>
-                                updateTitle(section.sectionId, e.target.value)
+                                onChangeTitleSection(section.sectionId, e.target.value)
                             }
                             placeholder="Tên phần..."
                         />
@@ -176,7 +173,7 @@ export default function CourseContentManager() {
                                             type="text"
                                             value={video.description || ""}
                                             onChange={(e) =>
-                                                updateVideoTitle(
+                                                onChangeTitleVideo(
                                                     section.sectionId,
                                                     video.videoId,
                                                     e.target.value
@@ -218,6 +215,7 @@ export default function CourseContentManager() {
                                                             videoId: video.videoId,
                                                             sectionId: section.sectionId,
                                                             description: video.description,
+                                                            link: video.link,
                                                         },
                                                         videoFiles[video.videoId]
                                                     )
