@@ -31,12 +31,6 @@ const Home = () => {
                 <p>Learn more about our listing process, as well as our additional staging and design work.</p>
                 <button>Đăng ký ngay</button>
             </div>
-            <button
-                onClick={() => window.open('https://zalo.me/0889443066', '_blank')}
-                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-            >
-                Chat Zalo tư vấn
-            </button>
             <ChatWidget />
 
             <Footer />

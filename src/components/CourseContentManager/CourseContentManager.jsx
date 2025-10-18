@@ -10,7 +10,7 @@ export default function CourseContentManager() {
     const navigate = useNavigate();
     const [previewVideo, setPreviewVideo] = useState(null);
 
-    const fetchCourseContent = async () => {
+    const fetchCourseVideo = async () => {
         try {
             const res = await publicAxios.get(
                 `/api/video/find-by-courseId?courseId=${courseId}`
@@ -24,9 +24,8 @@ export default function CourseContentManager() {
 
     // Fetch dữ liệu từ API
     useEffect(() => {
-        fetchCourseContent();
+        fetchCourseVideo();
     }, [courseId]);
-
 
     // === Section CRUD ===
     const addSection = async () => {
@@ -36,28 +35,26 @@ export default function CourseContentManager() {
                 name: `Phần ${sections.length + 1}`,
             });
             console.log("Created section:", res.data);
-            fetchCourseContent();
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error creating section:", err);
         }
     };
-
     const updateSection = async (section) => {
         try {
             await authAxios.post(
                 `/api/section/update?sectionId=${section.sectionId}`,
                 section
             );
-            fetchCourseContent();
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error updating section:", err);
         }
     };
-
     const deleteSection = async (sectionId) => {
         try {
             await authAxios.post(`/api/section/delete?sectionId=${sectionId}`);
-            fetchCourseContent();
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error deleting section:", err);
         }
@@ -68,7 +65,7 @@ export default function CourseContentManager() {
         try {
             const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
             console.log("Created video:", res.data);
-            fetchCourseContent();
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error adding video:", err);
         }
@@ -86,7 +83,7 @@ export default function CourseContentManager() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             console.log("Updated video:", res.data);
-            fetchCourseContent();
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error updating video:", err);
         }
@@ -94,7 +91,7 @@ export default function CourseContentManager() {
     const deleteVideo = async (videoId) => {
         const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
         console.log("Deleted video:", res.data);
-        fetchCourseContent();
+        fetchCourseVideo();
     };
 
     // cập nhật tiêu đề
