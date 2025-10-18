@@ -63,25 +63,6 @@ export default function ManageDocs() {
     };
 
     // cập nhật tài liệu
-    // const updateDocument = (sectionId, docId, field, value) => {
-    //     console.log(field);
-    //     console.log(value);
-    //     console.log(sectionId);
-    //     console.log(sections);
-    //     const newSections = sections.map((s) =>
-    //         s.id === sectionId
-    //             ? {
-    //                 ...s,
-    //                 documents: s.documents.map((d) =>
-    //                     d.id === docId ? { ...d, [field]: value } : d
-    //                 ),
-    //             }
-    //             : s
-    //     );
-    //     setSections(newSections);
-    // };
-
-    // cập nhật tài liệu
     const updateDocument = (sectionId, docId, file, url) => {
         const newSections = sections.map((s) =>
             s.id === sectionId

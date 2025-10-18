@@ -4,6 +4,7 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import CourseForm from "../../../components/CourseForm/CourseForm";
 import CourseContentManager from "../../../components/CourseContentManager/CourseContentManager";
 import ManageDocs from "../../../components/ManageDocs/ManageDocs";
+import { Link } from "react-router-dom";
 
 const CourseManager = () => {
   const [activeTab, setActiveTab] = useState("basic");
@@ -31,7 +32,7 @@ const CourseManager = () => {
       <div className="course-manager">
         {/* Header */}
         <div className="header-course-manager">
-          <button className="back-btn-course-manager">← Quay lại</button>
+          <Link to='/list-course' className="back-btn-course-manager">← Quay lại</Link>
           <h1 className="title">Quản lý khóa học</h1>
         </div>
 

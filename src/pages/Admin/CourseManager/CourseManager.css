@@ -10,6 +10,10 @@
   margin: 0;
 }
 
+.header-course-manager a {
+  text-decoration: none;
+}
+
 /* Header */
 /* Header */
 .header-course-manager {
