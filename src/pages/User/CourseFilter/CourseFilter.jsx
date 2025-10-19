@@ -4,12 +4,13 @@ import Navbar from '../../../components/NavBar/NavBar';
 import Footer from '../../../components/Footer/Footer';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import FilterCourse from '../../../components/FilterCourse/FilterCourse';
-import CourseCard from '../../../components/CourseCard/CourseCard';
+import CourseCardMini from '../../../components/CourseCardMini/CourseCardMini';
 import { publicAxios } from "../../../services/axios-instance";
 
 const CourseFilter = () => {
     
     const [courses, setCourses] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
 
     useEffect(() => {
         const fetchProcedures = async () => {
@@ -26,10 +27,7 @@ const CourseFilter = () => {
     }, []);
 
     const itemsPerPage = 16; // số khóa học / trang
-    const [currentPage, setCurrentPage] = useState(1);
-    // Tính tổng số trang
     const totalPages = Math.ceil(courses.length / itemsPerPage);
-    // Lấy danh sách khóa học của trang hiện tại
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentCourses = courses.slice(startIndex, startIndex + itemsPerPage);
 
@@ -54,12 +52,12 @@ const CourseFilter = () => {
                     {/* Grid khóa học */}
                     <div className="courses-grid">
                         {currentCourses.map((course, index) => (
-                            <CourseCard key={index} index={index} course={course} />
+                            <CourseCardMini key={index} index={index} course={course} />
                         ))}
                     </div>
 
                 </div>
-                <FilterCourse courses={courses} setCourses={setCourses}/>
+                <FilterCourse courses={courses} setCourses={setCourses} setCurrentPage={setCurrentPage}/>
             </div>
 
             {/* Pagination */}

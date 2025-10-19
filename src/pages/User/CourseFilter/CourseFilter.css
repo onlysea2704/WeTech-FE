@@ -49,8 +49,10 @@
 }
 
 .main-content {
-  flex-grow: 1; /* Để nội dung chính chiếm hết không gian còn lại */
-  min-width: 0; /* Cần thiết cho flexbox để xử lý tràn nội dung */
+  flex-grow: 1; 
+  min-width: 0; 
+  padding: 0 15px;
+  padding-left: 55px;
 }
 
 .courses-container {
@@ -60,7 +62,8 @@
 .courses-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 4 cột */
-  gap: 15px;
+  gap: 20px;
+  width: 100%;
 }
 
 .pagination {

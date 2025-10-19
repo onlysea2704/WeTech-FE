@@ -44,11 +44,11 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive, isPurchased })
           </span>
           <strong>{section.name}</strong>
         </div>
-        <span className="material-time-header">{section?.documents?.length || 0}</span>
+        <span className="material-time-header">{section?.documentSections?.length || 0}</span>
       </div>
       {isOpen && (
         <div className="material-content">
-          {section?.documents?.map((document, index) => (
+          {section?.documentSections?.map((document, index) => (
             <div key={index} className="material-item">
               <span className="material-name">
                 <i className="fa-solid fa-file-lines"></i> {document?.name}
@@ -79,19 +79,24 @@ const MaterialAccordion = ({ section, isOpen, onToggle, isActive, isPurchased })
 // --- Component Content chính ---
 const CourseContent = ({ courseDetails, isPurchased }) => {
 
-  console.log(isPurchased);
-
   const [sections, setSections] = useState([]);
   const [sectionDetails, setSectionDetails] = useState([]);
   const [openSyllabusSection, setOpenSyllabusSection] = useState(1);
   const [openMaterialSection, setOpenMaterialSection] = useState(1);
-
+  const [videoResponse, setVideoResponse] = useState([]);
+  const [documentResponse, setDocumentResponse] = useState([]);
   // Fetch course sections
   useEffect(() => {
     if (!courseDetails) return;
     const fetchSections = async () => {
       try {
         const response = await publicAxios.get(`/api/section/get-section-by-course-id?courseId=${courseDetails?.courseId}`);
+        const videoResponse = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseDetails?.courseId}`);
+        const documentResponse = await publicAxios.get(`/api/document/find-by-courseId?courseId=${courseDetails?.courseId}`);
+        console.log(videoResponse.data);
+        setVideoResponse(videoResponse.data);
+        console.log(documentResponse.data);
+        setDocumentResponse(documentResponse.data);
         setSections(response.data);
         setSectionDetails(response.data);
       } catch (error) {
@@ -102,35 +107,35 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
     fetchSections();
   }, [courseDetails]);
 
-  useEffect(() => {
-    const fetchSectionDetails = async (sectionId) => {
-      try {
-        // Fetch videos and documents for each section
-        const videoResponse = await publicAxios.get(`/api/video/find-by-sectionId?sectionId=${sectionId}`);
-        const documentResponse = await publicAxios.get(`/api/document/get-by-section-id?sectionId=${sectionId}`);
-        console.log(documentResponse.data);
-        // Update section with videos and 
-        setSectionDetails(prev =>
-          prev.map(section =>
-            section.sectionId === sectionId
-              ? { ...section, videos: videoResponse.data, documents: documentResponse.data }
-              : section
-          )
-        );
-      } catch (error) {
-        console.error("Error fetching section details:", error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchSectionDetails = async (sectionId) => {
+  //     try {
+  //       // Fetch videos and documents for each section
+  //       const videoResponse = await publicAxios.get(`/api/video/find-by-sectionId?sectionId=${sectionId}`);
+  //       const documentResponse = await publicAxios.get(`/api/document/get-by-section-id?sectionId=${sectionId}`);
+  //       // Update section with videos and 
+  //       setSectionDetails(prev =>
+  //         prev.map(section =>
+  //           section.sectionId === sectionId
+  //             ? { ...section, videos: videoResponse.data, documents: documentResponse.data }
+  //             : section
+  //         )
+  //       );
+  //     } catch (error) {
+  //       console.error("Error fetching section details:", error);
+  //     }
+  //   };
 
-    if (sections.length > 0) {
-      console.log(sections)
-      sections.forEach(section => {
-        fetchSectionDetails(section.sectionId);
-      });
-    }
-  }, [sections]);
+  //   if (sections.length > 0) {
+  //     console.log(sections)
+  //     sections.forEach(section => {
+  //       fetchSectionDetails(section.sectionId);
+  //     });
+  //   }
+  // }, [sections]);
 
   // Toggle syllabus section
+  
   const handleSyllabusToggle = (id) => {
     setOpenSyllabusSection(openSyllabusSection === id ? null : id);
   };
@@ -144,7 +149,7 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
     <div className="content-layout">
       {/* Cột trái - Syllabus */}
       <div className="syllabus-column">
-        {sectionDetails.map(section => (
+        {videoResponse.map(section => (
           <SyllabusAccordion
             key={section.sectionId}
             section={section}
@@ -159,7 +164,7 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
         <div className="materials-card">
           <h4>Tài Liệu Khoá Học</h4>
           <p>Tài liệu thủ tục pháp lý đi kèm tải về máy và thực hành cùng videos.</p>
-          {sectionDetails.map(section => (
+          {documentResponse.map(section => (
             <MaterialAccordion
               key={section.sectionId}
               section={section}

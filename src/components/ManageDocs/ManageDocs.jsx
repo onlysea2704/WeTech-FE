@@ -62,13 +62,37 @@ export default function ManageDocs() {
 
 
     // Document CRUD
-    const addDocument = (sectionId) => {
-
+    const addDocument = async (sectionId) => {
+        try {
+            const res = await authAxios.get(`/api/document/create?sectionId=${sectionId}`);
+            console.log("Created document:", res.data);
+            fetchCourseDocument();
+        } catch (err) {
+            console.error("Error adding video:", err);
+        }
     };
-
-    // xóa tài liệu
-    const deleteDocument = (sectionId, docId) => {
-
+    const updateDocument = async (documentInfo, file) => {
+            const formData = new FormData();
+            formData.append(
+                "documentInfo",
+                new Blob([JSON.stringify(documentInfo)], { type: "application/json" })
+            );
+            formData.append("document", file);
+    
+            try {
+                const res = await authAxios.post("/api/document/update", formData, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                console.log("Updated document:", res.data);
+                fetchCourseDocument();
+            } catch (err) {
+                console.error("Error updating document:", err);
+            }
+        };
+    const deleteDocument = async (documentId) => {
+        const res = await authAxios.post(`/api/document/delete?documentId=${documentId}`);
+        console.log("Deleted document:", res.data);
+        fetchCourseDocument();
     };
 
     // Cập nhật tiêu đề phần và tài liệu
@@ -79,13 +103,30 @@ export default function ManageDocs() {
             )
         );
     };
-    const updateDocument = (sectionId, docId, file, url) => {
+    const onChangeTitleDocument = (sectionId, documentId, newTitle) => {
+        console.log(123)
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId
+                    ? {
+                        ...s,
+                        documentSections: s.documentSections.map((d) =>
+                            d.documentId === documentId ? { ...d, name: newTitle } : d
+                        ),
+                    }
+                    : s
+            )
+        );
+    };
+    const onChangeFileDocument = (sectionId, docId, file, url) => {
+        console.log("Updated document in state:");
+
         const newSections = sections?.map((s) =>
             s.sectionId === sectionId
                 ? {
                     ...s,
-                    documents: s.documents.map((d) =>
-                        d.documentId === docId ? { ...d, "file": file, "url": url, "name": file.name } : d
+                    documentSections: s.documentSections.map((d) =>
+                        d.documentId === docId ? { ...d, file: file, link: url, name: file.name } : d
                     ),
                 }
                 : s
@@ -118,7 +159,7 @@ export default function ManageDocs() {
                         />
                         <div className="section-actions">
                             <button className="btn update"
-                                onClick={() => updateSection(section.sectionId)}>
+                                onClick={() => updateSection(section)}>
                                 <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                             </button>
                             <button
@@ -139,7 +180,7 @@ export default function ManageDocs() {
                                         type="text"
                                         value={document.name}
                                         onChange={(e) =>
-                                            updateDocument(section.sectionId, document.documentId, "name", e.target.value)
+                                            onChangeTitleDocument(section.sectionId, document.documentId, e.target.value)
                                         }
                                         placeholder="Tiêu đề tài liệu..."
                                     />
@@ -152,8 +193,9 @@ export default function ManageDocs() {
                                             accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
                                             onChange={(e) => {
                                                 const file = e.target.files[0];
+                                                console.log(1223)
                                                 if (file) {
-                                                    updateDocument(section.sectionId, document.documentId, file, URL.createObjectURL(file));
+                                                    onChangeFileDocument(section.sectionId, document.documentId, file, URL.createObjectURL(file));
                                                 }
                                             }}
                                         />
@@ -164,12 +206,13 @@ export default function ManageDocs() {
                                     </div>
 
                                     <div className="document-actions">
-                                        <button className="btn update">
+                                        <button className="btn update"
+                                        onClick={() => updateDocument(document, document.file)}>
                                             <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                                         </button>
                                         <button
                                             className="btn delete"
-                                            onClick={() => deleteDocument(section.sectionId, document.documentId)}
+                                            onClick={() => deleteDocument(document.documentId)}
                                         >
                                             <i className="fa-solid fa-trash"></i> Xóa
                                         </button>

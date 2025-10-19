@@ -1,5 +1,5 @@
 .featured-wrapper {
-    padding: 40px;
+    padding: 40px 100px;
     text-align: center;
     background-color: #FAFAFA;
 }
@@ -12,10 +12,10 @@
     color: #1f1f1f;
 }
 
-.procedure-grid {
+.course-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 20px;
+    gap: 25px;
 }
 
 .pagination {

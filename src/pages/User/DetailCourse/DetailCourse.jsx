@@ -63,9 +63,9 @@ const DetailCourse = () => {
                     const res = await authAxios.get(`/api/course/check-have-course?courseId=${courseId}`);
                     setIsPurchased(res.data);
                     if (res.data) {
-                        const videoOfCourse = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
-                        console.log(videoOfCourse.data);
-                        setVideoOfCourse(videoOfCourse.data);
+                        const response = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
+                        const allVideos = response.data.flatMap(section => section.videos || []);
+                        setVideoOfCourse(allVideos);
                     }
                 } catch (error) {
                     console.error(error);
@@ -74,6 +74,12 @@ const DetailCourse = () => {
             fetchCheckMyCourse();
         }
     }, [courseId]);
+
+    const discountPercentage = (course) => Math.round(((course?.realPrice - course?.salePrice) / course?.realPrice) * 100);
+    // Hàm định dạng giá
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN').format(price);
+    };
 
     const handleBuyNow = () => {
         navigate(`/register-payment/${courseId}`);
@@ -122,9 +128,9 @@ const DetailCourse = () => {
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
                             <h3 className="course-price">
-                                {courseDetails?.realPrice} <span className="old-price">{courseDetails?.salePrice}</span>
+                                {formatPrice(courseDetails?.realPrice)}đ <span className="old-price">{formatPrice(courseDetails?.salePrice)}đ</span>
                             </h3>
-                            <span className="discount">{courseDetails?.discount}% OFF</span>
+                            <span className="discount">{discountPercentage(courseDetails)}% OFF</span>
 
                             <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
                             <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>

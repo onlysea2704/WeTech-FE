@@ -14,7 +14,7 @@ const courseCategories = [
 
 const priceOptions = ['Trả phí', 'Miễn phí'];
 
-const FilterCourse = ({ courses, setCourses }) => {
+const FilterCourse = ({ courses, setCourses, setCurrentPage }) => {
     // State để quản lý các mục được chọn
     const [selectedCategories, setSelectedCategories] = useState(courseCategories);
     const [selectedPrice, setSelectedPrice] = useState('Miễn phí');
@@ -37,7 +37,7 @@ const FilterCourse = ({ courses, setCourses }) => {
             try {
                 const res = await publicAxios.post("/api/course/find-by-type", selectedCategories);
                 setCourses(res.data);
-                console.log(res.data);
+                setCurrentPage(1);
             } catch (error) {
                 console.error(error);
             }

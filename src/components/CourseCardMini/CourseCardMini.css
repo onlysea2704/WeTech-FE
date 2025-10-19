@@ -2,7 +2,8 @@
   background: #fff;
   border-radius: 12px;
   overflow: hidden;
-  width: 270px;
+  /* width: 230px; */
+  width: 100%;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
   cursor: pointer;
   text-align: left;

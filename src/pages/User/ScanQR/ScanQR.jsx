@@ -5,6 +5,7 @@ import SuccessPayment from "../../../components/SuccessPayment/SuccessPayment";
 import FailurePayment from "../../../components/FailurePayment/FailurePayment";
 import { useParams, useNavigate } from "react-router-dom";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
+import usePaymentSocket from "../../../services/usePaymentSocket";
 
 const ScanQR = () => {
 
@@ -16,6 +17,13 @@ const ScanQR = () => {
 
   // Countdown 10 phút = 600 giây
   const [timeLeft, setTimeLeft] = useState(600);
+
+  const [status, setStatus] = useState("Đang chờ thanh toán...");
+
+  usePaymentSocket(1, (msg) => {
+    setIsSuccess(true); // test: set true/false
+    setShowPopup(true);
+  });
 
   useEffect(() => {
     const fetchTransactionDetails = async () => {
@@ -72,6 +80,7 @@ const ScanQR = () => {
   return (
     <div>
       <PaymentHeader />
+      {/* <h2>{status}</h2>; */}
       <div className="payment-container-qr">
         {/* Thông tin đơn hàng */}
         <div className="order-info">

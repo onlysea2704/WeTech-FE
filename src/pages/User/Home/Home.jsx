@@ -4,12 +4,12 @@ import "./Home.css";
 // import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import Navbar from "../../../components/NavBar/NavBar";
 import Hero from "../../../components/Hero/Hero";
-import TopProcedures from "../../../components/TopProcedures/TopProcedures";
 import About from "../../../components/About/About";
 import Services from "../../../components/Services/Services";
 import Customers from "../../../components/Customers/Customers";
 import Footer from "../../../components/Footer/Footer";
 import ChatWidget from "../../../components/ChatWidget/ChatWidget";
+import TopCourses from "../../../components/TopProcedures/TopCourses";
 // import imageRegister from "../../../assets/image-register-home.jpg";
 
 const Home = () => {
@@ -23,7 +23,7 @@ const Home = () => {
         <div className="home-page-user">
             <Navbar />
             <Hero />
-            <TopProcedures />
+            <TopCourses />
             <About />
             <Services />
             <Customers />

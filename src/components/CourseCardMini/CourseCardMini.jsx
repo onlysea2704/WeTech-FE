@@ -1,8 +1,8 @@
 import React from "react";
-import "./CourseCard.css";
+import "./CourseCardMini.css";
 import { useNavigate } from "react-router-dom";
 
-const CourseCard = ({ index, course }) => {
+const CourseCardMini = ({ index, course }) => {
 
     const navigate = useNavigate();
     const handleClick = async () => {
@@ -43,4 +43,4 @@ const CourseCard = ({ index, course }) => {
     );
 };
 
-export default CourseCard;
+export default CourseCardMini;
