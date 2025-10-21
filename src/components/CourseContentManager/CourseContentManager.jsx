@@ -71,13 +71,35 @@ export default function CourseContentManager() {
         }
     };
     const updateVideo = async (videoInfo, file) => {
+
+
+        // Hàm lấy thời lượng video (trả Promise) - Cần promise vì load metadata bất đồng bộ , nếu không có không thể load được thông tin duration
+            const getVideoDuration = (file) => {
+            return new Promise((resolve) => {
+                const url = URL.createObjectURL(file);
+                const media = document.createElement(
+                    file.type.startsWith("video") ? "video" : "audio"
+                );
+                media.preload = "metadata";
+                media.src = url;
+                media.onloadedmetadata = () => {
+                    URL.revokeObjectURL(url);
+                    const duration = Math.round(media.duration);
+                    resolve(duration);
+                };
+            });
+        };
+
+        // ✅ Chờ lấy xong duration
+        const duration = await getVideoDuration(file);
+        videoInfo.duration = duration;
+        console.log(videoInfo);
         const formData = new FormData();
         formData.append(
             "videoInfo",
             new Blob([JSON.stringify(videoInfo)], { type: "application/json" })
         );
         formData.append("video", file);
-
         try {
             const res = await authAxios.post("/api/video/update", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
@@ -119,10 +141,12 @@ export default function CourseContentManager() {
 
     // lưu file upload vào state
     const handleFileChange = (videoId, file) => {
+
         setVideoFiles((prev) => ({
             ...prev,
             [videoId]: file,
         }));
+
     };
 
     return (
@@ -196,11 +220,7 @@ export default function CourseContentManager() {
                                             >
                                                 📂 Chọn video
                                             </label>
-                                            {videoFiles[video.videoId] && (
-                                                <span className="file-name">
-                                                    {videoFiles[video.videoId].name}
-                                                </span>
-                                            )}
+
                                         </div>
 
                                         <div className="video-actions">

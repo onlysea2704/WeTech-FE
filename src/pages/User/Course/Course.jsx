@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import "./Course.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../../../components/NavBar/NavBar";
 import Banner from "../../../components/Banner/Banner";
 import Footer from "../../../components/Footer/Footer";
 import CourseCard from "../../../components/CourseCard/CourseCard";
 import { publicAxios, authAxios } from "../../../services/axios-instance";
-
 
 const ListCourses = ({ title, description, courses }) => {
     const [visibleCount, setVisibleCount] = useState(4);
@@ -38,31 +37,32 @@ const ListCourses = ({ title, description, courses }) => {
     );
 };
 
-const categories = [
-    "Tất cả khóa học",
-    "Thành lập Công ty",
-    "Giải thể Công ty",
-    "Sáp nhập Tinh",
-    "Cập nhật từ CMT lên CCCD",
-    "Đăng ký Thay đổi",
-    "Tạm ngưng - Tiếp tục KD"
-];
+// ✅ Map slug ↔ tên danh mục
+const categoryMap = {
+    "thanh-lap-cong-ty": "Thành lập Công ty",
+    "thanh-lap-ho-kinh-doanh": "Thành lập Hộ kinh doanh",
+    "giai-the-cong-ty": "Giải thể Công ty",
+    "giai-the-ho-kinh-doanh": "Giải thể Hộ kinh doanh",
+    "dang-ky-thay-doi": "Đăng ký thay đổi",
+    "sap-nhap-tinh": "Sáp nhập Tỉnh",
+    "cap-nhat-len-cccd": "Cập nhật lên CCCD",
+};
 
 const Courses = () => {
-
     const [myCourse, setMyCourse] = useState([]);
     const [newCourse, setNewCourse] = useState([]);
     const [topCourse, setTopCourse] = useState([]);
 
     const navigate = useNavigate();
-    const handleClick = async () => {
+
+    const handleClick = (slug) => {
         window.scrollTo(0, 0);
-        navigate("/course-filter");
-    }
+        navigate(`/course-filter/${slug}`);
+    };
 
     useEffect(() => {
         const fetchCourses = async () => {
-            const token = sessionStorage.getItem('authToken');
+            const token = sessionStorage.getItem("authToken");
 
             if (token) {
                 try {
@@ -107,17 +107,23 @@ const Courses = () => {
                 )}
 
                 <div className="category-bar">
-                    {categories.map((cat) => (
-                        <button className="category-btn" onClick={handleClick}>
-                            {cat}
+                    {Object.entries(categoryMap).map(([slug, label]) => (
+                        <button
+                            key={slug}
+                            className="category-btn"
+                            onClick={() => handleClick(slug)}
+                        >
+                            {label}
                         </button>
                     ))}
                 </div>
+
                 <ListCourses
                     title="KHÓA HỌC MỚI"
                     description="Các khoá học mới nhất được update."
                     courses={newCourse}
                 />
+
                 <ListCourses
                     title="KHÓA HỌC NỔI BẬT"
                     description="Khóa học có lượt đăng ký nhiều nhất."

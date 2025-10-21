@@ -38,7 +38,7 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
         <Route path="/list-courses" element={<Courses />} />
-        <Route path="/course-filter" element={<CourseFilter />} />
+        <Route path="/course-filter/:category" element={<CourseFilter />} />
         <Route path="/detail-course/:courseId" element={<DetailCourse />} />
         <Route path="/list-procedures/:typeProcedure" element={<ListProcedures />} />
         <Route path="/contact-us" element={<ContactUs />} />

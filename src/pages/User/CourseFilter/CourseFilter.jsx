@@ -6,17 +6,32 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import FilterCourse from '../../../components/FilterCourse/FilterCourse';
 import CourseCardMini from '../../../components/CourseCardMini/CourseCardMini';
 import { publicAxios } from "../../../services/axios-instance";
+import { useParams, useNavigate } from "react-router-dom";
+
+// Bảng ánh xạ giữa param và tên hiển thị
+const categoryMap = {
+    "thanh-lap-cong-ty": "Thành lập Công ty",
+    "thanh-lap-ho-kinh-doanh": "Thành lập Hộ kinh doanh",
+    "giai-the-cong-ty": "Giải thể Công ty",
+    "giai-the-ho-kinh-doanh": "Giải thể Hộ kinh doanh",
+    "dang-ky-thay-doi": "Đăng ký thay đổi",
+    "sap-nhap-tinh": "Sáp nhập Tỉnh",
+    "cap-nhat-len-cccd": "Cập nhật lên CCCD",
+};
 
 const CourseFilter = () => {
     
     const [courses, setCourses] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-
+    const { category } = useParams();
+    const selectedCategory = categoryMap[category] || "Tất cả khóa học";
     useEffect(() => {
+        console.log("Selected Category:", selectedCategory);
         const fetchProcedures = async () => {
             try {
                 // setLoading(true);
-                const res = await publicAxios.get("/api/course/get-all");
+                // const res = await publicAxios.get("/api/course/get-all");
+                const res = await publicAxios.post("/api/course/find-by-type", [selectedCategory]);
                 setCourses(res.data);
                 console.log(res.data);
             } catch (error) {
@@ -24,7 +39,7 @@ const CourseFilter = () => {
             }
         };
         fetchProcedures();
-    }, []);
+    }, [category]);
 
     const itemsPerPage = 16; // số khóa học / trang
     const totalPages = Math.ceil(courses.length / itemsPerPage);
@@ -57,7 +72,11 @@ const CourseFilter = () => {
                     </div>
 
                 </div>
-                <FilterCourse courses={courses} setCourses={setCourses} setCurrentPage={setCurrentPage}/>
+                <FilterCourse 
+                courses={courses} 
+                setCourses={setCourses} 
+                setCurrentPage={setCurrentPage} 
+                selectedCategory={selectedCategory}/>
             </div>
 
             {/* Pagination */}

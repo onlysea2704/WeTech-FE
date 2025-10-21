@@ -3,29 +3,60 @@ import { publicAxios } from "../../services/axios-instance";
 import './CourseContent.css';
 
 // --- Component con cho cột trái ---
-const SyllabusAccordion = ({ section, isOpen, onToggle }) => (
-  <div className="accordion-item">
-    <div className="accordion-header" onClick={onToggle}>
-      <div className="accordion-title">
-        <strong>{section.name}</strong>
-        <span>{`${section?.videos?.length || 0} videos - ${section?.duration || 10}m`}</span>
+const SyllabusAccordion = ({ section, isOpen, onToggle }) => {
+  // 👉 Hàm định dạng tổng thời lượng
+  const getTotalDurationFormatted = (videos = []) => {
+    const totalSeconds = videos.reduce((sum, v) => sum + (v.duration || 0), 0);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    return hours > 0 ? `${hours}h ${minutes}m` : `${minutes}m`;
+  };
+
+  // 👉 Hàm định dạng từng video
+  const formatVideoDuration = (duration) => {
+    if (!duration) return "0m";
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    const seconds = Math.floor(duration % 60);
+
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+    return `${seconds}s`;
+  };
+
+  return (
+    <div className="accordion-item">
+      <div className="accordion-header" onClick={onToggle}>
+        <div className="accordion-title">
+          <strong>{section.name}</strong>
+          <span>
+            {`${section?.videos?.length || 0} videos - ${getTotalDurationFormatted(section?.videos)}`}
+          </span>
+        </div>
+        <span className="accordion-arrow">
+          <i
+            className={`fa-solid ${isOpen ? "fa-chevron-up" : "fa-chevron-down"
+              }`}
+          ></i>
+        </span>
       </div>
-      <span className="accordion-arrow">
-        <i className={`fa-solid ${isOpen ? "fa-chevron-up" : "fa-chevron-down"}`}></i>
-      </span>
+
+      {isOpen && (
+        <div className="accordion-content">
+          {section?.videos?.map((video, index) => (
+            <div key={index} className="lesson-item">
+              <p>{video?.description}</p>
+              <span className="lesson-duration">
+                {formatVideoDuration(video?.duration)}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
-    {isOpen && (
-      <div className="accordion-content">
-        {section?.videos?.map((video, index) => (
-          <div key={index} className="lesson-item">
-            <p>{video?.description}</p>
-            <span className="lesson-duration">{video?.time || 0}m</span>
-          </div>
-        ))}
-      </div>
-    )}
-  </div>
-);
+  );
+};
+
 
 // --- Component con cho cột phải ---
 const MaterialAccordion = ({ section, isOpen, onToggle, isActive, isPurchased }) => {
@@ -135,7 +166,7 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
   // }, [sections]);
 
   // Toggle syllabus section
-  
+
   const handleSyllabusToggle = (id) => {
     setOpenSyllabusSection(openSyllabusSection === id ? null : id);
   };

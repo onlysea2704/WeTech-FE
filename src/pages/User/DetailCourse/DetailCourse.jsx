@@ -9,6 +9,19 @@ import { useParams, useNavigate } from "react-router-dom";
 
 // Component Playlist nhận props onSelectVideo để đổi video
 const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
+
+    // 👉 Hàm định dạng từng video
+  const formatVideoDuration = (duration) => {
+    if (!duration) return "0m";
+    const hours = Math.floor(duration / 3600);
+    const minutes = Math.floor((duration % 3600) / 60);
+    const seconds = Math.floor(duration % 60);
+
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+    return `${seconds}s`;
+  };
+
     return (
         <div className="playlist-container">
             <div className="playlist-header">
@@ -25,7 +38,7 @@ const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
                         <div className="video-icon"><i className="fas fa-play"></i></div> {/* Font Awesome icon */}
                         <div className="video-info">
                             <p className="video-title">{video?.description}</p>
-                            <span className="video-duration">{video?.duration || 10}m</span>
+                            <span className="video-duration">{formatVideoDuration(video?.duration) || 0`s`}</span>
                         </div>
                         {currentVideo?.videoId === video?.videoId && <span className="status-tag playing">Playing</span>}
                     </div>

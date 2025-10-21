@@ -87,17 +87,19 @@ const Navbar = () => {
                     {/* SỬA: Thay thế Link bằng cấu trúc dropdown */}
                     <li className="menu-item-dropdown" ref={servicesDropdownRef}>
                         <div className="dropdown-toggle" onClick={toggleServicesDropdown}>
-                            DỊCH VỤ PHÁP LÝ <i className="fas fa-caret-down"></i>
+                            LOẠI KHÓA HỌC <i className="fas fa-caret-down"></i>
                         </div>
                         {isServicesDropdownOpen && (
                             <div className="dropdown-menu">
                                 <ul>
                                     {/* Thay thế bằng các link dịch vụ của bạn */}
-                                    <li><Link to="/list-procedures/thanh_lap_cong_ty">Thành lập công ty</Link></li>
-                                    <li><Link to="/list-procedures/dang_ki_thay_doi">Đăng kí thay đổi</Link></li>
-                                    <li><Link to="/list-procedures/thong_bao_thay_doi">Thông báo thay đổi</Link></li>
-                                    <li><Link to="/list-procedures/tn_tt_kinh_doanh">Tạm ngừng - Tiếp tục kinh doanh trước thời hạn</Link></li>
-                                    <li><Link to="/list-procedures/giai_the">Giải thể</Link></li>
+                                    <li><Link to="/course-filter/thanh-lap-cong-ty">Thành lập công ty</Link></li>
+                                    <li><Link to="/course-filter/thanh-lap-ho-kinh-doanh">Thành lập Hộ kinh doanh</Link></li>
+                                    <li><Link to="/course-filter/giai-the-cong-ty">Giải thể Công ty</Link></li>
+                                    <li><Link to="/course-filter/giai-the-ho-kinh-doanh">Giải thể Hộ kinh doanh</Link></li>
+                                    <li><Link to="/course-filter/dang-ky-thay-doi">Đăng kí thay đổi</Link></li>
+                                    <li><Link to="/course-filter/sap-nhap-tinh">Sáp nhập Tỉnh</Link></li>
+                                    <li><Link to="/course-filter/cap-nhat-len-cccd">Cập nhật lên CCCD</Link></li>
                                 </ul>
                             </div>
                         )}

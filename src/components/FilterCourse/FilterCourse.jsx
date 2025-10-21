@@ -14,9 +14,9 @@ const courseCategories = [
 
 const priceOptions = ['Trả phí', 'Miễn phí'];
 
-const FilterCourse = ({ courses, setCourses, setCurrentPage }) => {
+const FilterCourse = ({ courses, setCourses, setCurrentPage, selectedCategory }) => {
     // State để quản lý các mục được chọn
-    const [selectedCategories, setSelectedCategories] = useState(courseCategories);
+    const [selectedCategories, setSelectedCategories] = useState(selectedCategory);
     const [selectedPrice, setSelectedPrice] = useState('Miễn phí');
 
     // State để quản lý việc thu gọn/mở rộng các section
