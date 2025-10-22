@@ -144,7 +144,10 @@ const ScanQR = () => {
       </button>
 
       {showPopup && isSuccess && (
-        <SuccessPayment onClose={() => setShowPopup(false)} />
+        <SuccessPayment onClose={() => { 
+          setShowPopup(false);
+          navigate("/list-courses"); 
+        }} />
       )}
       {showPopup && !isSuccess && (
         <FailurePayment onClose={() => setShowPopup(false)} />

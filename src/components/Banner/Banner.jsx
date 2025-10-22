@@ -19,11 +19,11 @@ const Banner = () => {
 
                 <div className="banner-image">
                     <div className="author-info">
-                        <img
+                        {/* <img
                             src="https://via.placeholder.com/40"
                             alt="Mộc Lan"
                             className="author-avatar"
-                        />
+                        /> */}
                         <div>
                             <div className="author-name">Mộc Lan</div>
                             <div className="author-job">Kế Toán</div>

@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './NavBar.css';
 import logoImage from "../../assets/logo.png";
+import avatarImage from "../../assets/avatar_user.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
@@ -127,7 +128,7 @@ const Navbar = () => {
                         <div className="user-profile" ref={userDropdownRef}>
                             <div className="avatar-container" onClick={toggleUserDropdown}>
                                 <img
-                                    src={logoImage} // Thay bằng avatar thật của user
+                                    src={avatarImage} // Thay bằng avatar thật của user
                                     alt="User Avatar"
                                     className="user-avatar-img"
                                 />
@@ -141,7 +142,7 @@ const Navbar = () => {
                                     </div>
                                     <hr className="dropdown-divider" />
                                     <ul>
-                                        <li><Link to="/my-courses">Khóa học của tôi</Link></li>
+                                        <li><Link to="/list-courses">Khóa học của tôi</Link></li>
                                         <li><Link to="/legal-procedures">Thủ tục pháp lý</Link></li>
                                         <li><Link to="/history">Lịch sử</Link></li>
                                     </ul>
