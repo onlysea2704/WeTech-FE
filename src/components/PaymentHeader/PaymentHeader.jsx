@@ -1,8 +1,11 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import "./PaymentHeader.css";
 import logoImage from "../../assets/logo.png";
 
 const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
+    const navigate = useNavigate(); // ✅ Hook để điều hướng
+
     const steps = [
         { id: 1, label: "Thông tin" },
         { id: 2, label: "Thanh toán" },
@@ -14,13 +17,20 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
             {/* HEADER với logo và steps */}
             <div className="header-payment">
                 <div className="image-icon-payment">
-                    <i className="fa fa-arrow-left back-icon"></i>
+                    {/* ✅ Thêm sự kiện quay lại */}
+                    <i
+                        className="fa fa-arrow-left back-icon"
+                        onClick={() => navigate(-1)} // Quay lại trang trước
+                        style={{ cursor: "pointer" }}
+                    ></i>
+
                     <img src={logoImage} alt="Logo" className="logo" />
                 </div>
+
                 <div className="steps">
                     {steps.map((step, index) => {
-                        // Xác định class cho step
                         let stepClass = "step-label";
+
                         if (currentStep === step.id) {
                             if (step.id === 3) {
                                 if (isSuccess === true) stepClass += " success";
@@ -35,9 +45,7 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
 
                         return (
                             <div key={step.id} className="step-item">
-                                <span className={stepClass}>
-                                    {step.label}
-                                </span>
+                                <span className={stepClass}>{step.label}</span>
                                 {index < steps.length - 1 && (
                                     <span
                                         className={`check ${currentStep > step.id ? "done" : ""}`}
@@ -49,6 +57,7 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
                         );
                     })}
                 </div>
+
                 <div></div>
             </div>
         </div>

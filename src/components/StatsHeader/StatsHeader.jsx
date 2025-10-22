@@ -1,18 +1,56 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./StatsHeader.css";
 import StatsCard from "../../components/StatsCard/StatsCard";
+import { publicAxios } from "../../services/axios-instance";
 
 const StatsHeader = () => {
+    const [stats, setStats] = useState([]);
 
-    const stats = [
-        { title: "Khóa học", value: "230", icon: "👥", trend: "up", percentage: 8.5 },
-        { title: "Thủ tục pháp lý", value: "215", icon: "📦", trend: "up", percentage: 1.3 },
-        { title: "Tổng doanh thu", value: "22M", icon: "📈", trend: "down", percentage: 4.3 },
-        { title: "Thủ tục hoàn thành", value: "35", icon: "⏱️" },
-    ];
+    useEffect(() => {
+        const fetchStats = async () => {
+            try {
+                const res = await publicAxios.get("/dashboard/get-info-card");
+                const data = res.data; // ✅ axios trả data ở res.data
+                // Chuyển dữ liệu từ object sang mảng
+                const dataArray = [
+                    {
+                        title: data.courseRevenue?.title,
+                        value: data.courseRevenue?.value ?? 0,
+                        percentage: data.courseRevenue?.changePercent?.toFixed(2),
+                        trend: data.courseRevenue?.changePercent >= 0 ? "up" : "down",
+                        icon: "👥"
+                    },
+                    {
+                        title: data.procedureRevenue?.title,
+                        value: data.procedureRevenue?.value ?? 0,
+                        percentage: data.procedureRevenue?.changePercent?.toFixed(2),
+                        trend: data.procedureRevenue?.changePercent >= 0 ? "up" : "down",
+                        icon: "📦"
+                    },
+                    {
+                        title: data.totalRevenue?.title,
+                        value: data.totalRevenue?.value ?? 0,
+                        percentage: data.totalRevenue?.changePercent?.toFixed(2),
+                        trend: data.totalRevenue?.changePercent >= 0 ? "up" : "down",
+                        icon: "📈"
+                    },
+                    {
+                        title: "Tổng số khóa học",
+                        value: data.totalCourses ?? 0,
+                        icon: "⏱️"
+                    },
+                ];
+
+                setStats(dataArray);
+            } catch (error) {
+                console.error("Lỗi khi lấy dữ liệu:", error);
+            }
+        };
+
+        fetchStats();
+    }, []);
 
     return (
-
         <div>
             <div className="header-stat">
                 {/* Phần thông tin khách hàng bên trái */}
@@ -35,6 +73,7 @@ const StatsHeader = () => {
                     </div>
                 </div>
             </div>
+
             <div className="list-stat-card">
                 {stats.map((item, index) => (
                     <StatsCard key={index} {...item} />

@@ -149,7 +149,7 @@ const Navbar = () => {
                                     <hr className="dropdown-divider" />
                                     <ul>
                                         <li><Link to="/notifications">Thông báo</Link></li>
-                                        <li><Link to="/account-settings">Thiết lập tài khoản</Link></li>
+                                        <li><Link to="/profile">Thiết lập tài khoản</Link></li>
                                     </ul>
                                     <hr className="dropdown-divider" />
                                     <ul>

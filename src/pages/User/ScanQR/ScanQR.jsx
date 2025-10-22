@@ -25,6 +25,10 @@ const ScanQR = () => {
     setShowPopup(true);
   });
 
+  const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN').format(price);
+    };
+
   useEffect(() => {
     const fetchTransactionDetails = async () => {
       try {
@@ -73,16 +77,13 @@ const ScanQR = () => {
     return () => clearInterval(timer); // clear interval khi unmount
   }, [timeLeft]);
 
-  // Chia giây thành phút:giây
   const minutes = Math.floor(timeLeft / 60);
   const seconds = timeLeft % 60;
 
   return (
     <div>
       <PaymentHeader />
-      {/* <h2>{status}</h2>; */}
       <div className="payment-container-qr">
-        {/* Thông tin đơn hàng */}
         <div className="order-info">
           <h3>Thông tin đơn hàng</h3>
           <div className="info-item-qr-page">
@@ -103,7 +104,7 @@ const ScanQR = () => {
           </div>
           <div className="amount">
             <p>Số tiền</p>
-            <p>{amount}</p>
+            <p>{formatPrice(amount)}đ</p>
           </div>
           <div className="countdown">
             <p>Đơn hàng sẽ hết hạn sau:</p>

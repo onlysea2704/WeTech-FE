@@ -23,6 +23,11 @@ const RegisterPayment = () => {
         setStatus(currentStatus);
     };
 
+    // Hàm định dạng giá
+    const formatPrice = (price) => {
+        return new Intl.NumberFormat('vi-VN').format(price);
+    };
+
     // ✅ Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -109,8 +114,8 @@ const RegisterPayment = () => {
                                     <p className="course-subtitle">Khóa học</p>
                                 </div>
                                 <div className="course-prices">
-                                    <span className="price">{courseDetails?.salePrice}</span>
-                                    <span className="old-price">{courseDetails?.realPrice}</span>
+                                    <span className="price">{formatPrice(courseDetails?.salePrice)}đ</span>
+                                    <span className="old-price">{formatPrice(courseDetails?.realPrice)}đ</span>
                                 </div>
                             </div>
                             <div className="trash-icon">
@@ -122,17 +127,17 @@ const RegisterPayment = () => {
                     <div className="price-detail">
                         <div className="row">
                             <span>Phí đăng ký</span>
-                            <span>{courseDetails?.realPrice}đ</span>
+                            <span>{formatPrice(courseDetails?.realPrice)}đ</span>
                         </div>
                         <div className="row discount-payment">
                             <span>Mã giảm giá</span>
                             <span>
-                                {courseDetails?.realPrice - courseDetails?.salePrice}đ
+                                {formatPrice(courseDetails?.realPrice - courseDetails?.salePrice)}đ
                             </span>
                         </div>
                         <div className="row total">
                             <span>Tổng thanh toán</span>
-                            <span>{courseDetails?.salePrice}đ</span>
+                            <span>{formatPrice(courseDetails?.salePrice)}đ</span>
                         </div>
                     </div>
                 </div>
@@ -228,7 +233,7 @@ const RegisterPayment = () => {
                                 <div className="order-summary">
                                     <span>Tổng thanh toán:</span>
                                     <span className="total-amount">
-                                        {courseDetails?.salePrice}đ
+                                        {formatPrice(courseDetails?.salePrice)}đ
                                     </span>
                                 </div>
                             </div>
