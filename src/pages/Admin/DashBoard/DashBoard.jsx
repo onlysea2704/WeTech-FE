@@ -3,53 +3,73 @@ import "./DashBoard.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
+import { publicAxios } from "../../../services/axios-instance";
 
 const DashBoard = () => {
-
+  // ✅ Cột tương ứng với CourseCategoryStatsDTO
   const columns = [
-    { headerName: "Danh mục", field: "name" },
-    { headerName: "Khách hàng", field: "name" },
-    { headerName: "Dịch vụ đăng ký", field: "email" },
-    { headerName: "Doanh thu", field: "email" },
-    { headerName: "Thống kê", field: "email" },
+    { headerName: "Danh mục", field: "categoryName" },
+    { headerName: "Số khóa học", field: "courseCount" },
+    { headerName: "Số khách hàng", field: "buyerCount" },
+    { headerName: "Doanh thu (VNĐ)", field: "revenue" },
+    { headerName: "Tỷ lệ (%)", field: "percentage" },
   ];
 
-  const allData = Array.from({ length: 42 }, (_, i) => ({
-    id: i + 1,
-    name: `Người dùng ${i + 1}`,
-    email: `user${i + 1}@gmail.com`,
-  }));
-
   const [data, setData] = useState([]);
-  const [pageSize, setPageSize] = useState(7);
-  const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = allData.length;
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    // Giả lập gọi API server: lấy slice dữ liệu theo page
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-    setData(allData.slice(start, end));
-  }, [currentPage, pageSize]);
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        // ✅ Gọi API trả về danh sách CourseCategoryStatsDTO
+        const res = await publicAxios.get("/stats/dashboard/stats-by-category");
+
+        const totalRevenue = res.data.reduce(
+          (sum, item) => sum + (item.revenue || 0),
+          0
+        );
+        const formattedData = res.data.map((item, index) => {
+          const percentage =
+            totalRevenue > 0 ? (item.revenue / totalRevenue) * 100 : 0;
+
+          return {
+            id: index + 1,
+            categoryName: item.categoryName,
+            courseCount: item.courseCount,
+            buyerCount: item.buyerCount,
+            revenue: item.revenue?.toLocaleString("vi-VN") || 0,
+            percentage: `${percentage.toFixed(2)}%`,
+          };
+        });
+
+        setData(formattedData);
+      } catch (err) {
+        console.error("Lỗi khi tải dữ liệu CourseCategoryStatsDTO:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="dash-board-page">
       <Sidebar />
       <div className="dash-board-container">
-        <StatsHeader />
-        <div className="toolbar-container">
-          {/* Phần bên trái */}
-          <div className="toolbar-left">
-            <h1 className="toolbar-title">Thông tin chi tiết khóa học</h1>
-          </div>
+        <StatsHeader api_url={'/stats/dashboard/get-info-card'} />
 
-          {/* Phần bên phải */}
+        <div className="toolbar-container">
+          <div className="toolbar-left">
+            <h1 className="toolbar-title">Thống kê danh mục khóa học</h1>
+          </div>
           <div className="toolbar-right">
             <div className="sort-dropdown-wrapper">
               <select className="sort-dropdown">
-                <option value="newest">Tháng 1</option>
-                <option value="oldest">Tháng 2</option>
-                <option value="name_asc">Tháng 3</option>
+                <option value="1">Tháng 1</option>
+                <option value="2">Tháng 2</option>
+                <option value="3">Tháng 3</option>
               </select>
             </div>
           </div>
@@ -58,11 +78,12 @@ const DashBoard = () => {
         <TableComponent
           columns={columns}
           data={data}
-          pageSize={pageSize}
-          currentPage={currentPage}
-          totalItems={totalItems}
-          onPageChange={(page) => setCurrentPage(page)}
-          onPageSizeChange={(pageSize) => setPageSize(pageSize)}
+          pageSize={7}
+          currentPage={1}
+          totalItems={data.length}
+          loading={loading}
+          onPageChange={() => { }}
+          onPageSizeChange={() => { }}
         />
       </div>
     </div>

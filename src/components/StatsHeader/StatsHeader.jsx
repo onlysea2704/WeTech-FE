@@ -3,15 +3,17 @@ import "./StatsHeader.css";
 import StatsCard from "../../components/StatsCard/StatsCard";
 import { publicAxios } from "../../services/axios-instance";
 
-const StatsHeader = () => {
+const StatsHeader = ({api_url}) => {
     const [stats, setStats] = useState([]);
 
     useEffect(() => {
         const fetchStats = async () => {
             try {
-                const res = await publicAxios.get("/dashboard/get-info-card");
+                const res = await publicAxios.get(api_url);
                 const data = res.data; // ✅ axios trả data ở res.data
-                // Chuyển dữ liệu từ object sang mảng
+                
+                console.log("Dữ liệu nhận được từ API:", data);
+
                 const dataArray = [
                     {
                         title: data.courseRevenue?.title,

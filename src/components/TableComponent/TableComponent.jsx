@@ -10,16 +10,10 @@ const TableComponent = ({
   totalItems,
   onPageChange,
   onPageSizeChange,
-  onEdit,   // callback edit
-  onDelete, // callback delete
+  onEdit,
+  onDelete,
 }) => {
   const totalPages = Math.ceil(totalItems / pageSize);
-
-  const navigate = useNavigate();
-  const handleClick = async (courseId) => {
-    window.scrollTo(0, 0);
-    navigate(`/manage-course/${courseId}`);
-  }
 
   return (
     <div className="table-container">
@@ -42,9 +36,9 @@ const TableComponent = ({
                 <td className="action-cell">
                   <button
                     className="action-btn edit"
-                    onClick={() => onEdit && onEdit(row)}
+                    onClick={() => onEdit && onEdit(row[columns[0].field])}
                   >
-                    <i className="fas fa-edit" onClick={() => handleClick(row[columns[0].field])}></i>
+                    <i className="fas fa-edit"></i>
                   </button>
                   <button
                     className="action-btn delete"

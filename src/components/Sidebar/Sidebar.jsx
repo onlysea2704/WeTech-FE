@@ -53,7 +53,7 @@ const Sidebar = () => {
 
         <Link to="/sales" className={`menu-item ${isActive("/sales") ? "active" : ""}`}>
           <i className="fa-solid fa-clipboard-list menu-icon"></i>
-          <span>Doanh số</span>
+          <span>Doanh số tháng</span>
         </Link>
 
         <Link to="/sales" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>

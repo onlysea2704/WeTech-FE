@@ -22,6 +22,11 @@ const ListCourse = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
 
+    const onManageEditCourse = (courseId) => {
+        window.scrollTo(0, 0);
+        navigate(`/manage-course/${courseId}`);
+    }
+
     useEffect(() => {
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
@@ -57,7 +62,7 @@ const ListCourse = () => {
             }
         } catch (error) {
             console.error("Lỗi khi tạo khóa học:", error);
-        } 
+        }
     };
 
     return (
@@ -72,7 +77,7 @@ const ListCourse = () => {
 
                     {/* Phần bên phải */}
                     <div className="toolbar-right">
-                        <button className="export-button" onClick={handleCreateCourse }>
+                        <button className="export-button" onClick={handleCreateCourse}>
                             <span>Tạo khóa học mới</span>
                         </button>
 
@@ -99,6 +104,7 @@ const ListCourse = () => {
                     totalItems={totalItems}
                     onPageChange={(page) => setCurrentPage(page)}
                     onPageSizeChange={(pageSize) => setPageSize(pageSize)}
+                    onEdit={onManageEditCourse}
                 />
             </div>
         </div>
