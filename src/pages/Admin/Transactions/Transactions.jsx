@@ -3,47 +3,63 @@ import "./Transactions.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
+import { publicAxios } from "../../../services/axios-instance"; // ✅ import axios instance
 
 const Transactions = () => {
-
   const columns = [
-    { headerName: "STT", field: "name" },
-    { headerName: "Họ tên", field: "name" },
-    { headerName: "Liên hệ", field: "email" },
-    { headerName: "Khóa học", field: "email" },
-    { headerName: "Doanh thu", field: "email" },
-    { headerName: "Ngày đăng ký", field: "email" },
+    { headerName: "STT", field: "stt" },
+    { headerName: "Họ tên", field: "fullname" },
+    { headerName: "Liên hệ", field: "sdt" },
+    { headerName: "Mã giao dịch", field: "code" },
+    { headerName: "Doanh thu (VNĐ)", field: "transferAmount" },
+    { headerName: "Ngày giao dịch", field: "transactionDate" },
+    { headerName: "Trạng thái", field: "status" },
   ];
-  const allData = Array.from({ length: 42 }, (_, i) => ({
-    id: i + 1,
-    name: `Người dùng ${i + 1}`,
-    email: `user${i + 1}@gmail.com`,
-  }));
 
   const [data, setData] = useState([]);
   const [pageSize, setPageSize] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
-  const totalItems = allData.length;
+  const [totalItems, setTotalItems] = useState(0);
 
+  // 🧩 Gọi API lấy dữ liệu thật
   useEffect(() => {
-    // Giả lập gọi API server: lấy slice dữ liệu theo page
-    const start = (currentPage - 1) * pageSize;
-    const end = start + pageSize;
-    setData(allData.slice(start, end));
-  }, [currentPage, pageSize]);
+    const fetchTransactions = async () => {
+      try {
+        const res = await publicAxios.get("/stats/transaction/get-data-table"); // ✅ Gọi API backend
+        const transactions = res.data.map((item, index) => ({
+          stt: index + 1,
+          fullname: item.fullname,
+          sdt: item.sdt,
+          code: item.code,
+          transferAmount: `${item.transferAmount?.toLocaleString("vi-VN") || "0"} đ`,
+          transactionDate: new Date(item.transactionDate).toLocaleString("vi-VN"),
+          status: item.status,
+        }));
+        setTotalItems(transactions.length);
+        setData(transactions); // hiển thị page đầu tiên
+      } catch (error) {
+        console.error("Lỗi khi tải danh sách giao dịch:", error);
+      }
+    };
+    fetchTransactions();
+  }, []);
+
+  // Tính toán phân trang
+  const start = (currentPage - 1) * pageSize;
+  const end = start + pageSize;
+  const paginatedData = data.slice(start, end);
 
   return (
     <div className="dash-board-page">
       <Sidebar />
       <div className="dash-board-container">
-        <StatsHeader />
+        <StatsHeader api_url="/stats/monthly/get-info-card" />
+
         <div className="toolbar-container">
-          {/* Phần bên trái */}
           <div className="toolbar-left">
-            <h1 className="toolbar-title">Danh sách khách hàng</h1>
+            <h1 className="toolbar-title">Danh sách giao dịch</h1>
           </div>
 
-          {/* Phần bên phải */}
           <div className="toolbar-right">
             <button className="export-button">
               <i className="fa-solid fa-file-excel"></i>
@@ -57,9 +73,9 @@ const Transactions = () => {
 
             <div className="sort-dropdown-wrapper">
               <select className="sort-dropdown">
-                <option value="newest">Short : Mới nhất</option>
-                <option value="oldest">Short : Cũ nhất</option>
-                <option value="name_asc">Short : A-Z</option>
+                <option value="newest">Sắp xếp: Mới nhất</option>
+                <option value="oldest">Sắp xếp: Cũ nhất</option>
+                <option value="name_asc">Sắp xếp: A-Z</option>
               </select>
             </div>
           </div>
@@ -67,12 +83,13 @@ const Transactions = () => {
 
         <TableComponent
           columns={columns}
-          data={data}
+          data={paginatedData}
           pageSize={pageSize}
           currentPage={currentPage}
           totalItems={totalItems}
-          onPageChange={(page) => setCurrentPage(page)}
-          onPageSizeChange={(pageSize) => setPageSize(pageSize)}
+          onPageChange={setCurrentPage}
+          onPageSizeChange={setPageSize}
+          showActions={false}
         />
       </div>
     </div>

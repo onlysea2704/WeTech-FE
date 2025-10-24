@@ -79,7 +79,7 @@ const ListCustomer = () => {
     <div className="dash-board-page">
       <Sidebar />
       <div className="dash-board-container">
-        <StatsHeader api_url='/stats/dashboard/get-info-card' />
+        <StatsHeader api_url='/stats/customer/get-info-card' />
 
         <div className="toolbar-container">
           <div className="toolbar-left">
@@ -115,6 +115,7 @@ const ListCustomer = () => {
           totalItems={totalItems}
           onPageChange={setCurrentPage}
           onPageSizeChange={setPageSize}
+          showActions={false}
         />
       </div>
     </div>

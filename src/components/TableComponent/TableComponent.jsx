@@ -12,6 +12,7 @@ const TableComponent = ({
   onPageSizeChange,
   onEdit,
   onDelete,
+  showActions = true,
 }) => {
   const totalPages = Math.ceil(totalItems / pageSize);
 
@@ -23,7 +24,9 @@ const TableComponent = ({
             {columns.map((col) => (
               <th key={col.field}>{col.headerName}</th>
             ))}
-            <th style={{ width: "100px", textAlign: "center" }}>Hành động</th>
+            {showActions && (
+              <th style={{ width: "100px", textAlign: "center" }}>Hành động</th>
+            )}
           </tr>
         </thead>
         <tbody>
@@ -33,20 +36,22 @@ const TableComponent = ({
                 {columns.map((col) => (
                   <td key={col.field}>{row[col.field]}</td>
                 ))}
-                <td className="action-cell">
-                  <button
-                    className="action-btn edit"
-                    onClick={() => onEdit && onEdit(row[columns[0].field])}
-                  >
-                    <i className="fas fa-edit"></i>
-                  </button>
-                  <button
-                    className="action-btn delete"
-                    onClick={() => onDelete && onDelete(row)}
-                  >
-                    <i className="fas fa-trash-alt"></i>
-                  </button>
-                </td>
+                {showActions && (
+                  <td className="action-cell">
+                    <button
+                      className="action-btn edit"
+                      onClick={() => onEdit && onEdit(row[columns[0].field])}
+                    >
+                      <i className="fas fa-edit"></i>
+                    </button>
+                    <button
+                      className="action-btn delete"
+                      onClick={() => onDelete && onDelete(row)}
+                    >
+                      <i className="fas fa-trash-alt"></i>
+                    </button>
+                  </td>
+                )}
               </tr>
             ))
           ) : (

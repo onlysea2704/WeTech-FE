@@ -84,6 +84,7 @@ const DashBoard = () => {
           loading={loading}
           onPageChange={() => { }}
           onPageSizeChange={() => { }}
+          showActions={false}
         />
       </div>
     </div>
