@@ -13,7 +13,6 @@ const CourseCard = ({ index, course }) => {
     const discountPercentage = Math.round(((course?.realPrice - course?.salePrice) / course?.realPrice) * 100);
     // Hàm định dạng giá
     const formatPrice = (price) => {
-        console.log(course);
         return new Intl.NumberFormat('vi-VN').format(price);
     };
 

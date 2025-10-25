@@ -10,7 +10,10 @@ const ContactUs = () => {
 
     <div>
       <Navbar />
-      <Breadcrumb />
+      <Breadcrumb items={[
+        { label: 'Trang chủ', link: '/' },
+        { label: 'Liên hệ chúng tôi' }
+      ]} />
       <div className="contact-container">
         <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
         <div className="contact-content">

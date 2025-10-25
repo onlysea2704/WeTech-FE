@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { use, useState } from 'react';
 import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
@@ -10,6 +10,7 @@ const RegisterForm = () => {
         name: '',
         email: '',
         password: '',
+        phone: ''
     });
     const [loading, setLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState("");
@@ -29,18 +30,22 @@ const RegisterForm = () => {
         try {
             setLoading(true);
             setErrorMsg("");
-
-            const { email, password, name, ho } = user;
-            const fullName = ho + " " + name;
-
-            await publicAxios.post('/api/auth/register', {
-                username: email,
-                password,
-                fullName
+            const response = await publicAxios.post('/api/auth/register', {
+                email: user.email,
+                password: user.password,
+                fullName: user.ho + " " + user.name,
+                phone: user.phone
             });
 
-            alert("Đăng ký thành công! Vui lòng đăng nhập.");
-            navigate("/login");
+            if (response.data.userId) {
+                alert("Đăng ký thành công! Vui lòng đăng nhập.");
+                navigate("/login");
+            } else{
+                setErrorMsg("Đăng ký thất bại. Vui lòng thử lại.");
+            }
+
+            // alert("Đăng ký thành công! Vui lòng đăng nhập.");
+            // navigate("/login");
         } catch (error) {
             console.error(error);
             setErrorMsg(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
@@ -69,13 +74,6 @@ const RegisterForm = () => {
                         {/* Hiển thị lỗi */}
                         {errorMsg && <p className="error-text">{errorMsg}</p>}
 
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Email"
-                            value={user.email}
-                            onChange={handleChange}
-                        />
                         <div className="name-row">
                             <input
                                 type="text"
@@ -94,6 +92,23 @@ const RegisterForm = () => {
                                 onChange={handleChange}
                             />
                         </div>
+
+                        <input
+                            type="phone"
+                            name="phone"
+                            placeholder="Số điện thoại"
+                            value={user.phone}
+                            onChange={handleChange}
+                        />
+
+                        <input
+                            type="email"
+                            name="email"
+                            placeholder="Email / Tên đăng nhập"
+                            value={user.email}
+                            onChange={handleChange}
+                        />
+
                         <input
                             type="password"
                             name="password"
@@ -110,7 +125,7 @@ const RegisterForm = () => {
                             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
                         </button>
 
-                        <div className="divider">
+                        {/* <div className="divider">
                             <span className="line"></span>
                             <span>or</span>
                             <span className="line"></span>
@@ -122,7 +137,7 @@ const RegisterForm = () => {
                                 alt="Google"
                             />
                             Đăng nhập với Google
-                        </button>
+                        </button> */}
 
                         <p className="terms-register">
                             <input type="checkbox" id="acceptTerms" />

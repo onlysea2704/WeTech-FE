@@ -11,16 +11,16 @@ import { useParams, useNavigate } from "react-router-dom";
 const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
 
     // 👉 Hàm định dạng từng video
-  const formatVideoDuration = (duration) => {
-    if (!duration) return "0m";
-    const hours = Math.floor(duration / 3600);
-    const minutes = Math.floor((duration % 3600) / 60);
-    const seconds = Math.floor(duration % 60);
+    const formatVideoDuration = (duration) => {
+        if (!duration) return "0m";
+        const hours = Math.floor(duration / 3600);
+        const minutes = Math.floor((duration % 3600) / 60);
+        const seconds = Math.floor(duration % 60);
 
-    if (hours > 0) return `${hours}h ${minutes}m`;
-    if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
-    return `${seconds}s`;
-  };
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+        return `${seconds}s`;
+    };
 
     return (
         <div className="playlist-container">
@@ -56,9 +56,7 @@ const DetailCourse = () => {
     const [videoOfCourse, setVideoOfCourse] = useState([]);
     const [currentVideo, setCurrentVideo] = useState(videoOfCourse[0]);
     const [courseDetails, setCourseDetails] = useState(null);
-    // const [loading, setLoading] = useState(true);  // Loading state
 
-    // Fetch course details from the API
     useEffect(() => {
         const fetchCourseDetails = async () => {
             try {
@@ -89,7 +87,6 @@ const DetailCourse = () => {
     }, [courseId]);
 
     const discountPercentage = (course) => Math.round(((course?.realPrice - course?.salePrice) / course?.realPrice) * 100);
-    // Hàm định dạng giá
     const formatPrice = (price) => {
         return new Intl.NumberFormat('vi-VN').format(price);
     };
@@ -101,8 +98,13 @@ const DetailCourse = () => {
     return (
         <div className="detail-course-container">
             <Navbar />
-            <Breadcrumb />
-            <h2>{courseDetails?.title}</h2> {/* Dynamic course name */}
+            <Breadcrumb items={[
+                { label: 'Trang chủ', link: '/' },
+                { label: 'Khóa học', link: '/list-courses' },
+                { label: 'Tất cả khóa học' } 
+            ]} />
+
+            <h2>{courseDetails?.title}</h2> 
             <div className="course-card-detail">
                 {/* Bên trái: video player */}
                 <div className="course-left">

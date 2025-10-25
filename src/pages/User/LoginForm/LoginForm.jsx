@@ -18,18 +18,15 @@ const LoginForm = () => {
 
     const login = async (email, password) => {
         try {
-            // setLoading(true)
             const token = await publicAxios.post('/api/auth/login', { username: email, password });
 
             console.log(token.data.token);
-            // Lưu vào sessionStorage
             sessionStorage.setItem('authToken', token.data.token);
 
             const userInfo = await authAxios.get('/api/auth/get-info');
-            console.log(userInfo);
-            //   setNameStudent(userInfo.data.name);
-            // cần lưu vào localStorage vì khi reload lại trang thì các context state sẽ bị xóa sạch
-            localStorage.setItem('username', userInfo.data.name);
+            console.log("Thông tin người dùng:", userInfo.data);
+            localStorage.setItem('fullName', userInfo.data.fullname);
+            localStorage.setItem('email', userInfo.data.email);
             if (userInfo.data.role === 'USER') {
                 navigate("/");
             }
@@ -59,7 +56,7 @@ const LoginForm = () => {
                         </p>
                         <input
                             type="email"
-                            placeholder="Email"
+                            placeholder="Email / Tên đăng nhập"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />

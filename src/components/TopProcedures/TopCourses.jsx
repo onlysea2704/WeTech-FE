@@ -13,7 +13,6 @@ const TopCourses = () => {
         const fetchCourses = async () => {
             try {
                 const res = await publicAxios.get("/api/course/get-top"); 
-                console.log("Danh sách khóa học nổi bật:", res.data);
                 setCourses(res.data);
             } catch (error) {
                 console.error("Lỗi khi tải danh sách khóa học:", error);

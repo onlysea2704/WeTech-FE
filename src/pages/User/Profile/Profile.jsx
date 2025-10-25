@@ -1,30 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import './Profile.css';
-import { useState } from 'react';
-import avatarImage from '../../../assets/customer1.jpg';
+import avatarImage from '../../../assets/avatar_user.png';
 import Footer from '../../../components/Footer/Footer';
 import Navbar from '../../../components/NavBar/NavBar';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
+import { authAxios } from '../../../services/axios-instance';
 
 const Profile = () => {
-
-    // State để lưu trữ URL của ảnh đại diện để hiển thị
     const [avatar, setAvatar] = useState(avatarImage);
+    const [fullname, setFullname] = useState('');
+    const [phone, setPhone] = useState('');
+    const [email, setEmail] = useState('');
 
-    // Hàm xử lý khi người dùng chọn một file ảnh mới
+    useEffect(() => {
+        const fetchUserProfile = async () => {
+            try {
+                const res = await authAxios.get('/api/auth/get-info');
+                const data = res.data;
+                setFullname(data.fullname || '');
+                setPhone(data.sdt || '');
+                setEmail(data.email || '');
+                if (data.avatarUrl) {
+                    setAvatar(data.avatarUrl);
+                }
+            } catch (error) {
+                console.error('Lỗi khi lấy thông tin người dùng:', error);
+            }
+        };
+        fetchUserProfile();
+    }, []);
+
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Tạo một URL tạm thời cho file ảnh và cập nhật state
             const newAvatarUrl = URL.createObjectURL(file);
             setAvatar(newAvatarUrl);
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const payload = { fullname, phone };
+            const res = await authAxios.put('/api/user/profile', payload);
+            alert('Cập nhật thông tin thành công!');
+        } catch (error) {
+            console.error('Lỗi khi cập nhật thông tin:', error);
+            alert('Có lỗi xảy ra khi cập nhật thông tin!');
         }
     };
 
     return (
         <div>
             <Navbar />
-            <Breadcrumb />
+            <Breadcrumb items={[
+                { label: 'Trang chủ', link: '/' },
+                { label: 'Tài khoản của tôi',},
+            ]} />
             <div className="profile-page-container">
                 <h1 className="main-title">MY PROFILE</h1>
 
@@ -42,11 +74,17 @@ const Profile = () => {
                     />
                 </div>
 
-                <form className="profile-form-card">
+                <form className="profile-form-card" onSubmit={handleSubmit}>
                     <div className="form-group">
                         <label htmlFor="fullName">Họ và Tên</label>
                         <div className="input-wrapper">
-                            <input id="fullName" type="text" defaultValue="Thuy Duong" />
+                            <input
+                                id="fullName"
+                                type="text"
+                                value={fullname}
+                                onChange={(e) => setFullname(e.target.value)}
+                                disabled={true}
+                            />
                             <i className="fa-solid fa-pen-to-square edit-icon"></i>
                         </div>
                     </div>
@@ -54,7 +92,13 @@ const Profile = () => {
                     <div className="form-group">
                         <label htmlFor="phone">Phone</label>
                         <div className="input-wrapper">
-                            <input id="phone" type="tel" defaultValue="0834 085 578" />
+                            <input
+                                id="phone"
+                                type="tel"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                                disabled={true}
+                            />
                             <i className="fa-solid fa-pen-to-square edit-icon"></i>
                         </div>
                     </div>
@@ -62,11 +106,10 @@ const Profile = () => {
                     <div className="form-group">
                         <label htmlFor="email">Email</label>
                         <div className="input-wrapper">
-                            {/* Thêm thuộc tính readOnly để không cho phép chỉnh sửa */}
                             <input
                                 id="email"
                                 type="email"
-                                defaultValue="thuyduong123@gmail.com"
+                                value={email}
                                 readOnly
                             />
                         </div>

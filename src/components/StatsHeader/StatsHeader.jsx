@@ -11,9 +11,6 @@ const StatsHeader = ({api_url}) => {
             try {
                 const res = await publicAxios.get(api_url);
                 const data = res.data; // ✅ axios trả data ở res.data
-                
-                console.log("Dữ liệu nhận được từ API:", data);
-
                 const dataArray = [
                     {
                         title: data.card1?.title,
