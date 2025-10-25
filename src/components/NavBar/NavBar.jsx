@@ -143,12 +143,12 @@ const Navbar = () => {
                                     <hr className="dropdown-divider" />
                                     <ul>
                                         <li><Link to="/list-courses">Khóa học của tôi</Link></li>
-                                        <li><Link to="/legal-procedures">Thủ tục pháp lý</Link></li>
-                                        <li><Link to="/history">Lịch sử</Link></li>
+                                        <li><Link>Thủ tục pháp lý</Link></li>
+                                        <li><Link>Lịch sử</Link></li>
                                     </ul>
                                     <hr className="dropdown-divider" />
                                     <ul>
-                                        <li><Link to="/notifications">Thông báo</Link></li>
+                                        <li><Link>Thông báo</Link></li>
                                         <li><Link to="/profile">Thiết lập tài khoản</Link></li>
                                     </ul>
                                     <hr className="dropdown-divider" />

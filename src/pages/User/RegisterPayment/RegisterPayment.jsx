@@ -98,7 +98,6 @@ const RegisterPayment = () => {
         }
     };
 
-
     return (
         <div>
             <PaymentHeader />

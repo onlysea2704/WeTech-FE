@@ -61,6 +61,7 @@ const DetailCourse = () => {
         const fetchCourseDetails = async () => {
             try {
                 const res = await publicAxios.get(`/api/course/find-by-course-id?courseId=${courseId}`);
+                console.log("Chi tiết khóa học:", res.data);
                 setCourseDetails(res.data);
             } catch (error) {
                 console.error(error);

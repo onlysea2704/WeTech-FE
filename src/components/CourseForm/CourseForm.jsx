@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import { publicAxios } from "../../services/axios-instance";
 
 const CourseForm = () => {
-  const { courseId } = useParams(); // lấy id từ param
+  const { courseId } = useParams();
   const [formData, setFormData] = useState({
     courseId: "",
     title: "",
@@ -23,18 +23,16 @@ const CourseForm = () => {
 
   const [previewImage, setPreviewImage] = useState(null);
 
-  // Danh sách loại khóa học (chỉ cần string)
   const typeCourseOptions = [
-    'Thành lập Công ty',
-    'Thành lập Hộ kinh doanh',
-    'Giải thể Công ty',
-    'Giải thể Hộ kinh doanh',
-    'Đăng ký thay đổi',
-    'Sáp nhập Tỉnh',
-    'Cập nhật lên CCCD',
+    "Thành lập Công ty",
+    "Thành lập Hộ kinh doanh",
+    "Giải thể Công ty",
+    "Giải thể Hộ kinh doanh",
+    "Đăng ký thay đổi",
+    "Sáp nhập Tỉnh",
+    "Cập nhật lên CCCD",
   ];
 
-  // Lấy dữ liệu khóa học từ API
   useEffect(() => {
     const fetchCourseById = async () => {
       try {
@@ -57,9 +55,7 @@ const CourseForm = () => {
           linkImage: course.linkImage || "",
           imageFile: null,
         });
-        if (course.linkImage) {
-          setPreviewImage(course.linkImage);
-        }
+        if (course.linkImage) setPreviewImage(course.linkImage);
       } catch (error) {
         console.error("Lỗi khi lấy dữ liệu khóa học:", error);
       }
@@ -83,25 +79,20 @@ const CourseForm = () => {
 
   const handleSave = async () => {
     try {
-      // Tách object course (không chứa imageFile)
+      
       const { imageFile, ...courseData } = formData;
-
-      // Tạo formData
       const formDataToSend = new FormData();
+      formDataToSend.append(
+        "course",
+        new Blob([JSON.stringify(courseData)], { type: "application/json" })
+      );
+      if (imageFile) formDataToSend.append("image", imageFile);
 
-      // courseData phải là JSON string
-      formDataToSend.append("course", new Blob([JSON.stringify(courseData)], { type: "application/json" }));
-
-      // Nếu có file ảnh thì append
-      if (imageFile) {
-        formDataToSend.append("image", imageFile);
-      }
-
-      const res = await publicAxios.post("/api/course/update-course", formDataToSend, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await publicAxios.post(
+        "/api/course/update-course",
+        formDataToSend,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
 
       console.log("Cập nhật thành công:", res.data);
       alert("Lưu khóa học thành công!");
@@ -115,55 +106,13 @@ const CourseForm = () => {
     <div className="course-form-container">
       <div className="course-form">
         <div className="form-content">
-          {/* Cột trái */}
-          <div className="form-column-left">
+
+          {/* Hàng 1: Mã khóa học + Loại khóa học */}
+          <div className="form-row">
             <div className="form-group-course-info">
               <label>Mã khóa học</label>
               <input type="number" name="courseId" value={formData.courseId} readOnly />
             </div>
-
-            <div className="form-group-course-info">
-              <label>Tiêu đề</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Tác giả</label>
-              <input
-                type="text"
-                name="author"
-                value={formData.author}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Giá gốc</label>
-              <input
-                type="number"
-                step="0.01"
-                name="realPrice"
-                value={formData.realPrice}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Giá khuyến mãi</label>
-              <input
-                type="number"
-                step="0.01"
-                name="salePrice"
-                value={formData.salePrice}
-                onChange={handleChange}
-              />
-            </div>
-
             <div className="form-group-course-info">
               <label>Loại khóa học</label>
               <select
@@ -179,62 +128,111 @@ const CourseForm = () => {
                 ))}
               </select>
             </div>
+          </div>
 
+          {/* Hàng 2: Tiêu đề + Tác giả */}
+          <div className="form-row">
+            <div className="form-group-course-info">
+              <label>Tiêu đề</label>
+              <input
+                type="text"
+                name="title"
+                value={formData.title}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group-course-info">
+              <label>Tác giả</label>
+              <input
+                type="text"
+                name="author"
+                value={formData.author}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          {/* Hàng 3: Giá gốc + Giá khuyến mãi */}
+          <div className="form-row">
+            <div className="form-group-course-info">
+              <label>Giá gốc</label>
+              <input
+                type="number"
+                step="0.01"
+                name="realPrice"
+                value={formData.realPrice}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group-course-info">
+              <label>Giá khuyến mãi</label>
+              <input
+                type="number"
+                step="0.01"
+                name="salePrice"
+                value={formData.salePrice}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          {/* Hàng 4: Số người đăng ký + Ngày tạo */}
+          <div className="form-row">
             <div className="form-group-course-info">
               <label>Số người đăng ký</label>
               <input type="number" name="numberRegister" value={formData.numberRegister} readOnly />
             </div>
-
             <div className="form-group-course-info">
               <label>Ngày tạo</label>
               <input type="date" name="createdAt" value={formData.createdAt} readOnly />
             </div>
           </div>
 
-          {/* Cột phải */}
-          <div className="form-column-right">
-            <div className="form-group-course-info">
-              <label>Mô tả</label>
-              <textarea
-                name="description"
-                value={formData.description}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Giới thiệu 1</label>
-              <textarea
-                name="intro1"
-                value={formData.intro1}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Giới thiệu 2</label>
-              <textarea
-                name="intro2"
-                value={formData.intro2}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group-course-info">
-              <label>Ảnh khóa học</label>
-              <input type="file" accept="image/*" onChange={handleImageChange} />
-              {previewImage && (
-                <div className="image-preview">
-                  <img src={previewImage} alt="preview" />
-                </div>
-              )}
-            </div>
+          {/* Hàng 5: Mô tả */}
+          <div className="form-group-course-info full-width course-description">
+            <label>Mô tả khóa học</label>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+            />
           </div>
-        </div>
 
-        <button type="button" className="submit-btn" onClick={handleSave}>
-          Lưu khóa học
-        </button>
+          {/* Hàng 6: Giới thiệu 1 */}
+          <div className="form-group-course-info full-width course-description">
+            <label>Phương pháp học</label>
+            <textarea
+              name="intro1"
+              value={formData.intro1}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Hàng 7: Giới thiệu 2 */}
+          <div className="form-group-course-info full-width course-description">
+            <label>Bạn sẽ học được điều gì ?</label>
+            <textarea
+              name="intro2"
+              value={formData.intro2}
+              onChange={handleChange}
+            />
+          </div>
+
+          {/* Hàng 8: Ảnh khóa học */}
+          <div className="form-group-course-info full-width">
+            <label>Ảnh khóa học</label>
+            <input type="file" accept="image/*" onChange={handleImageChange} />
+            {previewImage && (
+              <div className="image-preview">
+                <img src={previewImage} alt="preview" />
+              </div>
+            )}
+          </div>
+
+          <button type="button" className="submit-btn" onClick={handleSave}>
+            Lưu khóa học
+          </button>
+        </div>
       </div>
     </div>
   );

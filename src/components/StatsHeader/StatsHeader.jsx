@@ -34,8 +34,8 @@ const StatsHeader = ({api_url}) => {
                         icon: "📈"
                     },
                     {
-                        title: "Tổng số khóa học",
-                        value: data.totalCourses ?? 0,
+                        title: data.card4?.title,
+                        value: data.card4?.value ?? 0,
                         icon: "⏱️"
                     },
                 ];

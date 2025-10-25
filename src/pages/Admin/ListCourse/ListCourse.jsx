@@ -25,28 +25,28 @@ const ListCourse = () => {
     const onManageEditCourse = (courseId) => {
         window.scrollTo(0, 0);
         navigate(`/manage-course/${courseId}`);
-    }
+    };
 
     useEffect(() => {
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
         setData(allCourses.slice(start, end));
-    }, [currentPage, pageSize]);
+    }, [currentPage, pageSize, allCourses]);
 
     // Gọi API lấy danh sách khóa học
-    useEffect(() => {
-        const fetchCourses = async () => {
-            try {
-                const res = await publicAxios.get("/api/course/get-all"); // <-- API backend
-                const courses = res.data || [];
-                setTotalItems(courses.length);
-                setAllCourses(courses);
-                setData(courses.slice(0, pageSize));
-            } catch (error) {
-                console.error("Lỗi khi tải danh sách khóa học:", error);
-            }
-        };
+    const fetchCourses = async () => {
+        try {
+            const res = await publicAxios.get("/api/course/get-all");
+            const courses = res.data || [];
+            setTotalItems(courses.length);
+            setAllCourses(courses);
+            setData(courses.slice(0, pageSize));
+        } catch (error) {
+            console.error("Lỗi khi tải danh sách khóa học:", error);
+        }
+    };
 
+    useEffect(() => {
         fetchCourses();
     }, []);
 
@@ -54,14 +54,31 @@ const ListCourse = () => {
     const handleCreateCourse = async () => {
         try {
             const res = await authAxios.get("/api/course/create-course");
-
-            console.log("Khóa học mới đã được tạo:", res.data);
             if (res.data && res.data.courseId) {
-                // Chuyển hướng sang trang tạo/sửa khóa học
                 navigate(`/manage-course/${res.data.courseId}`);
             }
         } catch (error) {
             console.error("Lỗi khi tạo khóa học:", error);
+        }
+    };
+
+    // ✅ Hàm xóa khóa học có xác nhận
+    const handleDeleteCourse = async (course) => {
+        const confirmDelete = window.confirm(
+            `Bạn có chắc chắn muốn xóa khóa học "${course.title}" không?`
+        );
+        if (!confirmDelete) return;
+
+        try {
+            const response = await publicAxios.get(`/api/course/delete-course?courseId=${course.courseId}`);
+            if (response.data === true) {
+                alert("Xóa khóa học thành công!");
+                fetchCourses();
+            } else {
+                alert("Xóa khóa học thất bại!");
+            }
+        } catch (error) {
+            alert("Xóa khóa học thất bại!");
         }
     };
 
@@ -105,6 +122,7 @@ const ListCourse = () => {
                     onPageChange={(page) => setCurrentPage(page)}
                     onPageSizeChange={(pageSize) => setPageSize(pageSize)}
                     onEdit={onManageEditCourse}
+                    onDelete={handleDeleteCourse}
                 />
             </div>
         </div>

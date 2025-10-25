@@ -28,7 +28,7 @@ const Transactions = () => {
         const res = await publicAxios.get("/stats/transaction/get-data-table"); // ✅ Gọi API backend
         const transactions = res.data.map((item, index) => ({
           stt: index + 1,
-          fullname: item.fullname,
+          fullname: item.fullName,
           sdt: item.sdt,
           code: item.code,
           transferAmount: `${item.transferAmount?.toLocaleString("vi-VN") || "0"} đ`,
