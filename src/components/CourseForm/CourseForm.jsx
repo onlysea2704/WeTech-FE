@@ -79,7 +79,6 @@ const CourseForm = () => {
 
   const handleSave = async () => {
     try {
-      
       const { imageFile, ...courseData } = formData;
       const formDataToSend = new FormData();
       formDataToSend.append(
@@ -210,7 +209,7 @@ const CourseForm = () => {
 
           {/* Hàng 7: Giới thiệu 2 */}
           <div className="form-group-course-info full-width course-description">
-            <label>Bạn sẽ học được điều gì ?</label>
+            <label>Bạn sẽ học được điều gì?</label>
             <textarea
               name="intro2"
               value={formData.intro2}

@@ -8,6 +8,7 @@ import { authAxios } from '../../../services/axios-instance';
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
+    const [avatarFile, setAvatarFile] = useState(null); // 🆕 file ảnh người dùng chọn
     const [fullname, setFullname] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
@@ -30,33 +31,55 @@ const Profile = () => {
         fetchUserProfile();
     }, []);
 
+    // 🖼️ Khi người dùng chọn ảnh
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
+            setAvatarFile(file); // Lưu file thật để upload
             const newAvatarUrl = URL.createObjectURL(file);
-            setAvatar(newAvatarUrl);
+            setAvatar(newAvatarUrl); // Hiển thị ảnh xem trước
         }
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
-            const payload = { fullname, phone };
-            const res = await authAxios.put('/api/user/profile', payload);
-            alert('Cập nhật thông tin thành công!');
+            const userData = {
+                fullname,
+                phone,
+                email
+            };
+            const formDataToSend = new FormData();
+            formDataToSend.append(
+                "user",
+                new Blob([JSON.stringify(userData)], { type: "application/json" })
+            );
+            if (avatarFile) {
+                formDataToSend.append("avatar", avatarFile);
+            }
+            const res = await authAxios.post("/api/auth/update-profile", formDataToSend, {
+                headers: {
+                    "Content-Type": "multipart/form-data",
+                },
+            });
+            alert("Cập nhật thông tin thành công!");
         } catch (error) {
-            console.error('Lỗi khi cập nhật thông tin:', error);
-            alert('Có lỗi xảy ra khi cập nhật thông tin!');
+            console.error("Lỗi khi cập nhật thông tin:", error);
+            alert("Có lỗi xảy ra khi cập nhật thông tin!");
         }
     };
+
 
     return (
         <div>
             <Navbar />
-            <Breadcrumb items={[
-                { label: 'Trang chủ', link: '/' },
-                { label: 'Tài khoản của tôi',},
-            ]} />
+            <Breadcrumb
+                items={[
+                    { label: 'Trang chủ', link: '/' },
+                    { label: 'Tài khoản của tôi' },
+                ]}
+            />
             <div className="profile-page-container">
                 <h1 className="main-title">MY PROFILE</h1>
 
@@ -83,7 +106,6 @@ const Profile = () => {
                                 type="text"
                                 value={fullname}
                                 onChange={(e) => setFullname(e.target.value)}
-                                disabled={true}
                             />
                             <i className="fa-solid fa-pen-to-square edit-icon"></i>
                         </div>
@@ -97,7 +119,6 @@ const Profile = () => {
                                 type="tel"
                                 value={phone}
                                 onChange={(e) => setPhone(e.target.value)}
-                                disabled={true}
                             />
                             <i className="fa-solid fa-pen-to-square edit-icon"></i>
                         </div>
