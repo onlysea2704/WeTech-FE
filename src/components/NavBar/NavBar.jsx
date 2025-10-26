@@ -8,6 +8,7 @@ const Navbar = () => {
     const [token, setToken] = useState(sessionStorage.getItem('authToken'));
     const [fullname, setFullname] = useState(localStorage.getItem('fullname') || '');
     const [email, setEmail] = useState(localStorage.getItem('email') || '');
+    const [linkImage, setLinkImage] = useState(localStorage.getItem('linkImage') || avatarImage);
 
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
@@ -15,13 +16,14 @@ const Navbar = () => {
     const userDropdownRef = useRef(null);
     const servicesDropdownRef = useRef(null);
 
-    // Cập nhật lại fullname & email khi localStorage thay đổi (sau khi login)
     useEffect(() => {
         const storedFullname = localStorage.getItem('fullName');
         const storedEmail = localStorage.getItem('email');
+        const storedLinkImage = localStorage.getItem('linkImage');
         if (storedFullname) setFullname(storedFullname);
         if (storedEmail) setEmail(storedEmail);
-    }, [token]); // chạy lại khi token thay đổi
+        if (storedLinkImage) setLinkImage(storedLinkImage);
+    }, [token]);
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -35,8 +37,7 @@ const Navbar = () => {
 
     const handleLogout = () => {
         sessionStorage.removeItem('authToken');
-        localStorage.removeItem('fullname');
-        localStorage.removeItem('email');
+        localStorage.clear();
         setToken(null);
         setFullname('');
         setEmail('');
@@ -128,7 +129,7 @@ const Navbar = () => {
                         <div className="user-profile" ref={userDropdownRef}>
                             <div className="avatar-container" onClick={toggleUserDropdown}>
                                 <img
-                                    src={avatarImage}
+                                    src={linkImage}
                                     alt="User Avatar"
                                     className="user-avatar-img"
                                 />

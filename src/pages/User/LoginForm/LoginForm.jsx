@@ -27,6 +27,10 @@ const LoginForm = () => {
             console.log("Thông tin người dùng:", userInfo.data);
             localStorage.setItem('fullName', userInfo.data.fullname);
             localStorage.setItem('email', userInfo.data.email);
+            if (userInfo.data.linkImage){
+                localStorage.setItem('linkImage', userInfo.data.linkImage);
+            }
+            localStorage.setItem('userId', userInfo.data.userId);
             if (userInfo.data.role === 'USER') {
                 navigate("/");
             }

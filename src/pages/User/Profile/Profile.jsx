@@ -5,6 +5,7 @@ import Footer from '../../../components/Footer/Footer';
 import Navbar from '../../../components/NavBar/NavBar';
 import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import { authAxios } from '../../../services/axios-instance';
+import Popup from '../../../components/Popup/Popup';
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
@@ -12,6 +13,8 @@ const Profile = () => {
     const [fullname, setFullname] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -21,8 +24,8 @@ const Profile = () => {
                 setFullname(data.fullname || '');
                 setPhone(data.sdt || '');
                 setEmail(data.email || '');
-                if (data.avatarUrl) {
-                    setAvatar(data.avatarUrl);
+                if (data.linkImage) {
+                    setAvatar(data.linkImage);
                 }
             } catch (error) {
                 console.error('Lỗi khi lấy thông tin người dùng:', error);
@@ -43,10 +46,10 @@ const Profile = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-
+        setLoading(true);
         try {
             const userData = {
-                fullname,
+                fullName: fullname,
                 phone,
                 email
             };
@@ -68,6 +71,7 @@ const Profile = () => {
             console.error("Lỗi khi cập nhật thông tin:", error);
             alert("Có lỗi xảy ra khi cập nhật thông tin!");
         }
+        setLoading(false);
     };
 
 
@@ -140,6 +144,7 @@ const Profile = () => {
                 </form>
             </div>
             <Footer />
+            {loading && <Popup message='Đang cập nhật thông tin cá nhân' />}
         </div>
     );
 };

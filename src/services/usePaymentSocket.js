@@ -4,8 +4,9 @@ import SockJS from "sockjs-client";
 import { Client } from "@stomp/stompjs";
 
 export default function usePaymentSocket(userId, onMessage) {
+  const baseURL = process.env.REACT_APP_BACKEND_URL
   useEffect(() => {
-    const socketUrl = "http://localhost:8080/ws"; // endpoint WebSocket trong Spring Boot
+    const socketUrl = `${baseURL}/ws`; // endpoint WebSocket trong Spring Boot
 
     const client = new Client({
       webSocketFactory: () => new SockJS(socketUrl),

@@ -17,11 +17,9 @@ const ScanQR = () => {
 
   // Countdown 10 phút = 600 giây
   const [timeLeft, setTimeLeft] = useState(600);
-
-  const [status, setStatus] = useState("Đang chờ thanh toán...");
-
-  usePaymentSocket(1, (msg) => {
-    setIsSuccess(true); // test: set true/false
+  const userId = localStorage.getItem('userId');
+  usePaymentSocket(userId, (msg) => {
+    setIsSuccess(true);
     setShowPopup(true);
   });
 
