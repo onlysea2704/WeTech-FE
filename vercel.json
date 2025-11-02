@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/api/proxy/(.*)",
-      "destination": "http://103.245.237.125:8080/$1"
-    }
-  ]
-}

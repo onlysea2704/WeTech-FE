@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const authAxios = axios.create({ baseURL: '/api/proxy' });
+const authAxios = axios.create({ baseURL: process.env.REACT_APP_BACKEND_URL });
 
 authAxios.interceptors.request.use(config => {
   const token = sessionStorage.getItem('authToken');
@@ -10,6 +10,6 @@ authAxios.interceptors.request.use(config => {
   return config;
 });
 
-const publicAxios = axios.create({ baseURL: '/api/proxy' });
+const publicAxios = axios.create({ baseURL: process.env.REACT_APP_BACKEND_URL });
 
 export { authAxios, publicAxios };
