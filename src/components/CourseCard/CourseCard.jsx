@@ -34,8 +34,8 @@ const CourseCard = ({ index, course }) => {
                 <h4>{course?.title}</h4>
                 <p className="description">{course?.description}</p>
                 <div className="price">
-                    <span className="new-price">{formatPrice(course?.realPrice)}đ</span>
-                    <span className="old-price">{formatPrice(course?.salePrice)}đ</span>
+                    <span className="new-price">{formatPrice(course?.salePrice)}đ</span>
+                    <span className="old-price">{formatPrice(course?.realPrice)}đ</span>
                 </div>
             </div>
         </div>

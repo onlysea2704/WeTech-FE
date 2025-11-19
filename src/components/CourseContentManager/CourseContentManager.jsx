@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./CourseContentManager.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { authAxios, publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
 
@@ -8,7 +8,6 @@ export default function CourseContentManager() {
     const [sections, setSections] = useState([]);
     const [videoFiles, setVideoFiles] = useState({}); // lưu file upload tạm
     const { courseId } = useParams();
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [previewVideo, setPreviewVideo] = useState(null);
 
