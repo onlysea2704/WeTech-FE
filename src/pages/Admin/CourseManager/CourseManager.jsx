@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./CourseManager.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import CourseForm from "../../../components/CourseForm/CourseForm";
-import CourseContentManager from "../../../components/CourseContentManager/CourseContentManager";
+import VideoManager from "../../../components/VideoManager/VideoManager";
 import ManageDocs from "../../../components/ManageDocs/ManageDocs";
 import { Link } from "react-router-dom";
 
@@ -14,7 +14,7 @@ const CourseManager = () => {
       case "basic":
         return <CourseForm />;
       case "advanced":
-        return <CourseContentManager />;
+        return <VideoManager />;
       case "curriculum":
         return <ManageDocs />;
       case "materials":

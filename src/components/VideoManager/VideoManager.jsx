@@ -1,14 +1,13 @@
-import React, { useState, useEffect } from "react";
-import "./CourseContentManager.css";
-import { useParams, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import "./VideoManager.css";
+import { useParams } from "react-router-dom";
 import { authAxios, publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
 
-export default function CourseContentManager() {
+export default function VideoManager() {
     const [sections, setSections] = useState([]);
     const [videoFiles, setVideoFiles] = useState({}); // lưu file upload tạm
     const { courseId } = useParams();
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [previewVideo, setPreviewVideo] = useState(null);
 
@@ -67,6 +66,8 @@ export default function CourseContentManager() {
     };
     const deleteSection = async (sectionId) => {
         try {
+            const confirmDelete = window.confirm("Bạn có chắc muốn xóa section không?");
+            if (!confirmDelete) return;
             await authAxios.post(`/api/section/delete?sectionId=${sectionId}`);
             fetchCourseVideo();
         } catch (err) {
@@ -124,6 +125,8 @@ export default function CourseContentManager() {
         setLoading(false);
     };
     const deleteVideo = async (videoId) => {
+        const confirmDelete = window.confirm("Bạn có chắc muốn xóa video không?");
+        if (!confirmDelete) return;
         const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
         console.log("Deleted video:", res.data);
         fetchCourseVideo();
@@ -253,7 +256,7 @@ export default function CourseContentManager() {
                                                 <button
                                                     className="btn delete"
                                                     onClick={() =>
-                                                        deleteVideo(section.sectionId, video.videoId)
+                                                        deleteVideo(video.videoId)
                                                     }
                                                 >
                                                     Xóa

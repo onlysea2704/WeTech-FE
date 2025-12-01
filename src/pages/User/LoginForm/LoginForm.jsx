@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import { useState } from 'react';
 import { authAxios } from '../../../services/axios-instance';
 import { publicAxios } from "../../../services/axios-instance";
 
@@ -16,9 +15,55 @@ const LoginForm = () => {
         navigate("/");
     }
 
+    const [info, setInfo] = useState({});
+
+    useEffect(() => {
+        const getDeviceInfo = () => {
+            const ua = navigator.userAgent;
+            // Screen resolution (ổn định)
+            const screenWidth = window.screen.width;
+            const screenHeight = window.screen.height;
+            // CPU cores
+            const cpuCores = navigator.hardwareConcurrency || "Unknown";
+            // RAM in GB
+            const ram = navigator.deviceMemory
+                ? navigator.deviceMemory + " GB"
+                : "Unknown";
+            // GPU info (cực kỳ quan trọng)
+            const getGPU = () => {
+                try {
+                    const canvas = document.createElement("canvas");
+                    const gl =
+                        canvas.getContext("webgl") ||
+                        canvas.getContext("experimental-webgl");
+                    if (!gl) return "Unknown GPU";
+                    const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
+                    return debugInfo
+                        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
+                        : "Unknown GPU";
+                } catch (err) {
+                    return "Unknown GPU";
+                }
+            };
+            const gpu = getGPU();
+            // Platform (Win32, MacIntel, Linux x86_64…)
+            const platform = navigator.platform;
+            setInfo({
+                userAgent: ua,
+                screen: `${screenWidth}x${screenHeight}`,
+                cpuCores,
+                ram,
+                gpu,
+                platform,
+            });
+        };
+
+        getDeviceInfo();
+    }, []);
+
     const login = async (email, password) => {
         try {
-            const token = await publicAxios.post('/api/auth/login', { username: email, password });
+            const token = await publicAxios.post('/api/auth/login', { username: email, password, deviceInfoRequest: info });
 
             console.log(token.data.token);
             sessionStorage.setItem('authToken', token.data.token);
@@ -27,7 +72,7 @@ const LoginForm = () => {
             console.log("Thông tin người dùng:", userInfo.data);
             localStorage.setItem('fullName', userInfo.data.fullname);
             localStorage.setItem('email', userInfo.data.email);
-            if (userInfo.data.linkImage){
+            if (userInfo.data.linkImage) {
                 localStorage.setItem('linkImage', userInfo.data.linkImage);
             }
             localStorage.setItem('userId', userInfo.data.userId);

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./CourseForm.css";
 import { useParams } from "react-router-dom";
 import { publicAxios } from "../../services/axios-instance";
+import Popup from "../Popup/Popup";
 
 const CourseForm = () => {
   const { courseId } = useParams();
@@ -22,6 +23,7 @@ const CourseForm = () => {
   });
 
   const [previewImage, setPreviewImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const typeCourseOptions = [
     "Thành lập Công ty",
@@ -79,6 +81,7 @@ const CourseForm = () => {
 
   const handleSave = async () => {
     try {
+      setLoading(true);
       const { imageFile, ...courseData } = formData;
       const formDataToSend = new FormData();
       formDataToSend.append(
@@ -92,7 +95,7 @@ const CourseForm = () => {
         formDataToSend,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
-
+      setLoading(false);
       console.log("Cập nhật thành công:", res.data);
       alert("Lưu khóa học thành công!");
     } catch (error) {
@@ -102,7 +105,8 @@ const CourseForm = () => {
   };
 
   return (
-    <div className="course-form-container">
+
+    <><div className="course-form-container">
       <div className="course-form">
         <div className="form-content">
 
@@ -234,6 +238,8 @@ const CourseForm = () => {
         </div>
       </div>
     </div>
+      {loading && <Popup message='Đang tải khóa học lên' />}
+    </>
   );
 };
 
