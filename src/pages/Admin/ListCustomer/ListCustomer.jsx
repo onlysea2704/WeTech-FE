@@ -4,7 +4,6 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
 import { publicAxios } from "../../../services/axios-instance";
-import { Link, useNavigate } from "react-router-dom";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
@@ -23,7 +22,7 @@ const ListCustomer = () => {
   const [pageSize, setPageSize] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
 
-  // 🔹 Hàm xuất dữ liệu ra Excel
+  // Hàm xuất dữ liệu ra Excel
   const exportToExcel = () => {
     if (data.length === 0) {
       alert("Không có dữ liệu để xuất!");

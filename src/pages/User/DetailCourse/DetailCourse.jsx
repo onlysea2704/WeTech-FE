@@ -144,7 +144,7 @@ const DetailCourse = () => {
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
                             <h3 className="course-price">
-                                {formatPrice(courseDetails?.realPrice)}đ <span className="old-price">{formatPrice(courseDetails?.salePrice)}đ</span>
+                                {formatPrice(courseDetails?.salePrice)}đ <span className="old-price">{formatPrice(courseDetails?.realPrice)}đ</span>
                             </h3>
                             <span className="discount">{discountPercentage(courseDetails)}% OFF</span>
 

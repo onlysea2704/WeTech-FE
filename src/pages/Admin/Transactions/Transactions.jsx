@@ -4,6 +4,8 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
 import { publicAxios } from "../../../services/axios-instance"; // ✅ import axios instance
+import * as XLSX from "xlsx";
+import { saveAs } from "file-saver";
 
 const Transactions = () => {
   const columns = [
@@ -21,6 +23,37 @@ const Transactions = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalItems, setTotalItems] = useState(0);
 
+  // Hàm xuất dữ liệu ra Excel
+    const exportToExcel = () => {
+      if (data.length === 0) {
+        alert("Không có dữ liệu để xuất!");
+        return;
+      }
+  
+      // Tạo dữ liệu theo cấu trúc bảng
+      const worksheetData = data.map((item) => ({
+        "STT": item.stt,
+        "Họ tên": item.fullname,
+        "Liên hệ": item.sdt,
+        "Mã giao dịch": item.code,
+        "Doanh thu (VNĐ)": item.transferAmount,
+        "Ngày giao dịch": item.transactionDate,
+        "Trạng thái": item.status,
+      }));
+  
+      // Tạo worksheet và workbook
+      const worksheet = XLSX.utils.json_to_sheet(worksheetData);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "DanhSachGiaoDich");
+  
+      // Xuất file
+      const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+      const blob = new Blob([excelBuffer], {
+        type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      });
+      saveAs(blob, `DanhSachGiaoDich_${new Date().toLocaleDateString("vi-VN")}.xlsx`);
+    };
+
   // 🧩 Gọi API lấy dữ liệu thật
   useEffect(() => {
     const fetchTransactions = async () => {
@@ -35,6 +68,7 @@ const Transactions = () => {
           transactionDate: new Date(item.transactionDate).toLocaleString("vi-VN"),
           status: item.status,
         }));
+        console.log("Danh sách giao dịch:", res.data);
         setTotalItems(transactions.length);
         setData(transactions); // hiển thị page đầu tiên
       } catch (error) {
@@ -61,7 +95,7 @@ const Transactions = () => {
           </div>
 
           <div className="toolbar-right">
-            <button className="export-button">
+            <button className="export-button" onClick={exportToExcel}>
               <i className="fa-solid fa-file-excel"></i>
               <span>Export to Excel</span>
             </button>
