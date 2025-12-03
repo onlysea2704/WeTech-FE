@@ -82,7 +82,7 @@ const Customers = () => {
   return (
     <div className="testimonials">
       <h2 className="title">Khách hàng của chúng tôi</h2>
-
+      <h1> </h1>
       <div className='comments-container'>
 
         <i className="fas fa-chevron-left" onClick={handlePrev}></i>
