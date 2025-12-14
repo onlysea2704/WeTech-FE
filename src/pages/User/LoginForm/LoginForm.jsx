@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { authAxios } from '../../../services/axios-instance';
 import { publicAxios } from "../../../services/axios-instance";
+import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
 
 const LoginForm = () => {
 
@@ -16,6 +17,12 @@ const LoginForm = () => {
     }
 
     const [info, setInfo] = useState({});
+
+    const handleSubmit = (e) => {
+        e.preventDefault(); // không reload trang
+        if (!email || !password) return;
+        login(email, password);
+    };
 
     useEffect(() => {
         const getDeviceInfo = () => {
@@ -64,12 +71,8 @@ const LoginForm = () => {
     const login = async (email, password) => {
         try {
             const token = await publicAxios.post('/api/auth/login', { username: email, password, deviceInfoRequest: info });
-
-            console.log(token.data.token);
             sessionStorage.setItem('authToken', token.data.token);
-
             const userInfo = await authAxios.get('/api/auth/get-info');
-            console.log("Thông tin người dùng:", userInfo.data);
             localStorage.setItem('fullName', userInfo.data.fullname);
             localStorage.setItem('email', userInfo.data.email);
             if (userInfo.data.linkImage) {
@@ -83,7 +86,6 @@ const LoginForm = () => {
                 navigate("/dashboard");
             }
         } catch (error) {
-            console.log(error.message);
             alert("Lỗi đăng nhập:", error.message);
         }
     };
@@ -103,26 +105,24 @@ const LoginForm = () => {
                         <p className="register-text">
                             Bạn chưa có tài khoản? <Link to="/register">Đăng Ký</Link>
                         </p>
-                        <input
-                            type="email"
-                            placeholder="Email / Tên đăng nhập"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                        <input
-                            type="password"
-                            placeholder="Mật khẩu"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                        />
-                        <p className="forgot-password"> <Link to="/forgot-password">Quên mật khẩu?</Link> </p>
-                        <button
-                            className="btn-login"
-                            onClick={() => login(email, password)}
-                            disabled={loading}
-                        >
+                        <form onSubmit={handleSubmit}>
+                            <input
+                                type="email"
+                                placeholder="Email / Tên đăng nhập"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            <input
+                                type="password"
+                                placeholder="Mật khẩu"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                            <p className="forgot-password"> <Link to="/forgot-password">Quên mật khẩu?</Link> </p>
+                            <button type="submit" className="btn-login" disabled={loading}>
                             Đăng Nhập
-                        </button>
+                            </button>
+                        </form>
                         <div className="divider">
                             <span className="line"></span>
                             <span>or</span>
@@ -135,6 +135,7 @@ const LoginForm = () => {
                             />
                             Đăng nhập với Google
                         </button>
+                        <GoogleLoginButton />
                         <p className="terms">
                             Protected by reCAPTCHA and subject to the Prism{" "}
                             <a href="a">Privacy Policy</a> and{" "}
@@ -143,7 +144,7 @@ const LoginForm = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

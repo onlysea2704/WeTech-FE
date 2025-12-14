@@ -24,7 +24,8 @@
 
 .register-box {
   background: white;
-  padding: 20px;
+  padding: 0 20px;
+  padding-bottom: 10px;
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
@@ -37,7 +38,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .close-btn {
@@ -54,7 +55,7 @@
 }
 
 .register-box h2 {
-  margin-bottom: 10px;
+  margin-bottom: 0px;
   color: #1d1d4f;
 }
 
@@ -90,7 +91,7 @@
 .divider {
   display: flex;
   align-items: center;
-  margin: 20px 0;
+  margin: 10px 0;
   color: #888;
   font-size: 14px;
   gap: 10px;

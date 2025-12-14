@@ -13,7 +13,6 @@ const RegisterForm = () => {
         phone: ''
     });
     const [loading, setLoading] = useState(false);
-    const [errorMsg, setErrorMsg] = useState("");
     const navigate = useNavigate();
 
     const handleClose = () => {
@@ -26,10 +25,24 @@ const RegisterForm = () => {
         setUser({ ...user, [name]: value });
     };
 
+    const isValidEmail = (value) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(value);
+    };
+    const isValidPhone = (value) => {
+        const phoneRegex = /^[0-9]{10}$/;
+        return phoneRegex.test(value);
+    };
+
     const register = async () => {
         try {
+            // Validate inputs
+            if (isValidPhone(user.phone) === false || isValidEmail(user.email) === false) {
+                alert("Email không hợp lệ hoặc số điện thoại phải gồm đúng 10 chữ số");
+                return;
+            }
+
             setLoading(true);
-            setErrorMsg("");
             const response = await publicAxios.post('/api/auth/register', {
                 email: user.email,
                 password: user.password,
@@ -40,15 +53,12 @@ const RegisterForm = () => {
             if (response.data.userId) {
                 alert("Đăng ký thành công! Vui lòng đăng nhập.");
                 navigate("/login");
-            } else{
-                setErrorMsg("Đăng ký thất bại. Vui lòng thử lại.");
+            } else {
+                alert("Đăng ký thất bại. Vui lòng thử lại.");
             }
-
-            // alert("Đăng ký thành công! Vui lòng đăng nhập.");
-            // navigate("/login");
         } catch (error) {
             console.error(error);
-            setErrorMsg(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
+            alert(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
         } finally {
             setLoading(false);
         }
@@ -66,14 +76,9 @@ const RegisterForm = () => {
                                 <i className="fas fa-times"></i>
                             </button>
                         </div>
-
                         <p className="login-text">
                             Bạn đã có tài khoản? <Link to="/login">Đăng Nhập</Link>
                         </p>
-
-                        {/* Hiển thị lỗi */}
-                        {errorMsg && <p className="error-text">{errorMsg}</p>}
-
                         <div className="name-row">
                             <input
                                 type="text"
@@ -92,7 +97,6 @@ const RegisterForm = () => {
                                 onChange={handleChange}
                             />
                         </div>
-
                         <input
                             type="phone"
                             name="phone"
@@ -100,7 +104,6 @@ const RegisterForm = () => {
                             value={user.phone}
                             onChange={handleChange}
                         />
-
                         <input
                             type="email"
                             name="email"
@@ -108,7 +111,6 @@ const RegisterForm = () => {
                             value={user.email}
                             onChange={handleChange}
                         />
-
                         <input
                             type="password"
                             name="password"
@@ -116,7 +118,6 @@ const RegisterForm = () => {
                             value={user.password}
                             onChange={handleChange}
                         />
-
                         <button
                             className="btn-register"
                             onClick={register}
@@ -125,19 +126,16 @@ const RegisterForm = () => {
                             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
                         </button>
 
-                        {/* <div className="divider">
+                        <div className="divider">
                             <span className="line"></span>
                             <span>or</span>
                             <span className="line"></span>
                         </div>
 
                         <button className="btn-google">
-                            <img
-                                src="https://developers.google.com/identity/images/g-logo.png"
-                                alt="Google"
-                            />
+                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
                             Đăng nhập với Google
-                        </button> */}
+                        </button>
 
                         <p className="terms-register">
                             <input type="checkbox" id="acceptTerms" />
