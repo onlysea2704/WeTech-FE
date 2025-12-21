@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import "./RegisterPayment.css";
 import demoProcedure from "../../../assets/demo-procedure.jpg";
 import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
@@ -18,6 +18,8 @@ const RegisterPayment = () => {
         email: "",
         phone: "",
     });
+    const [needVAT, setNeedVAT] = useState(false)
+
 
     const changeStatus = (currentStatus) => {
         setStatus(currentStatus);
@@ -49,28 +51,11 @@ const RegisterPayment = () => {
 
         const token = sessionStorage.getItem("authToken");
         if (token) {
-            // const fetchCheckMyCourse = async () => {
-            //     try {
-            //         const res = await authAxios.get(
-            //             `/api/course/check-have-course?courseId=${courseId}`
-            //         );
-            //         if (res.data) {
-            //             const videoOfCourse = await publicAxios.get(
-            //                 `/api/video/find-by-courseId?courseId=${courseId}`
-            //             );
-            //             console.log(videoOfCourse.data);
-            //         }
-            //     } catch (error) {
-            //         console.error(error);
-            //     }
-            // };
-            // fetchCheckMyCourse();
         }
     }, [courseId]);
 
     // xử lý thanh toán
     const handlePayment = async () => {
-
         const payload = {
             transaction: {
                 transferAmount: courseDetails?.salePrice,
@@ -105,7 +90,7 @@ const RegisterPayment = () => {
                 {/* Bên trái */}
                 <div className="register-left">
                     <div className="course-card-payment">
-                        <img src={demoProcedure} alt="Khóa học" className="course-img" />
+                        <img src={courseDetails?.linkImage} alt="Khóa học" className="course-img" />
                         <div className="course-info-payment">
                             <div className="course-header-payment">
                                 <div>
@@ -176,6 +161,70 @@ const RegisterPayment = () => {
                                 value={formData.phone}
                                 onChange={handleChange}
                             />
+                            {/* ===== VAT ===== */}
+                            <div className="vat-section">
+                                <label className="vat-toggle">
+                                    <input className="input-checkbox-vat"
+                                        style={{ width: "20px", margin: "0px" }}
+                                        type="checkbox"
+                                        checked={needVAT}
+                                        onChange={(e) => setNeedVAT(e.target.checked)}
+                                    />
+                                    <span>Xuất hóa đơn VAT</span>
+                                </label>
+
+                                {needVAT && (
+                                    <div className="vat-form">
+                                        <input
+                                            type="text"
+                                            name="taxCode"
+                                            placeholder="Mã số thuế"
+                                            value={formData.taxCode || ""}
+                                            onChange={handleChange}
+                                        />
+
+                                        <input
+                                            type="text"
+                                            name="companyName"
+                                            placeholder="Tên đơn vị"
+                                            value={formData.companyName || ""}
+                                            onChange={handleChange}
+                                        />
+
+                                        <input
+                                            type="text"
+                                            name="companyAddress"
+                                            placeholder="Địa chỉ"
+                                            value={formData.companyAddress || ""}
+                                            onChange={handleChange}
+                                        />
+
+                                        <div className="form-row">
+                                            <input
+                                                type="text"
+                                                name="province"
+                                                placeholder="Tỉnh / Thành phố"
+                                                value={formData.province || ""}
+                                                onChange={handleChange}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="district"
+                                                placeholder="Quận / Huyện"
+                                                value={formData.district || ""}
+                                                onChange={handleChange}
+                                            />
+                                            <input
+                                                type="text"
+                                                name="ward"
+                                                placeholder="Phường / Xã"
+                                                value={formData.ward || ""}
+                                                onChange={handleChange}
+                                            />
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
                             <button
                                 className="submit-btn"
                                 onClick={() => changeStatus("confirm")}

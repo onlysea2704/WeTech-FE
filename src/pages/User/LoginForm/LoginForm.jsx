@@ -128,13 +128,6 @@ const LoginForm = () => {
                             <span>or</span>
                             <span className="line"></span>
                         </div>
-                        <button className="btn-google">
-                            <img
-                                src="https://developers.google.com/identity/images/g-logo.png"
-                                alt="Google"
-                            />
-                            Đăng nhập với Google
-                        </button>
                         <GoogleLoginButton />
                         <p className="terms">
                             Protected by reCAPTCHA and subject to the Prism{" "}

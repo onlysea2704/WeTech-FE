@@ -1,28 +1,3 @@
-// import { useGoogleLogin } from "@react-oauth/google";
-// import axios from "axios";
-// import "./google-login.css";
-
-// export default function GoogleLoginButton() {
-//   const login = useGoogleLogin({
-//     onSuccess: async (tokenResponse) => {
-//       const res = await axios.post(
-//         "http://localhost:8080/auth/google",
-//         { idToken: tokenResponse.idToken }
-//       );
-//       localStorage.setItem("token", res.data.token);
-//     },
-//     scope: "profile email",
-//   });
-
-//   return (
-//     <button className="google-btn" onClick={() => login()}>
-//       <img src="/google.svg" alt="Google" />
-//       <span>Đăng nhập bằng Google</span>
-//     </button>
-//   );
-// }
-
-
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 // import "./google-login.css"; // CSS cũ có thể không tác động được vào nút của Google
