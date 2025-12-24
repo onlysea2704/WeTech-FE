@@ -6,21 +6,19 @@ import Popup from "../Popup/Popup";
 
 export default function VideoManager() {
     const [sections, setSections] = useState([]);
-    const [videoFiles, setVideoFiles] = useState({}); // lưu file upload tạm
     const { courseId } = useParams();
     const [loading, setLoading] = useState(false);
-    const [previewVideo, setPreviewVideo] = useState(null);
 
-    const getPreviewUrl = (videoId, videoLink) => {
-        const file = videoFiles[videoId];
-        if (!file) return videoLink;
+    // State này dùng để popup preview (nếu cần xem full màn hình)
+    const [previewVideoUrl, setPreviewVideoUrl] = useState(null);
 
-        // Nếu file chưa có previewUrl, tạo 1 lần rồi cache lại
-        if (!file.previewUrl) {
-            file.previewUrl = URL.createObjectURL(file);
-        }
-
-        return file.previewUrl;
+    // === Helper: Lấy Embed URL từ Youtube Link ===
+    // Chuyển https://www.youtube.com/watch?v=ID thành https://www.youtube.com/embed/ID
+    const getYoutubeEmbedUrl = (url) => {
+        if (!url) return null;
+        const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+        const match = url.match(regExp);
+        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
     };
 
     const fetchCourseVideo = async () => {
@@ -31,11 +29,10 @@ export default function VideoManager() {
             setSections(res.data || []);
         } catch (error) {
             console.error("Error fetching course content:", error);
-            setSections([]); // fallback tránh lỗi khi render
+            setSections([]);
         }
     };
 
-    // Fetch dữ liệu từ API
     useEffect(() => {
         fetchCourseVideo();
     }, [courseId]);
@@ -47,12 +44,12 @@ export default function VideoManager() {
                 courseId,
                 name: `Phần ${sections.length + 1}`,
             });
-            console.log("Created section:", res.data);
             fetchCourseVideo();
         } catch (err) {
             console.error("Error creating section:", err);
         }
     };
+
     const updateSection = async (section) => {
         try {
             await authAxios.post(
@@ -64,10 +61,11 @@ export default function VideoManager() {
             console.error("Error updating section:", err);
         }
     };
+
     const deleteSection = async (sectionId) => {
+        const confirmDelete = window.confirm("Bạn có chắc muốn xóa section không?");
+        if (!confirmDelete) return;
         try {
-            const confirmDelete = window.confirm("Bạn có chắc muốn xóa section không?");
-            if (!confirmDelete) return;
             await authAxios.post(`/api/section/delete?sectionId=${sectionId}`);
             fetchCourseVideo();
         } catch (err) {
@@ -78,89 +76,76 @@ export default function VideoManager() {
     // === Video CRUD ===
     const addVideo = async (sectionId) => {
         try {
+            // Tạo video rỗng trên server
             const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
-            console.log("Created video:", res.data);
+            console.log("Created video placeholder:", res.data);
             fetchCourseVideo();
         } catch (err) {
             console.error("Error adding video:", err);
         }
     };
-    const updateVideo = async (videoInfo, file) => {
-        setLoading(true);
-        // Hàm lấy thời lượng video (trả Promise) - Cần promise vì load metadata bất đồng bộ , nếu không có không thể load được thông tin duration
-        const getVideoDuration = (file) => {
-            return new Promise((resolve) => {
-                const url = URL.createObjectURL(file);
-                const media = document.createElement(
-                    file.type.startsWith("video") ? "video" : "audio"
-                );
-                media.preload = "metadata";
-                media.src = url;
-                media.onloadedmetadata = () => {
-                    URL.revokeObjectURL(url);
-                    const duration = Math.round(media.duration);
-                    resolve(duration);
-                };
-            });
-        };
 
-        const duration = await getVideoDuration(file);
-        videoInfo.duration = duration;
-        console.log(videoInfo);
-        const formData = new FormData();
-        formData.append(
-            "videoInfo",
-            new Blob([JSON.stringify(videoInfo)], { type: "application/json" })
-        );
-        formData.append("video", file);
+    const updateVideo = async (videoInfo) => {
+        setLoading(true);
         try {
-            const res = await authAxios.post("/api/video/update", formData, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-            console.log("Updated video:", res.data);
-            fetchCourseVideo();
+            // Không dùng FormData nữa, gửi JSON trực tiếp
+            // Backend cần nhận @RequestBody VideoInfo hoặc tương tự
+            const res = await authAxios.post("/api/video/update", videoInfo);
+
+            console.log("Updated video link:", res.data);
+            alert("Cập nhật video thành công!");
+            fetchCourseVideo(); // Load lại để đồng bộ dữ liệu chuẩn nhất
         } catch (err) {
             console.error("Error updating video:", err);
+            alert("Cập nhật thất bại.");
+        } finally {
+            setLoading(false);
         }
-        setLoading(false);
     };
+
     const deleteVideo = async (videoId) => {
         const confirmDelete = window.confirm("Bạn có chắc muốn xóa video không?");
         if (!confirmDelete) return;
-        const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
-        console.log("Deleted video:", res.data);
-        fetchCourseVideo();
+        try {
+            const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
+            console.log("Deleted video:", res.data);
+            fetchCourseVideo();
+        } catch (err) {
+            console.error("Error deleting video:", err);
+        }
     };
 
-    // cập nhật tiêu đề
+    // === Handle Input Changes (Local State) ===
     const onChangeTitleSection = (sectionId, newTitle) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId ? { ...s, name: newTitle } : s
-            )
-        );
-    };
-    const onChangeTitleVideo = (sectionId, videoId, newTitle) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId
-                    ? {
-                        ...s,
-                        videos: s.videos.map((v) =>
-                            v.videoId === videoId ? { ...v, description: newTitle } : v
-                        ),
-                    }
-                    : s
-            )
-        );
+        setSections(sections.map((s) =>
+            s.sectionId === sectionId ? { ...s, name: newTitle } : s
+        ));
     };
 
-    // lưu file upload vào state
-    const handleFileChange = (videoId, file) => {
-        setVideoFiles((prev) => ({
-            ...prev,
-            [videoId]: file,
-        }));
+    const onChangeTitleVideo = (sectionId, videoId, newTitle) => {
+        setSections(sections.map((s) =>
+            s.sectionId === sectionId
+                ? {
+                    ...s,
+                    videos: s.videos.map((v) =>
+                        v.videoId === videoId ? { ...v, description: newTitle } : v
+                    ),
+                }
+                : s
+        ));
+    };
+
+    const onChangeLinkVideo = (sectionId, videoId, newLink) => {
+        setSections(sections.map((s) =>
+            s.sectionId === sectionId
+                ? {
+                    ...s,
+                    videos: s.videos.map((v) =>
+                        v.videoId === videoId ? { ...v, link: newLink } : v
+                    ),
+                }
+                : s
+        ));
     };
 
     return (
@@ -168,153 +153,115 @@ export default function VideoManager() {
             <div className="course-content-manager">
                 {sections.map((section) => (
                     <div key={section.sectionId} className="section">
+                        {/* --- Header Section --- */}
                         <div className="section-header">
                             <input
                                 className="input-text"
                                 type="text"
                                 value={section?.name || ""}
-                                onChange={(e) =>
-                                    onChangeTitleSection(section.sectionId, e.target.value)
-                                }
+                                onChange={(e) => onChangeTitleSection(section.sectionId, e.target.value)}
                                 placeholder="Tên phần..."
                             />
                             <div className="section-actions">
-                                <button
-                                    className="btn update"
-                                    onClick={() => updateSection(section)}
-                                >
-                                    Cập nhật
+                                <button className="btn update" onClick={() => updateSection(section)}>
+                                    Cập nhật Tên Phần
                                 </button>
-                                <button
-                                    className="btn delete"
-                                    onClick={() => deleteSection(section.sectionId)}
-                                >
+                                <button className="btn delete" onClick={() => deleteSection(section.sectionId)}>
                                     Xóa phần
                                 </button>
                             </div>
                         </div>
 
+                        {/* --- List Videos --- */}
                         <div className="videos">
                             {section.videos.map((video) => {
-                                // Nếu đã upload file mới thì lấy link preview từ file đó
-                                const previewUrl = getPreviewUrl(video.videoId, video.link);
+                                const embedUrl = getYoutubeEmbedUrl(video.link);
 
                                 return (
                                     <div key={video.videoId} className="video">
                                         <div className="video-row">
-                                            <input
-                                                className="input-text"
-                                                type="text"
-                                                value={video.description || ""}
-                                                onChange={(e) =>
-                                                    onChangeTitleVideo(
-                                                        section.sectionId,
-                                                        video.videoId,
-                                                        e.target.value
-                                                    )
-                                                }
-                                                placeholder="Tiêu đề video..."
-                                            />
-
-                                            {/* Upload file */}
-                                            <div className="upload-wrapper">
+                                            <div className="video-inputs" style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                                                {/* Input Tên Video */}
                                                 <input
-                                                    id={`upload-${video.videoId}`}
-                                                    className="input-file"
-                                                    type="file"
-                                                    accept="video/*"
+                                                    className="input-text"
+                                                    type="text"
+                                                    value={video.description || ""}
                                                     onChange={(e) =>
-                                                        handleFileChange(video.videoId, e.target.files[0])
+                                                        onChangeTitleVideo(section.sectionId, video.videoId, e.target.value)
                                                     }
+                                                    placeholder="Tiêu đề video..."
                                                 />
-                                                <label
-                                                    htmlFor={`upload-${video.videoId}`}
-                                                    className="btn upload-btn"
-                                                >
-                                                    📂 Chọn video
-                                                </label>
-
                                             </div>
-
+                                            {/* Actions Buttons */}
                                             <div className="video-actions">
                                                 <button
                                                     className="btn update"
                                                     onClick={() =>
-                                                        updateVideo(
-                                                            {
-                                                                videoId: video.videoId,
-                                                                sectionId: section.sectionId,
-                                                                description: video.description,
-                                                                link: video.link,
-                                                            },
-                                                            videoFiles[video.videoId]
-                                                        )
+                                                        updateVideo({
+                                                            videoId: video.videoId,
+                                                            sectionId: section.sectionId,
+                                                            description: video.description,
+                                                            link: video.link,
+                                                            // duration: 0 // Nếu backend cần duration, có thể gửi 0 hoặc xử lý ở backend
+                                                        })
                                                     }
                                                 >
-                                                    Cập nhật
+                                                    Lưu Video
                                                 </button>
                                                 <button
                                                     className="btn delete"
-                                                    onClick={() =>
-                                                        deleteVideo(video.videoId)
-                                                    }
+                                                    onClick={() => deleteVideo(video.videoId)}
                                                 >
                                                     Xóa
                                                 </button>
                                             </div>
                                         </div>
 
-                                        {/* Preview video: ưu tiên file upload mới, nếu không thì link từ server */}
-                                        {previewUrl && (
-                                            <video
-                                                className="video-preview"
-                                                src={previewUrl}
-                                                controls
-                                                width="300"
-                                            />
+                                        {/* Input Link Youtube */}
+                                        <input
+                                            className="input-text"
+                                            style={{ marginRight: '0', marginTop: '10px', width: '100%', boxSizing: 'border-box' }}
+                                            type="text"
+                                            value={video.link || ""}
+                                            onChange={(e) =>
+                                                onChangeLinkVideo(section.sectionId, video.videoId, e.target.value)
+                                            }
+                                            placeholder="Dán link Youtube vào đây (Ví dụ: https://www.youtube.com/watch?v=...)"
+                                        />
+
+                                        {/* --- Youtube Preview --- */}
+                                        {embedUrl ? (
+                                            <div className="video-preview-container" style={{ marginTop: '10px' }}>
+                                                <iframe
+                                                    width="100%"
+                                                    height="200" // Chiều cao cố định hoặc tùy chỉnh
+                                                    src={embedUrl}
+                                                    title="YouTube video player"
+                                                    frameBorder="0"
+                                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                                    allowFullScreen
+                                                    style={{ maxWidth: '400px', borderRadius: '8px' }}
+                                                ></iframe>
+                                            </div>
+                                        ) : (
+                                            video.link && <p style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>Link không hợp lệ hoặc không phải link Youtube</p>
                                         )}
                                     </div>
                                 );
                             })}
                         </div>
 
-                        <button
-                            className="btn add"
-                            onClick={() => addVideo(section.sectionId)}
-                        >
-                            + Thêm video
+                        <button className="btn add" onClick={() => addVideo(section.sectionId)}>
+                            + Thêm bài học mới
                         </button>
                     </div>
                 ))}
 
                 <button className="btn add-section" onClick={addSection}>
-                    + Thêm phần
+                    + Thêm phần mới
                 </button>
-
-                {previewVideo && (
-                    <div className="modal" onClick={() => setPreviewVideo(null)}>
-                        <div
-                            className="modal-content"
-                            onClick={(e) => e.stopPropagation()}
-                        >
-                            <video
-                                src={previewVideo}
-                                controls
-                                autoPlay
-                                className="modal-video"
-                            />
-                            <button
-                                className="btn close"
-                                onClick={() => setPreviewVideo(null)}
-                            >
-                                Đóng
-                            </button>
-                        </div>
-                    </div>
-                )}
             </div>
-            {loading && <Popup message='Đang tải video lên' />}
+            {loading && <Popup message='Đang cập nhật dữ liệu...' />}
         </>
-
     );
 }

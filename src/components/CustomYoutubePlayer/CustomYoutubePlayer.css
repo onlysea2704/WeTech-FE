@@ -1,0 +1,247 @@
+/* Custom Video Player Styles */
+.custom-video-player {
+    width: 100%;
+    position: relative;
+    background: #000;
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 56.25%; /* 16:9 aspect ratio */
+}
+
+.youtube-player {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.video-error {
+    padding: 40px;
+    text-align: center;
+    background: #f0f0f0;
+    color: #666;
+}
+
+/* Video Controls */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 20px 15px 10px;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.video-wrapper:hover .video-controls {
+    opacity: 1;
+}
+
+/* Progress Bar */
+.progress-bar {
+    width: 100%;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.progress-bar:hover {
+    height: 7px;
+}
+
+.progress-filled {
+    height: 100%;
+    background: #ff6b6b;
+    border-radius: 10px;
+    transition: width 0.1s;
+}
+
+/* Controls Wrapper */
+.controls-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.controls-left,
+.controls-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Control Buttons */
+.control-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    padding: 5px 10px;
+    transition: transform 0.2s;
+}
+
+.control-btn:hover {
+    transform: scale(1.1);
+}
+
+.control-btn i {
+    pointer-events: none;
+}
+
+/* Volume Control */
+.volume-control {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    position: relative;
+}
+
+.volume-slider {
+    width: 0;
+    opacity: 0;
+    transition: all 0.3s;
+    -webkit-appearance: none;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    outline: none;
+}
+
+.volume-control:hover .volume-slider {
+    width: 80px;
+    opacity: 1;
+    margin-left: 5px;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #ff6b6b;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+}
+
+/* Time Display */
+.time-display {
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    user-select: none;
+}
+
+/* Fullscreen Mode */
+.video-wrapper:fullscreen {
+    padding-bottom: 0;
+}
+
+.video-wrapper:-webkit-full-screen {
+    padding-bottom: 0;
+}
+
+.video-wrapper:-moz-full-screen {
+    padding-bottom: 0;
+}
+
+.video-wrapper:fullscreen .youtube-player,
+.video-wrapper:-webkit-full-screen .youtube-player,
+.video-wrapper:-moz-full-screen .youtube-player {
+    position: static;
+    width: 100%;
+    height: 100vh;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .control-btn {
+        font-size: 16px;
+        padding: 5px 8px;
+    }
+
+    .time-display {
+        font-size: 12px;
+    }
+
+    .volume-control:hover .volume-slider {
+        width: 60px;
+    }
+}
+
+/* Đảm bảo container chiếm hết màn hình khi fullscreen */
+.custom-video-player:fullscreen,
+.custom-video-player:-webkit-full-screen {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: black; /* Tránh viền trắng */
+}
+
+/* Kéo dãn wrapper bên trong */
+.custom-video-player:fullscreen .video-wrapper {
+    /* width: 100%; */
+    /* height: 100%; */
+}
+
+/* Kéo dãn iframe Youtube */
+.custom-video-player:fullscreen .youtube-player,
+.custom-video-player:fullscreen iframe {
+    /* width: 100%; */
+    /* height: 100%; */
+    /* object-fit: contain; */
+}
+
+.video-wrapper {
+    position: relative;
+    width: 100%;
+    /* aspect-ratio hoặc height tùy setup của bạn */
+    overflow: hidden;
+}
+
+/* Player nằm dưới cùng */
+.youtube-player {
+    width: 100%;
+    height: 100%;
+    /* pointer-events: none; -> Nếu muốn chặn triệt để cả hover vào iframe */
+}
+
+/* --- Lớp phủ chặn chuột --- */
+.video-blocker {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%; /* Che phủ toàn bộ video */
+    z-index: 10; /* Cao hơn iframe (thường là 0 hoặc 1) */
+    background: transparent; /* Trong suốt */
+    cursor: pointer; /* Hiển thị con trỏ tay để người dùng biết có thể bấm */
+}
+
+/* --- Controls phải nổi lên trên lớp phủ --- */
+.video-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    /* width: 100%; */
+    z-index: 20; /* Phải cao hơn .video-blocker (z-index: 10) */
+    /* ... các style khác của bạn ... */
+}

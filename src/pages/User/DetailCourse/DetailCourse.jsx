@@ -6,6 +6,7 @@ import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import CourseInfo from "../../../components/CourseInfo/CourseInfo";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
+import CustomYouTubePlayer from "../../../components/CustomYoutubePlayer/CustomYoutubePlayer";
 
 // Component Playlist nhận props onSelectVideo để đổi video
 const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
@@ -35,10 +36,10 @@ const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
                         className={`video-item ${currentVideo?.videoId === video?.videoId ? "active" : ""}`}
                         onClick={() => onSelectVideo(video)}
                     >
-                        <div className="video-icon"><i className="fas fa-play"></i></div> {/* Font Awesome icon */}
+                        <div className="video-icon"><i className="fas fa-play"></i></div>
                         <div className="video-info">
                             <p className="video-title">{video?.description}</p>
-                            <span className="video-duration">{formatVideoDuration(video?.duration) || 0`s`}</span>
+                            <span className="video-duration">{formatVideoDuration(video?.duration) || "0s"}</span>
                         </div>
                         {currentVideo?.videoId === video?.videoId && <span className="status-tag playing">Playing</span>}
                     </div>
@@ -54,7 +55,7 @@ const DetailCourse = () => {
     const navigate = useNavigate();
     const [isPurchased, setIsPurchased] = useState(false);
     const [videoOfCourse, setVideoOfCourse] = useState([]);
-    const [currentVideo, setCurrentVideo] = useState(videoOfCourse[0]);
+    const [currentVideo, setCurrentVideo] = useState(null);
     const [courseDetails, setCourseDetails] = useState(null);
 
     useEffect(() => {
@@ -68,6 +69,7 @@ const DetailCourse = () => {
             }
         };
         fetchCourseDetails();
+        
         const token = sessionStorage.getItem('authToken');
         if (token) {
             const fetchCheckMyCourse = async () => {
@@ -78,6 +80,10 @@ const DetailCourse = () => {
                         const response = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
                         const allVideos = response.data.flatMap(section => section.videos || []);
                         setVideoOfCourse(allVideos);
+                        // Set video đầu tiên làm video hiện tại
+                        if (allVideos.length > 0) {
+                            setCurrentVideo(allVideos[0]);
+                        }
                     }
                 } catch (error) {
                     console.error(error);
@@ -111,17 +117,14 @@ const DetailCourse = () => {
                 <div className="course-left">
                     <div className="video-container">
                         {currentVideo?.link ? (
-                            <iframe
-                                width="100%"
-                                height="360px"
-                                src={currentVideo.link}
+                            <CustomYouTubePlayer 
+                                videoUrl={currentVideo.link}
                                 title={currentVideo?.description || "Video bài học"}
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                allowFullScreen
-                            ></iframe>
+                            />
+                            // <h1 style={{color: "black"}}>{currentVideo.link}</h1>
                         ) : (
                             <img
-                                src={courseDetails?.linkImage}   // ảnh khóa học (truyền vào props hoặc import)
+                                src={courseDetails?.linkImage}
                                 alt="Khóa học"
                                 width="100%"
                                 height="360px"
@@ -131,7 +134,6 @@ const DetailCourse = () => {
                     </div>
                 </div>
 
-
                 {/* Bên phải: điều kiện hiển thị */}
                 <div className="course-right">
                     {isPurchased ? (
@@ -139,7 +141,8 @@ const DetailCourse = () => {
                         <CoursePlaylist
                             onSelectVideo={setCurrentVideo}
                             currentVideo={currentVideo}
-                            videoOfCourse={videoOfCourse} />
+                            videoOfCourse={videoOfCourse} 
+                        />
                     ) : (
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
