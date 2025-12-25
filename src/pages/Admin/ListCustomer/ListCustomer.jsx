@@ -7,7 +7,6 @@ import { publicAxios } from "../../../services/axios-instance";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
 
-
 const ListCustomer = () => {
   const columns = [
     { headerName: "ID", field: "userId" },
@@ -18,19 +17,96 @@ const ListCustomer = () => {
     { headerName: "Ngày tạo", field: "created" },
   ];
 
-  const [data, setData] = useState([]);
+  // --- STATE QUẢN LÝ DỮ LIỆU ---
+  const [allUsers, setAllUsers] = useState([]); // Dữ liệu gốc từ API
+  const [filteredData, setFilteredData] = useState([]); // Dữ liệu sau khi lọc/search (dùng để export Excel)
+  const [displayedData, setDisplayedData] = useState([]); // Dữ liệu hiển thị trên bảng (đã phân trang)
+
+  // --- STATE TÌM KIẾM, SẮP XẾP & PHÂN TRANG ---
   const [pageSize, setPageSize] = useState(7);
   const [currentPage, setCurrentPage] = useState(1);
+  const [totalItems, setTotalItems] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortOption, setSortOption] = useState("newest");
 
-  // Hàm xuất dữ liệu ra Excel
+  // --- CORE LOGIC: SEARCH -> SORT -> PAGINATE ---
+  useEffect(() => {
+    let processed = [...allUsers];
+
+    // 1. Tìm kiếm (Search)
+    if (searchTerm) {
+      const lowerTerm = searchTerm.toLowerCase();
+      processed = processed.filter((item) => {
+        return (
+          item.fullname?.toLowerCase().includes(lowerTerm) ||
+          item.email?.toLowerCase().includes(lowerTerm) ||
+          item.sdt?.includes(searchTerm) ||
+          String(item.userId).includes(lowerTerm)
+        );
+      });
+    }
+
+    // 2. Sắp xếp (Sort)
+    switch (sortOption) {
+      case "newest":
+        // Sử dụng rawCreated để so sánh thời gian chính xác
+        processed.sort((a, b) => new Date(b.rawCreated) - new Date(a.rawCreated));
+        break;
+      case "oldest":
+        processed.sort((a, b) => new Date(a.rawCreated) - new Date(b.rawCreated));
+        break;
+      case "name_asc":
+        processed.sort((a, b) => {
+          // Nếu fullname là null/undefined thì coi như là chuỗi rỗng ""
+          const nameA = a.fullname || "";
+          const nameB = b.fullname || "";
+          return nameA.localeCompare(nameB);
+        });
+        break;
+      default:
+        break;
+    }
+
+    // Lưu dữ liệu đã lọc (nhưng chưa cắt trang) để dùng cho Export Excel
+    setFilteredData(processed);
+    setTotalItems(processed.length);
+
+    // 3. Phân trang (Paginate)
+    const start = (currentPage - 1) * pageSize;
+    const end = start + pageSize;
+    setDisplayedData(processed.slice(start, end));
+
+  }, [allUsers, searchTerm, sortOption, currentPage, pageSize]);
+
+  // --- API CALL ---
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const res = await publicAxios.get("/stats/user/get-all");
+        const formattedData = res.data.map((user) => ({
+          ...user,
+          // Lưu giá trị gốc để sort cho đúng
+          rawCreated: user.created,
+          // Format lại để hiển thị đẹp
+          created: new Date(user.created).toLocaleDateString("vi-VN"),
+        }));
+        setAllUsers(formattedData);
+      } catch (error) {
+        console.error("Lỗi khi tải danh sách user:", error);
+      }
+    };
+    fetchUsers();
+  }, []);
+
+  // --- EXPORT EXCEL ---
   const exportToExcel = () => {
-    if (data.length === 0) {
+    // Xuất dữ liệu từ filteredData (kết quả tìm kiếm) thay vì chỉ trang hiện tại
+    if (filteredData.length === 0) {
       alert("Không có dữ liệu để xuất!");
       return;
     }
 
-    // Tạo dữ liệu theo cấu trúc bảng
-    const worksheetData = data.map((item) => ({
+    const worksheetData = filteredData.map((item) => ({
       ID: item.userId,
       "Họ tên": item.fullname,
       "Số điện thoại": item.sdt,
@@ -39,12 +115,10 @@ const ListCustomer = () => {
       "Ngày tạo": item.created,
     }));
 
-    // Tạo worksheet và workbook
     const worksheet = XLSX.utils.json_to_sheet(worksheetData);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "DanhSachKhachHang");
 
-    // Xuất file
     const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
     const blob = new Blob([excelBuffer], {
       type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -52,27 +126,16 @@ const ListCustomer = () => {
     saveAs(blob, `DanhSachKhachHang_${new Date().toLocaleDateString("vi-VN")}.xlsx`);
   };
 
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const res = await publicAxios.get("/stats/user/get-all");
-        const formattedData = res.data.map((user) => ({
-          ...user,
-          created: new Date(user.created).toLocaleDateString("vi-VN"), // 🔹 chỉ hiển thị ngày-tháng-năm
-        }));
-        setData(formattedData);
-      } catch (error) {
-        console.error("Lỗi khi tải danh sách user:", error);
-      }
-    };
-    fetchUsers();
-  }, []);
+  // --- HANDLERS ---
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1); // Reset về trang 1 khi tìm kiếm
+  };
 
-  // Tính toán phân trang
-  const totalItems = data.length;
-  const start = (currentPage - 1) * pageSize;
-  const end = start + pageSize;
-  const paginatedData = data.slice(start, end);
+  const handleSortChange = (e) => {
+    setSortOption(e.target.value);
+    setCurrentPage(1); // Reset về trang 1 khi sắp xếp
+  };
 
   return (
     <div className="dash-board-page">
@@ -93,11 +156,20 @@ const ListCustomer = () => {
 
             <div className="search-box-table">
               <i className="fa-solid fa-magnifying-glass"></i>
-              <input type="text" placeholder="Tìm kiếm..." />
+              <input
+                type="text"
+                placeholder="Tìm kiếm theo tên, email, sdt..."
+                value={searchTerm}
+                onChange={handleSearchChange}
+              />
             </div>
 
             <div className="sort-dropdown-wrapper">
-              <select className="sort-dropdown">
+              <select
+                className="sort-dropdown"
+                value={sortOption}
+                onChange={handleSortChange}
+              >
                 <option value="newest">Sắp xếp: Mới nhất</option>
                 <option value="oldest">Sắp xếp: Cũ nhất</option>
                 <option value="name_asc">Sắp xếp: A-Z</option>
@@ -108,7 +180,7 @@ const ListCustomer = () => {
 
         <TableComponent
           columns={columns}
-          data={paginatedData}
+          data={displayedData} // Truyền dữ liệu đã xử lý
           pageSize={pageSize}
           currentPage={currentPage}
           totalItems={totalItems}

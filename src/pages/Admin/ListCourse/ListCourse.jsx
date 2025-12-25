@@ -16,31 +16,71 @@ const ListCourse = () => {
         { headerName: "Giá bán", field: "salePrice" },
     ];
 
-    const [allCourses, setAllCourses] = useState([]);
-    const [data, setData] = useState([]);
+    // --- STATE QUẢN LÝ DỮ LIỆU ---
+    const [allCourses, setAllCourses] = useState([]); // Dữ liệu gốc từ API
+    const [data, setData] = useState([]); // Dữ liệu hiển thị trên bảng (sau khi filter/page)
+    
+    // --- STATE PHÂN TRANG & TÌM KIẾM ---
     const [pageSize, setPageSize] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
     const [totalItems, setTotalItems] = useState(0);
+    const [searchTerm, setSearchTerm] = useState(""); // Từ khóa tìm kiếm
+    const [sortOption, setSortOption] = useState("newest"); // Tùy chọn sắp xếp
 
     const onManageEditCourse = (courseId) => {
         window.scrollTo(0, 0);
         navigate(`/manage-course/${courseId}`);
     };
 
+    // --- CORE LOGIC: SEARCH -> SORT -> PAGINATE ---
     useEffect(() => {
+        let processedData = [...allCourses];
+
+        // 1. Xử lý Tìm kiếm (Search)
+        if (searchTerm) {
+            const lowerTerm = searchTerm.toLowerCase();
+            processedData = processedData.filter((course) => {
+                // Tìm theo tên khóa học hoặc ID (bạn có thể thêm field khác nếu muốn)
+                return (
+                    course.title?.toLowerCase().includes(lowerTerm) ||
+                    String(course.courseId).includes(lowerTerm)
+                );
+            });
+        }
+
+        // 2. Xử lý Sắp xếp (Sort)
+        switch (sortOption) {
+            case "newest":
+                // Giả sử ID lớn hơn là mới hơn (hoặc dùng field ngày tháng nếu có)
+                processedData.sort((a, b) => b.courseId - a.courseId);
+                break;
+            case "oldest":
+                processedData.sort((a, b) => a.courseId - b.courseId);
+                break;
+            case "name_asc":
+                processedData.sort((a, b) => a.title.localeCompare(b.title));
+                break;
+            default:
+                break;
+        }
+
+        // 3. Cập nhật tổng số item sau khi lọc (để phân trang đúng)
+        setTotalItems(processedData.length);
+
+        // 4. Xử lý Phân trang (Paginate)
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
-        setData(allCourses.slice(start, end));
-    }, [currentPage, pageSize, allCourses]);
+        setData(processedData.slice(start, end));
 
-    // Gọi API lấy danh sách khóa học
+    }, [allCourses, searchTerm, sortOption, currentPage, pageSize]);
+
+    // --- API CALLS ---
     const fetchCourses = async () => {
         try {
             const res = await publicAxios.get("/api/course/get-all");
             const courses = res.data || [];
-            setTotalItems(courses.length);
+            // Lưu vào allCourses, useEffect ở trên sẽ tự động tính toán data hiển thị
             setAllCourses(courses);
-            setData(courses.slice(0, pageSize));
         } catch (error) {
             console.error("Lỗi khi tải danh sách khóa học:", error);
         }
@@ -50,7 +90,7 @@ const ListCourse = () => {
         fetchCourses();
     }, []);
 
-    // Hàm tạo khóa học mới
+    // --- HANDLERS ---
     const handleCreateCourse = async () => {
         try {
             const res = await authAxios.get("/api/course/create-course");
@@ -62,7 +102,6 @@ const ListCourse = () => {
         }
     };
 
-    // ✅ Hàm xóa khóa học có xác nhận
     const handleDeleteCourse = async (course) => {
         const confirmDelete = window.confirm(
             `Bạn có chắc chắn muốn xóa khóa học "${course.title}" không?`
@@ -80,6 +119,17 @@ const ListCourse = () => {
         } catch (error) {
             alert("Xóa khóa học thất bại!");
         }
+    };
+
+    // Reset về trang 1 khi search hoặc sort thay đổi
+    const handleSearchChange = (e) => {
+        setSearchTerm(e.target.value);
+        setCurrentPage(1);
+    };
+
+    const handleSortChange = (e) => {
+        setSortOption(e.target.value);
+        setCurrentPage(1);
     };
 
     return (
@@ -100,14 +150,23 @@ const ListCourse = () => {
 
                         <div className="search-box-table">
                             <i className="fa-solid fa-magnifying-glass"></i>
-                            <input type="text" placeholder="Search" />
+                            <input 
+                                type="text" 
+                                placeholder="Search by name or ID..." 
+                                value={searchTerm}
+                                onChange={handleSearchChange}
+                            />
                         </div>
 
                         <div className="sort-dropdown-wrapper">
-                            <select className="sort-dropdown">
-                                <option value="newest">Short : Mới nhất</option>
-                                <option value="oldest">Short : Cũ nhất</option>
-                                <option value="name_asc">Short : A-Z</option>
+                            <select 
+                                className="sort-dropdown" 
+                                value={sortOption}
+                                onChange={handleSortChange}
+                            >
+                                <option value="newest">Sort: Mới nhất</option>
+                                <option value="oldest">Sort: Cũ nhất</option>
+                                <option value="name_asc">Sort: A-Z</option>
                             </select>
                         </div>
                     </div>
