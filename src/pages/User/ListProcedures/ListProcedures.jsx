@@ -4,7 +4,7 @@ import ProcedureCard from "../../../components/ProcedureCard/ProcedureCard";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { publicAxios } from "../../../services/axios-instance";
 
 const tabs = [

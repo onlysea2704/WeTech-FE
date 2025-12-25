@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import './FilterCourse.css';
-import { publicAxios } from "../../services/axios-instance";
+// Không cần import publicAxios nữa vì lọc local
 
 const courseCategories = [
     'Thành lập Công ty',
@@ -12,49 +12,64 @@ const courseCategories = [
     'Cập nhật lên CCCD',
 ];
 
-const priceOptions = ['Trả phí', 'Miễn phí'];
+const priceOptions = ['Tất cả', 'Trả phí', 'Miễn phí']; // Thêm 'Tất cả' để dễ reset
 
-const FilterCourse = ({ courses, setCourses, setCurrentPage, selectedCategory }) => {
-    // State để quản lý các mục được chọn
-    const [selectedCategories, setSelectedCategories] = useState(selectedCategory);
-    const [selectedPrice, setSelectedPrice] = useState('Miễn phí');
+const FilterCourse = ({ originalCourses, setCourses, setCurrentPage, selectedCategory }) => {
+    // Nếu selectedCategory truyền vào là string, chuyển thành mảng, nếu không giữ nguyên
+    const initialCategories = Array.isArray(selectedCategory) ? selectedCategory : (selectedCategory ? [selectedCategory] : []);
+    
+    const [selectedCategories, setSelectedCategories] = useState(initialCategories);
+    const [selectedPrice, setSelectedPrice] = useState('Tất cả');
 
-    // State để quản lý việc thu gọn/mở rộng các section
     const [isCategoryOpen, setCategoryOpen] = useState(true);
     const [isPriceOpen, setPriceOpen] = useState(true);
 
-    // Hàm xử lý khi chọn một checkbox danh mục
+    // Xử lý thay đổi checkbox danh mục
     const handleCategoryChange = (category) => {
         setSelectedCategories(prev =>
             prev.includes(category)
-                ? prev.filter(item => item !== category) // Bỏ chọn nếu đã được chọn
-                : [...prev, category] // Thêm vào nếu chưa được chọn
+                ? prev.filter(item => item !== category)
+                : [...prev, category]
         );
     };
 
-    useEffect(() => {
-        const fetchProcedures = async () => {
-            try {
-                const res = await publicAxios.post("/api/course/find-by-type", selectedCategories);
-                setCourses(res.data);
-                setCurrentPage(1);
-            } catch (error) {
-                console.error(error);
-            }
-        };
-        fetchProcedures();
-    }, [selectedCategories]);
-
-    // Hàm xử lý khi chọn một radio button giá
+    // Xử lý thay đổi radio giá
     const handlePriceChange = (event) => {
         setSelectedPrice(event.target.value);
     };
 
-    // Hàm để xóa tất cả các filter
+    // Xử lý xóa filter
     const handleClearFilters = () => {
         setSelectedCategories([]);
-        setSelectedPrice('');
+        setSelectedPrice('Tất cả');
     };
+
+    // --- LOGIC LỌC LOCAL (Thay thế cho call API) ---
+    useEffect(() => {
+        // Luôn bắt đầu lọc từ danh sách gốc (originalCourses)
+        let result = [...originalCourses];
+        // 1. Lọc theo Danh mục (Category)
+        if (selectedCategories.length > 0) {
+            result = result.filter(course => 
+                course.typeCourse && selectedCategories.includes(course.typeCourse)
+            );
+        }
+
+        // 2. Lọc theo Giá (Price)
+        if (selectedPrice !== 'Tất cả') {
+            if (selectedPrice === 'Miễn phí') {
+                // Giả định giá bằng 0 là miễn phí
+                result = result.filter(course => course.price === 0);
+            } else if (selectedPrice === 'Trả phí') {
+                result = result.filter(course => course.price > 0);
+            }
+        }
+
+        // Cập nhật lại danh sách hiển thị và reset về trang 1
+        setCourses(result);
+        setCurrentPage(1);
+
+    }, [selectedCategories, selectedPrice, originalCourses]); // Chạy lại khi danh sách gốc, category hoặc price thay đổi
 
     return (
         <div className="filter-sidebar">
@@ -66,7 +81,7 @@ const FilterCourse = ({ courses, setCourses, setCurrentPage, selectedCategory })
 
                 <div className="filter-divider"></div>
 
-                {/* Section Danh mục khoá học */}
+                {/* Section Danh mục */}
                 <div className="filter-section">
                     <div className="section-header" onClick={() => setCategoryOpen(!isCategoryOpen)}>
                         <span>Danh mục khoá học</span>

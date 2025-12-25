@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react'; // 1. Thêm useRef
 import './Profile.css';
 import avatarImage from '../../../assets/avatar_user.png';
 import Footer from '../../../components/Footer/Footer';
@@ -9,12 +9,15 @@ import Popup from '../../../components/Popup/Popup';
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
-    const [avatarFile, setAvatarFile] = useState(null); // 🆕 file ảnh người dùng chọn
+    const [avatarFile, setAvatarFile] = useState(null);
     const [fullname, setFullname] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [loading, setLoading] = useState(false);
 
+    // 2. Tạo Refs để tham chiếu đến các ô input
+    const fullNameRef = useRef(null);
+    const phoneRef = useRef(null);
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -34,13 +37,12 @@ const Profile = () => {
         fetchUserProfile();
     }, []);
 
-    // 🖼️ Khi người dùng chọn ảnh
     const handleAvatarChange = (event) => {
         const file = event.target.files[0];
         if (file) {
-            setAvatarFile(file); // Lưu file thật để upload
+            setAvatarFile(file);
             const newAvatarUrl = URL.createObjectURL(file);
-            setAvatar(newAvatarUrl); // Hiển thị ảnh xem trước
+            setAvatar(newAvatarUrl);
         }
     };
 
@@ -74,6 +76,12 @@ const Profile = () => {
         setLoading(false);
     };
 
+    // Hàm xử lý focus (để code gọn hơn)
+    const handleFocusInput = (ref) => {
+        if (ref.current) {
+            ref.current.focus();
+        }
+    };
 
     return (
         <div>
@@ -109,9 +117,15 @@ const Profile = () => {
                                 id="fullName"
                                 type="text"
                                 value={fullname}
+                                ref={fullNameRef} // 3. Gán ref vào input
                                 onChange={(e) => setFullname(e.target.value)}
                             />
-                            <i className="fa-solid fa-pen-to-square edit-icon"></i>
+                            {/* 4. Thêm sự kiện onClick cho icon */}
+                            <i 
+                                className="fa-solid fa-pen-to-square edit-icon"
+                                onClick={() => handleFocusInput(fullNameRef)}
+                                style={{ cursor: 'pointer' }} // Thêm style pointer để người dùng biết click được
+                            ></i>
                         </div>
                     </div>
 
@@ -122,9 +136,15 @@ const Profile = () => {
                                 id="phone"
                                 type="tel"
                                 value={phone}
+                                ref={phoneRef} // 3. Gán ref vào input
                                 onChange={(e) => setPhone(e.target.value)}
                             />
-                            <i className="fa-solid fa-pen-to-square edit-icon"></i>
+                             {/* 4. Thêm sự kiện onClick cho icon */}
+                            <i 
+                                className="fa-solid fa-pen-to-square edit-icon"
+                                onClick={() => handleFocusInput(phoneRef)}
+                                style={{ cursor: 'pointer' }}
+                            ></i>
                         </div>
                     </div>
 
@@ -137,6 +157,7 @@ const Profile = () => {
                                 value={email}
                                 readOnly
                             />
+                            {/* Email thường không sửa được nên không cần icon edit */}
                         </div>
                     </div>
 

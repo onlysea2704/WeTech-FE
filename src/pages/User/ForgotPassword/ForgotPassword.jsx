@@ -17,11 +17,12 @@ const ForgotPassword = () => {
         const response = await publicAxios.post('/api/auth/forgot-password', {
             email: email,
         });
-        if (response.status === 200) {
+        console.log(response);
+        if (response.data === true) {
             alert("Đã gửi email khôi phục mật khẩu! Vui lòng kiểm tra hộp thư đến.");
             navigate("/login");
         } else {
-            alert("Có lỗi xảy ra. Vui lòng thử lại.");
+            alert("Có lỗi xảy ra khi gửi email. Vui lòng thử lại.");
         }
     }
 

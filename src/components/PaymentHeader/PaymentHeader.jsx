@@ -14,15 +14,14 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
 
     return (
         <div>
-            {/* HEADER với logo và steps */}
             <div className="header-payment">
                 <div className="image-icon-payment">
                     {/* ✅ Thêm sự kiện quay lại */}
-                    <i
+                    {/* <i
                         className="fa fa-arrow-left back-icon"
                         onClick={() => navigate(-1)} // Quay lại trang trước
                         style={{ cursor: "pointer" }}
-                    ></i>
+                    ></i> */}
 
                     <img src={logoImage} alt="Logo" className="logo" />
                 </div>

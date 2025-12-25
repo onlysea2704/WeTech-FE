@@ -1,5 +1,5 @@
 /* --- Tổng thể --- */
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
 
 .contact-container {
   width: 100%;
@@ -55,6 +55,7 @@
   border-radius: 8px;
   font-size: 16px;
   box-sizing: border-box; /* Quan trọng để padding không làm tăng width */
+  font-family: 'Roboto', sans-serif;
 }
 
 .form-wrapper form textarea {

@@ -5,7 +5,7 @@ import RegisterForm from "./pages/User/RegisterForm/RegisterForm";
 import ForgotPassword from "./pages/User/ForgotPassword/ForgotPassword";
 import UpdatePassword from "./pages/User/UpdatePassword/UpdatePassword";
 import Home from "./pages/User/Home/Home";
-import Courses from "./pages/User/Course/Course";
+import ListCourses from "./pages/User/ListCourses/ListCourses";
 import CourseFilter from "./pages/User/CourseFilter/CourseFilter";
 import DetailCourse from "./pages/User/DetailCourse/DetailCourse";
 import ListProcedures from "./pages/User/ListProcedures/ListProcedures";
@@ -21,6 +21,8 @@ import ListCustomer from "./pages/Admin/ListCustomer/ListCustomer";
 import Transactions from "./pages/Admin/Transactions/Transactions";
 import ListCourse from "./pages/Admin/ListCourse/ListCourse";
 import CourseManager from "./pages/Admin/CourseManager/CourseManager";
+import MyCourses from "./pages/User/MyCourses/MyCourses";
+import ChangePassword from "./pages/User/ChangePassword/ChangePassword";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -37,12 +39,14 @@ function App() {
         <Route path="/register" element={<RegisterForm />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/update-password" element={<UpdatePassword />} />
-        <Route path="/list-courses" element={<Courses />} />
+        <Route path="/list-courses" element={<ListCourses />} />
+        <Route path="/my-courses" element={<MyCourses />} />
         <Route path="/course-filter/:category" element={<CourseFilter />} />
         <Route path="/detail-course/:courseId" element={<DetailCourse />} />
         <Route path="/list-procedures/:typeProcedure" element={<ListProcedures />} />
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/change-password" element={<ChangePassword />} />
         <Route path="/not-found" element={<NotFoundPage />} />
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/register-payment/:courseId" element={<RegisterPayment/>} />

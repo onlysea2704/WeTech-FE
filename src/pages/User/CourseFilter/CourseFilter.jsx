@@ -6,42 +6,50 @@ import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
 import FilterCourse from '../../../components/FilterCourse/FilterCourse';
 import CourseCardMini from '../../../components/CourseCardMini/CourseCardMini';
 import { publicAxios } from "../../../services/axios-instance";
-import { useParams, useNavigate } from "react-router-dom";
-
-// Bảng ánh xạ giữa param và tên hiển thị
-const categoryMap = {
-    "thanh-lap-cong-ty": "Thành lập Công ty",
-    "thanh-lap-ho-kinh-doanh": "Thành lập Hộ kinh doanh",
-    "giai-the-cong-ty": "Giải thể Công ty",
-    "giai-the-ho-kinh-doanh": "Giải thể Hộ kinh doanh",
-    "dang-ky-thay-doi": "Đăng ký thay đổi",
-    "sap-nhap-tinh": "Sáp nhập Tỉnh",
-    "cap-nhat-len-cccd": "Cập nhật lên CCCD",
-};
 
 const CourseFilter = () => {
-    
-    const [courses, setCourses] = useState([]);
+    const [allCourses, setAllCourses] = useState([]); // Dữ liệu gốc (không bao giờ bị filter cắt bớt)
+    const [courses, setCourses] = useState([]);       // Dữ liệu hiển thị (bị thay đổi bởi search/filter)
+    const [searchTerm, setSearchTerm] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
-    const { category } = useParams();
-    const selectedCategory = categoryMap[category] || "Tất cả khóa học";
+
+    const pageTitle = "Tất cả khóa học";
+
     useEffect(() => {
-        console.log("Selected Category:", selectedCategory);
         const fetchProcedures = async () => {
             try {
-                // setLoading(true);
-                // const res = await publicAxios.get("/api/course/get-all");
-                const res = await publicAxios.post("/api/course/find-by-type", [selectedCategory]);
+                // Gọi API 1 lần duy nhất ở đây
+                const res = await publicAxios.get("/api/course/get-all");
+                setAllCourses(res.data);
                 setCourses(res.data);
-                console.log(res.data);
+                console.log("Fetched all courses:", res.data);
             } catch (error) {
-                console.error(error);
+                console.error("Lỗi khi lấy danh sách khóa học:", error);
             }
         };
-        fetchProcedures();
-    }, [category]);
 
-    const itemsPerPage = 16; // số khóa học / trang
+        fetchProcedures();
+    }, []);
+
+    // Xử lý Search
+    const handleSearch = (e) => {
+        const value = e.target.value;
+        setSearchTerm(value);
+        setCurrentPage(1);
+
+        // Logic search cơ bản (Lưu ý: Search này đang tìm trên toàn bộ danh sách gốc)
+        if (value.trim() === "") {
+            setCourses(allCourses);
+        } else {
+            const filtered = allCourses.filter(course => 
+                course.courseName?.toLowerCase().includes(value.toLowerCase()) || 
+                course.title?.toLowerCase().includes(value.toLowerCase())
+            );
+            setCourses(filtered);
+        }
+    };
+
+    const itemsPerPage = 16; 
     const totalPages = Math.ceil(courses.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentCourses = courses.slice(startIndex, startIndex + itemsPerPage);
@@ -53,39 +61,44 @@ const CourseFilter = () => {
 
             <div className="courses-page-layout">
                 <div className="main-content">
-
                     <div className="course-header">
-                        <h2 className="course-title">Tất cả khoá học</h2>
-
-                        {/* Ô tìm kiếm */}
+                        <h2 className="course-title">{pageTitle}</h2>
                         <div className="search-box-filter">
-                            <input className='input-filter' type="text" placeholder="Search" />
+                            <input 
+                                className='input-filter' 
+                                type="text" 
+                                placeholder="Tìm kiếm khóa học..." 
+                                value={searchTerm}
+                                onChange={handleSearch}
+                            />
                             <i className="fa-solid fa-search"></i>
                         </div>
                     </div>
-
-                    {/* Grid khóa học */}
+                    
                     <div className="courses-grid">
-                        {currentCourses.map((course, index) => (
-                            <CourseCardMini key={index} index={index} course={course} />
-                        ))}
+                        {currentCourses.length > 0 ? (
+                            currentCourses.map((course, index) => (
+                                <CourseCardMini key={index} index={index} course={course} />
+                            ))
+                        ) : (
+                            <p>Không tìm thấy khóa học nào.</p>
+                        )}
                     </div>
-
                 </div>
-                <FilterCourse 
-                courses={courses} 
-                setCourses={setCourses} 
-                setCurrentPage={setCurrentPage} 
-                selectedCategory={selectedCategory}/>
+                
+                {/* Truyền allCourses vào props originalCourses */}
+                <FilterCourse
+                    originalCourses={allCourses} 
+                    setCourses={setCourses}
+                    setCurrentPage={setCurrentPage}
+                    selectedCategory={[]} // Mặc định là mảng rỗng nếu không có category chọn trước
+                />
             </div>
 
-            {/* Pagination */}
+            {/* Pagination Logic... (Giữ nguyên như cũ) */}
             {totalPages > 1 && (
                 <div className="pagination">
-                    <button
-                        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                        disabled={currentPage === 1}
-                    >
+                    <button onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
                         <i className="fa-solid fa-angle-left"></i>
                     </button>
                     {Array.from({ length: totalPages }, (_, i) => (
@@ -97,10 +110,7 @@ const CourseFilter = () => {
                             {i + 1}
                         </button>
                     ))}
-                    <button
-                        onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                    >
+                    <button onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
                         <i className="fa-solid fa-angle-right"></i>
                     </button>
                 </div>
