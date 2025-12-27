@@ -1,7 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { authAxios } from "../../services/axios-instance";
+import { authAxios, publicAxios } from "../../services/axios-instance";
 // import "./google-login.css"; // CSS cũ có thể không tác động được vào nút của Google
 
 export default function GoogleLoginButton() {
@@ -11,8 +11,8 @@ export default function GoogleLoginButton() {
   const handleSuccess = async (credentialResponse) => {
     try {
       // credentialResponse.credential chính là chuỗi ID Token (JWT)
-      const res = await axios.post(
-        "http://localhost:8080/auth/google",
+      const res = await publicAxios.post(
+        "/auth/google",
         { idToken: credentialResponse.credential }
       );
 
