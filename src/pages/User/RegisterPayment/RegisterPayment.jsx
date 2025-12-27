@@ -103,25 +103,16 @@ const RegisterPayment = () => {
     }, [idTransaction]);
 
     const { listItems, totalRealPrice, totalSalePrice } = paymentData;
-
-    // === CẬP NHẬT: Hàm xử lý nút "Tiếp tục" ===
     const handleUpdateAndContinue = async () => {
-        // 1. Validate cơ bản
         if (!formData.email || !formData.phone || !formData.fullName) {
             alert("Vui lòng điền đầy đủ Họ tên, Email và Số điện thoại");
             return;
         }
-
         try {
-            // 2. Gọi API Update thông tin giao dịch
-            // Giả sử API update là /payment/update/{idTransaction} hoặc tương tự
-            // Bạn cần điều chỉnh đường dẫn API chính xác theo Backend của bạn
             await authAxios.post(`/payment/update-info?idTransaction=${idTransaction}`, {
                 ...formData,
                 needVAT: needVAT
             });
-
-            // 3. Nếu thành công thì mới chuyển sang trang xác nhận
             setStatus("confirm");
         } catch (error) {
             console.error("Lỗi cập nhật thông tin:", error);
@@ -157,7 +148,7 @@ const RegisterPayment = () => {
                                         <div>
                                             <p className="course-title">{item.title}</p>
                                             <p className="course-subtitle">
-                                                {item.typeItem === 'COURSE' ? 'Khóa học' : 'Sản phẩm'}
+                                                {item?.typeCourse}
                                             </p>
                                         </div>
                                         <div className="course-prices">

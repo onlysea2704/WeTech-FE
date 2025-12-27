@@ -69,7 +69,7 @@ const DetailCourse = () => {
             }
         };
         fetchCourseDetail();
-        
+
         const token = sessionStorage.getItem('authToken');
         if (token) {
             const fetchCheckMyCourse = async () => {
@@ -99,7 +99,6 @@ const DetailCourse = () => {
     };
 
     const handleBuyNow = async () => {
-        // navigate(`/register-payment/${courseId}`);
         const payload = {
             transaction: {
                 transferAmount: courseDetail?.salePrice,
@@ -127,22 +126,36 @@ const DetailCourse = () => {
         }
     };
 
+    const handleAddCourse = async () => {
+        try {
+            const response = await authAxios.get(`/cart/add?courseId=${courseDetail?.courseId}`);
+            if (response.data != null) {
+                alert("Đã thêm vào giỏ hàng!");
+            } else {
+                alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
+            }
+        } catch (error) {
+            console.error("Lỗi khi thêm vào giỏ hàng:", error);
+            alert("Có lỗi xảy ra khi kết nối tới server.");
+        }
+    }
+
     return (
         <div className="detail-course-container">
             <Navbar />
             <Breadcrumb items={[
                 { label: 'Trang chủ', link: '/' },
                 { label: 'Khóa học', link: '/list-courses' },
-                { label: 'Tất cả khóa học' } 
+                { label: 'Tất cả khóa học' }
             ]} />
 
-            <h2>{courseDetail?.title}</h2> 
+            <h2>{courseDetail?.title}</h2>
             <div className="course-card-detail">
                 {/* Bên trái: video player */}
                 <div className="course-left">
                     <div className="video-container">
                         {currentVideo?.link ? (
-                            <CustomYouTubePlayer 
+                            <CustomYouTubePlayer
                                 videoUrl={currentVideo.link}
                                 title={currentVideo?.description || "Video bài học"}
                             />
@@ -152,7 +165,7 @@ const DetailCourse = () => {
                                 src={courseDetail?.linkImage}
                                 alt="Khóa học"
                                 width="100%"
-                                height="360px"
+                                // height="360px"
                                 style={{ objectFit: "cover" }}
                             />
                         )}
@@ -166,7 +179,7 @@ const DetailCourse = () => {
                         <CoursePlaylist
                             onSelectVideo={setCurrentVideo}
                             currentVideo={currentVideo}
-                            videoOfCourse={videoOfCourse} 
+                            videoOfCourse={videoOfCourse}
                         />
                     ) : (
                         // Nếu chưa mua → hiện thông tin mua hàng
@@ -177,7 +190,7 @@ const DetailCourse = () => {
                             <span className="discount">{discountPercentage(courseDetail)}% OFF</span>
 
                             <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
-                            <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
+                            <button className="add-to-cart" onClick={handleAddCourse}>THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-info-detail">
                                 <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetail?.videoCount} Videos</p>

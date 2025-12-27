@@ -118,7 +118,7 @@ const Navbar = () => {
                         <input className='search-navbar' type="text" placeholder="Tìm kiếm" />
                     </div>
 
-                    <i className="fas fa-shopping-cart cart-icon"></i>
+                    <Link to="/cart"><i className="fas fa-shopping-cart cart-icon"></i></Link>
 
                     {!token ? (
                         <>

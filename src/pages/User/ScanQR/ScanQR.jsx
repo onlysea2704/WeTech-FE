@@ -4,15 +4,17 @@ import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 import SuccessPayment from "../../../components/SuccessPayment/SuccessPayment";
 import FailurePayment from "../../../components/FailurePayment/FailurePayment";
 import { useParams, useNavigate } from "react-router-dom";
-import { authAxios, publicAxios } from "../../../services/axios-instance";
+import { publicAxios } from "../../../services/axios-instance";
 import usePaymentSocket from "../../../services/usePaymentSocket";
+import Footer from "../../../components/Footer/Footer";
 
 const ScanQR = () => {
 
-  const { code } = useParams();
+  const { idTransaction } = useParams();
   const [showPopup, setShowPopup] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [code, setCode] = useState("");
   const navigate = useNavigate();
 
   // Countdown 10 phút = 600 giây
@@ -31,22 +33,23 @@ const ScanQR = () => {
     const fetchTransactionDetails = async () => {
       try {
         const res = await publicAxios.get(
-          `/payment/get?code=${code}`
+          `/payment/get?idTransaction=${idTransaction}`
         );
         console.log(res.data);
         setAmount(res.data?.transferAmount || 0);
+        setCode(res.data?.code || "");
       } catch (error) {
         console.error(error);
       }
     };
     fetchTransactionDetails();
 
-  }, [code]);
+  }, [idTransaction]);
 
   // Hàm check giao dịch
   const handleCheckTransaction = async () => {
     try {
-      const res = await publicAxios.get(`/payment/get?code=${code}`);
+      const res = await publicAxios.get(`/payment/get?code=${idTransaction}`);
       if (res.data?.status === "SUCCESS") {
         setIsSuccess(true);
         setShowPopup(true);
@@ -132,15 +135,7 @@ const ScanQR = () => {
           </button>
         </div>
       </div>
-
-      <button
-        onClick={() => {
-          setIsSuccess(true); // test: set true/false
-          setShowPopup(true);
-        }}
-      >
-        Mở popup thanh toán
-      </button>
+      <Footer />
 
       {showPopup && isSuccess && (
         <SuccessPayment onClose={() => {

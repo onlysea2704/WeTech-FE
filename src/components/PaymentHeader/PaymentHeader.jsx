@@ -1,10 +1,9 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import "./PaymentHeader.css";
 import logoImage from "../../assets/logo.png";
 
 const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
-    const navigate = useNavigate(); // ✅ Hook để điều hướng
 
     const steps = [
         { id: 1, label: "Thông tin" },
@@ -16,14 +15,9 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
         <div>
             <div className="header-payment">
                 <div className="image-icon-payment">
-                    {/* ✅ Thêm sự kiện quay lại */}
-                    {/* <i
-                        className="fa fa-arrow-left back-icon"
-                        onClick={() => navigate(-1)} // Quay lại trang trước
-                        style={{ cursor: "pointer" }}
-                    ></i> */}
-
+                    <Link to="/">
                     <img src={logoImage} alt="Logo" className="logo" />
+                    </Link>
                 </div>
 
                 <div className="steps">

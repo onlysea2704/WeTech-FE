@@ -23,6 +23,7 @@ import ListCourse from "./pages/Admin/ListCourse/ListCourse";
 import CourseManager from "./pages/Admin/CourseManager/CourseManager";
 import MyCourses from "./pages/User/MyCourses/MyCourses";
 import ChangePassword from "./pages/User/ChangePassword/ChangePassword";
+import CartPage from "./pages/User/CartPage/CartPage";
 // import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
 // import CourseDetail from "./Pages/CourseDetail/CourseDetail";
 // import Home from "./Pages/Home/Home";
@@ -51,13 +52,14 @@ function App() {
         <Route path="/faq" element={<FaqPage />} />
         <Route path="/register-payment/:idTransaction" element={<RegisterPayment/>} />
         <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
-        <Route path="/scan-qr/:code" element={<ScanQR />} />
+        <Route path="/scan-qr/:idTransaction" element={<ScanQR />} />
 
         <Route path="/dashboard" element={<DashBoard />} />
         <Route path="/list-customer" element={<ListCustomer />} />
         <Route path="/sales" element={<Transactions />} />
         <Route path="/list-course" element={<ListCourse />} />
         <Route path="/manage-course/:courseId" element={<CourseManager />} />
+        <Route path="/cart" element={<CartPage />} />
 
         {/* <Route path="/coursedetail">
           <Route path=":id_course" element={<CourseDetail />} />
