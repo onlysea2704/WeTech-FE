@@ -8,10 +8,8 @@ import { authAxios, publicAxios } from "../../../services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
 import CustomYouTubePlayer from "../../../components/CustomYoutubePlayer/CustomYoutubePlayer";
 
-// Component Playlist nhận props onSelectVideo để đổi video
 const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
 
-    // 👉 Hàm định dạng từng video
     const formatVideoDuration = (duration) => {
         if (!duration) return "0m";
         const hours = Math.floor(duration / 3600);
@@ -156,33 +154,31 @@ const DetailCourse = () => {
                     <div className="video-container">
                         {currentVideo?.link ? (
                             <CustomYouTubePlayer
+                                // THÊM DÒNG NÀY:
+                                key={currentVideo.videoId || currentVideo.link}
+
                                 videoUrl={currentVideo.link}
                                 title={currentVideo?.description || "Video bài học"}
                             />
-                            // <h1 style={{color: "black"}}>{currentVideo.link}</h1>
                         ) : (
                             <img
                                 src={courseDetail?.linkImage}
                                 alt="Khóa học"
                                 width="100%"
-                                // height="360px"
                                 style={{ objectFit: "cover" }}
                             />
                         )}
                     </div>
                 </div>
 
-                {/* Bên phải: điều kiện hiển thị */}
                 <div className="course-right">
                     {isPurchased ? (
-                        // Nếu đã mua → hiện playlist
                         <CoursePlaylist
                             onSelectVideo={setCurrentVideo}
                             currentVideo={currentVideo}
                             videoOfCourse={videoOfCourse}
                         />
                     ) : (
-                        // Nếu chưa mua → hiện thông tin mua hàng
                         <>
                             <h3 className="course-price">
                                 {formatPrice(courseDetail?.salePrice)}đ <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>

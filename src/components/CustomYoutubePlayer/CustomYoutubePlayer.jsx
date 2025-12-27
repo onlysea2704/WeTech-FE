@@ -2,9 +2,15 @@ import React, { useState, useEffect, useRef } from "react";
 import "./CustomYoutubePlayer.css";
 
 const CustomYouTubePlayer = ({ videoUrl, title }) => {
-    const playerRef = useRef(null);
-    const containerRef = useRef(null); // 1. Thêm ref cho container bao ngoài
-    const [player, setPlayer] = useState(null);
+    // 1. Dùng ref để giữ DOM element
+    const containerRef = useRef(null); 
+    const videoNodeRef = useRef(null); // Ref cho thẻ div nơi YouTube mount vào
+
+    // 2. QUAN TRỌNG: Dùng useRef để giữ Instance Player thay vì useState
+    // Giúp truy cập trực tiếp mà không bị ảnh hưởng bởi render cycle của React
+    const playerInstance = useRef(null);
+
+    // Các state quản lý UI
     const [isPlaying, setIsPlaying] = useState(false);
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
@@ -12,7 +18,7 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
     const [isMuted, setIsMuted] = useState(false);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
-    // ... (Giữ nguyên phần Helper và getYouTubeVideoId)
+    // Helper lấy ID
     const getYouTubeVideoId = (url) => {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -21,25 +27,28 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
     };
     const videoId = getYouTubeVideoId(videoUrl);
 
-    // ... (Giữ nguyên logic useEffect khởi tạo Player)
+    // --- EFFECT 1: KHỞI TẠO PLAYER ---
     useEffect(() => {
-        if (!window.YT) {
-            const tag = document.createElement('script');
-            tag.src = 'https://www.youtube.com/iframe_api';
-            const firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-        }
+        if (!videoId) return;
 
+        // Hàm tạo player
         const createPlayer = () => {
-            if (playerRef.current && !player) {
-                const newPlayer = new window.YT.Player(playerRef.current, {
+            // Nếu đã có instance rồi thì không tạo lại
+            if (playerInstance.current) return;
+
+            // Kiểm tra window.YT đã sẵn sàng chưa
+            if (window.YT && window.YT.Player && videoNodeRef.current) {
+                playerInstance.current = new window.YT.Player(videoNodeRef.current, {
                     videoId: videoId,
+                    width: '100%',
+                    height: '100%',
                     playerVars: {
+                        autoplay: 1, // Tự động chạy khi load
                         controls: 0,
                         modestbranding: 1,
                         rel: 0,
                         showinfo: 0,
-                        fs: 0, // Lưu ý: Tắt fs native của YT để dùng custom
+                        fs: 0, 
                         playsinline: 1
                     },
                     events: {
@@ -47,37 +56,45 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
                         onStateChange: onPlayerStateChange
                     }
                 });
-                setPlayer(newPlayer);
             }
         };
 
+        // Inject script nếu chưa có
         if (!window.YT) {
+            const tag = document.createElement('script');
+            tag.src = 'https://www.youtube.com/iframe_api';
+            const firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            
+            // Callback toàn cục khi API tải xong
             window.onYouTubeIframeAPIReady = createPlayer;
-        } else if (window.YT && window.YT.Player) {
+        } else {
             createPlayer();
         }
-        return () => { };
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
-    // ... (Giữ nguyên logic useEffect đổi videoId và các hàm xử lý time, volume...)
-    useEffect(() => {
-        if (player && videoId) {
-            if (typeof player.loadVideoById === 'function') {
-                player.loadVideoById(videoId);
-                setIsPlaying(true);
+        // QUAN TRỌNG: Hàm cleanup hủy player khi component unmount
+        // Giúp tránh lỗi "is not a function" khi dùng key prop để reload component
+        return () => {
+            if (playerInstance.current) {
+                // Kiểm tra xem hàm destroy có tồn tại không trước khi gọi
+                if (typeof playerInstance.current.destroy === 'function') {
+                    playerInstance.current.destroy();
+                }
+                playerInstance.current = null;
             }
-        }
-    }, [videoId, player]);
+        };
+    }, [videoId]); // Re-run nếu videoId thay đổi (nhưng do dùng key ở cha, cái này sẽ chạy mới hoàn toàn)
 
+
+    // --- CÁC HÀM SỰ KIỆN ---
     const onPlayerReady = (event) => {
         setDuration(event.target.getDuration());
-        if (videoId && event.target.getVideoData().video_id !== videoId) {
-            event.target.loadVideoById(videoId);
-        }
+        // Đảm bảo video bắt đầu chạy
+        event.target.playVideo();
     };
 
     const onPlayerStateChange = (event) => {
+        // Cập nhật trạng thái Play/Pause
         if (event.data === window.YT.PlayerState.PLAYING) {
             setIsPlaying(true);
             setDuration(event.target.getDuration());
@@ -86,33 +103,52 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
         }
     };
 
+    // --- EFFECT 2: CẬP NHẬT THANH THỜI GIAN ---
     useEffect(() => {
-        if (!player || !isPlaying) return;
+        if (!isPlaying) return;
+        
         const interval = setInterval(() => {
-            if (player.getCurrentTime) {
-                setCurrentTime(player.getCurrentTime());
+            // Truy cập trực tiếp qua ref.current thay vì biến state
+            if (playerInstance.current && typeof playerInstance.current.getCurrentTime === 'function') {
+                const time = playerInstance.current.getCurrentTime();
+                // Chỉ set state nếu số thay đổi đáng kể để tránh re-render quá nhiều
+                if (time !== currentTime) setCurrentTime(time);
             }
-        }, 100);
+        }, 500); // Giảm tần suất xuống 500ms cho nhẹ, hoặc để 100ms nếu cần mượt
+
         return () => clearInterval(interval);
-    }, [player, isPlaying]);
+    }, [isPlaying]);
+
+
+    // --- CÁC HÀM ĐIỀU KHIỂN (Sử dụng playerInstance.current) ---
 
     const togglePlay = () => {
-        if (!player) return;
-        if (isPlaying) player.pauseVideo();
-        else player.playVideo();
+        const player = playerInstance.current;
+        if (!player || typeof player.playVideo !== 'function') return;
+
+        if (isPlaying) {
+            player.pauseVideo();
+        } else {
+            player.playVideo();
+        }
     };
 
     const handleSeek = (e) => {
-        if (!player) return;
+        const player = playerInstance.current;
+        if (!player || typeof player.seekTo !== 'function') return;
+
         const rect = e.currentTarget.getBoundingClientRect();
         const pos = (e.clientX - rect.left) / rect.width;
         const newTime = pos * duration;
+        
         player.seekTo(newTime, true);
         setCurrentTime(newTime);
     };
 
     const handleVolumeChange = (e) => {
-        if (!player) return;
+        const player = playerInstance.current;
+        if (!player || typeof player.setVolume !== 'function') return;
+
         const newVolume = parseInt(e.target.value);
         setVolume(newVolume);
         player.setVolume(newVolume);
@@ -120,7 +156,9 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
     };
 
     const toggleMute = () => {
-        if (!player) return;
+        const player = playerInstance.current;
+        if (!player || typeof player.mute !== 'function') return;
+
         if (isMuted) {
             player.unMute();
             player.setVolume(volume || 50);
@@ -138,52 +176,40 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
         return `${mins}:${secs.toString().padStart(2, '0')}`;
     };
 
-    // --- SỬA HÀM FULLSCREEN ---
     const toggleFullscreen = () => {
-        // 2. Sử dụng containerRef thay vì truy cập qua playerRef
         const container = containerRef.current;
-
         if (!container) return;
 
         if (!document.fullscreenElement) {
-            if (container.requestFullscreen) {
-                container.requestFullscreen();
-            } else if (container.webkitRequestFullscreen) {
-                container.webkitRequestFullscreen(); // Safari/Chrome cũ
-            } else if (container.msRequestFullscreen) {
-                container.msRequestFullscreen(); // IE/Edge cũ
-            }
+            if (container.requestFullscreen) container.requestFullscreen();
+            else if (container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+            else if (container.msRequestFullscreen) container.msRequestFullscreen();
         } else {
-            if (document.exitFullscreen) {
-                document.exitFullscreen();
-            } else if (document.webkitExitFullscreen) {
-                document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-                document.msExitFullscreen();
-            }
+            if (document.exitFullscreen) document.exitFullscreen();
+            else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+            else if (document.msExitFullscreen) document.msExitFullscreen();
         }
     };
 
     if (!videoId) return <div className="video-error">URL video không hợp lệ</div>;
 
     return (
-        // 3. Gắn containerRef vào thẻ div bao ngoài cùng hoặc thẻ wrapper bạn muốn phóng to
         <div className="custom-video-player" ref={containerRef}>
             <div className="video-wrapper">
-
-                {/* --- THÊM ĐOẠN NÀY: Lớp phủ chặn tương tác --- */}
+                
+                {/* Lớp phủ chặn tương tác trực tiếp lên iframe */}
                 <div
                     className="video-blocker"
-                    onContextMenu={(e) => e.preventDefault()} // Chặn menu chuột phải
-                    onClick={togglePlay} // (Tùy chọn) Bấm vào video để Play/Pause giống player thật
-                    onDoubleClick={toggleFullscreen} // (Tùy chọn) Double click để full screen
+                    onContextMenu={(e) => e.preventDefault()}
+                    onClick={togglePlay}
+                    onDoubleClick={toggleFullscreen}
                 ></div>
 
-                <div ref={playerRef} className="youtube-player"></div>
+                {/* Thẻ div này sẽ được YouTube thay thế bằng Iframe */}
+                {/* Chúng ta gán ref vào đây để API tìm thấy */}
+                <div ref={videoNodeRef} className="youtube-player"></div>
 
-                {/* ... Controls giữ nguyên ... */}
                 <div className="video-controls">
-                    {/* ... (Code controls của bạn giữ nguyên) ... */}
                     <div className="progress-bar" onClick={handleSeek}>
                         <div
                             className="progress-filled"

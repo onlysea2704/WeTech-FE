@@ -3,6 +3,7 @@ import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
+import GoogleLoginButton from '../../../components/GoogleLoginButton/GoogleLoginButton';
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
@@ -132,10 +133,7 @@ const RegisterForm = () => {
                             <span className="line"></span>
                         </div>
 
-                        <button className="btn-google">
-                            <img src="https://developers.google.com/identity/images/g-logo.png" alt="Google" />
-                            Đăng nhập với Google
-                        </button>
+                        <GoogleLoginButton />
 
                         <p className="terms-register">
                             <input type="checkbox" id="acceptTerms" />
