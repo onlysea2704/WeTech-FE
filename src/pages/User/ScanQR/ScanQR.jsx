@@ -140,7 +140,7 @@ const ScanQR = () => {
       {showPopup && isSuccess && (
         <SuccessPayment onClose={() => {
           setShowPopup(false);
-          navigate("/list-courses");
+          navigate("/my-courses");
         }} />
       )}
       {showPopup && !isSuccess && (
