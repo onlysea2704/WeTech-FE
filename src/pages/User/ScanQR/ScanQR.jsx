@@ -24,8 +24,8 @@ const ScanQR = () => {
   });
 
   const formatPrice = (price) => {
-        return new Intl.NumberFormat('vi-VN').format(price);
-    };
+    return new Intl.NumberFormat('vi-VN').format(price);
+  };
 
   useEffect(() => {
     const fetchTransactionDetails = async () => {
@@ -143,9 +143,9 @@ const ScanQR = () => {
       </button>
 
       {showPopup && isSuccess && (
-        <SuccessPayment onClose={() => { 
+        <SuccessPayment onClose={() => {
           setShowPopup(false);
-          navigate("/list-courses"); 
+          navigate("/list-courses");
         }} />
       )}
       {showPopup && !isSuccess && (

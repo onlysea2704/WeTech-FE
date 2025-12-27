@@ -56,19 +56,19 @@ const DetailCourse = () => {
     const [isPurchased, setIsPurchased] = useState(false);
     const [videoOfCourse, setVideoOfCourse] = useState([]);
     const [currentVideo, setCurrentVideo] = useState(null);
-    const [courseDetails, setCourseDetails] = useState(null);
+    const [courseDetail, setCourseDetail] = useState(null);
 
     useEffect(() => {
-        const fetchCourseDetails = async () => {
+        const fetchCourseDetail = async () => {
             try {
                 const res = await publicAxios.get(`/api/course/find-by-course-id?courseId=${courseId}`);
                 console.log("Chi tiết khóa học:", res.data);
-                setCourseDetails(res.data);
+                setCourseDetail(res.data);
             } catch (error) {
                 console.error(error);
             }
         };
-        fetchCourseDetails();
+        fetchCourseDetail();
         
         const token = sessionStorage.getItem('authToken');
         if (token) {
@@ -98,8 +98,33 @@ const DetailCourse = () => {
         return new Intl.NumberFormat('vi-VN').format(price);
     };
 
-    const handleBuyNow = () => {
-        navigate(`/register-payment/${courseId}`);
+    const handleBuyNow = async () => {
+        // navigate(`/register-payment/${courseId}`);
+        const payload = {
+            transaction: {
+                transferAmount: courseDetail?.salePrice,
+                code: "WT" + Date.now()
+            },
+            listItems: [
+                {
+                    idCourse: courseDetail?.courseId,
+                    typeItem: "COURSE"
+                }
+            ]
+        };
+
+        try {
+            const res = await authAxios.post("/payment/create", payload);
+            console.log(res.data);
+            if (res.data?.idTransaction) {
+                navigate(`/register-payment/${res.data?.idTransaction}`);
+            } else {
+                alert("Có lỗi xảy ra khi tạo thanh toán.");
+            }
+        } catch (error) {
+            console.error(error);
+            alert("Có lỗi xảy ra khi tạo thanh toán.");
+        }
     };
 
     return (
@@ -111,7 +136,7 @@ const DetailCourse = () => {
                 { label: 'Tất cả khóa học' } 
             ]} />
 
-            <h2>{courseDetails?.title}</h2> 
+            <h2>{courseDetail?.title}</h2> 
             <div className="course-card-detail">
                 {/* Bên trái: video player */}
                 <div className="course-left">
@@ -124,7 +149,7 @@ const DetailCourse = () => {
                             // <h1 style={{color: "black"}}>{currentVideo.link}</h1>
                         ) : (
                             <img
-                                src={courseDetails?.linkImage}
+                                src={courseDetail?.linkImage}
                                 alt="Khóa học"
                                 width="100%"
                                 height="360px"
@@ -147,15 +172,15 @@ const DetailCourse = () => {
                         // Nếu chưa mua → hiện thông tin mua hàng
                         <>
                             <h3 className="course-price">
-                                {formatPrice(courseDetails?.salePrice)}đ <span className="old-price">{formatPrice(courseDetails?.realPrice)}đ</span>
+                                {formatPrice(courseDetail?.salePrice)}đ <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>
                             </h3>
-                            <span className="discount">{discountPercentage(courseDetails)}% OFF</span>
+                            <span className="discount">{discountPercentage(courseDetail)}% OFF</span>
 
                             <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
                             <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-info-detail">
-                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetails?.videoCount} Videos</p>
+                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetail?.videoCount} Videos</p>
                                 <p><i className="fas fa-file-alt"></i> <b>Tài Liệu:</b> Hồ sơ thủ tục</p>
                                 <p><i className="fas fa-clock"></i> <b>Thời lượng:</b> 02h 30m</p>
                                 <p><i className="fas fa-comment-dots"></i> <b>Phụ Đề</b></p>
@@ -164,7 +189,7 @@ const DetailCourse = () => {
                     )}
                 </div>
             </div>
-            <CourseInfo courseDetails={courseDetails} isPurchased={isPurchased} />
+            <CourseInfo courseDetail={courseDetail} isPurchased={isPurchased} />
             <Footer />
         </div>
     );
