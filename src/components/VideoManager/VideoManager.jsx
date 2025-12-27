@@ -8,12 +8,8 @@ export default function VideoManager() {
     const [sections, setSections] = useState([]);
     const { courseId } = useParams();
     const [loading, setLoading] = useState(false);
-
-    // State này dùng để popup preview (nếu cần xem full màn hình)
     const [previewVideoUrl, setPreviewVideoUrl] = useState(null);
 
-    // === Helper: Lấy Embed URL từ Youtube Link ===
-    // Chuyển https://www.youtube.com/watch?v=ID thành https://www.youtube.com/embed/ID
     const getYoutubeEmbedUrl = (url) => {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
@@ -40,7 +36,7 @@ export default function VideoManager() {
     // === Section CRUD ===
     const addSection = async () => {
         try {
-            const res = await authAxios.post("/api/section/create", {
+            await authAxios.post("/api/section/create", {
                 courseId,
                 name: `Phần ${sections.length + 1}`,
             });
@@ -76,9 +72,7 @@ export default function VideoManager() {
     // === Video CRUD ===
     const addVideo = async (sectionId) => {
         try {
-            // Tạo video rỗng trên server
-            const res = await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
-            console.log("Created video placeholder:", res.data);
+            await authAxios.get(`/api/video/create?sectionId=${sectionId}`);
             fetchCourseVideo();
         } catch (err) {
             console.error("Error adding video:", err);
@@ -88,13 +82,10 @@ export default function VideoManager() {
     const updateVideo = async (videoInfo) => {
         setLoading(true);
         try {
-            // Không dùng FormData nữa, gửi JSON trực tiếp
-            // Backend cần nhận @RequestBody VideoInfo hoặc tương tự
+            // Gửi đầy đủ thông tin bao gồm cả duration
             const res = await authAxios.post("/api/video/update", videoInfo);
-
-            console.log("Updated video link:", res.data);
             alert("Cập nhật video thành công!");
-            fetchCourseVideo(); // Load lại để đồng bộ dữ liệu chuẩn nhất
+            fetchCourseVideo();
         } catch (err) {
             console.error("Error updating video:", err);
             alert("Cập nhật thất bại.");
@@ -107,8 +98,7 @@ export default function VideoManager() {
         const confirmDelete = window.confirm("Bạn có chắc muốn xóa video không?");
         if (!confirmDelete) return;
         try {
-            const res = await authAxios.post(`/api/video/delete?videoId=${videoId}`);
-            console.log("Deleted video:", res.data);
+            await authAxios.post(`/api/video/delete?videoId=${videoId}`);
             fetchCourseVideo();
         } catch (err) {
             console.error("Error deleting video:", err);
@@ -135,6 +125,20 @@ export default function VideoManager() {
         ));
     };
 
+    // MỚI: Hàm thay đổi thời lượng video
+    const onChangeDurationVideo = (sectionId, videoId, newDuration) => {
+        setSections(sections.map((s) =>
+            s.sectionId === sectionId
+                ? {
+                    ...s,
+                    videos: s.videos.map((v) =>
+                        v.videoId === videoId ? { ...v, duration: newDuration } : v
+                    ),
+                }
+                : s
+        ));
+    };
+
     const onChangeLinkVideo = (sectionId, videoId, newLink) => {
         setSections(sections.map((s) =>
             s.sectionId === sectionId
@@ -153,7 +157,6 @@ export default function VideoManager() {
             <div className="course-content-manager">
                 {sections.map((section) => (
                     <div key={section.sectionId} className="section">
-                        {/* --- Header Section --- */}
                         <div className="section-header">
                             <input
                                 className="input-text"
@@ -172,18 +175,18 @@ export default function VideoManager() {
                             </div>
                         </div>
 
-                        {/* --- List Videos --- */}
                         <div className="videos">
                             {section.videos.map((video) => {
                                 const embedUrl = getYoutubeEmbedUrl(video.link);
 
                                 return (
                                     <div key={video.videoId} className="video">
-                                        <div className="video-row">
-                                            <div className="video-inputs" style={{ display: 'flex', flexDirection: 'column', gap: '10px', flex: 1 }}>
+                                        <div className="video-row" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
+                                            <div className="video-inputs" style={{ display: 'flex', flexDirection: 'row', gap: '10px', flex: 1 }}>
                                                 {/* Input Tên Video */}
                                                 <input
                                                     className="input-text"
+                                                    style={{ flex: 3 }}
                                                     type="text"
                                                     value={video.description || ""}
                                                     onChange={(e) =>
@@ -191,8 +194,19 @@ export default function VideoManager() {
                                                     }
                                                     placeholder="Tiêu đề video..."
                                                 />
+                                                {/* MỚI: Input Thời lượng (giây) */}
+                                                <input
+                                                    className="input-text"
+                                                    style={{ flex: 1 }}
+                                                    type="number"
+                                                    value={video.duration || ""}
+                                                    onChange={(e) =>
+                                                        onChangeDurationVideo(section.sectionId, video.videoId, e.target.value)
+                                                    }
+                                                    placeholder="Số giây (VD: 120)"
+                                                />
                                             </div>
-                                            {/* Actions Buttons */}
+
                                             <div className="video-actions">
                                                 <button
                                                     className="btn update"
@@ -202,7 +216,7 @@ export default function VideoManager() {
                                                             sectionId: section.sectionId,
                                                             description: video.description,
                                                             link: video.link,
-                                                            // duration: 0 // Nếu backend cần duration, có thể gửi 0 hoặc xử lý ở backend
+                                                            duration: video.duration // Gửi duration lên server
                                                         })
                                                     }
                                                 >
@@ -217,7 +231,6 @@ export default function VideoManager() {
                                             </div>
                                         </div>
 
-                                        {/* Input Link Youtube */}
                                         <input
                                             className="input-text"
                                             style={{ marginRight: '0', marginTop: '10px', width: '100%', boxSizing: 'border-box' }}
@@ -226,15 +239,14 @@ export default function VideoManager() {
                                             onChange={(e) =>
                                                 onChangeLinkVideo(section.sectionId, video.videoId, e.target.value)
                                             }
-                                            placeholder="Dán link Youtube vào đây (Ví dụ: https://www.youtube.com/watch?v=...)"
+                                            placeholder="Dán link Youtube vào đây..."
                                         />
 
-                                        {/* --- Youtube Preview --- */}
                                         {embedUrl ? (
                                             <div className="video-preview-container" style={{ marginTop: '10px' }}>
                                                 <iframe
                                                     width="100%"
-                                                    height="200" // Chiều cao cố định hoặc tùy chỉnh
+                                                    height="200"
                                                     src={embedUrl}
                                                     title="YouTube video player"
                                                     frameBorder="0"
@@ -244,7 +256,7 @@ export default function VideoManager() {
                                                 ></iframe>
                                             </div>
                                         ) : (
-                                            video.link && <p style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>Link không hợp lệ hoặc không phải link Youtube</p>
+                                            video.link && <p style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>Link không hợp lệ</p>
                                         )}
                                     </div>
                                 );

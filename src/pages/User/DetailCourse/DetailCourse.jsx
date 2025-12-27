@@ -189,9 +189,17 @@ const DetailCourse = () => {
                             <button className="add-to-cart" onClick={handleAddCourse}>THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-info-detail">
-                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetail?.videoCount} Videos</p>
+                                <p>
+                                    <i className="fas fa-user-tie"></i>
+                                    <b>Tác giả:</b> {courseDetail?.author || "Đang cập nhật"}
+                                </p>
+                                <p>
+                                    <i className="fas fa-tag"></i>
+                                    <b>Thể loại:</b> {courseDetail?.typeCourse || "Chưa phân loại"}
+                                </p>
                                 <p><i className="fas fa-file-alt"></i> <b>Tài Liệu:</b> Hồ sơ thủ tục</p>
-                                <p><i className="fas fa-clock"></i> <b>Thời lượng:</b> 02h 30m</p>
+                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetail?.videoCount} Videos</p>
+                                {/* <p><i className="fas fa-clock"></i> <b>Thời lượng:</b> 02h 30m</p> */}
                                 <p><i className="fas fa-comment-dots"></i> <b>Phụ Đề</b></p>
                             </div>
                         </>
