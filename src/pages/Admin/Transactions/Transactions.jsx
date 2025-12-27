@@ -11,10 +11,13 @@ const Transactions = () => {
   const columns = [
     { headerName: "STT", field: "stt" },
     { headerName: "Họ tên", field: "fullname" },
-    { headerName: "Liên hệ", field: "sdt" },
-    { headerName: "Mã giao dịch", field: "code" },
-    { headerName: "Doanh thu (VNĐ)", field: "transferAmount" },
-    { headerName: "Ngày giao dịch", field: "transactionDate" },
+    { headerName: "Liên hệ", field: "phone" },
+    { headerName: "Mã GD", field: "code" },
+    { headerName: "Doanh thu", field: "transferAmount" },
+    { headerName: "Ngày", field: "transactionDate" },
+    { headerName: "Mã Thuế", field: "taxCode" },
+    { headerName: "Tên công ty", field: "companyName" },
+    { headerName: "Địa chỉ", field: "companyAddress" },
     { headerName: "Trạng thái", field: "status" },
   ];
 
@@ -89,12 +92,14 @@ const Transactions = () => {
       try {
         const res = await publicAxios.get("/stats/transaction/get-data-table");
         const transactions = res.data.map((item, index) => ({
-          stt: index + 1,
+          stt: item.idTransaction,
           fullname: item.fullName,
-          sdt: item.sdt,
+          phone: item.phone,
           code: item.code,
           status: item.status,
-
+          taxCode: item.taxCode || "",
+          companyName: item.companyName || "",
+          companyAddress: item.companyAddress || "",
           // Dữ liệu hiển thị (Display Strings)
           transferAmount: `${item.transferAmount?.toLocaleString("vi-VN") || "0"} đ`,
           transactionDate: new Date(item.transactionDate).toLocaleString("vi-VN"),
@@ -120,12 +125,15 @@ const Transactions = () => {
 
     // Export dữ liệu đang hiển thị (sau khi lọc)
     const worksheetData = filteredData.map((item) => ({
-      "STT": item.stt,
+      "STT": item.idTransaction,
       "Họ tên": item.fullname,
-      "Liên hệ": item.sdt,
+      "Liên hệ": item.phone,
       "Mã giao dịch": item.code,
-      "Doanh thu (VNĐ)": item.transferAmount, // Xuất chuỗi đã format hoặc rawAmount tùy nhu cầu
-      "Ngày giao dịch": item.transactionDate,
+      "Doanh thu": item.transferAmount, // Xuất chuỗi đã format hoặc rawAmount tùy nhu cầu
+      "Ngày": item.transactionDate,
+      "Mã Thuế": item.taxCode,
+      "Tên công ty": item.companyName,
+      "Địa chỉ": item.companyAddress,
       "Trạng thái": item.status,
     }));
 
