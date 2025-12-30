@@ -17,18 +17,26 @@ const DashBoard = () => {
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  
+  // ✅ Thêm state cho tháng (Mặc định lấy tháng hiện tại của máy tính)
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth() + 1);
 
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        // ✅ Gọi API trả về danh sách CourseCategoryStatsDTO
-        const res = await publicAxios.get("/stats/dashboard/stats-by-category");
+        // ✅ Truyền tham số tháng vào API
+        const res = await publicAxios.get("/stats/dashboard/stats-by-category", {
+          params: {
+            month: selectedMonth
+          }
+        });
 
         const totalRevenue = res.data.reduce(
           (sum, item) => sum + (item.revenue || 0),
           0
         );
+        
         const formattedData = res.data.map((item, index) => {
           const percentage =
             totalRevenue > 0 ? (item.revenue / totalRevenue) * 100 : 0;
@@ -46,13 +54,18 @@ const DashBoard = () => {
         setData(formattedData);
       } catch (err) {
         console.error("Lỗi khi tải dữ liệu CourseCategoryStatsDTO:", err);
+        // Có thể set data rỗng nếu lỗi để tránh bảng bị treo dữ liệu cũ
+        setData([]); 
       } finally {
         setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  }, [selectedMonth]); // ✅ Thêm selectedMonth vào dependency để gọi lại khi chọn tháng khác
+
+  // ✅ Tạo mảng 12 tháng [1, 2, ..., 12]
+  const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
   return (
     <div className="dash-board-page">
@@ -66,10 +79,17 @@ const DashBoard = () => {
           </div>
           <div className="toolbar-right">
             <div className="sort-dropdown-wrapper">
-              <select className="sort-dropdown">
-                <option value="1">Tháng 1</option>
-                <option value="2">Tháng 2</option>
-                <option value="3">Tháng 3</option>
+              {/* ✅ Dropdown chọn tháng */}
+              <select 
+                className="sort-dropdown"
+                value={selectedMonth}
+                onChange={(e) => setSelectedMonth(Number(e.target.value))}
+              >
+                {months.map((m) => (
+                  <option key={m} value={m}>
+                    Tháng {m}
+                  </option>
+                ))}
               </select>
             </div>
           </div>
