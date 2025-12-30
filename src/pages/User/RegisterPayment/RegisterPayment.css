@@ -307,3 +307,26 @@
     flex: 1;
 }
 
+/* Thêm vào RegisterPayment.css */
+
+.error-message {
+    color: #ff4d4f;
+    font-size: 13px;
+    /* margin-top: -10px; Kéo gần lên input phía trên */
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+    margin-left: 4px;
+}
+
+.input-error {
+    border: 1px solid #ff4d4f !important;
+    background-color: #fff1f0;
+}
+
+/* Đảm bảo form-row hiển thị đúng khi bọc input bằng thẻ div */
+.form-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}

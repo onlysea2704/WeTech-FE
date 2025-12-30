@@ -11,6 +11,9 @@ const RegisterPayment = () => {
     const [status, setStatus] = useState("edit");
     const [transactionDetail, setTransactionDetail] = useState(null);
     
+    // === THÊM: State lưu lỗi validation ===
+    const [errors, setErrors] = useState({});
+
     // 1. State tính toán giá
     const [paymentData, setPaymentData] = useState({
         listItems: [],
@@ -18,7 +21,7 @@ const RegisterPayment = () => {
         totalSalePrice: 0
     });
 
-    // 2. State form (Đã sửa lại thống nhất fullName)
+    // 2. State form
     const [formData, setFormData] = useState({
         fullName: "",
         email: "",
@@ -36,26 +39,29 @@ const RegisterPayment = () => {
         return new Intl.NumberFormat('vi-VN').format(price || 0);
     };
 
+    // === CẬP NHẬT: HandleChange xóa lỗi khi user nhập liệu ===
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
+        
+        // Xóa lỗi của trường đang nhập (nếu có)
+        if (errors[name]) {
+            setErrors(prev => ({ ...prev, [name]: "" }));
+        }
     };
 
-    // 3. Fetch dữ liệu và fill vào form
+    // 3. Fetch dữ liệu
     useEffect(() => {
         const fetchTransactionDetails = async () => {
             try {
                 const res = await publicAxios.get(
                     `/payment/get?idTransaction=${idTransaction}`
                 );
-                console.log("Chi tiết giao dịch:", res.data);
-
+                
                 if (res.data) {
                     setTransactionDetail(res.data);
-                    
-                    // === CẬP NHẬT: Fill dữ liệu từ API vào Form ===
                     setFormData({
-                        fullName: res.data.userFullName || res.data.fullName || "", // Kiểm tra field trả về từ BE
+                        fullName: res.data.userFullName || res.data.fullName || "",
                         email: res.data.userEmail || res.data.email || "",
                         phone: res.data.userPhone || res.data.phone || "",
                         taxCode: res.data.taxCode || "",
@@ -66,7 +72,6 @@ const RegisterPayment = () => {
                         ward: res.data.ward || ""
                     });
 
-                    // Nếu có mã số thuế thì tick sẵn vào VAT
                     if (res.data.taxCode) {
                         setNeedVAT(true);
                     }
@@ -103,11 +108,44 @@ const RegisterPayment = () => {
     }, [idTransaction]);
 
     const { listItems, totalRealPrice, totalSalePrice } = paymentData;
-    const handleUpdateAndContinue = async () => {
-        if (!formData.email || !formData.phone || !formData.fullName) {
-            alert("Vui lòng điền đầy đủ Họ tên, Email và Số điện thoại");
-            return;
+
+    // === THÊM: Hàm Validate ===
+    const validateForm = () => {
+        const newErrors = {};
+        
+        // Validate Họ tên
+        if (!formData.fullName.trim()) {
+            newErrors.fullName = "Vui lòng nhập họ tên.";
         }
+
+        // Validate Email (Regex chuẩn)
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!formData.email.trim()) {
+            newErrors.email = "Vui lòng nhập Email.";
+        } else if (!emailRegex.test(formData.email)) {
+            newErrors.email = "Email không đúng định dạng.";
+        }
+
+        // Validate Số điện thoại (Regex số Việt Nam: 10 số, bắt đầu bằng 03, 05, 07, 08, 09)
+        const phoneRegex = /^(03|05|07|08|09)+([0-9]{8})\b/;
+        if (!formData.phone.trim()) {
+            newErrors.phone = "Vui lòng nhập số điện thoại.";
+        } else if (!phoneRegex.test(formData.phone)) {
+            newErrors.phone = "Số điện thoại không hợp lệ (cần 10 số).";
+        }
+
+        setErrors(newErrors);
+        // Trả về true nếu không có lỗi nào (Object keys length === 0)
+        return Object.keys(newErrors).length === 0;
+    };
+
+    // === CẬP NHẬT: Hàm xử lý submit ===
+    const handleUpdateAndContinue = async () => {
+        // Gọi hàm validate trước
+        if (!validateForm()) {
+            return; // Dừng lại nếu có lỗi
+        }
+
         try {
             await authAxios.post(`/payment/update-info?idTransaction=${idTransaction}`, {
                 ...formData,
@@ -186,30 +224,45 @@ const RegisterPayment = () => {
                     {status === "edit" ? (
                         <div className="register-right-form">
                             <h3>Thông tin đăng ký</h3>
+                            
+                            {/* === CẬP NHẬT: Hiển thị lỗi ngay dưới input === */}
                             <div className="form-row">
-                                <input
-                                    type="text"
-                                    name="fullName"
-                                    placeholder="Họ và tên"
-                                    // Sửa lại binding value cho đúng state
-                                    value={formData.fullName} 
-                                    onChange={handleChange}
-                                />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    placeholder="Email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                />
+                                <div style={{width: '100%'}}>
+                                    <input
+                                        type="text"
+                                        name="fullName"
+                                        placeholder="Họ và tên"
+                                        value={formData.fullName} 
+                                        onChange={handleChange}
+                                        className={errors.fullName ? "input-error" : ""}
+                                    />
+                                    {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+                                </div>
+                                
+                                <div style={{width: '100%'}}>
+                                    <input
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email"
+                                        value={formData.email}
+                                        onChange={handleChange}
+                                        className={errors.email ? "input-error" : ""}
+                                    />
+                                    {errors.email && <span className="error-message">{errors.email}</span>}
+                                </div>
                             </div>
-                            <input
-                                type="tel"
-                                name="phone"
-                                placeholder="Số điện thoại"
-                                value={formData.phone}
-                                onChange={handleChange}
-                            />
+                            
+                            <div style={{width: '100%'}}>
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    placeholder="Số điện thoại"
+                                    value={formData.phone}
+                                    onChange={handleChange}
+                                    className={errors.phone ? "input-error" : ""}
+                                />
+                                {errors.phone && <span className="error-message">{errors.phone}</span>}
+                            </div>
 
                             {/* ===== VAT SECTION ===== */}
                             <div className="vat-section">
@@ -275,14 +328,13 @@ const RegisterPayment = () => {
 
                             <button
                                 className="submit-btn"
-                                // Đổi sự kiện onClick để gọi hàm update
                                 onClick={handleUpdateAndContinue}
                             >
                                 Tiếp tục
                             </button>
                         </div>
                     ) : (
-                        // ===== CONFIRMATION VIEW =====
+                        // ===== CONFIRMATION VIEW (Không đổi) =====
                         <div className="payment-container">
                             <h3>
                                 Cảm ơn bạn đã lựa chọn sản phẩm của{" "}
@@ -294,7 +346,6 @@ const RegisterPayment = () => {
                                     <div className="info-item-payment">
                                         <span>Họ và Tên:</span>
                                         <span className="info-value">
-                                            {/* Sửa lại hiển thị fullName */}
                                             {formData.fullName}
                                         </span>
                                         <i

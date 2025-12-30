@@ -1,11 +1,17 @@
-import React from "react";
 import "./Footer.css";
-import imageLogoFooter from '../../assets/logo-footer.png'
-import iconLogoZalo from '../../assets/icon-zalo.png'
-import iconLogoYoutube from '../../assets/logo-youtube.png'
-import iconLogoFacebook from '../../assets/logo-facebook.png'
+import imageLogoFooter from '../../assets/logo-footer.png';
+import iconLogoZalo from '../../assets/icon-zalo.png';
+import iconLogoYoutube from '../../assets/logo-youtube.png';
+import iconLogoFacebook from '../../assets/logo-facebook.png';
+// 1. Import Link từ react-router-dom
+import { Link } from "react-router-dom";
 
 const Footer = () => {
+
+    const scrollToTop = () => {
+        window.scrollTo(0, 0);
+    };
+
     return (
         <footer className="footer">
             <div className="footer-main">
@@ -27,11 +33,23 @@ const Footer = () => {
                     <div className="menu-group">
                         <h4>Danh Mục</h4>
                         <ul>
-                            <li>TRANG CHỦ</li>
+                            {/* 2. Gắn Link vào Trang chủ */}
+                            <li>
+                                <Link to="/" onClick={scrollToTop}>TRANG CHỦ</Link>
+                            </li>
+                            
                             <li>GIỚI THIỆU</li>
                             <li>DỊCH VỤ PHÁP LÝ</li>
-                            <li>KHÓA HỌC</li>
-                            <li>LIÊN HỆ</li>
+                            
+                            {/* 3. Gắn Link vào Khóa học */}
+                            <li>
+                                <Link to="/list-courses" onClick={scrollToTop}>KHÓA HỌC</Link>
+                            </li>
+                            
+                            {/* 4. Gắn Link vào Liên hệ */}
+                            <li>
+                                <Link to="/contact-us" onClick={scrollToTop}>LIÊN HỆ</Link>
+                            </li>
                         </ul>
                     </div>
                     <div className="menu-group">

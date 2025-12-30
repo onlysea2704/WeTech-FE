@@ -96,3 +96,11 @@ flex: 2;
   background-color: #ffffff30;
   margin-bottom: 10px;
 }
+
+/* Thêm vào Footer.css */
+
+.menu-group ul li a {
+    color: inherit; /* Giữ màu chữ giống như các thẻ li khác (thường là trắng/xám) */
+    text-decoration: none; /* Bỏ gạch chân */
+    transition: color 0.3s;
+}
