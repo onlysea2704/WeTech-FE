@@ -97,14 +97,14 @@ const CartPage = () => {
                         courses.map((item, index) => (
                             <div key={index} className="course-card-payment">
                                 <img
-                                    src={item.linkImage || "https://via.placeholder.com/150"}
-                                    alt={item.title}
+                                    src={item?.linkImage || "https://via.placeholder.com/150"}
+                                    alt={item?.title}
                                     className="course-img"
                                 />
                                 <div className="course-info-payment">
                                     <div className="course-header-payment">
                                         <div>
-                                            <p className="course-title">{item.title}</p>
+                                            <p className="course-title">{item?.title}</p>
                                             <p className="course-subtitle">
                                                 {item?.typeCourse}
                                             </p>
@@ -128,9 +128,9 @@ const CartPage = () => {
                                             </div>
                                         </div>
                                         <div className="course-prices">
-                                            <span className="price">{formatCurrency(item.salePrice)}</span>
-                                            {item.realPrice > item.salePrice && (
-                                                <span className="old-price">{formatCurrency(item.realPrice)}</span>
+                                            <span className="price">{formatCurrency(item?.salePrice)}</span>
+                                            {item?.realPrice > item?.salePrice && (
+                                                <span className="old-price">{formatCurrency(item?.realPrice)}</span>
                                             )}
                                         </div>
                                     </div>
