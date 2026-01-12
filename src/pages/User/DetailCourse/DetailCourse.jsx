@@ -7,52 +7,29 @@ import CourseInfo from "../../../components/CourseInfo/CourseInfo";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
 import CustomYouTubePlayer from "../../../components/CustomYoutubePlayer/CustomYoutubePlayer";
+import CoursePlaylist from "../../../components/CoursePlaylist/CoursePlaylist";
+import memberIcon from "../../../assets/member-icon.png";
+import modulIcon from "../../../assets/modul-icon.png";
+import clockIcon from "../../../assets/clock-icon.png";
+import updateIcon from "../../../assets/update-icon.png";
 
-const CoursePlaylist = ({ onSelectVideo, currentVideo, videoOfCourse }) => {
-
-    const formatVideoDuration = (duration) => {
-        if (!duration) return "0m";
-        const hours = Math.floor(duration / 3600);
-        const minutes = Math.floor((duration % 3600) / 60);
-        const seconds = Math.floor(duration % 60);
-
-        if (hours > 0) return `${hours}h ${minutes}m`;
-        if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
-        return `${seconds}s`;
-    };
-
-    return (
-        <div className="playlist-container">
-            <div className="playlist-header">
-                <h3>Danh sách phát</h3>
-                <span>{videoOfCourse.length} Videos</span>
-            </div>
-            <div className="video-list">
-                {videoOfCourse.map(video => (
-                    <div
-                        key={video?.videoId}
-                        className={`video-item ${currentVideo?.videoId === video?.videoId ? "active" : ""}`}
-                        onClick={() => onSelectVideo(video)}
-                    >
-                        <div className="video-icon"><i className="fas fa-play"></i></div>
-                        <div className="video-info">
-                            <p className="video-title">{video?.description}</p>
-                            <span className="video-duration">{formatVideoDuration(video?.duration) || "0s"}</span>
-                        </div>
-                        {currentVideo?.videoId === video?.videoId && <span className="status-tag playing">Playing</span>}
-                    </div>
-                ))}
-            </div>
-        </div>
-    );
-};
+import copyIcon from "../../../assets/copy-icon.png";
+import facekookIcon from "../../../assets/facebook-icon.png";
+import twitterIcon from "../../../assets/twitter-icon.png";
+import instagramIcon from "../../../assets/instagram-icon.png";
+import envelopeIcon from "../../../assets/envelope-icon.png";
+import clockIcon2 from "../../../assets/clock-icon2.png";
+import usersIcon from "../../../assets/users-icon.png";
+import notebookIcon from "../../../assets/notebook-icon.png";
+import notepadIcon from "../../../assets/notepad-icon.png";
+import monitorIcon from "../../../assets/monitor-icon.png";
+import trophyIcon from "../../../assets/trophy-icon.png";
 
 const DetailCourse = () => {
-
     const { courseId } = useParams();
     const navigate = useNavigate();
     const [isPurchased, setIsPurchased] = useState(false);
-    const [videoOfCourse, setVideoOfCourse] = useState([]);
+    const [sections, setSections] = useState([]); // Store full section data
     const [currentVideo, setCurrentVideo] = useState(null);
     const [courseDetail, setCourseDetail] = useState(null);
 
@@ -68,7 +45,7 @@ const DetailCourse = () => {
         };
         fetchCourseDetail();
 
-        const token = sessionStorage.getItem('authToken');
+        const token = sessionStorage.getItem("authToken");
         if (token) {
             const fetchCheckMyCourse = async () => {
                 try {
@@ -76,9 +53,11 @@ const DetailCourse = () => {
                     setIsPurchased(res.data);
                     if (res.data) {
                         const response = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
-                        const allVideos = response.data.flatMap(section => section.videos || []);
-                        setVideoOfCourse(allVideos);
-                        // Set video đầu tiên làm video hiện tại
+                        // The API returns sections with videos directly
+                        setSections(response.data);
+
+                        // Flatten to find the first video if needed
+                        const allVideos = response.data.flatMap((section) => section.videos || []);
                         if (allVideos.length > 0) {
                             setCurrentVideo(allVideos[0]);
                         }
@@ -91,23 +70,43 @@ const DetailCourse = () => {
         }
     }, [courseId]);
 
-    const discountPercentage = (course) => Math.round(((course?.realPrice - course?.salePrice) / course?.realPrice) * 100);
+    const formatDurationVerbose = (duration) => {
+        if (!duration) return "0m";
+        const hours = Math.floor(duration / 3600);
+        const minutes = Math.floor((duration % 3600) / 60);
+        const seconds = Math.floor(duration % 60);
+
+        if (hours > 0) return `${hours}h ${minutes}m`;
+        if (minutes > 0) return seconds > 0 ? `${minutes}m ${seconds}s` : `${minutes}m`;
+        return `${seconds}s`;
+    };
+
+    function getTotalTime() {
+        let totalTime = 0;
+        sections.forEach((section) => {
+            totalTime += section.videos.reduce((total, video) => total + video.duration, 0);
+        });
+        return formatDurationVerbose(totalTime);
+    }
+
+    const discountPercentage = (course) =>
+        Math.round(((course?.realPrice - course?.salePrice) / course?.realPrice) * 100);
     const formatPrice = (price) => {
-        return new Intl.NumberFormat('vi-VN').format(price);
+        return new Intl.NumberFormat("vi-VN").format(price);
     };
 
     const handleBuyNow = async () => {
         const payload = {
             transaction: {
                 transferAmount: courseDetail?.salePrice,
-                code: "WT" + Date.now()
+                code: "WT" + Date.now(),
             },
             listItems: [
                 {
                     idCourse: courseDetail?.courseId,
-                    typeItem: "COURSE"
-                }
-            ]
+                    typeItem: "COURSE",
+                },
+            ],
         };
 
         try {
@@ -136,27 +135,61 @@ const DetailCourse = () => {
             console.error("Lỗi khi thêm vào giỏ hàng:", error);
             alert("Có lỗi xảy ra khi kết nối tới server.");
         }
-    }
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const date = new Date(dateString);
+        const day = String(date.getDate()).padStart(2, "0");
+        const month = String(date.getMonth() + 1).padStart(2, "0");
+        const year = date.getFullYear();
+        return `${day}/${month}/${year}`;
+    };
 
     return (
         <div className="detail-course-container">
             <Navbar />
-            <Breadcrumb items={[
-                { label: 'Trang chủ', link: '/' },
-                { label: 'Khóa học', link: '/list-courses' },
-                { label: 'Tất cả khóa học' }
-            ]} />
+            <Breadcrumb
+                items={[
+                    { label: "Trang chủ", link: "/" },
+                    { label: "Khóa học", link: "/list-courses" },
+                    { label: courseDetail?.typeCourse },
+                ]}
+            />
 
-            <h2>{courseDetail?.title}</h2>
+            <div className="course-info-summary">
+                <h2>{courseDetail?.title}</h2>
+                <div className="course-meta">
+                    <div className="meta-item">
+                        <img src={memberIcon} alt="" />
+                        <span>{courseDetail?.numberRegister || 0} Học viên</span>
+                    </div>
+                    <div className="meta-item">
+                        <img src={clockIcon} alt="" />
+                        <span>{getTotalTime()}</span>
+                    </div>
+                    <div className="meta-item">
+                        <img src={modulIcon} alt="" />
+                        <span>{sections.length} Modul</span>
+                    </div>
+                </div>
+                <div className="course-author">
+                    Tác giả:
+                    <span>{courseDetail?.author}</span>
+                </div>
+                <div className="course-update">
+                    <img src={updateIcon} alt="" />
+                    <span>Cập nhật mới nhất {formatDate(courseDetail?.createdAt)}</span>
+                </div>
+            </div>
+
             <div className="course-card-detail">
                 {/* Bên trái: video player */}
                 <div className="course-left">
                     <div className="video-container">
                         {currentVideo?.link ? (
                             <CustomYouTubePlayer
-                                // THÊM DÒNG NÀY:
                                 key={currentVideo.videoId || currentVideo.link}
-
                                 videoUrl={currentVideo.link}
                                 title={currentVideo?.description || "Video bài học"}
                             />
@@ -174,35 +207,95 @@ const DetailCourse = () => {
                 <div className="course-right">
                     {isPurchased ? (
                         <CoursePlaylist
+                            sections={sections}
                             onSelectVideo={setCurrentVideo}
                             currentVideo={currentVideo}
-                            videoOfCourse={videoOfCourse}
                         />
                     ) : (
-                        <>
-                            <h3 className="course-price">
-                                {formatPrice(courseDetail?.salePrice)}đ <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>
-                            </h3>
-                            <span className="discount">{discountPercentage(courseDetail)}% OFF</span>
-
-                            <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
-                            <button className="add-to-cart" onClick={handleAddCourse}>THÊM VÀO GIỎ HÀNG</button>
-
-                            <div className="course-info-detail">
-                                <p>
-                                    <i className="fas fa-user-tie"></i>
-                                    <b>Tác giả:</b> {courseDetail?.author || "Đang cập nhật"}
-                                </p>
-                                <p>
-                                    <i className="fas fa-tag"></i>
-                                    <b>Thể loại:</b> {courseDetail?.typeCourse || "Chưa phân loại"}
-                                </p>
-                                <p><i className="fas fa-file-alt"></i> <b>Tài Liệu:</b> Hồ sơ thủ tục</p>
-                                <p><i className="fas fa-video"></i> <b>Bài giảng:</b> {courseDetail?.videoCount} Videos</p>
-                                {/* <p><i className="fas fa-clock"></i> <b>Thời lượng:</b> 02h 30m</p> */}
-                                <p><i className="fas fa-comment-dots"></i> <b>Phụ Đề</b></p>
+                        <div className="course-price-container">
+                            <div className="price-header">
+                                <h3 className="course-price">{formatPrice(courseDetail?.salePrice)}đ</h3>
+                                <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>
+                                <span className="discount-badge">Giảm giá {discountPercentage(courseDetail)}%</span>
                             </div>
-                        </>
+
+                            <button className="add-to-cart-btn" onClick={handleAddCourse}>
+                                Thêm vào giỏ hàng
+                            </button>
+                            <button className="buy-now-btn" onClick={handleBuyNow}>
+                                Mua ngay
+                            </button>
+                            <p className="guarantee-text">Bảo đảm hoàn tiền trong vòng 30 ngày</p>
+
+                            <div className="course-specs display-grid">
+                                <div className="spec-item">
+                                    <div className="spec-label">
+                                        <img src={clockIcon2} alt="" />
+                                        <span>Thời lượng khoá học</span>
+                                    </div>
+                                    <span className="spec-value">{getTotalTime()}</span>
+                                </div>
+                                <div className="spec-item">
+                                    <div className="spec-label">
+                                        <img src={usersIcon} alt="" />
+                                        <span>Học viên</span>
+                                    </div>
+                                    <span className="spec-value">{courseDetail?.numberRegister || 0}</span>
+                                </div>
+                                <div className="spec-item">
+                                    <div className="spec-label">
+                                        <img src={notebookIcon} alt="" />
+                                        <span>Ngôn ngữ</span>
+                                    </div>
+                                    <span className="spec-value">Việt Nam</span>
+                                </div>
+                                <div className="spec-item">
+                                    <div className="spec-label">
+                                        <img src={notepadIcon} alt="" />
+                                        <span>Phụ đề</span>
+                                    </div>
+                                    <span className="spec-value">Việt Nam</span>
+                                </div>
+                            </div>
+
+                            <div className="course-includes">
+                                <h4>Khóa học này bao gồm:</h4>
+                                <ul>
+                                    <li>
+                                        <img src={clockIcon2} alt="" />
+                                        <span>Truy cập trọn đời</span>
+                                    </li>
+                                    <li>
+                                        <img src={notepadIcon} alt="" />
+                                        <span>File bài tập miễn phí và tài liệu có thể tải xuống</span>
+                                    </li>
+                                    <li>
+                                        <img src={monitorIcon} alt="" />
+                                        <span>Truy cập trên điện thoại di động, máy tính và TV</span>
+                                    </li>
+                                    <li>
+                                        <img src={trophyIcon} alt="" />
+                                        <span>Chứng chỉ hoàn thành</span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div className="course-share">
+                                <h4>Chia sẻ khóa học này:</h4>
+                                <div className="share-buttons">
+                                    <button className="copy-link-btn">
+                                        <img src={copyIcon} alt="" />
+                                        Copy link
+                                    </button>
+                                    <div className="social-icons">
+                                        <img src={facekookIcon} alt="" />
+                                        <img src={instagramIcon} alt="" />
+                                        <img src={envelopeIcon} alt="" />
+                                        <img src={twitterIcon} alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     )}
                 </div>
             </div>

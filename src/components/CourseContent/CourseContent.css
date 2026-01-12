@@ -2,187 +2,176 @@
 
 /* --- General Layout --- */
 .content-layout {
-  display: flex;
-  gap: 18px;
-  /* Chuyển thành cột trên màn hình nhỏ */
-  @media (max-width: 992px) {
+    display: flex;
     flex-direction: column;
-  }
+    width: 55%;
+    min-width: 500px;
+    gap: 18px;
 }
 
 /* --- Cột Trái: Syllabus --- */
 .syllabus-column {
-  flex: 5.6; /* Chiếm nhiều không gian hơn */
-  background-color: #FFF;
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 0.5rem 1rem;
-  padding-bottom: 1rem;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    padding-bottom: 1rem;
 }
 
 .accordion-item {
-  border-bottom: 1px solid #e8e8e8;
+    border-bottom: 1px solid #e8e8e8;
 }
+
 .accordion-item:last-child {
-  border-bottom: none;
-}
-
-.accordion-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.5rem 0.5rem;
-  cursor: pointer;
-}
-
-.accordion-title {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-.accordion-title strong {
-    font-size: 1.1rem;
-    color: #1E293B;
-}
-.accordion-title span {
-  font-size: 0.9rem;
-  color: #64748B;
-}
-
-.accordion-arrow {
-  font-size: 0.9rem;
-  color: #64748B;
-}
-
-.accordion-content {
-  padding: 0 1rem 0rem 1rem; 
-  background-color: #fff;
-  border-radius: 10px;
-}
-
-.lesson-item {
-  padding: 0.5rem;
-  border-bottom: 1px solid #f0f0f0;
-}
-.lesson-item:last-child {
-  border-bottom: none;
-}
-.lesson-item p {
-  margin: 0 0 0.5rem 0;
-  color: #334155;
-  font-weight: 500;
-}
-.lesson-duration {
-  display: inline-block;
-  border: 1px solid #FDBA74;
-  color: #FB923C;
-  background-color: #FFF7ED;
-  padding: 0.1rem 0.5rem;
-  border-radius: 12px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-
-/* --- Cột Phải: Materials --- */
-.materials-column {
-  flex: 4; /* Chiếm ít không gian hơn */
-}
-
-.materials-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 12px;
-  padding: 1.5rem;
-  background-color: #fff;
-}
-
-.materials-card h4 {
-  margin-top: 0;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-}
-.materials-card > p {
-  font-size: 0.9rem;
-  color: #666;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 1rem;
-  margin-bottom: 0rem;
-}
-
-.material-section {
-    padding-left: 10px;
-    margin-left: -10px;
-    border-left: 2px solid transparent;
-    transition: border-color 0.3s;
-    justify-content: space-between;
-}
-
-.material-header {
-    display: flex;
-    grid-template-columns: auto 1fr auto;
-    gap: 1rem;
-    align-items: center;
-    padding: 0.75rem 0;
-    cursor: pointer;
-    font-size: 0.9rem;
-    justify-content: space-between;
-}
-
-.material-title {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    justify-content: space-between;
-}
-.material-title strong {
-    font-weight: 600;
-}
-.material-time-header {
-    color: #94A3B8;
-}
-.accordion-arrow-material {
-    color: #94A3B8;
-}
-
-.material-content {
-    padding-left: 1.5rem; /* Thụt vào so với header */
-}
-
-.material-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.6rem 0;
-  border-bottom: 1px solid #eee;
-}
-.material-item:last-of-type {
     border-bottom: none;
 }
 
-.material-name {
-  font-weight: 500;
-  font-size: 0.95rem;
-  cursor: pointer;
+.accordion-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 0.5rem;
+    cursor: pointer;
 }
 
-.material-actions {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  color: #64748B;
-  font-size: 0.9rem;
+.accordion-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.download-btn {
-  background-color: #EBF5FF;
-  color: #007BFF;
-  border: 1px solid #B3D7FF;
-  padding: 0.5rem 1rem;
-  border-radius: 5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s;
+.accordion-title strong {
+    font-size: 1.1rem;
+    color: #1e293b;
 }
-.download-btn:hover {
-  background-color: #dbeeff;
+
+.accordion-title span {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.accordion-arrow {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.accordion-count {
+    display: flex;
+    gap: 12px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.accordion-content {
+    padding: 0 1rem 1rem 1rem;
+    background-color: #fff;
+}
+
+.lesson-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 1rem 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.lesson-item:last-child {
+    border-bottom: none;
+}
+
+.document-item {
+    padding-left: 40px;
+    border-bottom: none !important;
+    padding-top: 5px;
+}
+
+.lesson-info {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+}
+
+.lesson-info i.video-icon {
+    font-size: 1.2rem;
+    color: #22c55e;
+    /* Green color match */
+    margin-top: 3px;
+}
+
+.lesson-info i.document-icon {
+    font-size: 1.2rem;
+    color: #3b82f6;
+    /* Blue for documents */
+    margin-top: 3px;
+}
+
+.lesson-item p {
+    margin: 0;
+    color: #334155;
+    font-weight: 600;
+    font-size: 1rem;
+}
+
+.document-name {
+    margin-top: 5px;
+}
+
+.document-type {
+    font-size: 0.85rem;
+    color: #94a3b8;
+}
+
+.lesson-actions {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 16px;
+    min-width: 150px;
+}
+
+.lesson-duration {
+    font-size: 0.9rem;
+    color: #64748b;
+    font-weight: 500;
+}
+
+.document-size {
+    font-size: 0.85rem;
+    color: #64748b;
+}
+
+.start-learning-btn {
+    background: transparent;
+    border: 1px solid #94a3b8;
+    color: #475569;
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.start-learning-btn:hover {
+    border-color: #2e5cb8;
+    color: #2e5cb8;
+    background-color: #f8fafc;
+}
+
+.download-text-btn {
+    background: none;
+    border: none;
+    color: #2e5cb8;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.download-text-btn:hover {
+    text-decoration: underline;
+}
+
+.download-text-btn:disabled {
+    color: #cbd5e1;
+    cursor: not-allowed;
+    text-decoration: none;
 }

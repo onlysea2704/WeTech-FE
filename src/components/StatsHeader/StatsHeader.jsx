@@ -3,7 +3,7 @@ import "./StatsHeader.css";
 import StatsCard from "../../components/StatsCard/StatsCard";
 import { publicAxios } from "../../services/axios-instance";
 
-const StatsHeader = ({api_url}) => {
+const StatsHeader = ({ api_url }) => {
     const [stats, setStats] = useState([]);
 
     useEffect(() => {
@@ -17,26 +17,26 @@ const StatsHeader = ({api_url}) => {
                         value: data.card1?.value ?? 0,
                         percentage: data.card1?.changePercent?.toFixed(2),
                         trend: data.card1?.changePercent >= 0 ? "up" : "down",
-                        icon: "👥"
+                        icon: "👥",
                     },
                     {
                         title: data.card2?.title,
                         value: data.card2?.value ?? 0,
                         percentage: data.card2?.changePercent?.toFixed(2),
                         trend: data.card2?.changePercent >= 0 ? "up" : "down",
-                        icon: "📦"
+                        icon: "📦",
                     },
                     {
                         title: data.card3?.title,
                         value: data.card3?.value ?? 0,
                         percentage: data.card3?.changePercent?.toFixed(2),
                         trend: data.card3?.changePercent >= 0 ? "up" : "down",
-                        icon: "📈"
+                        icon: "📈",
                     },
                     {
                         title: data.card4?.title,
                         value: data.card4?.value ?? 0,
-                        icon: "⏱️"
+                        icon: "⏱️",
                     },
                 ];
 
@@ -69,7 +69,7 @@ const StatsHeader = ({api_url}) => {
                     </div>
                 </div>
             </div> */}
-            <div style={{height: '40px'}}></div>
+            <div style={{ height: "40px" }}></div>
             <div className="list-stat-card">
                 {stats.map((item, index) => (
                     <StatsCard key={index} {...item} />

@@ -1,106 +1,166 @@
 .footer {
-  background-color: #1e174f;
-  color: white;
-  font-family: Arial, sans-serif;
-  padding: 40px 60px 0 60px;
+    background-color: #1a1642; /* Dark blue base */
+    color: white;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    padding: 60px 80px 0 80px;
 }
 
 .footer-main {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 0 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
 }
 
 .footer-column {
-  flex: 1;
-  min-width: 100px;
-  margin-bottom: 30px;
+    margin-bottom: 30px;
+}
+
+/* Logo Column (Left) */
+.footer-column.logo-column {
+    flex: 1.5; /* Slightly wider for address/logo info if needed */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center alignment as per previous image/code hint, or change to flex-start */
+    text-align: center;
+    min-width: 250px;
 }
 
 .logo-column .footer-logo {
-  width: 90px;
-  margin-bottom: 10px;
+    width: 120px;
+    margin-bottom: 15px;
 }
 
 .company-name {
-  font-size: 13px;
-  margin-bottom: 20px;
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 0.5px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    line-height: 1.4;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
 }
 
 .social-icons img {
-  width: 35px;
-  height: 35px;
-  margin-right: 12px;
-  cursor: pointer;
-  transition: transform 0.2s;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition:
+        transform 0.2s,
+        filter 0.2s;
+    object-fit: contain;
 }
 
 .social-icons img:hover {
-  transform: scale(1.1);
+    transform: scale(1.1);
+    filter: brightness(1.2);
 }
 
+/* Menu Column (Right - contains 3 groups: Danh mục, Liên kết nhanh, Liên hệ) */
 .menu-column {
-flex: 2;
-  display: flex;
-  justify-content: space-between;
-  gap: 40px;
+    flex: 3;
+    display: flex;
+    justify-content: space-between; /* Spread 3 groups evenly */
+    align-items: flex-start;
+    gap: 30px;
+    flex-wrap: wrap;
 }
 
-.menu-group h4,
-.contact-column h4 {
-  font-size: 16px;
-  margin-bottom: 10px;
-  border-bottom: 1px solid white;
-  display: inline-block;
-  padding-bottom: 5px;
+.menu-group {
+    flex: 1;
+    min-width: 180px;
 }
 
+.menu-group h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #5a5585; /* Subtle separator line */
+    display: inline-block;
+    min-width: 50px; /* Ensure line shows even for short titles */
+}
+
+/* List Styles */
 .menu-group ul {
-  list-style: none;
-  padding: 0;
-  font-size: 14px;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    font-size: 14px;
 }
 
 .menu-group li {
-  margin-bottom: 8px;
-  cursor: pointer;
-  transition: color 0.2s;
+    margin-bottom: 12px;
+    color: #d1d1e0;
+    display: flex; /* For alignment of icons and text in contact info */
+    align-items: flex-start;
+    gap: 10px;
 }
 
+.menu-group li a {
+    color: #d1d1e0;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.menu-group li a:hover,
 .menu-group li:hover {
-  color: #00bfff;
+    color: #8481a3;
 }
 
-.contact-column p {
-  font-size: 14px;
-  margin-bottom: 10px;
+/* Contact Specific Styles */
+.menu-group li > div:first-child {
+    /* Container for contact icons */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
 }
 
-.contact-column i {
-  margin-right: 8px;
-  width: 16px;
-  text-align: center;
+.menu-group li > div img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
 }
 
+.menu-group li > div:last-child p:first-child {
+    /* Label (e.g., Địa chỉ) */
+    font-weight: 600;
+    margin: 0 0 4px 0;
+    color: #a0a0b0;
+    font-size: 12px;
+}
+
+.menu-group li > div:last-child p:last-child {
+    /* Content */
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Footer Bottom */
 .footer-bottom {
-  margin-top: 20px;
-  text-align: center;
-  font-size: 13px;
-  padding: 10px 20px 10px;
+    margin-top: 40px;
+    text-align: center;
+    font-size: 13px;
+    color: #a0a0b0;
+    padding-bottom: 20px;
+    width: 100%;
 }
 
 .footer-bottom hr {
-  border: none;
-  height: 1px;
-  background-color: #ffffff30;
-  margin-bottom: 10px;
-}
-
-/* Thêm vào Footer.css */
-
-.menu-group ul li a {
-    color: inherit; /* Giữ màu chữ giống như các thẻ li khác (thường là trắng/xám) */
-    text-decoration: none; /* Bỏ gạch chân */
-    transition: color 0.3s;
+    border: none;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #5a5585, transparent);
+    margin-bottom: 20px;
+    width: 100%;
 }

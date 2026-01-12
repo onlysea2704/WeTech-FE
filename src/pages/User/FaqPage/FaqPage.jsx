@@ -1,30 +1,30 @@
-import React, { useState } from 'react';
-import './FaqPage.css';
-import answerImage from '../../../assets/error-image.png'; // <-- THAY ĐỔI đường dẫn đến hình ảnh của bạn
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/NavBar/NavBar';
+import React, { useState } from "react";
+import "./FaqPage.css";
+import answerImage from "../../../assets/error-image.png"; // <-- THAY ĐỔI đường dẫn đến hình ảnh của bạn
+import Footer from "../../../components/Footer/Footer";
+import Navbar from "../../../components/NavBar/NavBar";
 
 // Dữ liệu câu hỏi và câu trả lời
 const faqData = [
     {
-        question: 'Tôi chưa rành pháp lý, có thể tự làm thủ tục thành lập công ty được không?',
-        answer: 'Hoàn toàn có thể. Khóa học được thiết kế dành riêng cho người mới, không cần nền tảng pháp lý hay kinh nghiệm trước đó. Bạn sẽ được hướng dẫn từng bước cụ thể từ cách chọn loại hình doanh nghiệp, tra cứu tên công ty, điền biểu mẫu, đến cách nộp hồ sơ online hoặc trực tiếp. Tất cả đều có video hướng dẫn chi tiết kèm ví dụ thực tế và mẫu điền sẵn -- bạn chỉ cần làm theo là có thể tự mình hoàn tất thủ tục.',
+        question: "Tôi chưa rành pháp lý, có thể tự làm thủ tục thành lập công ty được không?",
+        answer: "Hoàn toàn có thể. Khóa học được thiết kế dành riêng cho người mới, không cần nền tảng pháp lý hay kinh nghiệm trước đó. Bạn sẽ được hướng dẫn từng bước cụ thể từ cách chọn loại hình doanh nghiệp, tra cứu tên công ty, điền biểu mẫu, đến cách nộp hồ sơ online hoặc trực tiếp. Tất cả đều có video hướng dẫn chi tiết kèm ví dụ thực tế và mẫu điền sẵn -- bạn chỉ cần làm theo là có thể tự mình hoàn tất thủ tục.",
     },
     {
-        question: 'Nếu hồ sơ bị sai hoặc bị trả lại thì sao?',
-        answer: 'Trong trường hợp hồ sơ bị sai sót, khóa học sẽ hướng dẫn bạn cách chỉnh sửa và nộp lại một cách chính xác. Chúng tôi cũng cung cấp các lỗi thường gặp để bạn có thể tránh.',
+        question: "Nếu hồ sơ bị sai hoặc bị trả lại thì sao?",
+        answer: "Trong trường hợp hồ sơ bị sai sót, khóa học sẽ hướng dẫn bạn cách chỉnh sửa và nộp lại một cách chính xác. Chúng tôi cũng cung cấp các lỗi thường gặp để bạn có thể tránh.",
     },
     {
-        question: 'Tôi có được cập nhật nội dung mới không?',
-        answer: 'Có. Mọi cập nhật về quy định hoặc thủ tục pháp lý mới sẽ được bổ sung vào khóa học và bạn có thể truy cập miễn phí.',
+        question: "Tôi có được cập nhật nội dung mới không?",
+        answer: "Có. Mọi cập nhật về quy định hoặc thủ tục pháp lý mới sẽ được bổ sung vào khóa học và bạn có thể truy cập miễn phí.",
     },
     {
-        question: 'Khóa học có cấp chứng chỉ không?',
-        answer: 'Sau khi hoàn thành khóa học, bạn sẽ nhận được một chứng chỉ điện tử để xác nhận đã hoàn tất chương trình đào tạo.',
+        question: "Khóa học có cấp chứng chỉ không?",
+        answer: "Sau khi hoàn thành khóa học, bạn sẽ nhận được một chứng chỉ điện tử để xác nhận đã hoàn tất chương trình đào tạo.",
     },
     {
-        question: 'Tôi có phải đóng thêm chi phí nhà nước không?',
-        answer: 'Có, khóa học chỉ cung cấp kiến thức và hướng dẫn. Bạn vẫn cần đóng các lệ phí nhà nước theo quy định khi nộp hồ sơ thành lập doanh nghiệp.',
+        question: "Tôi có phải đóng thêm chi phí nhà nước không?",
+        answer: "Có, khóa học chỉ cung cấp kiến thức và hướng dẫn. Bạn vẫn cần đóng các lệ phí nhà nước theo quy định khi nộp hồ sơ thành lập doanh nghiệp.",
     },
 ];
 
@@ -51,11 +51,11 @@ const FaqPage = () => {
                     {faqData.map((item, index) => (
                         <div className="faq-page-item" key={index}>
                             <div
-                                className={`faq-question-page ${openIndex === index ? 'active' : ''}`}
+                                className={`faq-question-page ${openIndex === index ? "active" : ""}`}
                                 onClick={() => handleToggle(index)}
                             >
                                 <p>{item.question}</p>
-                                <span className="faq-page-icon">{openIndex === index ? '−' : '+'}</span>
+                                <span className="faq-page-icon">{openIndex === index ? "−" : "+"}</span>
                             </div>
                             {openIndex === index && (
                                 <div className="faq-page-answer">

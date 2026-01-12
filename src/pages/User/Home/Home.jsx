@@ -14,12 +14,11 @@ import { useNavigate } from "react-router-dom";
 // import imageRegister from "../../../assets/image-register-home.jpg";
 
 const Home = () => {
-
     const navigate = useNavigate();
     const contact = async () => {
         navigate("/contact-us");
         window.scrollTo(0, 0);
-    }
+    };
 
     return (
         <div className="home-page-user">

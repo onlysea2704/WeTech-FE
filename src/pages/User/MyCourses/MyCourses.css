@@ -1,39 +1,39 @@
-.courses-page{
+.courses-page {
     padding: 0 120px 10px 120px;
 }
 
 .new-courses-container {
-  margin-top: 30px;
+    margin-top: 30px;
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .header h2 {
-  margin: 0;
-  font-size: 20px;
+    margin: 0;
+    font-size: 20px;
 }
 
 .header p {
-  font-size: 14px;
-  color: #666;
-  margin-top: 0;
+    font-size: 14px;
+    color: #666;
+    margin-top: 0;
 }
 
 .view-more {
-  border: 1px solid #000;
-  background: white;
-  padding: 6px 14px;
-  border-radius: 20px;
-  cursor: pointer;
+    border: 1px solid #000;
+    background: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
 .course-list {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 4 cột */
-  gap: 16px;
-  /* margin-top: 20px; */
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 cột */
+    gap: 16px;
+    /* margin-top: 20px; */
 }

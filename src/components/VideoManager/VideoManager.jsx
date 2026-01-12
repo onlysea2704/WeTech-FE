@@ -14,14 +14,12 @@ export default function VideoManager() {
         if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
         const match = url.match(regExp);
-        return (match && match[2].length === 11) ? `https://www.youtube.com/embed/${match[2]}` : null;
+        return match && match[2].length === 11 ? `https://www.youtube.com/embed/${match[2]}` : null;
     };
 
     const fetchCourseVideo = async () => {
         try {
-            const res = await publicAxios.get(
-                `/api/video/find-by-courseId?courseId=${courseId}`
-            );
+            const res = await publicAxios.get(`/api/video/find-by-courseId?courseId=${courseId}`);
             setSections(res.data || []);
         } catch (error) {
             console.error("Error fetching course content:", error);
@@ -48,10 +46,7 @@ export default function VideoManager() {
 
     const updateSection = async (section) => {
         try {
-            await authAxios.post(
-                `/api/section/update?sectionId=${section.sectionId}`,
-                section
-            );
+            await authAxios.post(`/api/section/update?sectionId=${section.sectionId}`, section);
             fetchCourseVideo();
         } catch (err) {
             console.error("Error updating section:", err);
@@ -107,49 +102,47 @@ export default function VideoManager() {
 
     // === Handle Input Changes (Local State) ===
     const onChangeTitleSection = (sectionId, newTitle) => {
-        setSections(sections.map((s) =>
-            s.sectionId === sectionId ? { ...s, name: newTitle } : s
-        ));
+        setSections(sections.map((s) => (s.sectionId === sectionId ? { ...s, name: newTitle } : s)));
     };
 
     const onChangeTitleVideo = (sectionId, videoId, newTitle) => {
-        setSections(sections.map((s) =>
-            s.sectionId === sectionId
-                ? {
-                    ...s,
-                    videos: s.videos.map((v) =>
-                        v.videoId === videoId ? { ...v, description: newTitle } : v
-                    ),
-                }
-                : s
-        ));
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId
+                    ? {
+                          ...s,
+                          videos: s.videos.map((v) => (v.videoId === videoId ? { ...v, description: newTitle } : v)),
+                      }
+                    : s,
+            ),
+        );
     };
 
     // MỚI: Hàm thay đổi thời lượng video
     const onChangeDurationVideo = (sectionId, videoId, newDuration) => {
-        setSections(sections.map((s) =>
-            s.sectionId === sectionId
-                ? {
-                    ...s,
-                    videos: s.videos.map((v) =>
-                        v.videoId === videoId ? { ...v, duration: newDuration } : v
-                    ),
-                }
-                : s
-        ));
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId
+                    ? {
+                          ...s,
+                          videos: s.videos.map((v) => (v.videoId === videoId ? { ...v, duration: newDuration } : v)),
+                      }
+                    : s,
+            ),
+        );
     };
 
     const onChangeLinkVideo = (sectionId, videoId, newLink) => {
-        setSections(sections.map((s) =>
-            s.sectionId === sectionId
-                ? {
-                    ...s,
-                    videos: s.videos.map((v) =>
-                        v.videoId === videoId ? { ...v, link: newLink } : v
-                    ),
-                }
-                : s
-        ));
+        setSections(
+            sections.map((s) =>
+                s.sectionId === sectionId
+                    ? {
+                          ...s,
+                          videos: s.videos.map((v) => (v.videoId === videoId ? { ...v, link: newLink } : v)),
+                      }
+                    : s,
+            ),
+        );
     };
 
     return (
@@ -181,8 +174,14 @@ export default function VideoManager() {
 
                                 return (
                                     <div key={video.videoId} className="video">
-                                        <div className="video-row" style={{ display: 'flex', gap: '10px', alignItems: 'flex-start' }}>
-                                            <div className="video-inputs" style={{ display: 'flex', flexDirection: 'row', gap: '10px', flex: 1 }}>
+                                        <div
+                                            className="video-row"
+                                            style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
+                                        >
+                                            <div
+                                                className="video-inputs"
+                                                style={{ display: "flex", flexDirection: "row", gap: "10px", flex: 1 }}
+                                            >
                                                 {/* Input Tên Video */}
                                                 <input
                                                     className="input-text"
@@ -190,7 +189,11 @@ export default function VideoManager() {
                                                     type="text"
                                                     value={video.description || ""}
                                                     onChange={(e) =>
-                                                        onChangeTitleVideo(section.sectionId, video.videoId, e.target.value)
+                                                        onChangeTitleVideo(
+                                                            section.sectionId,
+                                                            video.videoId,
+                                                            e.target.value,
+                                                        )
                                                     }
                                                     placeholder="Tiêu đề video..."
                                                 />
@@ -201,7 +204,11 @@ export default function VideoManager() {
                                                     type="number"
                                                     value={video.duration || ""}
                                                     onChange={(e) =>
-                                                        onChangeDurationVideo(section.sectionId, video.videoId, e.target.value)
+                                                        onChangeDurationVideo(
+                                                            section.sectionId,
+                                                            video.videoId,
+                                                            e.target.value,
+                                                        )
                                                     }
                                                     placeholder="Số giây (VD: 120)"
                                                 />
@@ -216,7 +223,7 @@ export default function VideoManager() {
                                                             sectionId: section.sectionId,
                                                             description: video.description,
                                                             link: video.link,
-                                                            duration: video.duration // Gửi duration lên server
+                                                            duration: video.duration, // Gửi duration lên server
                                                         })
                                                     }
                                                 >
@@ -233,7 +240,12 @@ export default function VideoManager() {
 
                                         <input
                                             className="input-text"
-                                            style={{ marginRight: '0', marginTop: '10px', width: '100%', boxSizing: 'border-box' }}
+                                            style={{
+                                                marginRight: "0",
+                                                marginTop: "10px",
+                                                width: "100%",
+                                                boxSizing: "border-box",
+                                            }}
                                             type="text"
                                             value={video.link || ""}
                                             onChange={(e) =>
@@ -243,7 +255,7 @@ export default function VideoManager() {
                                         />
 
                                         {embedUrl ? (
-                                            <div className="video-preview-container" style={{ marginTop: '10px' }}>
+                                            <div className="video-preview-container" style={{ marginTop: "10px" }}>
                                                 <iframe
                                                     width="100%"
                                                     height="200"
@@ -252,11 +264,15 @@ export default function VideoManager() {
                                                     frameBorder="0"
                                                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                                     allowFullScreen
-                                                    style={{ maxWidth: '400px', borderRadius: '8px' }}
+                                                    style={{ maxWidth: "400px", borderRadius: "8px" }}
                                                 ></iframe>
                                             </div>
                                         ) : (
-                                            video.link && <p style={{ color: 'red', fontSize: '0.9rem', marginTop: '5px' }}>Link không hợp lệ</p>
+                                            video.link && (
+                                                <p style={{ color: "red", fontSize: "0.9rem", marginTop: "5px" }}>
+                                                    Link không hợp lệ
+                                                </p>
+                                            )
                                         )}
                                     </div>
                                 );
@@ -273,7 +289,7 @@ export default function VideoManager() {
                     + Thêm phần mới
                 </button>
             </div>
-            {loading && <Popup message='Đang cập nhật dữ liệu...' />}
+            {loading && <Popup message="Đang cập nhật dữ liệu..." />}
         </>
     );
 }

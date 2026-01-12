@@ -19,7 +19,7 @@ const ListCourse = () => {
     // --- STATE QUẢN LÝ DỮ LIỆU ---
     const [allCourses, setAllCourses] = useState([]); // Dữ liệu gốc từ API
     const [data, setData] = useState([]); // Dữ liệu hiển thị trên bảng (sau khi filter/page)
-    
+
     // --- STATE PHÂN TRANG & TÌM KIẾM ---
     const [pageSize, setPageSize] = useState(8);
     const [currentPage, setCurrentPage] = useState(1);
@@ -41,10 +41,7 @@ const ListCourse = () => {
             const lowerTerm = searchTerm.toLowerCase();
             processedData = processedData.filter((course) => {
                 // Tìm theo tên khóa học hoặc ID (bạn có thể thêm field khác nếu muốn)
-                return (
-                    course.title?.toLowerCase().includes(lowerTerm) ||
-                    String(course.courseId).includes(lowerTerm)
-                );
+                return course.title?.toLowerCase().includes(lowerTerm) || String(course.courseId).includes(lowerTerm);
             });
         }
 
@@ -71,7 +68,6 @@ const ListCourse = () => {
         const start = (currentPage - 1) * pageSize;
         const end = start + pageSize;
         setData(processedData.slice(start, end));
-
     }, [allCourses, searchTerm, sortOption, currentPage, pageSize]);
 
     // --- API CALLS ---
@@ -103,9 +99,7 @@ const ListCourse = () => {
     };
 
     const handleDeleteCourse = async (course) => {
-        const confirmDelete = window.confirm(
-            `Bạn có chắc chắn muốn xóa khóa học "${course.title}" không?`
-        );
+        const confirmDelete = window.confirm(`Bạn có chắc chắn muốn xóa khóa học "${course.title}" không?`);
         if (!confirmDelete) return;
 
         try {
@@ -150,20 +144,16 @@ const ListCourse = () => {
 
                         <div className="search-box-table">
                             <i className="fa-solid fa-magnifying-glass"></i>
-                            <input 
-                                type="text" 
-                                placeholder="Search by name or ID..." 
+                            <input
+                                type="text"
+                                placeholder="Search by name or ID..."
                                 value={searchTerm}
                                 onChange={handleSearchChange}
                             />
                         </div>
 
                         <div className="sort-dropdown-wrapper">
-                            <select 
-                                className="sort-dropdown" 
-                                value={sortOption}
-                                onChange={handleSortChange}
-                            >
+                            <select className="sort-dropdown" value={sortOption} onChange={handleSortChange}>
                                 <option value="newest">Sort: Mới nhất</option>
                                 <option value="oldest">Sort: Cũ nhất</option>
                                 <option value="name_asc">Sort: A-Z</option>

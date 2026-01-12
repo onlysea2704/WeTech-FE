@@ -20,7 +20,7 @@
     margin-right: 10px;
 }
 
-.search-navbar{
+.search-navbar {
     margin: 0px;
 }
 
@@ -94,12 +94,12 @@
     cursor: pointer;
 }
 
-.btn-outline a{
+.btn-outline a {
     color: #1a1a4e;
     text-decoration: none;
 }
 
-.btn-filled a{
+.btn-filled a {
     color: white;
     text-decoration: none;
 }
@@ -115,35 +115,34 @@
     cursor: pointer;
 }
 
-
 /* Existing styles */
 
 .user-profile {
- position: relative;
- display: flex;
- align-items: center;
- cursor: pointer;
- margin-left: 20px; /* Adjust spacing */
+    position: relative;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-left: 20px; /* Adjust spacing */
 }
 
 .avatar-container {
- display: flex;
- align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 /* Style cho avatar bằng ảnh */
 .user-avatar-img {
     width: 50px;
     height: 50px;
-    border-radius: 50%;     /* Bo tròn ảnh */
-    object-fit: cover;      /* Đảm bảo ảnh không bị méo */
+    border-radius: 50%; /* Bo tròn ảnh */
+    object-fit: cover; /* Đảm bảo ảnh không bị méo */
     margin-right: 8px;
     border: 1px solid #ddd; /* Thêm viền mỏng */
 }
 
 .dropdown-arrow {
- font-size: 0.8em;
- color: #555;
+    font-size: 0.8em;
+    color: #555;
 }
 
 /* --- CSS MỚI ĐỂ STYLE DROPDOWN --- */
@@ -225,6 +224,6 @@
     color: #c9302c;
 }
 
-.dropdown-menu a{
+.dropdown-menu a {
     text-decoration: none;
 }

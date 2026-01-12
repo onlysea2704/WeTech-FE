@@ -1,136 +1,135 @@
-
-.dash-board-container{
+.dash-board-container {
     padding: 20px;
     padding-top: 0px;
-    background-color: #F8F9FD;
+    background-color: #f8f9fd;
     height: 100vh;
     width: 100%;
     box-sizing: border-box;
 }
 
-.dash-board-page{
+.dash-board-page {
     display: flex;
     height: 95vh;
     width: 100%;
 }
 
-.dash-board-container h2{
+.dash-board-container h2 {
     margin: 5px;
     color: #434040;
 }
 
 /* Tổng thể container */
 .toolbar-container {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px 0px;
-  /* border-bottom: 1px solid #e9ecef; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0px;
+    /* border-bottom: 1px solid #e9ecef; */
 }
 
 /* ---- PHẦN BÊN TRÁI ---- */
 .toolbar-left {
-  display: flex;
-  align-items: baseline;
-  gap: 24px;
+    display: flex;
+    align-items: baseline;
+    gap: 24px;
 }
 
 .toolbar-title {
-  font-size: 22px;
-  font-weight: 600;
-  margin: 0;
-  color: #212529;
+    font-size: 22px;
+    font-weight: 600;
+    margin: 0;
+    color: #212529;
 }
 
 /* ---- PHẦN BÊN PHẢI ---- */
 .toolbar-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 /* Các kiểu chung cho nút, ô tìm kiếm và dropdown */
 .export-button,
 .search-box-table,
 .sort-dropdown {
-  border: 1px solid #1a8917;
-  border-radius: 6px;
-  padding: 9px 14px;
-  font-size: 14px;
-  height: 38px;
-  box-sizing: border-box;
+    border: 1px solid #1a8917;
+    border-radius: 6px;
+    padding: 9px 14px;
+    font-size: 14px;
+    height: 38px;
+    box-sizing: border-box;
 }
 
 /* Nút Export */
 .export-button {
-  background-color: #ffffff;
-  color: #1a8917;
-  border-color: #1a8917;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  border-radius: 20px;
+    background-color: #ffffff;
+    color: #1a8917;
+    border-color: #1a8917;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    border-radius: 20px;
 }
 
 .export-button:hover {
-  background-color: #1a8917;
-  color: #ffffff;
+    background-color: #1a8917;
+    color: #ffffff;
 }
 
 .export-button .fa-file-excel {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 /* Ô tìm kiếm */
 .search-box-table {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background-color: #f8f9fa;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: #f8f9fa;
 }
 
 .search-box-table i {
-  color: #6c757d;
+    color: #6c757d;
 }
 
 .search-box-table input {
-  border: none;
-  outline: none;
-  background-color: transparent;
-  width: 160px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    width: 160px;
 }
 
 .search-box-table input::placeholder {
-  color: #6c757d;
+    color: #6c757d;
 }
 
 /* Dropdown sắp xếp */
 .sort-dropdown-wrapper {
-  position: relative;
+    position: relative;
 }
 
 .sort-dropdown {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-color: #f8f9fa;
-  padding-right: 32px;
-  cursor: pointer;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: #f8f9fa;
+    padding-right: 32px;
+    cursor: pointer;
 }
 
 /* Thêm icon mũi tên cho dropdown sắp xếp */
 .sort-dropdown-wrapper::after {
-  content: '\f078'; /* Mã unicode cho icon chevron-down của Font Awesome */
-  font-family: 'Font Awesome 6 Free';
-  font-weight: 900;
-  position: absolute;
-  right: 12px;
-  top: 50%;
-  transform: translateY(-50%);
-  color: #6c757d;
-  pointer-events: none; /* Để có thể click xuyên qua icon */
-  font-size: 12px;
+    content: "\f078"; /* Mã unicode cho icon chevron-down của Font Awesome */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #6c757d;
+    pointer-events: none; /* Để có thể click xuyên qua icon */
+    font-size: 12px;
 }

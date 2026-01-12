@@ -1,0 +1,83 @@
+.join-courses {
+    background-color: #1e174f; /* Dark blue similar to footer */
+    border-radius: 12px;
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    color: white;
+    margin: 40px 0 60px 0;
+}
+
+.join-content {
+    z-index: 2;
+}
+
+.join-content h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.join-content p {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.join-action {
+    z-index: 2;
+    display: flex;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.input-group input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 8px 12px;
+    outline: none;
+    font-size: 14px;
+    min-width: 200px;
+}
+
+.input-group input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.input-group button {
+    background-color: #20b2aa; /* Teal/Light Sea Green */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.input-group button:hover {
+    background-color: #178f88;
+}
+
+.join-bg-image {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    pointer-events: none; /* Let clicks pass through if needed */
+    max-width: 50%;
+    mask-image: linear-gradient(to left, black 60%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to left, black 60%, transparent 100%);
+}

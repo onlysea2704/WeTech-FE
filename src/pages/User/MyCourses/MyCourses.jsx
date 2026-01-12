@@ -85,7 +85,7 @@ const MyCourses = () => {
                     />
                 )}
             </div>
-            <div style={{margin: "30px"}}></div>
+            <div style={{ margin: "30px" }}></div>
             <Footer />
         </div>
     );

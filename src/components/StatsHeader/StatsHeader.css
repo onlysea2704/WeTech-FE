@@ -1,84 +1,86 @@
 /* Container chính của header */
 .header-stat {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 6px 0px;
-  /* background-color: #ffffff; */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 6px 0px;
+    /* background-color: #ffffff; */
 }
 
 /* --- Phần bên trái: Thông tin khách hàng --- */
 .customer-info {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .customer-icon {
-  font-size: 28px;
-  color: #6ea8fe;
+    font-size: 28px;
+    color: #6ea8fe;
 }
 
 .customer-name {
-  font-size: 20px;
-  font-weight: 500;
-  color: #333;
-  margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+    color: #333;
+    margin: 0;
 }
 
 /* --- Phần giữa: Điều hướng --- */
 .navigation-tabs {
-  display: flex;
-  background-color: #f8f9fa; /* Màu nền xám nhạt cho container */
-  border-radius: 8px;
-  padding: 4px;
+    display: flex;
+    background-color: #f8f9fa; /* Màu nền xám nhạt cho container */
+    border-radius: 8px;
+    padding: 4px;
 }
 
 .nav-button {
-  border: none;
-  background-color: transparent;
-  padding: 8px 24px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-  border-radius: 6px;
-  transition: background-color 0.3s, color 0.3s;
-  color: #555;
+    border: none;
+    background-color: transparent;
+    padding: 8px 24px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 6px;
+    transition:
+        background-color 0.3s,
+        color 0.3s;
+    color: #555;
 }
 
 /* Kiểu cho nút đang được chọn */
 .nav-button.active {
-  background-color: #2f6f4e; /* Màu xanh lá cây đậm */
-  color: #ffffff;
+    background-color: #2f6f4e; /* Màu xanh lá cây đậm */
+    color: #ffffff;
 }
 
 /* --- Phần bên phải: Thông báo --- */
 .notification-area {
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 }
 
 .notification-bell {
-  position: relative; /* Cần thiết để định vị chấm đỏ */
-  font-size: 24px;
-  color: #888;
-  cursor: pointer;
+    position: relative; /* Cần thiết để định vị chấm đỏ */
+    font-size: 24px;
+    color: #888;
+    cursor: pointer;
 }
 
 /* Chấm đỏ thông báo */
 .notification-dot {
-  position: absolute;
-  top: -2px;
-  right: -2px;
-  width: 8px;
-  height: 8px;
-  background-color: #d93025; /* Màu đỏ */
-  border-radius: 50%;
-  border: 1.5px solid #ffffff; /* Viền trắng để nổi bật */
+    position: absolute;
+    top: -2px;
+    right: -2px;
+    width: 8px;
+    height: 8px;
+    background-color: #d93025; /* Màu đỏ */
+    border-radius: 50%;
+    border: 1.5px solid #ffffff; /* Viền trắng để nổi bật */
 }
 
-.list-stat-card{
+.list-stat-card {
     display: flex;
-     gap: 20px;
-     margin-bottom: 10px;
+    gap: 20px;
+    margin-bottom: 10px;
 }

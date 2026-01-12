@@ -1,0 +1,360 @@
+/* Body */
+.registerContainer {
+    display: flex;
+    gap: 40px;
+    margin: 0 auto;
+    padding: 0 40px;
+    font-family: Arial, sans-serif;
+}
+
+.registerLeft,
+.registerRight {
+    flex: 1;
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Course card */
+.courseCardPayment {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.courseImg {
+    width: 100px;
+    height: 75px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.courseInfoPayment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.courseHeaderPayment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.courseTitle {
+    font-weight: bold;
+    margin: 0;
+}
+
+.courseSubtitle {
+    font-size: 14px;
+    color: teal;
+    margin: 4px 0 0 0;
+}
+
+.coursePrices {
+    text-align: right;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+    display: block;
+}
+
+.oldPrice {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 14px;
+}
+
+.trashIcon {
+    margin-top: 8px;
+    color: #e74c3c;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* Promo code */
+.promoCode {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.promoCode input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+}
+
+.promoCode button {
+    padding: 8px 14px;
+    background: white;
+    border: 1px solid #0a66c2;
+    color: #0a66c2;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+/* Price details */
+.priceDetail .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.labelRow {
+    font-weight: normal;
+}
+
+.priceDetail .discountPayment {
+    color: red;
+}
+
+.priceDetail .totalLabelRow {
+    font-weight: bold;
+    padding: 12px 0;
+}
+
+/* Right form */
+.registerLeft h3 {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.formRow {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.formRowBox {
+    display: flex;
+    flex-direction: column;
+    align-content: start;
+    gap: 7px;
+}
+
+.formRowBox input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.phoneBox label,
+.emailBox label,
+.fullNameBox label {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 140%;
+    color: #505050;
+}
+
+.registerLeft input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+}
+
+.submitBtn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.paymentContainer {
+    /* max-width: 400px; */
+    margin: auto;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.paymentContainer h3 {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+.paymentContainer .brand {
+    color: #0056b3;
+    font-weight: bold;
+}
+
+.section {
+    margin-bottom: 20px;
+}
+
+.section h4 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #2b4e9a;
+    /* Blue header color */
+}
+
+/* Table Style for Confirmation Section */
+.infoTable {
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    /* For border-radius on rows */
+}
+
+.infoRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background-color: #fff;
+}
+
+.infoRow:nth-child(odd) {
+    background-color: #f8f9fa;
+    /* Zebra striping: Light grey for odd rows */
+}
+
+.infoRow:nth-child(even) {
+    background-color: #fff;
+}
+
+.infoRowPrice {
+    font-weight: bold;
+}
+
+.label {
+    font-weight: bold;
+    font-size: 14px;
+    color: #333;
+    width: 40%;
+    /* Fixed width for labels column */
+}
+
+.value {
+    flex: 1;
+    text-align: left;
+    color: #555;
+}
+
+.infoRow i {
+    color: #5e72e4;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.paymentMethodContent {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-weight: bold;
+}
+
+.paypalIcon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+}
+
+.totalAmount {
+    color: #000;
+}
+
+.buttonsPayment {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.backBtn,
+.payBtn {
+    flex: 1;
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.backBtn {
+    background: #fff;
+    border: 1px solid #0056b3;
+    color: #0056b3;
+    margin-right: 10px;
+}
+
+.payBtn {
+    background: #003087;
+    color: #fff;
+}
+
+.vatSection {
+    margin-top: 0px;
+    padding: 10px 0;
+    user-select: none;
+}
+
+.vatToggle {
+    display: flex;
+    align-content: center;
+    gap: 8px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.vatForm {
+    margin-top: 12px;
+}
+
+.vatForm input {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.formRow {
+    display: flex;
+    gap: 12px;
+}
+
+.errorMessage {
+    color: #ff4d4f;
+    font-size: 13px;
+    margin-bottom: 10px;
+    display: block;
+    text-align: left;
+    margin-left: 4px;
+}
+
+.inputError {
+    border: 1px solid #ff4d4f !important;
+    background-color: #fff1f0;
+}
+
+/* Đảm bảo form-row hiển thị đúng khi bọc input bằng thẻ div */
+.formRow {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+}

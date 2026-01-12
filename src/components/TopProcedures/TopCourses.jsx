@@ -12,7 +12,7 @@ const TopCourses = () => {
     useEffect(() => {
         const fetchCourses = async () => {
             try {
-                const res = await publicAxios.get("/api/course/get-top"); 
+                const res = await publicAxios.get("/api/course/get-top");
                 setCourses(res.data);
             } catch (error) {
                 console.error("Lỗi khi tải danh sách khóa học:", error);
