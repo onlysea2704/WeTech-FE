@@ -5,16 +5,15 @@ import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/Lef
 import { publicAxios } from "../../../services/axios-instance";
 
 const ForgotPassword = () => {
-
     const navigate = useNavigate();
     const handleClose = async () => {
         navigate("/");
-    }
+    };
 
     const [email, setEmail] = useState("");
 
     const forgotPassword = async (email) => {
-        const response = await publicAxios.post('/api/auth/forgot-password', {
+        const response = await publicAxios.post("/api/auth/forgot-password", {
             email: email,
         });
         console.log(response);
@@ -24,7 +23,7 @@ const ForgotPassword = () => {
         } else {
             alert("Có lỗi xảy ra khi gửi email. Vui lòng thử lại.");
         }
-    }
+    };
 
     return (
         <div className="forgot-password-background">
@@ -39,11 +38,18 @@ const ForgotPassword = () => {
                             </button>
                         </div>
                         <p className="register-text">
-                            Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn liên kết đặt lại mật khẩu.
+                            Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn liên kết đặt lại mật
+                            khẩu.
                         </p>
-                        <input type="email" placeholder="Email" value={email}
-                            onChange={(e) => setEmail(e.target.value)} />
-                        <button className="btn-forgot-password" onClick={() => forgotPassword(email)}>Gửi Email Khôi Phục</button>
+                        <input
+                            type="email"
+                            placeholder="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <button className="btn-forgot-password" onClick={() => forgotPassword(email)}>
+                            Gửi Email Khôi Phục
+                        </button>
                         <p className="text-register">
                             Tạo mới? <Link to="/register">Đăng Ký</Link>
                         </p>

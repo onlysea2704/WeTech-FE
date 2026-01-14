@@ -1,16 +1,20 @@
 import { useState, useEffect } from "react";
-import "./RegisterPayment.css";
+import styles from "./RegisterPayment.module.css";
 import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 import { useParams, useNavigate } from "react-router-dom";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
+import Navbar from "../../../components/NavBar/NavBar";
+import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
+import qrCode from "../../../assets/qr-code.png";
 
 const RegisterPayment = () => {
     const { idTransaction } = useParams();
     const navigate = useNavigate();
 
     const [status, setStatus] = useState("edit");
+    const [editingValue, setEditingValue] = useState(null);
     const [transactionDetail, setTransactionDetail] = useState(null);
-    
+
     // === THÊM: State lưu lỗi validation ===
     const [errors, setErrors] = useState({});
 
@@ -18,7 +22,7 @@ const RegisterPayment = () => {
     const [paymentData, setPaymentData] = useState({
         listItems: [],
         totalRealPrice: 0,
-        totalSalePrice: 0
+        totalSalePrice: 0,
     });
 
     // 2. State form
@@ -31,22 +35,22 @@ const RegisterPayment = () => {
         companyAddress: "",
         province: "",
         district: "",
-        ward: ""
+        ward: "",
     });
     const [needVAT, setNeedVAT] = useState(false);
 
     const formatPrice = (price) => {
-        return new Intl.NumberFormat('vi-VN').format(price || 0);
+        return new Intl.NumberFormat("vi-VN").format(price || 0);
     };
 
     // === CẬP NHẬT: HandleChange xóa lỗi khi user nhập liệu ===
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
-        
+
         // Xóa lỗi của trường đang nhập (nếu có)
         if (errors[name]) {
-            setErrors(prev => ({ ...prev, [name]: "" }));
+            setErrors((prev) => ({ ...prev, [name]: "" }));
         }
     };
 
@@ -54,10 +58,8 @@ const RegisterPayment = () => {
     useEffect(() => {
         const fetchTransactionDetails = async () => {
             try {
-                const res = await publicAxios.get(
-                    `/payment/get?idTransaction=${idTransaction}`
-                );
-                
+                const res = await publicAxios.get(`/payment/get?idTransaction=${idTransaction}`);
+
                 if (res.data) {
                     setTransactionDetail(res.data);
                     setFormData({
@@ -69,7 +71,7 @@ const RegisterPayment = () => {
                         companyAddress: res.data.companyAddress || "",
                         province: res.data.province || "",
                         district: res.data.district || "",
-                        ward: res.data.ward || ""
+                        ward: res.data.ward || "",
                     });
 
                     if (res.data.taxCode) {
@@ -84,17 +86,16 @@ const RegisterPayment = () => {
         const fetchAndCalculate = async () => {
             if (!idTransaction) return;
             try {
-                const res = await publicAxios.get(
-                    `/payment/get-list-item-by-id?idTransaction=${idTransaction}`
-                );
-                const items = res.data || [];
+                const res = await publicAxios.get(`/payment/get-list-item-by-id?idTransaction=${idTransaction}`);
+                let items = res.data || [];
+                items = items.filter((item) => item !== null && item !== undefined);
                 const totalReal = items.reduce((sum, item) => sum + (Number(item.realPrice) || 0), 0);
                 const totalSale = items.reduce((sum, item) => sum + (Number(item.salePrice) || 0), 0);
-                
+
                 setPaymentData({
                     listItems: items,
                     totalRealPrice: totalReal,
-                    totalSalePrice: totalSale
+                    totalSalePrice: totalSale,
                 });
             } catch (error) {
                 console.error("Lỗi lấy danh sách sản phẩm:", error);
@@ -112,7 +113,7 @@ const RegisterPayment = () => {
     // === THÊM: Hàm Validate ===
     const validateForm = () => {
         const newErrors = {};
-        
+
         // Validate Họ tên
         if (!formData.fullName.trim()) {
             newErrors.fullName = "Vui lòng nhập họ tên.";
@@ -149,7 +150,7 @@ const RegisterPayment = () => {
         try {
             await authAxios.post(`/payment/update-info?idTransaction=${idTransaction}`, {
                 ...formData,
-                needVAT: needVAT
+                needVAT: needVAT,
             });
             setStatus("confirm");
         } catch (error) {
@@ -169,106 +170,78 @@ const RegisterPayment = () => {
 
     return (
         <div>
-            <PaymentHeader />
-            <div className="register-container">
-                {/* ===== BÊN TRÁI: DANH SÁCH KHÓA HỌC ===== */}
-                <div className="register-left">
-                    {listItems?.length > 0 ? (
-                        listItems.map((item, index) => (
-                            <div key={index} className="course-card-payment">
-                                <img
-                                    src={item.linkImage || "https://via.placeholder.com/150"}
-                                    alt={item.title}
-                                    className="course-img"
-                                />
-                                <div className="course-info-payment">
-                                    <div className="course-header-payment">
-                                        <div>
-                                            <p className="course-title">{item.title}</p>
-                                            <p className="course-subtitle">
-                                                {item?.typeCourse}
-                                            </p>
-                                        </div>
-                                        <div className="course-prices">
-                                            <span className="price">{formatPrice(item.salePrice)}đ</span>
-                                            {item.realPrice > item.salePrice && (
-                                                <span className="old-price">{formatPrice(item.realPrice)}đ</span>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    ) : (
-                        <p>Đang tải thông tin đơn hàng...</p>
-                    )}
-
-                    <div className="price-detail">
-                        <div className="row">
-                            <span>Tạm tính ({listItems.length} sản phẩm)</span>
-                            <span>{formatPrice(totalRealPrice)}đ</span>
-                        </div>
-                        <div className="row discount-payment">
-                            <span>Giảm giá</span>
-                            <span>-{formatPrice(totalRealPrice - totalSalePrice)}đ</span>
-                        </div>
-                        <div className="row total">
-                            <span>Tổng thanh toán</span>
-                            <span>{formatPrice(totalSalePrice)}đ</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* ===== BÊN PHẢI: FORM THÔNG TIN ===== */}
-                <div className="register-right">
+            <Navbar />
+            <Breadcrumb
+                items={[
+                    { label: "Trang chủ", link: "/" },
+                    { label: "Khóa học", link: "/list-courses" },
+                    { label: "Thanh toán" },
+                ]}
+            />
+            <PaymentHeader currentStep={status === "edit" ? 1 : 2} isSuccess={status === "confirm"} />
+            <div className={styles.registerContainer}>
+                {/* ===== BÊN TRÁI: FORM THÔNG TIN ===== */}
+                <div className={styles.registerLeft}>
                     {status === "edit" ? (
-                        <div className="register-right-form">
-                            <h3>Thông tin đăng ký</h3>
-                            
+                        <div>
+                            <h3>Thông tin mua hàng</h3>
+
                             {/* === CẬP NHẬT: Hiển thị lỗi ngay dưới input === */}
-                            <div className="form-row">
-                                <div style={{width: '100%'}}>
+                            <div className={styles.formRow}>
+                                <div style={{ width: "100%" }} className={`${styles.formRowBox} ${styles.fullNameBox}`}>
+                                    <label htmlFor="fullName">Họ*</label>
                                     <input
                                         type="text"
                                         name="fullName"
                                         placeholder="Họ và tên"
-                                        value={formData.fullName} 
+                                        value={formData.fullName}
                                         onChange={handleChange}
-                                        className={errors.fullName ? "input-error" : ""}
+                                        onFocus={() => setEditingValue("fullName")}
+                                        onBlur={() => setEditingValue(null)}
+                                        autoFocus={editingValue === "fullName"}
+                                        className={errors.fullName ? styles.inputError : ""}
                                     />
-                                    {errors.fullName && <span className="error-message">{errors.fullName}</span>}
+                                    {errors.fullName && <span className={styles.errorMessage}>{errors.fullName}</span>}
                                 </div>
-                                
-                                <div style={{width: '100%'}}>
+
+                                <div style={{ width: "100%" }} className={`${styles.formRowBox} ${styles.emailBox}`}>
+                                    <label htmlFor="email">Email*</label>
                                     <input
                                         type="email"
                                         name="email"
                                         placeholder="Email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className={errors.email ? "input-error" : ""}
+                                        onFocus={() => setEditingValue("email")}
+                                        onBlur={() => setEditingValue(null)}
+                                        autoFocus={editingValue === "email"}
+                                        className={errors.email ? styles.inputError : ""}
                                     />
-                                    {errors.email && <span className="error-message">{errors.email}</span>}
+                                    {errors.email && <span className={styles.errorMessage}>{errors.email}</span>}
                                 </div>
                             </div>
-                            
-                            <div style={{width: '100%'}}>
+
+                            <div style={{ width: "100%" }} className={`${styles.formRowBox} ${styles.phoneBox}`}>
+                                <label htmlFor="phone">Số điện thoại*</label>
                                 <input
                                     type="tel"
                                     name="phone"
                                     placeholder="Số điện thoại"
                                     value={formData.phone}
                                     onChange={handleChange}
-                                    className={errors.phone ? "input-error" : ""}
+                                    onFocus={() => setEditingValue("phone")}
+                                    onBlur={() => setEditingValue(null)}
+                                    autoFocus={editingValue === "phone"}
+                                    className={errors.phone ? styles.inputError : ""}
                                 />
-                                {errors.phone && <span className="error-message">{errors.phone}</span>}
+                                {errors.phone && <span className={styles.errorMessage}>{errors.phone}</span>}
                             </div>
 
                             {/* ===== VAT SECTION ===== */}
-                            <div className="vat-section">
-                                <label className="vat-toggle">
-                                    <input className="input-checkbox-vat"
-                                        style={{ width: "20px", margin: "0px" }}
+                            <div className={styles.vatSection}>
+                                <label className={styles.vatToggle}>
+                                    <input
+                                        style={{ width: "15px", margin: "0px" }}
                                         type="checkbox"
                                         checked={needVAT}
                                         onChange={(e) => setNeedVAT(e.target.checked)}
@@ -277,7 +250,7 @@ const RegisterPayment = () => {
                                 </label>
 
                                 {needVAT && (
-                                    <div className="vat-form">
+                                    <div className={styles.vatForm}>
                                         <input
                                             type="text"
                                             name="taxCode"
@@ -299,7 +272,7 @@ const RegisterPayment = () => {
                                             value={formData.companyAddress}
                                             onChange={handleChange}
                                         />
-                                        <div className="form-row">
+                                        <div className={styles.formRow}>
                                             <input
                                                 type="text"
                                                 name="province"
@@ -325,83 +298,149 @@ const RegisterPayment = () => {
                                     </div>
                                 )}
                             </div>
-
-                            <button
-                                className="submit-btn"
-                                onClick={handleUpdateAndContinue}
-                            >
-                                Tiếp tục
-                            </button>
                         </div>
                     ) : (
                         // ===== CONFIRMATION VIEW (Không đổi) =====
-                        <div className="payment-container">
+                        <div className={styles.paymentContainer}>
                             <h3>
-                                Cảm ơn bạn đã lựa chọn sản phẩm của{" "}
-                                <span className="brand">WETECH!</span>
+                                Cảm ơn bạn đã lựa chọn sản phẩm của <span className={styles.brand}>WETECH!</span>
                             </h3>
-                            <div className="section">
-                                <h4>XÁC NHẬN THÔNG TIN</h4>
-                                <div className="info-card">
-                                    <div className="info-item-payment">
-                                        <span>Họ và Tên:</span>
-                                        <span className="info-value">
-                                            {formData.fullName}
+                            <div className={styles.section}>
+                                <h4>Thông tin mua hàng</h4>
+                                <div className={styles.infoTable}>
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.label}>Họ và Tên</span>
+                                        <span className={styles.value}>{formData.fullName}</span>
+                                        <i
+                                            className="fa-regular fa-pen-to-square"
+                                            onClick={() => {
+                                                setStatus("edit");
+                                                setEditingValue("fullName");
+                                            }}
+                                        ></i>
+                                    </div>
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.label}>Email</span>
+                                        <span className={styles.value}>{formData.email}</span>
+                                        <i
+                                            className="fa-regular fa-pen-to-square"
+                                            onClick={() => {
+                                                setStatus("edit");
+                                                setEditingValue("email");
+                                            }}
+                                        ></i>
+                                    </div>
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.label}>Số điện thoại</span>
+                                        <span className={styles.value}>{formData.phone}</span>
+                                        <i
+                                            className="fa-regular fa-pen-to-square"
+                                            onClick={() => {
+                                                setStatus("edit");
+                                                setEditingValue("phone");
+                                            }}
+                                        ></i>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className={styles.section}>
+                                <h4>Đơn hàng</h4>
+                                <div className={styles.infoTable}>
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.label}>Mã đơn hàng</span>
+                                        <span className={styles.value}>
+                                            {transactionDetail?.idTransaction || idTransaction}
                                         </span>
-                                        <i
-                                            className="fa-regular fa-pen-to-square mr-2 pointer"
-                                            onClick={() => setStatus("edit")}
-                                        ></i>
+                                        <span></span> {/* Empty span for grid alignment if needed */}
                                     </div>
-                                    <div className="info-item-payment">
-                                        <span>Email:</span>
-                                        <span className="info-value">{formData.email}</span>
-                                        <i
-                                            className="fa-regular fa-pen-to-square mr-2 pointer"
-                                            onClick={() => setStatus("edit")}
-                                        ></i>
-                                    </div>
-                                    <div className="info-item-payment">
-                                        <span>Số điện thoại:</span>
-                                        <span className="info-value">{formData.phone}</span>
-                                        <i
-                                            className="fa-regular fa-pen-to-square mr-2 pointer"
-                                            onClick={() => setStatus("edit")}
-                                        ></i>
+                                    <div className={styles.infoRow}>
+                                        <span className={styles.label}>Tổng thanh toán</span>
+                                        <span className={styles.value + " " + styles.infoRowPrice}>
+                                            {formatPrice(totalSalePrice)}đ
+                                        </span>
+                                        <span></span>
                                     </div>
                                 </div>
                             </div>
 
-                            <div className="section">
-                                <h4>PHƯƠNG THỨC THANH TOÁN</h4>
-                                <div className="payment-method">
-                                    <span>Quét QR & Thanh toán bằng ứng dụng ngân hàng</span>
-                                    <i className="fa-brands fa-paypal mr-2"></i>
+                            <div className={styles.section}>
+                                <h4>Phương thức thanh toán</h4>
+                                <div className={styles.infoTable}>
+                                    <div className={styles.infoRow}>
+                                        <div className={styles.paymentMethodContent}>
+                                            <img src={qrCode} alt="" className={styles.paypalIcon} />
+                                            <span>Quét QR & Thanh toán bằng ứng dụng ngân hàng</span>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        </div>
+                    )}
+                </div>
 
-                            <div className="section">
-                                <h4>ĐƠN HÀNG</h4>
-                                <div className="order-summary">
-                                    <span>Tổng số lượng:</span>
-                                    <span>{listItems.length} sản phẩm</span>
-                                </div>
-                                <div className="order-summary">
-                                    <span>Tổng thanh toán:</span>
-                                    <span className="total-amount">
-                                        {formatPrice(totalSalePrice)}đ
-                                    </span>
+                {/* ===== BÊN PHẢI: DANH SÁCH KHÓA HỌC ===== */}
+                <div className={styles.registerRight}>
+                    <h3>Thanh toán</h3>
+                    {listItems?.length > 0 ? (
+                        listItems.map((item, index) => (
+                            <div key={index} className={styles.courseCardPayment}>
+                                <img
+                                    src={item.linkImage || "https://via.placeholder.com/150"}
+                                    alt={item.title}
+                                    className={styles.courseImg}
+                                />
+                                <div className={styles.courseInfoPayment}>
+                                    <div className={styles.courseHeaderPayment}>
+                                        <div>
+                                            <p className={styles.courseTitle}>{item.title}</p>
+                                            <p className={styles.courseSubtitle}>{item?.typeCourse}</p>
+                                        </div>
+                                        <div className={styles.coursePrices}>
+                                            <span className={styles.price}>{formatPrice(item.salePrice)}đ</span>
+                                            {item.realPrice > item.salePrice && (
+                                                <span className={styles.oldPrice}>{formatPrice(item.realPrice)}đ</span>
+                                            )}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                        ))
+                    ) : (
+                        <p>Đang tải thông tin đơn hàng...</p>
+                    )}
 
-                            <div className="buttons-payment">
-                                <button className="back-btn" onClick={() => setStatus("edit")}>
-                                    Quay lại
-                                </button>
-                                <button className="pay-btn" onClick={handlePayment}>
-                                    Thanh toán ngay
-                                </button>
-                            </div>
+                    <div className={styles.priceDetail}>
+                        <div className={styles.row}>
+                            <span className={styles.labelRow}>Số lượng khoá học</span>
+                            <span>{listItems.length} Khoá học</span>
+                        </div>
+                        <div className={styles.row}>
+                            <span className={styles.labelRow}>Số tiền</span>
+                            <span>{formatPrice(totalRealPrice)}đ</span>
+                        </div>
+                        <div className={`${styles.row} ${styles.discountPayment}`}>
+                            <span className={styles.labelRow}>Giảm giá</span>
+                            <span>-{formatPrice(totalRealPrice - totalSalePrice)}đ</span>
+                        </div>
+                        <div className={`${styles.row} ${styles.total}`}>
+                            <span className={styles.totalLabelRow}>Tổng</span>
+                            <div>{formatPrice(totalSalePrice)}đ</div>
+                        </div>
+                    </div>
+
+                    {status === "edit" ? (
+                        <button className={`primary-color ${styles.submitBtn}`} onClick={handleUpdateAndContinue}>
+                            Mua hàng
+                        </button>
+                    ) : (
+                        <div className={styles.buttonsPayment}>
+                            <button className={styles.backBtn} onClick={() => setStatus("edit")}>
+                                Quay lại
+                            </button>
+                            <button className={styles.payBtn} onClick={handlePayment}>
+                                Thanh toán ngay
+                            </button>
                         </div>
                     )}
                 </div>

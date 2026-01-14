@@ -41,16 +41,13 @@ const ListProcedures = () => {
     };
 
     // Lọc dữ liệu theo tab
-    const filteredProcedures = listProcedures.filter(
-        (item) => item.typeCompany === tabs[activeTab].value
-    );
+    const filteredProcedures = listProcedures.filter((item) => item.typeCompany === tabs[activeTab].value);
 
     const totalPages = Math.ceil(filteredProcedures.length / itemsPerPage);
     const startIndex = (currentPage - 1) * itemsPerPage;
     const currentItems = filteredProcedures.slice(startIndex, startIndex + itemsPerPage);
 
     return (
-
         <div>
             <Navbar />
             <Breadcrumb />
@@ -80,10 +77,7 @@ const ListProcedures = () => {
                 {/* Pagination */}
                 {totalPages > 1 && (
                     <div className="pagination">
-                        <button
-                            onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))}
-                            disabled={currentPage === 1}
-                        >
+                        <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                             <i className="fa-solid fa-angle-left"></i>
                         </button>
                         {Array.from({ length: totalPages }, (_, i) => (
@@ -106,8 +100,7 @@ const ListProcedures = () => {
             </div>
             <Footer />
         </div>
-
     );
-}
+};
 
 export default ListProcedures;

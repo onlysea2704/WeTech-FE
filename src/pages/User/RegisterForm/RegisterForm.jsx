@@ -1,17 +1,17 @@
-import React, { use, useState } from 'react';
+import React, { use, useState } from "react";
 import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
-import GoogleLoginButton from '../../../components/GoogleLoginButton/GoogleLoginButton';
+import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
-        ho: '',
-        name: '',
-        email: '',
-        password: '',
-        phone: ''
+        ho: "",
+        name: "",
+        email: "",
+        password: "",
+        phone: "",
     });
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
@@ -44,11 +44,11 @@ const RegisterForm = () => {
             }
 
             setLoading(true);
-            const response = await publicAxios.post('/api/auth/register', {
+            const response = await publicAxios.post("/api/auth/register", {
                 email: user.email,
                 password: user.password,
                 fullName: user.ho + " " + user.name,
-                phone: user.phone
+                phone: user.phone,
             });
 
             if (response.data.userId) {
@@ -119,11 +119,7 @@ const RegisterForm = () => {
                             value={user.password}
                             onChange={handleChange}
                         />
-                        <button
-                            className="btn-register"
-                            onClick={register}
-                            disabled={loading}
-                        >
+                        <button className="btn-register" onClick={register} disabled={loading}>
                             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
                         </button>
 
@@ -138,7 +134,8 @@ const RegisterForm = () => {
                         <p className="terms-register">
                             <input type="checkbox" id="acceptTerms" />
                             <label htmlFor="acceptTerms">
-                                Bằng cách nhấp vào Tạo tài khoản, tôi đồng ý rằng tôi đã đọc và chấp nhận Điều khoản sử dụng và Chính sách bảo mật.
+                                Bằng cách nhấp vào Tạo tài khoản, tôi đồng ý rằng tôi đã đọc và chấp nhận Điều khoản sử
+                                dụng và Chính sách bảo mật.
                             </label>
                         </p>
                     </div>

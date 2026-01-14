@@ -1,225 +1,314 @@
-
-.detail-course-container h2{
+.detail-course-container h2 {
     margin-left: 70px;
 }
 
+/* Course Info Summary (Dark Section) */
+.course-info-summary {
+    background-color: #111;
+    /* Dark background */
+    color: #fff;
+    padding: 20px 70px;
+    padding-bottom: 50px;
+}
+
+.course-info-summary h2 {
+    color: #fff;
+    font-size: 28px;
+    margin-left: 0;
+}
+
+.course-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: #bbb;
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-item img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
+    /* Attempt gold filter or just use original if colored */
+}
+
+/* Use gold color for text/icons if needed, or rely on image color */
+.meta-item span {
+    color: #ccc;
+}
+
+.course-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+.author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.course-author span {
+    font-weight: 600;
+    color: #fca503;
+    /* Orange/Gold color for author name */
+}
+
+.course-update {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: #aaa;
+}
+
+.course-update img {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
+}
+
 .video-container {
-  width: 100%;
-  aspect-ratio: 16 / 9; /* Thiết lập tỷ lệ 16:9 */
-  overflow: hidden;
-  border-radius: 20px;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* Thiết lập tỷ lệ 16:9 */
+    overflow: hidden;
+    border-radius: 20px;
 }
 
 .course-card-detail {
-  display: flex;
-  gap: 20px;
-  background: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  margin: 20px 70px;
-  box-sizing: border-box;
+    display: flex;
+    gap: 20px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin: 20px 70px;
+    box-sizing: border-box;
 }
 
 .course-left {
-  flex: 3;
+    flex: 3;
 }
 
 .course-image {
-  width: 100%;
-  border-radius: 8px;
+    width: 100%;
+    border-radius: 8px;
 }
 
 .course-right {
-  flex: 2;
-  background: #f9f9f9;
-  padding: 15px;
-  padding-bottom: 0;
-  border-radius: 8px;
-  text-align: left;
+    flex: 1;
+    background: #fff;
+    /* Changed to white or keep gray, list is contained */
+    padding: 0 15px;
+    border-radius: 8px;
+    text-align: left;
+    min-width: 400px;
+}
+
+.course-price-container {
+    margin-top: -150px;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    border: 1px solid #e8e8ed;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+}
+
+.price-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
 }
 
 .course-price {
-  font-size: 22px;
-  font-weight: bold;
-  color: #000;
-  margin: 5px 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    margin: 0;
 }
 
 .old-price {
-  text-decoration: line-through;
-  color: gray;
-  font-size: 16px;
-  margin-left: 8px;
+    text-decoration: line-through;
+    color: gray;
+    font-size: 16px;
+    font-weight: normal;
 }
 
-.discount {
-  display: inline-block;
-  background: orange;
-  color: white;
-  padding: 5px 10px;
-  margin: 10px 0;
-  border-radius: 5px;
-  font-weight: bold;
+.discount-badge {
+    background-color: #ececf9;
+    color: #333;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
 }
 
-.buy-now {
-  background: #20c997;
-  color: white;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 16px;
+.add-to-cart-btn {
+    background: #eaebf0;
+    color: #1c1d1f;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
 }
 
-.add-to-cart {
-  background: #0d6efd;
-  color: white;
-  border: none;
-  padding: 10px;
-  width: 100%;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  cursor: pointer;
-  font-size: 16px;
+.buy-now-btn {
+    background: #443f6b;
+    /* Dark purple/blue from image? Using a close match or existing theme color */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
 }
 
-.course-info-detail {
-  text-align: left;
-  font-size: 16px;
-  color: #333;
+.guarantee-text {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
 }
 
-.course-info-detail p {
-  margin: 17px 0;
+.course-specs {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
 }
 
-
-/* src/components/CoursePlaylist/CoursePlaylist.css */
-
-.playlist-container {
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    padding: 16px;
-    background-color: #fff;
-    font-family: sans-serif;
-    height: 300px;
-    overflow-y: scroll;
-}
-
-.playlist-header {
-    margin-bottom: 16px;
-}
-
-.playlist-header h3 {
-    margin: 0 0 4px 0;
-    font-size: 20px;
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
     color: #333;
 }
 
-.playlist-header span {
-    font-size: 14px;
-    color: #666;
+.spec-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
-.playlist-header .dot {
-    margin: 0 8px;
+.spec-label img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
 }
 
-.playlist-header .progress-text {
-    color: #f39c12; /* Orange color for progress */
-    font-weight: bold;
+.spec-value {
+    font-weight: 500;
 }
 
+.course-includes {
+    margin-top: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
 
-.video-list {
-    list-style-type: none;
+.course-includes h4,
+.course-share h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #000;
+}
+
+.course-includes ul {
+    list-style: none;
     padding: 0;
     margin: 0;
 }
 
-.video-item {
+.course-includes li {
     display: flex;
-    align-items: center;
-    padding: 12px;
-    border-radius: 6px;
-    margin-bottom: 8px;
-    cursor: pointer;
-    transition: background-color 0.2s;
-}
-
-.video-item:hover {
-    background-color: #f9f9f9;
-}
-
-/* Styling for the currently playing video */
-.video-item.playing {
-    background-color: #eaf2ff; /* Light blue background */
-}
-
-.video-icon {
-    margin-right: 12px;
-    font-size: 12px;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    color: #007bff;
-}
-
-/* Style for completed video icon */
-.video-item.completed .video-icon {
-    background-color: #007bff;
-    border-color: #007bff;
-    color: white;
-}
-
-/* Style for playing video icon */
-.video-item.playing .video-icon {
-    border-color: #007bff;
-}
-
-.video-info {
-    flex-grow: 1;
-    display: flex;
-    align-items: baseline;
-}
-
-.video-title {
-    margin: 0;
-    font-size: 15px;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
     color: #333;
 }
 
-.video-duration {
-    font-size: 13px;
-    color: #777;
-    margin-left: 8px;
+.course-includes li img {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    object-fit: contain;
 }
 
-.status-tag {
-    font-size: 12px;
-    font-weight: bold;
-    padding: 4px 8px;
+.course-share {
+    margin-top: 10px;
+}
+
+.share-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.copy-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f7f9fa;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
     border-radius: 4px;
-    color: #fff;
+    font-size: 13px;
+    color: #333;
+    cursor: pointer;
 }
 
-.status-tag.completed {
-    background-color: #28a745; /* Green */
+.copy-link-btn img {
+    width: 14px;
+    height: 14px;
 }
 
-.status-tag.playing {
-    background-color: #fd7e14; /* Orange */
+.social-icons {
+    display: flex;
+    gap: 12px;
 }
 
-.extra-space {
-  margin-right: 8px; /* chỉ áp dụng cho file-alt */
+.social-icons img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    filter: opacity(0.7);
+}
+
+.social-icons img:hover {
+    filter: opacity(1);
 }

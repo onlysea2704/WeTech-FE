@@ -4,18 +4,14 @@ import { authAxios, publicAxios } from "../../services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../Popup/Popup";
 
-
 export default function ManageDocs() {
-
     const { courseId } = useParams();
     const [sections, setSections] = useState([]);
     const [loading, setLoading] = useState(false);
 
     const fetchCourseDocument = async () => {
         try {
-            const res = await publicAxios.get(
-                `/api/document/find-by-courseId?courseId=${courseId}`
-            );
+            const res = await publicAxios.get(`/api/document/find-by-courseId?courseId=${courseId}`);
             setSections(res.data || []);
             console.log("Fetched course content:", res.data);
         } catch (error) {
@@ -44,10 +40,7 @@ export default function ManageDocs() {
     };
     const updateSection = async (section) => {
         try {
-            await authAxios.post(
-                `/api/section/update?sectionId=${section.sectionId}`,
-                section
-            );
+            await authAxios.post(`/api/section/update?sectionId=${section.sectionId}`, section);
             fetchCourseDocument();
         } catch (err) {
             console.error("Error updating section:", err);
@@ -62,7 +55,6 @@ export default function ManageDocs() {
         }
     };
 
-
     // Document CRUD
     const addDocument = async (sectionId) => {
         try {
@@ -76,10 +68,7 @@ export default function ManageDocs() {
     const updateDocument = async (documentInfo, file) => {
         setLoading(true);
         const formData = new FormData();
-        formData.append(
-            "documentInfo",
-            new Blob([JSON.stringify(documentInfo)], { type: "application/json" })
-        );
+        formData.append("documentInfo", new Blob([JSON.stringify(documentInfo)], { type: "application/json" }));
         formData.append("document", file);
 
         try {
@@ -101,25 +90,21 @@ export default function ManageDocs() {
 
     // Cập nhật tiêu đề phần và tài liệu
     const onChangeTitleSection = (sectionId, newTitle) => {
-        setSections(
-            sections.map((s) =>
-                s.sectionId === sectionId ? { ...s, name: newTitle } : s
-            )
-        );
+        setSections(sections.map((s) => (s.sectionId === sectionId ? { ...s, name: newTitle } : s)));
     };
     const onChangeTitleDocument = (sectionId, documentId, newTitle) => {
-        console.log(123)
+        console.log(123);
         setSections(
             sections.map((s) =>
                 s.sectionId === sectionId
                     ? {
-                        ...s,
-                        documentSections: s.documentSections.map((d) =>
-                            d.documentId === documentId ? { ...d, name: newTitle } : d
-                        ),
-                    }
-                    : s
-            )
+                          ...s,
+                          documentSections: s.documentSections.map((d) =>
+                              d.documentId === documentId ? { ...d, name: newTitle } : d,
+                          ),
+                      }
+                    : s,
+            ),
         );
     };
     const onChangeFileDocument = (sectionId, docId, file, url) => {
@@ -128,12 +113,12 @@ export default function ManageDocs() {
         const newSections = sections?.map((s) =>
             s.sectionId === sectionId
                 ? {
-                    ...s,
-                    documentSections: s.documentSections.map((d) =>
-                        d.documentId === docId ? { ...d, file: file, link: url, name: file.name } : d
-                    ),
-                }
-                : s
+                      ...s,
+                      documentSections: s.documentSections.map((d) =>
+                          d.documentId === docId ? { ...d, file: file, link: url, name: file.name } : d,
+                      ),
+                  }
+                : s,
         );
         setSections(newSections);
     };
@@ -163,14 +148,10 @@ export default function ManageDocs() {
                                 placeholder="Tên phần..."
                             />
                             <div className="section-actions">
-                                <button className="btn update"
-                                    onClick={() => updateSection(section)}>
+                                <button className="btn update" onClick={() => updateSection(section)}>
                                     <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                                 </button>
-                                <button
-                                    className="btn delete"
-                                    onClick={() => deleteSection(section.sectionId)}
-                                >
+                                <button className="btn delete" onClick={() => deleteSection(section.sectionId)}>
                                     <i className="fa-solid fa-trash"></i> Xóa phần
                                 </button>
                             </div>
@@ -185,7 +166,11 @@ export default function ManageDocs() {
                                             type="text"
                                             value={document.name}
                                             onChange={(e) =>
-                                                onChangeTitleDocument(section.sectionId, document.documentId, e.target.value)
+                                                onChangeTitleDocument(
+                                                    section.sectionId,
+                                                    document.documentId,
+                                                    e.target.value,
+                                                )
                                             }
                                             placeholder="Tiêu đề tài liệu..."
                                         />
@@ -198,9 +183,14 @@ export default function ManageDocs() {
                                                 accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
                                                 onChange={(e) => {
                                                     const file = e.target.files[0];
-                                                    console.log(1223)
+                                                    console.log(1223);
                                                     if (file) {
-                                                        onChangeFileDocument(section.sectionId, document.documentId, file, URL.createObjectURL(file));
+                                                        onChangeFileDocument(
+                                                            section.sectionId,
+                                                            document.documentId,
+                                                            file,
+                                                            URL.createObjectURL(file),
+                                                        );
                                                     }
                                                 }}
                                             />
@@ -211,8 +201,10 @@ export default function ManageDocs() {
                                         </div>
 
                                         <div className="document-actions">
-                                            <button className="btn update"
-                                                onClick={() => updateDocument(document, document.file)}>
+                                            <button
+                                                className="btn update"
+                                                onClick={() => updateDocument(document, document.file)}
+                                            >
                                                 <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                                             </button>
                                             <button
@@ -229,7 +221,11 @@ export default function ManageDocs() {
                                         <div className="download-link-container">
                                             <a
                                                 href={document.link}
-                                                download={document.file ? document.file.name : `document-${document.documentId}`}
+                                                download={
+                                                    document.file
+                                                        ? document.file.name
+                                                        : `document-${document.documentId}`
+                                                }
                                                 className="download-link"
                                                 onClick={(e) => {
                                                     if (document.file) {
@@ -242,7 +238,6 @@ export default function ManageDocs() {
                                             >
                                                 <i className="fa-solid fa-download"></i> Tải xuống
                                             </a>
-
                                         </div>
                                     )}
                                 </div>
@@ -259,7 +254,7 @@ export default function ManageDocs() {
                     + Thêm phần
                 </button>
             </div>
-            {loading && <Popup message='Đang tải tài liệu lên' />}
+            {loading && <Popup message="Đang tải tài liệu lên" />}
         </>
     );
 }

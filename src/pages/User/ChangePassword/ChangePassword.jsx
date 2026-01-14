@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import './ChangePassword.css'; // Tận dụng lại CSS của trang Profile
-import Footer from '../../../components/Footer/Footer';
-import Navbar from '../../../components/NavBar/NavBar';
-import Breadcrumb from '../../../components/Breadcrumb/Breadcrumb';
-import { authAxios } from '../../../services/axios-instance';
-import Popup from '../../../components/Popup/Popup';
+import React, { useState } from "react";
+import "./ChangePassword.css"; // Tận dụng lại CSS của trang Profile
+import Footer from "../../../components/Footer/Footer";
+import Navbar from "../../../components/NavBar/NavBar";
+import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
+import { authAxios } from "../../../services/axios-instance";
+import Popup from "../../../components/Popup/Popup";
 
 const ChangePassword = () => {
     // 1. State cho 3 ô mật khẩu
-    const [currentPassword, setCurrentPassword] = useState('');
-    const [newPassword, setNewPassword] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
+
     // 2. State để quản lý việc Ẩn/Hiện mật khẩu cho từng ô
     const [showCurrent, setShowCurrent] = useState(false);
     const [showNew, setShowNew] = useState(false);
@@ -44,18 +44,18 @@ const ChangePassword = () => {
             // Chuẩn bị dữ liệu gửi đi (JSON)
             const payload = {
                 oldPassword: currentPassword,
-                newPassword: newPassword
+                newPassword: newPassword,
             };
 
             // Gọi API đổi mật khẩu (Thay đổi endpoint cho phù hợp với backend của bạn)
             await authAxios.post("/api/auth/change-password", payload);
-            
+
             alert("Đổi mật khẩu thành công!");
-            
+
             // Reset form sau khi thành công
-            setCurrentPassword('');
-            setNewPassword('');
-            setConfirmPassword('');
+            setCurrentPassword("");
+            setNewPassword("");
+            setConfirmPassword("");
         } catch (error) {
             console.error("Lỗi khi đổi mật khẩu:", error);
             // Xử lý lỗi từ backend trả về (ví dụ: Mật khẩu cũ không đúng)
@@ -70,17 +70,16 @@ const ChangePassword = () => {
             <Navbar />
             <Breadcrumb
                 items={[
-                    { label: 'Trang chủ', link: '/' },
-                    { label: 'Tài khoản', link: '/profile' },
-                    { label: 'Đổi mật khẩu' },
+                    { label: "Trang chủ", link: "/" },
+                    { label: "Tài khoản", link: "/profile" },
+                    { label: "Đổi mật khẩu" },
                 ]}
             />
             <div className="profile-page-container">
                 <h1 className="main-title">ĐỔI MẬT KHẨU</h1>
 
                 {/* Form Card - Tận dụng class cũ để giữ giao diện */}
-                <form className="profile-form-card" onSubmit={handleSubmit} style={{ marginTop: '20px' }}>
-                    
+                <form className="profile-form-card" onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
                     {/* 1. Mật khẩu hiện tại */}
                     <div className="form-group">
                         <label htmlFor="currentPassword">Mật khẩu hiện tại</label>
@@ -92,10 +91,10 @@ const ChangePassword = () => {
                                 onChange={(e) => setCurrentPassword(e.target.value)}
                                 // placeholder="Nhập mật khẩu hiện tại"
                             />
-                            <i 
+                            <i
                                 className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} edit-icon`}
                                 onClick={() => setShowCurrent(!showCurrent)}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: "pointer" }}
                                 title={showCurrent ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
                             ></i>
                         </div>
@@ -112,10 +111,10 @@ const ChangePassword = () => {
                                 onChange={(e) => setNewPassword(e.target.value)}
                                 // placeholder="Nhập mật khẩu mới"
                             />
-                            <i 
+                            <i
                                 className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} edit-icon`}
                                 onClick={() => setShowNew(!showNew)}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: "pointer" }}
                             ></i>
                         </div>
                     </div>
@@ -131,19 +130,21 @@ const ChangePassword = () => {
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 // placeholder="Nhập lại mật khẩu mới"
                             />
-                            <i 
+                            <i
                                 className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} edit-icon`}
                                 onClick={() => setShowConfirm(!showConfirm)}
-                                style={{ cursor: 'pointer' }}
+                                style={{ cursor: "pointer" }}
                             ></i>
                         </div>
                     </div>
 
-                    <button type="submit" className="save-button">Cập nhật mật khẩu</button>
+                    <button type="submit" className="save-button">
+                        Cập nhật mật khẩu
+                    </button>
                 </form>
             </div>
             <Footer />
-            {loading && <Popup message='Đang xử lý...' />}
+            {loading && <Popup message="Đang xử lý..." />}
         </div>
     );
 };

@@ -2,19 +2,18 @@ import React, { useEffect, useState } from "react";
 import "./LoginForm.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import { authAxios } from '../../../services/axios-instance';
+import { authAxios } from "../../../services/axios-instance";
 import { publicAxios } from "../../../services/axios-instance";
 import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
 
 const LoginForm = () => {
-
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const handleClose = async () => {
         navigate("/");
-    }
+    };
 
     const [info, setInfo] = useState({});
 
@@ -33,21 +32,15 @@ const LoginForm = () => {
             // CPU cores
             const cpuCores = navigator.hardwareConcurrency || "Unknown";
             // RAM in GB
-            const ram = navigator.deviceMemory
-                ? navigator.deviceMemory + " GB"
-                : "Unknown";
+            const ram = navigator.deviceMemory ? navigator.deviceMemory + " GB" : "Unknown";
             // GPU info (cực kỳ quan trọng)
             const getGPU = () => {
                 try {
                     const canvas = document.createElement("canvas");
-                    const gl =
-                        canvas.getContext("webgl") ||
-                        canvas.getContext("experimental-webgl");
+                    const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl");
                     if (!gl) return "Unknown GPU";
                     const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-                    return debugInfo
-                        ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL)
-                        : "Unknown GPU";
+                    return debugInfo ? gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL) : "Unknown GPU";
                 } catch (err) {
                     return "Unknown GPU";
                 }
@@ -70,19 +63,22 @@ const LoginForm = () => {
 
     const login = async (email, password) => {
         try {
-            const token = await publicAxios.post('/api/auth/login', { username: email, password, deviceInfoRequest: info });
-            sessionStorage.setItem('authToken', token.data.token);
-            const userInfo = await authAxios.get('/api/auth/get-info');
-            localStorage.setItem('fullName', userInfo.data.fullname);
-            localStorage.setItem('email', userInfo.data.email);
+            const token = await publicAxios.post("/api/auth/login", {
+                username: email,
+                password,
+                deviceInfoRequest: info,
+            });
+            sessionStorage.setItem("authToken", token.data.token);
+            const userInfo = await authAxios.get("/api/auth/get-info");
+            localStorage.setItem("fullName", userInfo.data.fullname);
+            localStorage.setItem("email", userInfo.data.email);
             if (userInfo.data.linkImage) {
-                localStorage.setItem('linkImage', userInfo.data.linkImage);
+                localStorage.setItem("linkImage", userInfo.data.linkImage);
             }
-            localStorage.setItem('userId', userInfo.data.userId);
-            if (userInfo.data.role === 'USER') {
+            localStorage.setItem("userId", userInfo.data.userId);
+            if (userInfo.data.role === "USER") {
                 navigate("/");
-            }
-            else {
+            } else {
                 navigate("/dashboard");
             }
         } catch (error) {
@@ -118,9 +114,12 @@ const LoginForm = () => {
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                             />
-                            <p className="forgot-password"> <Link to="/forgot-password">Quên mật khẩu?</Link> </p>
+                            <p className="forgot-password">
+                                {" "}
+                                <Link to="/forgot-password">Quên mật khẩu?</Link>{" "}
+                            </p>
                             <button type="submit" className="btn-login" disabled={loading}>
-                            Đăng Nhập
+                                Đăng Nhập
                             </button>
                         </form>
                         <div className="divider">
@@ -130,14 +129,13 @@ const LoginForm = () => {
                         </div>
                         <GoogleLoginButton />
                         <p className="terms">
-                            Protected by reCAPTCHA and subject to the Prism{" "}
-                            <a href="a">Privacy Policy</a> and{" "}
+                            Protected by reCAPTCHA and subject to the Prism <a href="a">Privacy Policy</a> and{" "}
                             <a href="a">Terms of Service</a>.
                         </p>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

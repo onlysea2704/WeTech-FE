@@ -6,6 +6,7 @@ import Banner from "../../../components/Banner/Banner";
 import Footer from "../../../components/Footer/Footer";
 import CourseCard from "../../../components/CourseCard/CourseCard";
 import { publicAxios, authAxios } from "../../../services/axios-instance";
+import JoinCourses from "../../../components/JoinCourses/JoinCourses.jsx";
 
 const Courses = ({ title, description, courses }) => {
     const [visibleCount, setVisibleCount] = useState(4);
@@ -49,6 +50,7 @@ const categoryMap = {
 };
 
 const ListCourses = () => {
+    const isLogin = sessionStorage.getItem("authToken");
     const [myCourse, setMyCourse] = useState([]);
     const [newCourse, setNewCourse] = useState([]);
     const [topCourse, setTopCourse] = useState([]);
@@ -108,27 +110,21 @@ const ListCourses = () => {
 
                 <div className="category-bar">
                     {Object.entries(categoryMap).map(([slug, label]) => (
-                        <button
-                            key={slug}
-                            className="category-btn"
-                            onClick={() => handleClick(slug)}
-                        >
+                        <button key={slug} className="category-btn" onClick={() => handleClick(slug)}>
                             {label}
                         </button>
                     ))}
                 </div>
 
-                <Courses
-                    title="KHÓA HỌC MỚI"
-                    description="Các khoá học mới nhất được update."
-                    courses={newCourse}
-                />
+                <Courses title="KHÓA HỌC MỚI" description="Các khoá học mới nhất được update." courses={newCourse} />
 
                 <Courses
                     title="KHÓA HỌC NỔI BẬT"
                     description="Khóa học có lượt đăng ký nhiều nhất."
                     courses={topCourse}
                 />
+
+                {!isLogin && <JoinCourses />}
             </div>
 
             <Footer />

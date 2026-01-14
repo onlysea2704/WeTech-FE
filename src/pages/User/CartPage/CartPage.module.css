@@ -1,0 +1,208 @@
+/* CartPage.css */
+/* :root {
+  --primary-color: #464077;
+  --text-color: #333;
+  --bg-color: #f8f9fa;
+  --white: #ffffff;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+} */
+
+/* body {
+  background-color: var(--bg-color);
+  font-family: 'Roboto', sans-serif;
+  margin: 0;
+} */
+
+.cartContainer {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0px auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+}
+
+/* --- Cột bên trái --- */
+.cartListSection {
+    flex: 2;
+    min-width: 600px;
+}
+
+.sectionTitle {
+    font-size: 24px;
+    padding-left: 20px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+/* Course Card Styles */
+.courseCardPayment {
+    display: flex;
+    gap: 15px;
+    padding: 15px;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.courseImg {
+    width: 100px;
+    height: 75px;
+    border-radius: 6px;
+    object-fit: cover;
+}
+
+.courseInfoPayment {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.courseHeaderPayment {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.courseSubtitle {
+    font-size: 14px;
+    color: teal;
+    margin: 4px 0 0 0;
+}
+
+.coursePrices {
+    text-align: right;
+}
+
+.price {
+    font-weight: bold;
+    color: #000;
+    display: block;
+}
+
+.oldPrice {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 14px;
+}
+
+/* Old .courseDetails was likely for the old layout. Keeping it just in case or replacing?
+   The JSX now uses courseInfoPayment. I'll replace courseDetails block if I can to keep file clean */
+
+.courseTitle {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text-color);
+    /* Giới hạn số dòng hiển thị của Title nếu quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.courseActions {
+    font-size: 14px;
+    margin-top: auto;
+    /* Đẩy phần nút bấm xuống dưới cùng */
+}
+
+.actionLink {
+    color: #2f80ed;
+    text-decoration: none;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.actionDelete {
+    color: #eb5757;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+/* .coursePriceWrapper, .currentPrice, .originalPrice are likely unused now if I switched to .coursePrices etc.
+   But keeping them doesn't hurt. */
+.coursePriceWrapper {
+    text-align: right;
+    min-width: 120px;
+    margin-left: 10px;
+}
+
+.currentPrice {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--text-color);
+    display: block;
+}
+
+.originalPrice {
+    font-size: 14px;
+    color: #aaa;
+    text-decoration: line-through;
+    display: block;
+    margin-top: 5px;
+}
+
+/* --- Cột bên phải: Thanh toán --- */
+.paymentSection {
+    flex: 1;
+    min-width: 300px;
+}
+
+.paymentBox {
+    background: var(--white);
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.paymentRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 14px;
+    color: var(--text-color);
+}
+
+.paymentDivider {
+    border-bottom: 1px solid #eee;
+    margin: 15px 0;
+}
+
+.paymentTotal {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.checkoutBtn {
+    width: 100%;
+    background-color: #464077;
+    color: white;
+    border: none;
+    padding: 15px;
+    font-size: 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.checkoutBtn:hover {
+    opacity: 0.9;
+}
+
+@media (max-width: 900px) {
+    .cart-container {
+        flex-direction: column;
+    }
+
+    .cartListSection,
+    .paymentSection {
+        width: 100%;
+        min-width: unset;
+    }
+}

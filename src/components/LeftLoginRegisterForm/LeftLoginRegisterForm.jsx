@@ -2,7 +2,6 @@ import { useState } from "react";
 import "./LeftLoginRegisterForm.css";
 
 const LeftLoginRegisterForm = () => {
-
     const [index, setIndex] = useState(0);
 
     const texts = [
@@ -13,8 +12,7 @@ const LeftLoginRegisterForm = () => {
         },
         {
             title: "Chuyên Nghiệp Dẫn Đầu",
-            content:
-                "We-tech tự hào đồng hành cùng quý khách hàng trên hành trình phát triển bền vững.",
+            content: "We-tech tự hào đồng hành cùng quý khách hàng trên hành trình phát triển bền vững.",
         },
     ];
 

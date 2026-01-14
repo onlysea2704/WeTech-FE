@@ -4,11 +4,10 @@ import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 
 const UpdatePassword = () => {
-
     const navigate = useNavigate();
     const handleClose = async () => {
         navigate("/");
-    }
+    };
 
     return (
         <div className="update-password-background">
@@ -22,9 +21,7 @@ const UpdatePassword = () => {
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <p className="register-text">
-                            Vui lòng tạo mật khẩu mới
-                        </p>
+                        <p className="register-text">Vui lòng tạo mật khẩu mới</p>
                         <input type="password" placeholder="Mật khẩu mới" />
                         <input type="password" placeholder="Nhập lại mật khẩu mới" />
                         <button className="btn-update-password">Gửi Xác Nhận Email</button>

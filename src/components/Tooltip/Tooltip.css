@@ -1,0 +1,51 @@
+.custom-tooltip-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+    width: fit-content; /* Ensure it wraps content tightly */
+}
+
+.custom-tooltip-text {
+    visibility: hidden;
+    width: max-content;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 10px;
+    position: absolute;
+    z-index: 1000;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 12px;
+}
+
+.custom-tooltip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.custom-tooltip-container:hover .custom-tooltip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+/* Use higher specificity to override any parent styles */
+.custom-tooltip-container:hover .clickable-content {
+    color: #40a9ff !important;
+    transition: color 0.3s;
+}
+
+/* Fix potential layout issues for paragraphs inside the tooltip */
+.custom-tooltip-container p.clickable-content {
+    margin: 0;
+}
