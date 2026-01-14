@@ -212,20 +212,15 @@ const DetailCourse = () => {
                             currentVideo={currentVideo}
                         />
                     ) : (
-                        <div className="course-price-container">
-                            <div className="price-header">
-                                <h3 className="course-price">{formatPrice(courseDetail?.salePrice)}đ</h3>
-                                <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>
-                                <span className="discount-badge">Giảm giá {discountPercentage(courseDetail)}%</span>
-                            </div>
+                        // Nếu chưa mua → hiện thông tin mua hàng
+                        <>
+                            <h3 className="course-price">
+                                {formatPrice(courseDetails?.realPrice)}đ <span className="old-price">{formatPrice(courseDetails?.salePrice)}đ</span>
+                            </h3>
+                            <span className="discount">{discountPercentage(courseDetails)}% OFF</span>
 
-                            <button className="add-to-cart-btn" onClick={handleAddCourse}>
-                                Thêm vào giỏ hàng
-                            </button>
-                            <button className="buy-now-btn" onClick={handleBuyNow}>
-                                Mua ngay
-                            </button>
-                            <p className="guarantee-text">Bảo đảm hoàn tiền trong vòng 30 ngày</p>
+                            <button className="buy-now" onClick={handleBuyNow}>MUA NGAY</button>
+                            <button className="add-to-cart">THÊM VÀO GIỎ HÀNG</button>
 
                             <div className="course-specs display-grid">
                                 <div className="spec-item">
