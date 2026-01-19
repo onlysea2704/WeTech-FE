@@ -1,12 +1,12 @@
 .courses-page-layout {
     display: flex;
-    gap: 30px;
+    gap: 61px;
     /* Khoảng cách giữa Filter và CourseList */
     max-width: 1400px;
     /* Giới hạn chiều rộng tối đa của trang */
     margin: 0 auto;
     /* Căn giữa trang */
-    padding: 15px 70px;
+    padding: 15px 110px;
 }
 
 .course-header {
@@ -74,6 +74,7 @@
     margin: 0 0 20px 0;
     color: #000;
     line-height: 1.2;
+    font-family: "Roboto Condensed";
 }
 
 /* Filter components */
@@ -85,8 +86,8 @@
 .main-content {
     flex-grow: 1;
     min-width: 0;
-    padding: 0 15px;
-    padding-left: 55px;
+    padding: 0;
+    /* padding-left: 55px; */
 }
 
 /* Group Section Styles */
@@ -102,6 +103,11 @@
     width: 100%;
 }
 
+.section-header {
+    color: var(--Brand-Color-Secondary, #1b154b);
+    font-family: "Roboto Condensed";
+}
+
 .group-header {
     margin-bottom: 20px;
     text-align: left;
@@ -110,14 +116,16 @@
 .group-title {
     font-size: 20px;
     font-weight: 700;
-    color: #111;
+    color: #000;
     margin: 0 0 4px 0;
+    font-family: "Roboto Condensed";
 }
 
 .group-subtitle {
     font-size: 14px;
-    color: #666;
     margin: 0;
+    font-family: "Roboto";
+    color: var(--Neutral-colors-Gray-7, #717171);
 }
 
 .courses-container {
@@ -126,10 +134,28 @@
 
 .courses-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, 250px);
+    grid-template-columns: repeat(4, 1fr);
     /* 4 cột cards */
     gap: 20px;
     width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .courses-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .courses-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .courses-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
 }
 
 /* Pagination hidden/removed via comment, removing styles if needed or keeping for potential reuse */

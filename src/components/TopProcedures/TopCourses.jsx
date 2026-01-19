@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import CourseCard from "../CourseCard/CourseCard"; // ✅ đổi sang component hiển thị khóa học
-import "./TopCourses.css"; // ✅ đổi tên file CSS
+import styles from "./TopCourses.module.css"; // ✅ đổi tên file CSS
 import { publicAxios } from "../../services/axios-instance";
 
 const ITEMS_PER_PAGE = 8;
@@ -27,20 +27,20 @@ const TopCourses = () => {
     const visibleItems = courses.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     return (
-        <div className="featured-wrapper">
-            <h2 className="featured-title">KHÓA HỌC NỔI BẬT</h2>
-            <div className="course-grid">
+        <div className={styles["featured-wrapper"]}>
+            <h2 className={styles["featured-title"]}>KHÓA HỌC NỔI BẬT</h2>
+            <div className={styles["course-grid"]}>
                 {visibleItems.map((item, index) => (
                     <CourseCard key={index} index={index} course={item} />
                 ))}
             </div>
 
             {/* Pagination */}
-            <div className="pagination">
+            <div className={styles["pagination"]}>
                 {Array.from({ length: totalPages }, (_, i) => (
                     <span
                         key={i}
-                        className={`page-dot ${i + 1 === currentPage ? "active" : ""}`}
+                        className={`${styles["page-dot"]} ${i + 1 === currentPage ? styles.active : ""}`}
                         onClick={() => setCurrentPage(i + 1)}
                     ></span>
                 ))}

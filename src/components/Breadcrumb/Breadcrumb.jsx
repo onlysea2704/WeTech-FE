@@ -1,14 +1,14 @@
 import React from "react";
-import "./Breadcrumb.css";
+import styles from "./Breadcrumb.module.css";
 
 const Breadcrumb = ({ items = [] }) => {
     return (
-        <nav aria-label="breadcrumb" className="breadcrumb-container">
-            <ol className="breadcrumb-list">
+        <nav aria-label="breadcrumb" className={styles["breadcrumb-container"]}>
+            <ol className={styles["breadcrumb-list"]}>
                 {items.map((item, index) => (
                     <React.Fragment key={index}>
                         <li
-                            className={`breadcrumb-item ${index === items.length - 1 ? "active" : ""}`}
+                            className={`${styles["breadcrumb-item"]} ${index === items.length - 1 ? styles.active : ""}`}
                             aria-current={index === items.length - 1 ? "page" : undefined}
                         >
                             {index === items.length - 1 || !item.link ? (
@@ -18,7 +18,7 @@ const Breadcrumb = ({ items = [] }) => {
                             )}
                         </li>
 
-                        {index < items.length - 1 && <li className="breadcrumb-separator">›</li>}
+                        {index < items.length - 1 && <li className={styles["breadcrumb-separator"]}>›</li>}
                     </React.Fragment>
                 ))}
             </ol>

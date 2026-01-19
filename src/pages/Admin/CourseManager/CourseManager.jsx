@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CourseManager.css";
+import styles from "./CourseManager.module.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import CourseForm from "../../../components/CourseForm/CourseForm";
 import VideoManager from "../../../components/VideoManager/VideoManager";
@@ -18,41 +18,41 @@ const CourseManager = () => {
             case "curriculum":
                 return <ManageDocs />;
             case "materials":
-                return <div className="tab-content">[Tài liệu khóa học]</div>;
+                return <div className={styles["tab-content"]}>[Tài liệu khóa học]</div>;
             default:
                 return null;
         }
     };
 
     return (
-        <div className="course-manager-page">
+        <div className={styles["course-manager-page"]}>
             <Sidebar />
 
-            <div className="course-manager">
+            <div className={styles["course-manager"]}>
                 {/* Header */}
-                <div className="header-course-manager">
-                    <Link to="/list-course" className="back-btn-course-manager">
+                <div className={styles["header-course-manager"]}>
+                    <Link to="/list-course" className={styles["back-btn-course-manager"]}>
                         ← Quay lại
                     </Link>
-                    <h1 className="title">Quản lý khóa học</h1>
+                    <h1 className={styles.title}>Quản lý khóa học</h1>
                 </div>
 
                 {/* Navigator */}
-                <div className="navigator-course-manager">
+                <div className={styles["navigator-course-manager"]}>
                     <button
-                        className={activeTab === "basic" ? "nav-btn active" : "nav-btn"}
+                        className={`${styles["nav-btn"]} ${activeTab === "basic" ? styles.active : ""}`}
                         onClick={() => setActiveTab("basic")}
                     >
                         Thông tin cơ bản
                     </button>
                     <button
-                        className={activeTab === "advanced" ? "nav-btn active" : "nav-btn"}
+                        className={`${styles["nav-btn"]} ${activeTab === "advanced" ? styles.active : ""}`}
                         onClick={() => setActiveTab("advanced")}
                     >
                         Video bài học
                     </button>
                     <button
-                        className={activeTab === "curriculum" ? "nav-btn active" : "nav-btn"}
+                        className={`${styles["nav-btn"]} ${activeTab === "curriculum" ? styles.active : ""}`}
                         onClick={() => setActiveTab("curriculum")}
                     >
                         Tài liệu bài học
@@ -66,7 +66,7 @@ const CourseManager = () => {
                 </div>
 
                 {/* Nội dung */}
-                <div className="content-course-manager">{renderContent()}</div>
+                <div className={styles["content-course-manager"]}>{renderContent()}</div>
             </div>
         </div>
     );

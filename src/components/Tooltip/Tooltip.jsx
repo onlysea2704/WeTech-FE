@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Tooltip.css";
+import styles from "./Tooltip.module.css";
 
 const Tooltip = ({ text, children, copyValue, onCopy }) => {
     const [tooltipText, setTooltipText] = useState(text);
@@ -28,9 +28,9 @@ const Tooltip = ({ text, children, copyValue, onCopy }) => {
     };
 
     return (
-        <div className="custom-tooltip-container" onClick={handleClick}>
+        <div className={styles["custom-tooltip-container"]} onClick={handleClick}>
             {children}
-            <span className="custom-tooltip-text">
+            <span className={styles["custom-tooltip-text"]}>
                 {showCopied && (
                     <span
                         style={{ marginRight: "5px", color: "#4ade80", display: "inline-flex", alignItems: "center" }}

@@ -1,14 +1,14 @@
 .testimonials {
     text-align: center;
     padding: 40px 20px;
-    font-family: Arial, sans-serif;
 }
 
 .title {
     font-size: 28px;
     font-weight: bold;
-    color: #1e144f;
+    color: #1b154b;
     margin-bottom: 40px;
+    font-family: "Roboto Condensed";
 }
 
 .cards-container {
@@ -74,6 +74,10 @@
 
 .customer-name {
     margin: 0;
+    font-family: "Roboto Condensed";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
 }
 
 .avatar {
@@ -91,6 +95,11 @@
     gap: 10px;
 }
 
+.role-stars p {
+    font-family: "Roboto";
+    color: #000;
+}
+
 .stars {
     display: flex;
     gap: 4px;
@@ -106,12 +115,13 @@
 
 .feedback {
     font-size: 14px;
-    color: #333;
+    color: black;
     line-height: 1.5;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    font-family: "Roboto";
 }
 
 .dots {

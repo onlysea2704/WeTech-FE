@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./CourseForm.css";
+import styles from "./CourseForm.module.css";
 import { useParams } from "react-router-dom";
 import { publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
@@ -97,16 +97,16 @@ const CourseForm = () => {
     };
 
     return (
-        <div className="course-form-container">
-            <div className="course-form">
-                <div className="form-content">
+        <div className={styles["course-form-container"]}>
+            <div className={styles["course-form"]}>
+                <div className={styles["form-content"]}>
                     {/* Hàng 1: Mã khóa học + Loại khóa học */}
-                    <div className="form-row">
-                        <div className="form-group-course-info">
+                    <div className={styles["form-row"]}>
+                        <div className={styles["form-group-course-info"]}>
                             <label>Mã khóa học</label>
                             <input type="number" name="courseId" value={formData.courseId} readOnly />
                         </div>
-                        <div className="form-group-course-info">
+                        <div className={styles["form-group-course-info"]}>
                             <label>Loại khóa học</label>
                             <select name="typeCourse" value={formData.typeCourse} onChange={handleChange}>
                                 <option value="">-- Chọn loại khóa học --</option>
@@ -120,20 +120,20 @@ const CourseForm = () => {
                     </div>
 
                     {/* Hàng 2: Tiêu đề + Tác giả */}
-                    <div className="form-row">
-                        <div className="form-group-course-info">
+                    <div className={styles["form-row"]}>
+                        <div className={styles["form-group-course-info"]}>
                             <label>Tiêu đề</label>
                             <input type="text" name="title" value={formData.title} onChange={handleChange} />
                         </div>
-                        <div className="form-group-course-info">
+                        <div className={styles["form-group-course-info"]}>
                             <label>Tác giả</label>
                             <input type="text" name="author" value={formData.author} onChange={handleChange} />
                         </div>
                     </div>
 
                     {/* Hàng 3: Giá gốc + Giá khuyến mãi */}
-                    <div className="form-row">
-                        <div className="form-group-course-info">
+                    <div className={styles["form-row"]}>
+                        <div className={styles["form-group-course-info"]}>
                             <label>Giá gốc</label>
                             <input
                                 type="number"
@@ -143,7 +143,7 @@ const CourseForm = () => {
                                 onChange={handleChange}
                             />
                         </div>
-                        <div className="form-group-course-info">
+                        <div className={styles["form-group-course-info"]}>
                             <label>Giá khuyến mãi</label>
                             <input
                                 type="number"
@@ -156,47 +156,53 @@ const CourseForm = () => {
                     </div>
 
                     {/* Hàng 4: Số người đăng ký + Ngày tạo */}
-                    <div className="form-row">
-                        <div className="form-group-course-info">
+                    <div className={styles["form-row"]}>
+                        <div className={styles["form-group-course-info"]}>
                             <label>Số người đăng ký</label>
                             <input type="number" name="numberRegister" value={formData.numberRegister} readOnly />
                         </div>
-                        <div className="form-group-course-info">
+                        <div className={styles["form-group-course-info"]}>
                             <label>Ngày tạo</label>
                             <input type="date" name="createdAt" value={formData.createdAt} readOnly />
                         </div>
                     </div>
 
                     {/* Hàng 5: Mô tả */}
-                    <div className="form-group-course-info full-width course-description">
+                    <div
+                        className={`${styles["form-group-course-info"]} ${styles["full-width"]} ${styles["course-description"]}`}
+                    >
                         <label>Mô tả khóa học</label>
                         <textarea name="description" value={formData.description} onChange={handleChange} />
                     </div>
 
                     {/* Hàng 6: Giới thiệu 1 */}
-                    <div className="form-group-course-info full-width course-description">
+                    <div
+                        className={`${styles["form-group-course-info"]} ${styles["full-width"]} ${styles["course-description"]}`}
+                    >
                         <label>Phương pháp học</label>
                         <textarea name="intro1" value={formData.intro1} onChange={handleChange} />
                     </div>
 
                     {/* Hàng 7: Giới thiệu 2 */}
-                    <div className="form-group-course-info full-width course-description">
+                    <div
+                        className={`${styles["form-group-course-info"]} ${styles["full-width"]} ${styles["course-description"]}`}
+                    >
                         <label>Bạn sẽ học được điều gì?</label>
                         <textarea name="intro2" value={formData.intro2} onChange={handleChange} />
                     </div>
 
                     {/* Hàng 8: Ảnh khóa học */}
-                    <div className="form-group-course-info full-width">
+                    <div className={`${styles["form-group-course-info"]} ${styles["full-width"]}`}>
                         <label>Ảnh khóa học</label>
                         <input type="file" accept="image/*" onChange={handleImageChange} />
                         {previewImage && (
-                            <div className="image-preview">
+                            <div className={styles["image-preview"]}>
                                 <img src={previewImage} alt="preview" />
                             </div>
                         )}
                     </div>
 
-                    <button type="button" className="submit-btn" onClick={handleSave}>
+                    <button type="button" className={styles["submit-btn"]} onClick={handleSave}>
                         Lưu khóa học
                     </button>
                 </div>

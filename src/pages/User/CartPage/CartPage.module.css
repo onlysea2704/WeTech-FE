@@ -18,9 +18,10 @@
     justify-content: center;
     gap: 30px;
     max-width: 1200px;
-    margin: 0px auto;
-    padding: 0 20px;
+    margin: 0px 90px;
+    padding: 0;
     flex-wrap: wrap;
+    font-family: "Roboto Condensed";
 }
 
 /* --- Cột bên trái --- */
@@ -49,8 +50,8 @@
 }
 
 .courseImg {
-    width: 100px;
-    height: 75px;
+    width: 225px;
+    height: 127px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -158,12 +159,14 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: var(--shadow);
+    font-family: "Roboto";
 }
 
 .paymentRow {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    margin-left: 20px;
     font-size: 14px;
     color: var(--text-color);
 }

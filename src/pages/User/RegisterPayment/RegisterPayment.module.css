@@ -4,7 +4,7 @@
     gap: 40px;
     margin: 0 auto;
     padding: 0 40px;
-    font-family: Arial, sans-serif;
+    font-family: "Roboto";
 }
 
 .registerLeft,
@@ -14,6 +14,14 @@
     padding: 20px;
     border-radius: 12px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.registerLeft h3 {
+    font-family: "Roboto Condensed";
+}
+
+.registerRight h3 {
+    font-family: "Roboto Condensed";
 }
 
 /* Course card */
@@ -28,8 +36,8 @@
 }
 
 .courseImg {
-    width: 100px;
-    height: 75px;
+    width: 160px;
+    height: 130px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -54,7 +62,7 @@
 
 .courseSubtitle {
     font-size: 14px;
-    color: teal;
+    color: #2b4e9a;
     margin: 4px 0 0 0;
 }
 
@@ -188,23 +196,30 @@
 .paymentContainer {
     /* max-width: 400px; */
     margin: auto;
-    font-family: Arial, sans-serif;
     color: #333;
 }
 
 .paymentContainer h3 {
     text-align: center;
-    font-size: 16px;
+    font-size: 20px;
     margin-bottom: 20px;
 }
 
 .paymentContainer .brand {
-    color: #0056b3;
+    color: #2b4e9a;
     font-weight: bold;
 }
 
 .section {
     margin-bottom: 20px;
+}
+
+.section h1 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    text-align: center;
+    color: black;
 }
 
 .section h4 {

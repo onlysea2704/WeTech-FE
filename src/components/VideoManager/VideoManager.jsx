@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./VideoManager.css";
+import styles from "./VideoManager.module.css";
 import { useParams } from "react-router-dom";
 import { authAxios, publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
@@ -147,44 +147,50 @@ export default function VideoManager() {
 
     return (
         <>
-            <div className="course-content-manager">
+            <div className={styles["course-content-manager"]}>
                 {sections.map((section) => (
-                    <div key={section.sectionId} className="section">
-                        <div className="section-header">
+                    <div key={section.sectionId} className={styles.section}>
+                        <div className={styles["section-header"]}>
                             <input
-                                className="input-text"
+                                className={styles["input-text"]}
                                 type="text"
                                 value={section?.name || ""}
                                 onChange={(e) => onChangeTitleSection(section.sectionId, e.target.value)}
                                 placeholder="Tên phần..."
                             />
-                            <div className="section-actions">
-                                <button className="btn update" onClick={() => updateSection(section)}>
+                            <div className={styles["section-actions"]}>
+                                <button
+                                    className={`${styles.btn} ${styles.update}`}
+                                    onClick={() => updateSection(section)}
+                                >
                                     Cập nhật Tên Phần
                                 </button>
-                                <button className="btn delete" onClick={() => deleteSection(section.sectionId)}>
+                                <button
+                                    className={`${styles.btn} ${styles.delete}`}
+                                    onClick={() => deleteSection(section.sectionId)}
+                                >
                                     Xóa phần
                                 </button>
                             </div>
                         </div>
 
-                        <div className="videos">
+                        <div className={styles.videos}>
                             {section.videos.map((video) => {
                                 const embedUrl = getYoutubeEmbedUrl(video.link);
 
                                 return (
-                                    <div key={video.videoId} className="video">
+                                    <div key={video.videoId} className={styles.video}>
                                         <div
-                                            className="video-row"
+                                            className={styles["video-row"]}
                                             style={{ display: "flex", gap: "10px", alignItems: "flex-start" }}
                                         >
                                             <div
-                                                className="video-inputs"
+                                                className={styles["video-inputs"]}
                                                 style={{ display: "flex", flexDirection: "row", gap: "10px", flex: 1 }}
                                             >
                                                 {/* Input Tên Video */}
                                                 <input
-                                                    className="input-text"
+                                                    className={styles["input-text"]}
                                                     style={{ flex: 3 }}
                                                     type="text"
                                                     value={video.description || ""}
@@ -199,7 +205,7 @@ export default function VideoManager() {
                                                 />
                                                 {/* MỚI: Input Thời lượng (giây) */}
                                                 <input
-                                                    className="input-text"
+                                                    className={styles["input-text"]}
                                                     style={{ flex: 1 }}
                                                     type="number"
                                                     value={video.duration || ""}
@@ -214,9 +220,9 @@ export default function VideoManager() {
                                                 />
                                             </div>
 
-                                            <div className="video-actions">
+                                            <div className={styles["video-actions"]}>
                                                 <button
-                                                    className="btn update"
+                                                    className={`${styles.btn} ${styles.update}`}
                                                     onClick={() =>
                                                         updateVideo({
                                                             videoId: video.videoId,
@@ -230,7 +236,7 @@ export default function VideoManager() {
                                                     Lưu Video
                                                 </button>
                                                 <button
-                                                    className="btn delete"
+                                                    className={`${styles.btn} ${styles.delete}`}
                                                     onClick={() => deleteVideo(video.videoId)}
                                                 >
                                                     Xóa
@@ -239,7 +245,7 @@ export default function VideoManager() {
                                         </div>
 
                                         <input
-                                            className="input-text"
+                                            className={styles["input-text"]}
                                             style={{
                                                 marginRight: "0",
                                                 marginTop: "10px",
@@ -255,7 +261,10 @@ export default function VideoManager() {
                                         />
 
                                         {embedUrl ? (
-                                            <div className="video-preview-container" style={{ marginTop: "10px" }}>
+                                            <div
+                                                className={styles["video-preview-container"]}
+                                                style={{ marginTop: "10px" }}
+                                            >
                                                 <iframe
                                                     width="100%"
                                                     height="200"
@@ -279,13 +288,13 @@ export default function VideoManager() {
                             })}
                         </div>
 
-                        <button className="btn add" onClick={() => addVideo(section.sectionId)}>
+                        <button className={`${styles.btn} ${styles.add}`} onClick={() => addVideo(section.sectionId)}>
                             + Thêm bài học mới
                         </button>
                     </div>
                 ))}
 
-                <button className="btn add-section" onClick={addSection}>
+                <button className={`${styles.btn} ${styles["add-section"]}`} onClick={addSection}>
                     + Thêm phần mới
                 </button>
             </div>

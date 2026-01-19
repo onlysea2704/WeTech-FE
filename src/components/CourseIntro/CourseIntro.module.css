@@ -25,4 +25,5 @@
 
 .course-description {
     white-space: pre-line;
+    color: var(--Neutral-colors-Gray-7, #717171);
 }

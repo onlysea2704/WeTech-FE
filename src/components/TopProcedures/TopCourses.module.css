@@ -1,5 +1,5 @@
 .featured-wrapper {
-    padding: 40px 100px;
+    padding: 40px 110px;
     text-align: center;
     background-color: #fafafa;
 }
@@ -9,7 +9,7 @@
     font-weight: bold;
     margin-bottom: 30px;
     margin-top: 0px;
-    color: #1f1f1f;
+    color: #1b154b;
 }
 
 .course-grid {
@@ -28,7 +28,8 @@
 .page-dot {
     width: 32px;
     height: 4px;
-    background-color: #b0b6c2; /* màu xám nhạt */
+    background-color: #b0b6c2;
+    /* màu xám nhạt */
     border-radius: 2px;
     cursor: pointer;
     transition: background-color 0.3s ease;

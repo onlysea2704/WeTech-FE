@@ -1,5 +1,5 @@
 .courses-page {
-    padding: 0 120px 10px 120px;
+    padding: 0 110px 10px 110px;
 }
 
 .new-courses-container {
@@ -33,7 +33,8 @@
 
 .course-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cột */
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 cột */
     gap: 16px;
     /* margin-top: 20px; */
 }

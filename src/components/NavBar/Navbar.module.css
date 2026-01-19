@@ -1,17 +1,18 @@
 /* Phần dải màu xanh đậm ở trên */
 .navbar-top-bar {
     height: 25px;
-    background-color: #1a1a4e; /* Xanh đậm */
+    background: #1b154b;
 }
 
 /* Phần navbar chính */
 .navbar-container {
     display: flex;
+    width: calc(100vw - 235px);
+    margin: 0 auto;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     padding: 6px 40px;
     background-color: white;
-    font-family: sans-serif;
     font-weight: 600;
 }
 
@@ -22,28 +23,47 @@
 
 .search-navbar {
     margin: 0px;
+    font-family: "Roboto";
 }
 
 .navbar-menu {
     display: flex;
+    justify-content: center;
+    align-items: center;
     list-style: none;
     gap: 24px;
     margin: 0;
     padding: 0;
-    color: #1a1a4e;
+    color: #1b154b;
     font-size: 14px;
 }
 
 .navbar-menu li a {
     text-decoration: none;
-    color: #1a1a4e;
-    font-family: sans-serif;
+    color: #1b154b;
+    font-family: "Roboto Condensed";
     /* font-weight: 600; */
 }
 
 .navbar-menu li {
     cursor: pointer;
     position: relative;
+}
+
+.dropdown-toggle {
+    font-family: "Roboto Condensed";
+}
+
+.dropdown-toggle:hover {
+    color: #ff782d;
+}
+
+.navbar-menu li:hover a {
+    color: #ff782d;
+}
+
+.menu-item-dropdown:hover .dropdown-menu a {
+    color: black;
 }
 
 .navbar-right {
@@ -79,23 +99,36 @@
 
 .cart-icon {
     font-size: 20px;
-    color: #1a1a4e;
+    color: #1b154b;
     cursor: pointer;
 }
 
+.navbar-right-btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    min-width: 200px;
+}
+
+.navbar-right-btn button {
+    width: 105px;
+}
+
 .btn-outline {
-    border: 1px solid #1a1a4e;
-    color: #1a1a4e;
+    border: 1px solid #1b154b;
+    color: #1b154b;
     background: white;
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
+    font-family: "Roboto";
 }
 
 .btn-outline a {
-    color: #1a1a4e;
+    color: #1b154b;
     text-decoration: none;
 }
 
@@ -105,14 +138,15 @@
 }
 
 .btn-filled {
-    background: #1a1a4e;
+    background: #1b154b;
+    border: 1px solid #1b154b;
     color: white;
-    border: none;
     padding: 6px 16px;
     border-radius: 20px;
     font-weight: bold;
     font-size: 14px;
     cursor: pointer;
+    font-family: "Roboto";
 }
 
 /* Existing styles */
@@ -122,7 +156,8 @@
     display: flex;
     align-items: center;
     cursor: pointer;
-    margin-left: 20px; /* Adjust spacing */
+    margin-left: 20px;
+    /* Adjust spacing */
 }
 
 .avatar-container {
@@ -134,10 +169,13 @@
 .user-avatar-img {
     width: 50px;
     height: 50px;
-    border-radius: 50%; /* Bo tròn ảnh */
-    object-fit: cover; /* Đảm bảo ảnh không bị méo */
+    border-radius: 50%;
+    /* Bo tròn ảnh */
+    object-fit: cover;
+    /* Đảm bảo ảnh không bị méo */
     margin-right: 8px;
-    border: 1px solid #ddd; /* Thêm viền mỏng */
+    border: 1px solid #ddd;
+    /* Thêm viền mỏng */
 }
 
 .dropdown-arrow {
@@ -157,21 +195,39 @@
 .dropdown-user-info h4 {
     margin: 0;
     font-size: 16px;
-    color: #0056b3; /* Màu xanh dương đậm */
+    color: #0056b3;
+    /* Màu xanh dương đậm */
     font-weight: 600;
 }
 
 .dropdown-user-info p {
     margin: 0;
     font-size: 14px;
-    color: #6c757d; /* Màu xám */
+    color: #6c757d;
+    /* Màu xám */
 }
 
 /* Style cho đường kẻ ngang phân cách */
 .dropdown-divider {
     border: none;
-    border-top: 1px solid #e9ecef; /* Màu xám rất nhạt */
-    margin: 5px 0; /* Khoảng cách trên dưới */
+    border-top: 1px solid #e9ecef;
+    /* Màu xám rất nhạt */
+    margin: 5px 0;
+    /* Khoảng cách trên dưới */
+}
+
+.dropdown-menu {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 240px;
+    /* Tăng chiều rộng để vừa nội dung */
+    padding: 5px 0;
+    /* Thêm padding trên dưới cho dropdown */
+    overflow: hidden;
 }
 
 /* Reset lại padding cho ul để các divider sát hơn */
@@ -182,18 +238,14 @@
 }
 
 /* Các style cũ đã có */
-.dropdown-menu {
-    position: absolute;
+.dropdown-service-menu {
     top: 120%;
     left: 0;
-    background-color: #fff;
-    border: 1px solid #e0e0e0;
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    width: 240px; /* Tăng chiều rộng để vừa nội dung */
-    padding: 5px 0; /* Thêm padding trên dưới cho dropdown */
-    overflow: hidden;
+}
+
+.dropdown-user-menu {
+    top: 120%;
+    right: -50%;
 }
 
 .dropdown-menu li a {

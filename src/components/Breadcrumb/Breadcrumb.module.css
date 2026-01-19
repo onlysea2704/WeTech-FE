@@ -6,6 +6,7 @@
     border-bottom: 1px solid #e9ecef;
     box-sizing: border-box;
     /* Đảm bảo padding không làm tăng kích thước */
+    font-family: "Roboto";
 }
 
 .breadcrumb-list {
@@ -13,7 +14,7 @@
     align-items: center;
     list-style: none;
     margin: 0;
-    margin-left: 45px;
+    margin-left: 86px;
     padding: 0;
     font-size: 14px;
 }

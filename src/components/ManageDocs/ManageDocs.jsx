@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ManageDocs.css";
+import styles from "./ManageDocs.module.css";
 import { authAxios, publicAxios } from "../../services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
 import Popup from "../Popup/Popup";
@@ -136,33 +136,39 @@ export default function ManageDocs() {
 
     return (
         <>
-            <div className="course-content-manager">
+            <div className={styles["course-content-manager"]}>
                 {sections.map((section) => (
-                    <div key={section.sectionId} className="section">
-                        <div className="section-header">
+                    <div key={section.sectionId} className={styles.section}>
+                        <div className={styles["section-header"]}>
                             <input
-                                className="input-text"
+                                className={styles["input-text"]}
                                 type="text"
                                 value={section.name}
                                 onChange={(e) => onChangeTitleSection(section.sectionId, e.target.value)}
                                 placeholder="Tên phần..."
                             />
-                            <div className="section-actions">
-                                <button className="btn update" onClick={() => updateSection(section)}>
+                            <div className={styles["section-actions"]}>
+                                <button
+                                    className={`${styles.btn} ${styles.update}`}
+                                    onClick={() => updateSection(section)}
+                                >
                                     <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                                 </button>
-                                <button className="btn delete" onClick={() => deleteSection(section.sectionId)}>
+                                <button
+                                    className={`${styles.btn} ${styles.delete}`}
+                                    onClick={() => deleteSection(section.sectionId)}
+                                >
                                     <i className="fa-solid fa-trash"></i> Xóa phần
                                 </button>
                             </div>
                         </div>
 
-                        <div className="documents">
+                        <div className={styles.documents}>
                             {section.documentSections?.map((document) => (
-                                <div key={document.documentId} className="document">
-                                    <div className="document-row">
+                                <div key={document.documentId} className={styles.document}>
+                                    <div className={styles["document-row"]}>
                                         <input
-                                            className="input-text"
+                                            className={styles["input-text"]}
                                             type="text"
                                             value={document.name}
                                             onChange={(e) =>
@@ -175,10 +181,10 @@ export default function ManageDocs() {
                                             placeholder="Tiêu đề tài liệu..."
                                         />
 
-                                        <div className="upload-wrapper">
+                                        <div className={styles["upload-wrapper"]}>
                                             <input
                                                 id={`upload-${document.documentId}`}
-                                                className="input-file"
+                                                className={styles["input-file"]}
                                                 type="file"
                                                 accept=".pdf,.doc,.docx,.ppt,.pptx,.txt"
                                                 onChange={(e) => {
@@ -194,21 +200,24 @@ export default function ManageDocs() {
                                                     }
                                                 }}
                                             />
-                                            <label htmlFor={`upload-${document.documentId}`} className="btn upload-btn">
+                                            <label
+                                                htmlFor={`upload-${document.documentId}`}
+                                                className={`${styles.btn} ${styles["upload-btn"]}`}
+                                            >
                                                 <i className="fa-solid fa-file-arrow-up"></i> Upload
                                             </label>
                                             {/* {document.file && <span className="file-name">{document.file.name}</span>} */}
                                         </div>
 
-                                        <div className="document-actions">
+                                        <div className={styles["document-actions"]}>
                                             <button
-                                                className="btn update"
+                                                className={`${styles.btn} ${styles.update}`}
                                                 onClick={() => updateDocument(document, document.file)}
                                             >
                                                 <i className="fa-solid fa-pen-to-square"></i> Cập nhật
                                             </button>
                                             <button
-                                                className="btn delete"
+                                                className={`${styles.btn} ${styles.delete}`}
                                                 onClick={() => deleteDocument(document.documentId)}
                                             >
                                                 <i className="fa-solid fa-trash"></i> Xóa
@@ -218,7 +227,7 @@ export default function ManageDocs() {
 
                                     {/* Link tải xuống thay vì preview */}
                                     {document.link && (
-                                        <div className="download-link-container">
+                                        <div className={styles["download-link-container"]}>
                                             <a
                                                 href={document.link}
                                                 download={
@@ -226,7 +235,7 @@ export default function ManageDocs() {
                                                         ? document.file.name
                                                         : `document-${document.documentId}`
                                                 }
-                                                className="download-link"
+                                                className={styles["download-link"]}
                                                 onClick={(e) => {
                                                     if (document.file) {
                                                         e.preventDefault();
@@ -244,13 +253,16 @@ export default function ManageDocs() {
                             ))}
                         </div>
 
-                        <button className="btn add" onClick={() => addDocument(section.sectionId)}>
+                        <button
+                            className={`${styles.btn} ${styles.add}`}
+                            onClick={() => addDocument(section.sectionId)}
+                        >
                             + Thêm tài liệu
                         </button>
                     </div>
                 ))}
 
-                <button className="btn add-section" onClick={addSection}>
+                <button className={`${styles.btn} ${styles["add-section"]}`} onClick={addSection}>
                     + Thêm phần
                 </button>
             </div>

@@ -16,7 +16,8 @@
     justify-content: center;
     box-sizing: border-box;
     overflow-x: hidden;
-    flex-direction: column; /* 👉 xếp phần tử theo chiều dọc */
+    flex-direction: column;
+    /* 👉 xếp phần tử theo chiều dọc */
 }
 
 .register-section::before {
@@ -26,26 +27,32 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.6); /* chỉnh độ mờ (0.4 = 40%) */
+    background-color: rgba(0, 0, 0, 0.6);
+    /* chỉnh độ mờ (0.4 = 40%) */
     z-index: 1;
 }
 
 .register-section > * {
     position: relative;
-    z-index: 2; /* để nội dung hiển thị trên overlay */
+    z-index: 2;
+    /* để nội dung hiển thị trên overlay */
 }
 
 .register-section p {
     color: white;
-    font-size: 2rem;
-    font-weight: bold;
+    font-family: "Poppins";
+    text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
     text-align: center;
     margin: 20px 250px;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 46px;
 }
 
 .register-section button {
     background-color: white;
-    color: #001f5f;
+    color: #1b154b;
     width: 200px;
     border: none;
     padding: 12px 24px;

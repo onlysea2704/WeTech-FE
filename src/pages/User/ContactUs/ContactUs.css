@@ -5,6 +5,7 @@
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
+    font-family: "Roboto";
 }
 
 .contact-container > h2 {
@@ -36,14 +37,16 @@
 
 .form-wrapper h2 {
     font-size: 24px;
-    color: #333;
+    color: var(--Main2, #2b4e9a);
     margin-top: 0;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .form-wrapper > p {
     color: #666;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .form-wrapper form input,
@@ -54,7 +57,8 @@
     border: 1px solid #ddd;
     border-radius: 8px;
     font-size: 16px;
-    box-sizing: border-box; /* Quan trọng để padding không làm tăng width */
+    box-sizing: border-box;
+    /* Quan trọng để padding không làm tăng width */
     font-family: "Roboto", sans-serif;
 }
 
@@ -66,7 +70,8 @@
 .form-wrapper form button {
     width: 100%;
     padding: 15px;
-    background-color: #3b5998; /* Màu xanh dương đậm */
+    background-color: #3b5998;
+    /* Màu xanh dương đậm */
     color: white;
     border: none;
     border-radius: 8px;
@@ -106,7 +111,8 @@
 
 .info-wrapper h2 {
     font-size: 24px;
-    color: #e85a03; /* Màu cam */
+    color: var(--Color2, var(--Primary, #ff782d));
+    /* Màu cam */
     margin-top: 0;
     margin-bottom: 25px;
 }
@@ -115,6 +121,12 @@
     display: flex;
     align-items: center;
     margin-bottom: 20px;
+}
+
+.info-item-detail {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
 
 .info-item .icon {
@@ -128,10 +140,11 @@
 
 /* Style cho icon của Font Awesome */
 .info-item i {
-    color: #e85a03; /* Màu cam */
+    color: var(--Color2, var(--Primary, #ff782d));
     font-size: 18px;
     margin-right: 15px;
-    width: 20px; /* Đảm bảo icon chiếm không gian đồng nhất */
+    width: 20px;
+    /* Đảm bảo icon chiếm không gian đồng nhất */
     text-align: center;
 }
 
@@ -153,6 +166,7 @@
         flex-direction: column;
         align-items: center;
     }
+
     .form-wrapper,
     .info-wrapper {
         width: 100%;

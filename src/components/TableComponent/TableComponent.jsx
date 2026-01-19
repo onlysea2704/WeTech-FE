@@ -1,5 +1,5 @@
 import React from "react";
-import "./TableComponent.css";
+import styles from "./TableComponent.module.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const TableComponent = ({
@@ -17,8 +17,8 @@ const TableComponent = ({
     const totalPages = Math.ceil(totalItems / pageSize);
 
     return (
-        <div className="table-container">
-            <table className="custom-table">
+        <div className={styles["table-container"]}>
+            <table className={styles["custom-table"]}>
                 <thead>
                     <tr>
                         {columns.map((col) => (
@@ -35,14 +35,17 @@ const TableComponent = ({
                                     <td key={col.field}>{row[col.field]}</td>
                                 ))}
                                 {showActions && (
-                                    <td className="action-cell">
+                                    <td className={styles["action-cell"]}>
                                         <button
-                                            className="action-btn edit"
+                                            className={`${styles["action-btn"]} ${styles.edit}`}
                                             onClick={() => onEdit && onEdit(row[columns[0].field])}
                                         >
                                             <i className="fas fa-edit"></i>
                                         </button>
-                                        <button className="action-btn delete" onClick={() => onDelete && onDelete(row)}>
+                                        <button
+                                            className={`${styles["action-btn"]} ${styles.delete}`}
+                                            onClick={() => onDelete && onDelete(row)}
+                                        >
                                             <i className="fas fa-trash-alt"></i>
                                         </button>
                                     </td>
@@ -60,8 +63,8 @@ const TableComponent = ({
             </table>
 
             {/* Pagination + Selectbox */}
-            <div className="pagination-container">
-                <div className="page-size">
+            <div className={styles["pagination-container"]}>
+                <div className={styles["page-size"]}>
                     <label htmlFor="pageSize">Hiển thị:</label>
                     <select id="pageSize" value={pageSize} onChange={(e) => onPageSizeChange(Number(e.target.value))}>
                         <option value={7}>7</option>
@@ -72,7 +75,7 @@ const TableComponent = ({
                     <span>/ trang</span>
                 </div>
 
-                <div className="pagination-table">
+                <div className={styles["pagination-table"]}>
                     <button onClick={() => onPageChange(1)} disabled={currentPage === 1}>
                         <i className="fas fa-angle-double-left"></i>
                     </button>

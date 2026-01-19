@@ -1,35 +1,39 @@
 import React, { useState } from "react";
-import "./ChatWidget.css";
+import styles from "./ChatWidget.module.css";
 import iconLogoZalo from "../../assets/icon-zalo.png";
+import logoWeTech from "../../assets/logo.png";
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
 
     return (
-        <div className="chat-widget-container">
+        <div className={styles["chat-widget-container"]}>
             {/* Khung chat */}
             {isOpen && (
-                <div className="chat-box">
-                    <div className="chat-header">
-                        <div className="chat-header-info">
-                            <h3>WeTech</h3>
-                            <p>Giải pháp phần mềm kế toán</p>
+                <div className={styles["chat-box"]}>
+                    <div className={styles["chat-header"]}>
+                        <div className={styles["chat-header-info"]}>
+                            <img src={logoWeTech} alt="Logo" className={styles["logo-wetech"]} />
+                            <div className={styles["chat-header-info-text"]}>
+                                <h3>WeTech</h3>
+                                <p>Giải pháp phần mềm kế toán</p>
+                            </div>
                         </div>
-                        <button className="chat-close-btn" onClick={() => setIsOpen(false)}>
+                        <button className={styles["chat-close-btn"]} onClick={() => setIsOpen(false)}>
                             ✕
                         </button>
                     </div>
 
-                    <div className="chat-greeting">
-                        <p className="greeting-title">Xin chào!</p>
-                        <p className="greeting-text">Rất vui khi được hỗ trợ bạn</p>
+                    <div className={styles["chat-greeting"]}>
+                        <p className={styles["greeting-title"]}>Xin chào!</p>
+                        <p className={styles["greeting-text"]}>Rất vui khi được hỗ trợ bạn</p>
                     </div>
 
-                    <div className="chat-start">Bắt đầu trò chuyện với WeTech</div>
+                    <div className={styles["chat-start"]}>Bắt đầu trò chuyện với WeTech</div>
 
-                    <div className="chat-buttons">
+                    <div className={styles["chat-buttons"]}>
                         <button
-                            className="btn btn-zalo"
+                            className={`${styles.btn} ${styles["btn-zalo"]}`}
                             onClick={() => window.open("https://zalo.me/0989466992", "_blank")}
                         >
                             <img src={iconLogoZalo} alt="Zalo" />
@@ -37,7 +41,7 @@ export default function ChatWidget() {
                         </button>
 
                         <button
-                            className="btn btn-facebook"
+                            className={`${styles.btn} ${styles["btn-facebook"]}`}
                             onClick={() => window.open("https://web.facebook.com/ketoanthuemoclan", "_blank")}
                         >
                             <img
@@ -47,13 +51,13 @@ export default function ChatWidget() {
                             Chat bằng Facebook
                         </button>
 
-                        <button className="btn btn-contact">Liên hệ ngay</button>
+                        <button className={`${styles.btn} ${styles["btn-contact"]}`}>Liên hệ ngay</button>
                     </div>
                 </div>
             )}
 
             {/* Nút tròn nổi */}
-            <button className="chat-float-btn" onClick={() => setIsOpen(!isOpen)} aria-label="Mở chat">
+            <button className={styles["chat-float-btn"]} onClick={() => setIsOpen(!isOpen)} aria-label="Mở chat">
                 <i className="fa-solid fa-comments"></i>
             </button>
         </div>

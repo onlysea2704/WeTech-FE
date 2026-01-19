@@ -142,6 +142,10 @@ const RegisterPayment = () => {
 
     // === CẬP NHẬT: Hàm xử lý submit ===
     const handleUpdateAndContinue = async () => {
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth",
+        });
         // Gọi hàm validate trước
         if (!validateForm()) {
             return; // Dừng lại nếu có lỗi
@@ -306,6 +310,7 @@ const RegisterPayment = () => {
                                 Cảm ơn bạn đã lựa chọn sản phẩm của <span className={styles.brand}>WETECH!</span>
                             </h3>
                             <div className={styles.section}>
+                                <h1>Xác nhận thông tin</h1>
                                 <h4>Thông tin mua hàng</h4>
                                 <div className={styles.infoTable}>
                                     <div className={styles.infoRow}>

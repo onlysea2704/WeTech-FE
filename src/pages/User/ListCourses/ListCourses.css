@@ -1,12 +1,12 @@
 .courses-page {
-    padding: 0 120px 10px 120px;
+    padding: 0 110px 10px 110px;
 }
 
 .category-bar {
     margin-top: 16px;
     display: flex;
     gap: 10px;
-    justify-content: space-evenly;
+    justify-content: space-between;
     flex-wrap: wrap;
 }
 
@@ -17,11 +17,16 @@
     padding: 8px 14px;
     cursor: pointer;
     font-size: 14px;
+    color: var(--Style1, #5f5f64);
+    text-align: center;
+    font-family: Roboto;
 }
 
 .category-btn:hover {
-    background: #1a1a4d; /* xanh đậm */
-    color: white; /* chữ trắng */
+    background: #1a1a4d;
+    /* xanh đậm */
+    color: white;
+    /* chữ trắng */
     border-color: #0066cc;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
@@ -40,12 +45,15 @@
 .header h2 {
     margin: 0;
     font-size: 20px;
+    color: var(--Main4, #1b154b);
+    font-family: "Roboto Condensed";
 }
 
 .header p {
     font-size: 14px;
-    color: #666;
-    margin-top: 0;
+    margin-top: 5px;
+    color: var(--Style1, #5f5f64);
+    font-family: "Roboto";
 }
 
 .view-more {
@@ -58,7 +66,8 @@
 
 .course-list {
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 cột */
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 cột */
     gap: 16px;
     /* margin-top: 20px; */
     margin-bottom: 40px;

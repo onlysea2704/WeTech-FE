@@ -113,12 +113,18 @@ const ContactUs = () => {
 
                         <div className="info-item">
                             <i className="fas fa-phone-alt"></i>
-                            <p>0989 466 992</p>
+                            <div className="info-item-detail phone">
+                                <p>Phone</p>
+                                <p>0989 466 992</p>
+                            </div>
                         </div>
 
                         <div className="info-item">
                             <i className="fas fa-envelope"></i>
-                            <p>wetechsoft.vn@gmail.com</p>
+                            <div className="info-item-detail email">
+                                <p>Email</p>
+                                <p>wetechsoft.vn@gmail.com</p>
+                            </div>
                         </div>
 
                         <div className="map-container">

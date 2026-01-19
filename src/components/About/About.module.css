@@ -62,7 +62,7 @@
 }
 
 .subtitle-about {
-    color: #0f0855;
+    color: #1b154b;
     font-size: 20px;
     margin-bottom: 8px;
 }
@@ -70,12 +70,12 @@
 .title-about {
     font-size: 28px;
     font-weight: bold;
-    color: #1e1b4b;
+    color: #1b154b;
     margin-bottom: 16px;
 }
 
 .description-about {
-    color: #444;
+    color: #535353;
     margin-bottom: 24px;
     line-height: 1.6;
 }
@@ -91,7 +91,7 @@
     align-items: flex-start;
     gap: 10px;
     margin-bottom: 12px;
-    color: #333;
+    color: #535353;
 }
 
 .check-icon {
@@ -115,7 +115,8 @@
 }
 
 .check-icon {
-    color: #153d66; /* hoặc màu xanh tùy bạn */
+    color: #153d66;
+    /* hoặc màu xanh tùy bạn */
     margin-right: 8px;
     font-size: 18px;
 }

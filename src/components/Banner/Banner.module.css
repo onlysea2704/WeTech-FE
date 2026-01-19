@@ -48,6 +48,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    font-family: "Roboto Condensed";
 }
 
 .banner-text h2 {
@@ -56,9 +57,11 @@
 }
 
 .banner-text p {
-    margin: 10px 0 20px;
-    font-size: 14px;
-    opacity: 0.9;
+    color: var(--Object-White-90, rgba(249, 249, 249, 0.9));
+    font-family: Gilroy;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
 }
 
 .btn-primary {
@@ -77,9 +80,19 @@
     background: linear-gradient(90deg, red, darkred);
     padding: 20px;
     color: white;
+    font-family: "Roboto";
+    position: relative;
+}
+
+.banner-image-info {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: center;
+    gap: 150px;
+    position: absolute;
+    bottom: 20px;
+    left: 20%;
 }
 
 .author-info {
@@ -89,8 +102,8 @@
 }
 
 .author-avatar {
-    width: 40px;
-    height: 40px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
 }
 
@@ -106,6 +119,8 @@
 .award-info {
     font-size: 14px;
     opacity: 0.9;
+    font-family: "Gilroy";
+    text-align: right;
 }
 
 /* Thanh button danh mục */

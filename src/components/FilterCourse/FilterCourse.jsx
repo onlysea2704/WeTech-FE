@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./FilterCourse.css";
+import styles from "./FilterCourse.module.css";
 // Không cần import publicAxios nữa vì lọc local
 
 const courseCategories = [
@@ -76,29 +76,32 @@ const FilterCourse = ({ originalCourses, setCourses, setCurrentPage, selectedCat
     }, [selectedCategories, selectedPrice, originalCourses]); // Chạy lại khi danh sách gốc, category hoặc price thay đổi
 
     return (
-        <div className="filter-sidebar">
-            <div className="filter-container">
+        <div className={styles["filter-sidebar"]}>
+            <div className={styles["filter-container"]}>
                 {/* Section Danh mục */}
-                <div className="filter-section">
-                    <div className="section-header">
+                <div className={styles["filter-section"]}>
+                    <div className={styles["section-header"]}>
                         <span>Danh mục khoá học</span>
                     </div>
-                    <div className="section-content">
+                    <div className={styles["section-content"]}>
                         {courseCategories.map((category) => {
                             const count = originalCourses.filter((c) => c.typeCourse === category).length;
                             return (
-                                <label key={category} className="filter-option checkbox-label">
-                                    <div className="option-left">
+                                <label
+                                    key={category}
+                                    className={`${styles["filter-option"]} ${styles["checkbox-label"]}`}
+                                >
+                                    <div className={styles["option-left"]}>
                                         <input
                                             type="checkbox"
                                             value={category}
                                             checked={selectedCategories.includes(category)}
                                             onChange={() => handleCategoryChange(category)}
                                         />
-                                        <span className="custom-checkbox"></span>
-                                        <span className="option-text">{category}</span>
+                                        <span className={styles["custom-checkbox"]}></span>
+                                        <span className={styles["option-text"]}>{category}</span>
                                     </div>
-                                    <span className="option-count">{count}</span>
+                                    <span className={styles["option-count"]}>{count}</span>
                                 </label>
                             );
                         })}
@@ -106,29 +109,32 @@ const FilterCourse = ({ originalCourses, setCourses, setCurrentPage, selectedCat
                 </div>
 
                 {/* Section Giá */}
-                <div className="filter-section">
-                    <div className="section-header">
+                <div className={styles["filter-section"]}>
+                    <div className={styles["section-header"]}>
                         <span>Giá</span>
                     </div>
-                    <div className="section-content">
+                    <div className={styles["section-content"]}>
                         {["Miễn phí", "Trả phí"].map((option) => {
                             let count = 0;
                             if (option === "Miễn phí") count = originalCourses.filter((c) => c.price === 0).length;
                             if (option === "Trả phí") count = originalCourses.filter((c) => c.price > 0).length;
 
                             return (
-                                <label key={option} className="filter-option checkbox-label">
-                                    <div className="option-left">
+                                <label
+                                    key={option}
+                                    className={`${styles["filter-option"]} ${styles["checkbox-label"]}`}
+                                >
+                                    <div className={styles["option-left"]}>
                                         <input
                                             type="checkbox" // Changed to checkbox visual as per design (squares) even if logic is radio/toggle-ish
                                             value={option}
                                             checked={selectedPrice === option}
                                             onChange={() => handlePriceChange(option)}
                                         />
-                                        <span className="custom-checkbox"></span>
-                                        <span className="option-text">{option}</span>
+                                        <span className={styles["custom-checkbox"]}></span>
+                                        <span className={styles["option-text"]}>{option}</span>
                                     </div>
-                                    <span className="option-count">{count}</span>
+                                    <span className={styles["option-count"]}>{count}</span>
                                 </label>
                             );
                         })}

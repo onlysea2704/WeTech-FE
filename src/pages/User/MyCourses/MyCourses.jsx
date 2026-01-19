@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./MyCourses.css";
+import styles from "./MyCourses.module.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../components/NavBar/NavBar";
 import Banner from "../../../components/Banner/Banner";
@@ -15,20 +15,20 @@ const Courses = ({ title, description, courses }) => {
     };
 
     return (
-        <div className="new-courses-container">
-            <div className="header">
+        <div className={styles["new-courses-container"]}>
+            <div className={styles.header}>
                 <div>
                     <h2>{title}</h2>
                     <p>{description}</p>
                 </div>
                 {visibleCount < courses.length && (
-                    <button className="view-more" onClick={handleViewMore}>
+                    <button className={styles["view-more"]} onClick={handleViewMore}>
                         Xem thêm
                     </button>
                 )}
             </div>
 
-            <div className="course-list">
+            <div className={styles["course-list"]}>
                 {courses.slice(0, visibleCount).map((course, index) => (
                     <CourseCard key={index} index={index} course={course} />
                 ))}
@@ -75,7 +75,7 @@ const MyCourses = () => {
     return (
         <div>
             <Navbar />
-            <div className="courses-page">
+            <div className={styles["courses-page"]}>
                 <Banner />
                 {myCourse.length > 0 && (
                     <Courses

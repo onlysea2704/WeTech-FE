@@ -8,9 +8,7 @@ import About from "../../../components/About/About";
 import Services from "../../../components/Services/Services";
 import Customers from "../../../components/Customers/Customers";
 import Footer from "../../../components/Footer/Footer";
-import ChatWidget from "../../../components/ChatWidget/ChatWidget";
 import TopCourses from "../../../components/TopProcedures/TopCourses";
-import { useNavigate } from "react-router-dom";
 // import imageRegister from "../../../assets/image-register-home.jpg";
 
 const Home = () => {
@@ -31,7 +29,6 @@ const Home = () => {
                 <p>Learn more about our listing process, as well as our additional staging and design work.</p>
                 <button>Đăng ký ngay</button>
             </div>
-            <ChatWidget />
 
             <Footer />
         </div>

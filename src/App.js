@@ -24,12 +24,7 @@ import CourseManager from "./pages/Admin/CourseManager/CourseManager";
 import MyCourses from "./pages/User/MyCourses/MyCourses";
 import ChangePassword from "./pages/User/ChangePassword/ChangePassword";
 import CartPage from "./pages/User/CartPage/CartPage";
-// import CategoryCourse from "./Pages/CategoryCourse/CategoryCourse";
-// import CourseDetail from "./Pages/CourseDetail/CourseDetail";
-// import Home from "./Pages/Home/Home";
-// import Lesson from "./Pages/Lesson/Lesson";
-// import ForgetPassword from "./Pages/ChangePassword/ChangePassword";
-// import ProfileEdit from "./Pages/ProfileEdit/ProfileEdit";
+import ChatWidget from "./components/ChatWidget/ChatWidget";
 
 function App() {
     return (
@@ -72,6 +67,7 @@ function App() {
                 {/* Catch-all route for 404 */}
                 <Route path="*" element={<NotFoundPage />} />
             </Routes>
+            <ChatWidget />
         </Router>
     );
 }

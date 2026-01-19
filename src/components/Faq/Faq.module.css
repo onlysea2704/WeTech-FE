@@ -16,6 +16,7 @@
     background-color: #ffffff;
     padding-top: 10px;
     border-radius: 10px;
+    font-family: "Roboto";
 }
 
 .faq-title {
@@ -69,7 +70,8 @@
 
 /* ---- Active State Styling ---- */
 .faq-item.active .faq-question p {
-    color: #e67e22; /* Orange color for active question */
+    color: #e67e22;
+    /* Orange color for active question */
 }
 
 .faq-item.active .faq-icon {
@@ -93,5 +95,6 @@
 }
 
 .faq-item.active .faq-answer {
-    max-height: 500px; /* Set a sufficient max-height for content */
+    max-height: 500px;
+    /* Set a sufficient max-height for content */
 }

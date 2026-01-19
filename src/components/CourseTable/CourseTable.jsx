@@ -1,5 +1,5 @@
 import React from "react";
-import "./CourseTable.css";
+import styles from "./CourseTable.module.css";
 
 const CourseTable = () => {
     const data = [
@@ -54,15 +54,15 @@ const CourseTable = () => {
     ];
 
     return (
-        <div className="course-table-container">
-            <div className="table-header">
+        <div className={styles["course-table-container"]}>
+            <div className={styles["table-header"]}>
                 <h3>Thống kê chi tiết khoá học</h3>
-                <select className="year-select">
+                <select className={styles["year-select"]}>
                     <option value="2025">2025</option>
                     <option value="2024">2024</option>
                 </select>
             </div>
-            <table className="course-table">
+            <table className={styles["course-table"]}>
                 <thead>
                     <tr>
                         <th>Danh mục</th>
@@ -76,11 +76,11 @@ const CourseTable = () => {
                     {data.map((row, index) => (
                         <tr key={index}>
                             <td>
-                                <div className="category-cell">
+                                <div className={styles["category-cell"]}>
                                     <img
                                         src="https://via.placeholder.com/32" // icon minh hoạ
                                         alt="icon"
-                                        className="category-icon"
+                                        className={styles["category-icon"]}
                                     />
                                     {row.name}
                                 </div>
@@ -89,7 +89,7 @@ const CourseTable = () => {
                             <td>{row.orders}</td>
                             <td>{row.revenue}</td>
                             <td>
-                                <div className="stat-box" style={{ backgroundColor: row.color }}>
+                                <div className={styles["stat-box"]} style={{ backgroundColor: row.color }}>
                                     {row.percent}%
                                 </div>
                             </td>

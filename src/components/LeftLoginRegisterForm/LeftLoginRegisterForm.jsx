@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./LeftLoginRegisterForm.css";
+import styles from "./LeftLoginRegisterForm.module.css";
 
 const LeftLoginRegisterForm = () => {
     const [index, setIndex] = useState(0);
@@ -17,15 +17,15 @@ const LeftLoginRegisterForm = () => {
     ];
 
     return (
-        <div className="login-left">
-            <div className="text-slider">
+        <div className={styles["login-left"]}>
+            <div className={styles["text-slider"]}>
                 <h2>{texts[index].title}</h2>
                 <p>{texts[index].content}</p>
-                <div className="slider-dots">
+                <div className={styles["slider-dots"]}>
                     {texts.map((_, i) => (
                         <span
                             key={i}
-                            className={`dot ${i === index ? "active" : ""}`}
+                            className={`${styles.dot} ${i === index ? styles.active : ""}`}
                             onClick={() => setIndex(i)}
                         ></span>
                     ))}

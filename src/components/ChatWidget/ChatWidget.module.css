@@ -7,7 +7,7 @@
     z-index: 1000;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: end;
 }
 
 /* Hộp chat chính */
@@ -29,6 +29,22 @@
     display: flex;
     justify-content: space-between;
     align-items: start;
+}
+
+.chat-header-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Roboto";
+}
+
+.chat-header-info img {
+    width: 40px;
+    height: 40px;
+    margin-right: 8px;
+    border-radius: 50%;
+    background-color: #fff;
+    padding: 5px;
 }
 
 .chat-header-info h3 {
@@ -55,6 +71,7 @@
 .chat-greeting {
     background-color: #1a3e8b;
     color: #fff;
+    font-family: "Roboto";
     padding: 10px 16px;
 }
 
@@ -72,11 +89,11 @@
 /* Dòng "bắt đầu trò chuyện" */
 .chat-start {
     text-align: center;
-    padding: 10px;
-    background: #f5f5f5;
-    color: #666;
+    background-color: #f4f6f8;
+    color: #637381;
     font-size: 13px;
-    border-bottom: 1px solid #ddd;
+    font-family: "Roboto";
+    padding: 16px 0;
 }
 
 /* Khu vực nút */
@@ -112,6 +129,7 @@
     background: #1a3e8b;
     color: white;
 }
+
 .btn-zalo:hover {
     background: #163577;
 }
@@ -121,6 +139,7 @@
     background: #f1f1f1;
     color: #333;
 }
+
 .btn-facebook:hover {
     background: #e4e4e4;
 }
@@ -130,6 +149,7 @@
     background: #ff6600;
     color: white;
 }
+
 .btn-contact:hover {
     background: #e55b00;
 }
@@ -147,7 +167,8 @@
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
     transition:
         transform 0.2s,
-        background 0.2s;
+        background-color 0.2s;
+    margin-right: 10px;
 }
 
 .chat-float-btn:hover {
@@ -161,6 +182,7 @@
         opacity: 0;
         transform: translateY(30px);
     }
+
     to {
         opacity: 1;
         transform: translateY(0);

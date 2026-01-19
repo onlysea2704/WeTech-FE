@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import "./Customers.css";
 import custom1 from "../../assets/customer1.jpg";
 import custom2 from "../../assets/customer2.jpg";
 import custom3 from "../../assets/customer3.png";
 import custom4 from "../../assets/customer4.png";
 import custom5 from "../../assets/customer5.jpg";
 import starIcon from "../../assets/star-icon.png";
+import styles from "./Customers.module.css";
 
 const testimonials = [
     {
@@ -97,24 +97,24 @@ const Customers = () => {
     const visibleTestimonials = getVisibleTestimonials();
 
     return (
-        <div className="testimonials">
-            <h2 className="title">Khách hàng của chúng tôi</h2>
+        <div className={styles["testimonials"]}>
+            <h2 className={styles["title"]}>Khách hàng của chúng tôi</h2>
             <h1> </h1>
-            <div className="comments-container">
+            <div className={styles["comments-container"]}>
                 <i className="fas fa-chevron-left" onClick={handlePrev}></i>
 
-                <div className={`cards-container ${isAnimating ? `animating-${direction}` : ""}`}>
+                <div className={`${styles["cards-container"]} ${isAnimating ? styles[`animating-${direction}`] : ""}`}>
                     {visibleTestimonials.map((item, index) => (
-                        <div className={`card ${index === 1 ? "active" : ""}`} key={index}>
-                            <div className="user-info">
+                        <div className={`${styles["card"]} ${index === 1 ? styles["active"] : ""}`} key={index}>
+                            <div className={styles["user-info"]}>
                                 {/* Lưu ý: Code gốc của bạn dùng imageCustomer cho tất cả, nên tôi giữ nguyên.
                     Nếu muốn dùng ảnh riêng, hãy đổi src thành {item.img} */}
-                                <img src={item.img} alt={item.name} className="avatar" />
+                                <img src={item.img} alt={item.name} className={styles["avatar"]} />
                                 <div>
-                                    <h4 className="customer-name">{item.name}</h4>
-                                    <div className="role-stars">
-                                        <p className="role">{item.role}</p>
-                                        <div className="stars">
+                                    <h4 className={styles["customer-name"]}>{item.name}</h4>
+                                    <div className={styles["role-stars"]}>
+                                        <p className={styles["role"]}>{item.role}</p>
+                                        <div className={styles["stars"]}>
                                             {Array(Math.round(item.rating))
                                                 .fill(null)
                                                 .map((_, index) => (
@@ -124,7 +124,7 @@ const Customers = () => {
                                     </div>
                                 </div>
                             </div>
-                            <p className="feedback">{item.feedback}</p>
+                            <p className={styles["feedback"]}>{item.feedback}</p>
                         </div>
                     ))}
                 </div>
@@ -134,11 +134,11 @@ const Customers = () => {
 
             {/* Chỉ hiển thị các dấu chấm nếu có nhiều hơn 3 bình luận */}
             {testimonials.length > 3 && (
-                <div className="dots">
+                <div className={styles["dots"]}>
                     {testimonials.map((_, index) => (
                         <span
                             key={index}
-                            className={`dot ${currentIndex === index ? "active" : ""}`}
+                            className={`${styles["dot"]} ${currentIndex === index ? styles["active"] : ""}`}
                             onClick={() => goToTestimonial(index)}
                         ></span>
                     ))}

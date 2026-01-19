@@ -19,8 +19,9 @@
 
 .section-header {
     font-weight: 700;
-    font-size: 16px;
-    color: #2b2b39;
+    font-size: 18px;
+    color: var(--Brand-Color-Secondary, #1b154b);
+    font-family: "Roboto Condensed";
     /* Darker heading color */
     margin-bottom: 12px;
     cursor: default;

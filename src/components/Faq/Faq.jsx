@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./Faq.css";
+import styles from "./Faq.module.css";
 
 // Dữ liệu cho các câu hỏi và câu trả lời
 const faqData = [
@@ -30,13 +30,13 @@ const FaqItem = ({ item, index, openIndex, setOpenIndex }) => {
     };
 
     return (
-        <div className={`faq-item ${isOpen ? "active" : ""}`}>
-            <div className="faq-question" onClick={toggleOpen}>
+        <div className={`${styles["faq-item"]} ${isOpen ? styles.active : ""}`}>
+            <div className={styles["faq-question"]} onClick={toggleOpen}>
                 <p>{item.question}</p>
-                <span className="faq-icon"></span>
+                <span className={styles["faq-icon"]}></span>
             </div>
-            <div className="faq-answer">
-                <div className="faq-answer-content">{item.answer}</div>
+            <div className={styles["faq-answer"]}>
+                <div className={styles["faq-answer-content"]}>{item.answer}</div>
             </div>
         </div>
     );
@@ -48,9 +48,9 @@ const Faq = () => {
     const [openIndex, setOpenIndex] = useState(0);
 
     return (
-        <div className="faq-container">
-            <h2 className="faq-title">CÂU HỎI THƯỜNG GẶP</h2>
-            <div className="faq-list">
+        <div className={styles["faq-container"]}>
+            <h2 className={styles["faq-title"]}>CÂU HỎI THƯỜNG GẶP</h2>
+            <div className={styles["faq-list"]}>
                 {faqData.map((item, index) => (
                     <FaqItem key={index} item={item} index={index} openIndex={openIndex} setOpenIndex={setOpenIndex} />
                 ))}
