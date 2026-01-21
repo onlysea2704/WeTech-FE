@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./LoginForm.css";
+import styles from "./LoginForm.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { authAxios } from "../../../services/axios-instance";
@@ -10,6 +10,8 @@ const LoginForm = () => {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
+    const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
     const handleClose = async () => {
         navigate("/");
@@ -82,53 +84,72 @@ const LoginForm = () => {
                 navigate("/dashboard");
             }
         } catch (error) {
-            alert("Lỗi đăng nhập:", error.message);
+            alert("Sai tài khoản hoặc mật khẩu.");
         }
     };
 
     return (
-        <div className="login-background">
-            <div className="login-wrapper">
-                <LeftLoginRegisterForm />
-                <div className="login-right">
-                    <div className="login-box">
-                        <div class="login-header">
+        <div
+            className={styles["login-background"]}
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
+        >
+            <div className={styles["login-wrapper"]}>
+                <LeftLoginRegisterForm onBackgroundChange={setBackgroundImage} />
+                <div className={styles["login-right"]}>
+                    <div className={styles["login-box"]}>
+                        <div className={styles["login-header"]}>
                             <h2>Đăng nhập</h2>
-                            <button class="close-btn" onClick={handleClose}>
+                            <button className={styles["close-btn"]} onClick={handleClose}>
                                 <i class="fas fa-times"></i>
                             </button>
                         </div>
-                        <p className="register-text">
+                        <p className={styles["register-text"]}>
                             Bạn chưa có tài khoản? <Link to="/register">Đăng Ký</Link>
                         </p>
                         <form onSubmit={handleSubmit}>
                             <input
-                                type="email"
+                                type="text"
+                                name="email"
                                 placeholder="Email / Tên đăng nhập"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                             />
-                            <input
-                                type="password"
-                                placeholder="Mật khẩu"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-                            <p className="forgot-password">
+                            <div className={styles["password-input-container"]}>
+                                <input
+                                    type={showPassword ? "text" : "password"}
+                                    name="password"
+                                    placeholder="Mật khẩu"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                />
+                                <button
+                                    type="button"
+                                    className={styles["password-toggle-btn"]}
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >
+                                    <i className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}></i>
+                                </button>
+                            </div>
+                            <p className={styles["forgot-password"]}>
                                 {" "}
                                 <Link to="/forgot-password">Quên mật khẩu?</Link>{" "}
                             </p>
-                            <button type="submit" className="btn-login" disabled={loading}>
+                            <button type="submit" className={styles["btn-login"]} disabled={loading}>
                                 Đăng Nhập
                             </button>
                         </form>
-                        <div className="divider">
-                            <span className="line"></span>
+                        <div className={styles.divider}>
+                            <span className={styles.line}></span>
                             <span>or</span>
-                            <span className="line"></span>
+                            <span className={styles.line}></span>
                         </div>
                         <GoogleLoginButton />
-                        <p className="terms">
+                        <p className={styles.terms}>
                             Protected by reCAPTCHA and subject to the Prism <a href="a">Privacy Policy</a> and{" "}
                             <a href="a">Terms of Service</a>.
                         </p>

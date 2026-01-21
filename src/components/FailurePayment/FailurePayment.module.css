@@ -30,6 +30,7 @@
         transform: scale(0.8);
         opacity: 0;
     }
+
     to {
         transform: scale(1);
         opacity: 1;
@@ -75,16 +76,16 @@
     width: 100%;
     padding: 10px;
     background: transparent;
-    color: #009688;
+    color: #2b4e9a;
     font-size: 15px;
     font-weight: bold;
-    border: 1px solid #009688;
+    border: 1px solid #2b4e9a;
     border-radius: 6px;
     cursor: pointer;
     transition: 0.3s;
 }
 
 .retry-btn:hover {
-    background: #009688;
+    background: #143c94;
     color: #fff;
 }

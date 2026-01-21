@@ -3,13 +3,15 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: background-image 0.5s ease-in-out;
 }
 
 .login-wrapper {
     display: flex;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* 💡 Nền đen trong suốt 40% */
+    background: rgba(0, 0, 0, 0.6);
+    /* 💡 Nền đen trong suốt 40% */
     /* border-radius: 12px; */
     overflow: hidden;
     box-shadow: none;
@@ -55,7 +57,7 @@
 
 .login-box h2 {
     margin-bottom: 10px;
-    color: #1d1d4f;
+    color: #1b154b;
 }
 
 .login-box p {
@@ -148,15 +150,49 @@
 .register-text {
     margin-top: 15px;
     font-size: 14px;
-    color: #666;
+    font-family: "Roboto";
 }
 
 .register-text a {
-    color: #4facfe;
+    color: #1f7bf4;
     text-decoration: none;
     font-weight: bold;
 }
 
 .register-text a:hover {
     text-decoration: underline;
+}
+
+/* Password input container */
+.password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.password-input-container input {
+    padding-right: 45px;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn:hover {
+    color: #333;
 }

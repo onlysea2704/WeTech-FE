@@ -45,6 +45,15 @@ const Navbar = () => {
         navigate("/login");
     };
 
+    function handleSearch(e) {
+        if (e.key === "Enter") {
+            const searchValue = e.currentTarget.value;
+            if (searchValue.trim()) {
+                navigate(`/course-filter?query=${searchValue.trim()}`);
+            }
+        }
+    }
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (userDropdownRef.current && !userDropdownRef.current.contains(event.target)) {
@@ -136,7 +145,13 @@ const Navbar = () => {
                 <div className={styles["navbar-right"]}>
                     <div className={styles["search-box"]}>
                         <i className={`fas fa-search ${styles["search-icon"]}`}></i>
-                        <input className={styles["search-navbar"]} type="text" placeholder="Tìm kiếm" />
+                        <input
+                            className={styles["search-navbar"]}
+                            type="text"
+                            placeholder="Tìm kiếm"
+                            name="search"
+                            onKeyDown={handleSearch}
+                        />
                     </div>
 
                     <Link to="/cart">

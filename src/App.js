@@ -38,6 +38,7 @@ function App() {
                 <Route path="/list-courses" element={<ListCourses />} />
                 <Route path="/my-courses" element={<MyCourses />} />
                 <Route path="/course-filter/:category" element={<CourseFilter />} />
+                <Route path="/course-filter" element={<CourseFilter />} />
                 <Route path="/detail-course/:courseId" element={<DetailCourse />} />
                 <Route path="/list-procedures/:typeProcedure" element={<ListProcedures />} />
                 <Route path="/contact-us" element={<ContactUs />} />

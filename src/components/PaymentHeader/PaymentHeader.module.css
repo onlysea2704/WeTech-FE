@@ -75,15 +75,15 @@
 
 /* Active Step */
 .step-item.active .step-circle {
-    border-color: #008080;
+    border-color: #2b4e9a;
     /* Teal */
-    color: #008080;
+    color: #2b4e9a;
     background-color: #f0fffff0;
-    box-shadow: 0 0 0 4px rgba(0, 128, 128, 0.1);
+    box-shadow: 0 0 0 4px rgba(2, 0, 128, 0.1);
 }
 
 .step-item.active .step-label {
-    color: #008080;
+    color: #2b4e9a;
     font-weight: 700;
 }
 

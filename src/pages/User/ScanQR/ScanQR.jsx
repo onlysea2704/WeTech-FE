@@ -33,6 +33,7 @@ const ScanQR = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchTransactionDetails = async () => {
             try {
                 const res = await publicAxios.get(`/payment/get?idTransaction=${idTransaction}`);

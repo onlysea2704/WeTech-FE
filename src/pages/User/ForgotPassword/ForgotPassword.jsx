@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./ForgotPassword.css";
+import styles from "./ForgotPassword.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
@@ -11,6 +11,7 @@ const ForgotPassword = () => {
     };
 
     const [email, setEmail] = useState("");
+    const [backgroundImage, setBackgroundImage] = useState("");
 
     const forgotPassword = async (email) => {
         const response = await publicAxios.post("/api/auth/forgot-password", {
@@ -26,18 +27,26 @@ const ForgotPassword = () => {
     };
 
     return (
-        <div className="forgot-password-background">
-            <div className="forgot-password-wrapper">
-                <LeftLoginRegisterForm />
-                <div className="forgot-password-right">
-                    <div className="forgot-password-box">
-                        <div class="forgot-password-header">
+        <div
+            className={styles["forgot-password-background"]}
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
+        >
+            <div className={styles["forgot-password-wrapper"]}>
+                <LeftLoginRegisterForm onBackgroundChange={setBackgroundImage} />
+                <div className={styles["forgot-password-right"]}>
+                    <div className={styles["forgot-password-box"]}>
+                        <div className={styles["forgot-password-header"]}>
                             <h2>Quên mật khẩu?</h2>
-                            <button class="close-btn" onClick={handleClose}>
-                                <i class="fas fa-times"></i>
+                            <button className={styles["close-btn"]} onClick={handleClose}>
+                                <i className="fas fa-times"></i>
                             </button>
                         </div>
-                        <p className="register-text">
+                        <p className={styles["register-text"]}>
                             Đừng lo lắng! Chỉ cần nhập email của bạn và chúng tôi sẽ gửi cho bạn liên kết đặt lại mật
                             khẩu.
                         </p>
@@ -47,10 +56,10 @@ const ForgotPassword = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
-                        <button className="btn-forgot-password" onClick={() => forgotPassword(email)}>
+                        <button className={styles["btn-forgot-password"]} onClick={() => forgotPassword(email)}>
                             Gửi Email Khôi Phục
                         </button>
-                        <p className="text-register">
+                        <p className={styles["text-register"]}>
                             Tạo mới? <Link to="/register">Đăng Ký</Link>
                         </p>
                     </div>

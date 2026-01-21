@@ -4,6 +4,7 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import styles from "./CartPage.module.css";
+import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount).replace("₫", "đ");
@@ -11,14 +12,18 @@ const formatCurrency = (amount) => {
 
 const CartPage = () => {
     const [courses, setCourses] = useState([]);
+    const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
     useEffect(() => {
         const fetchCourses = async () => {
+            setLoading(true);
             try {
                 const response = await authAxios.get("/cart/get-item");
                 setCourses(response.data);
             } catch (error) {
                 console.error("Lỗi khi lấy danh sách khóa học:", error);
+            } finally {
+                setLoading(false);
             }
         };
         fetchCourses();
@@ -103,7 +108,9 @@ const CartPage = () => {
                 <div className={styles.cartListSection}>
                     <h2 className={styles.sectionTitle}>Giỏ hàng</h2>
 
-                    {courses.length === 0 ? (
+                    {loading ? (
+                        Array.from({ length: 3 }).map((_, index) => <CourseListSkeleton key={index} />)
+                    ) : courses.length === 0 ? (
                         <p>Giỏ hàng của bạn đang trống.</p>
                     ) : (
                         courses.map((item, index) => {
@@ -119,8 +126,9 @@ const CartPage = () => {
                                         <div className={styles.courseHeaderPayment}>
                                             <div>
                                                 <p className={styles.courseTitle}>{item.title}</p>
-                                                <p className={styles.courseSubtitle}>{item.typeCourse}</p>
-                                                <p></p>
+                                                <p className={styles.courseAuthor}>
+                                                    Tác giả: <span>{item.author}</span>
+                                                </p>
                                                 <div className={styles.courseActions}>
                                                     <span
                                                         className={styles.actionLink}

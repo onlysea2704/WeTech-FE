@@ -56,8 +56,32 @@
 }
 
 .courseTitle {
-    font-weight: bold;
     margin: 0;
+    color: var(--text-color);
+    /* Giới hạn số dòng hiển thị của Title nếu quá dài */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    color: var(--Neutral-colors-Black, #0c0c0c);
+    font-family: "Roboto";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+}
+
+.courseAuthor {
+    color: var(--Neutral-Color-Gray-3, #666);
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.courseAuthor span {
+    color: var(--Brand-Color-Button, #2b4e9a);
 }
 
 .courseSubtitle {
@@ -314,14 +338,24 @@
 
 .backBtn {
     background: #fff;
-    border: 1px solid #0056b3;
-    color: #0056b3;
+    border: 1px solid #443f6b;
+    color: #443f6b;
     margin-right: 10px;
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
 }
 
 .payBtn {
-    background: #003087;
+    background: #443f6b;
     color: #fff;
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 140%;
 }
 
 .vatSection {
@@ -372,4 +406,22 @@
     display: flex;
     gap: 15px;
     margin-bottom: 15px;
+}
+
+.selectInput {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-family: "Roboto";
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.selectInput:disabled {
+    background-color: #f5f5f5;
+    cursor: not-allowed;
+    color: #999;
 }

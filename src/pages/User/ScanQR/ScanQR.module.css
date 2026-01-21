@@ -205,8 +205,7 @@ tr.amount td:last-child {
 .check-transaction-btn {
     margin-top: 15px;
     padding: 12px 20px;
-    background: linear-gradient(135deg, #00bfff, #1e90ff);
-    /* xanh gradient */
+    background: #2b4e9a;
     color: #fff;
     font-size: 16px;
     font-weight: 600;
@@ -218,8 +217,7 @@ tr.amount td:last-child {
 }
 
 .check-transaction-btn:hover {
-    background: linear-gradient(135deg, #1e90ff, #0077b6);
-    /* xanh đậm hơn */
+    background: #143c94;
     transform: translateY(-2px);
     box-shadow: 0 6px 14px rgba(0, 119, 182, 0.4);
 }

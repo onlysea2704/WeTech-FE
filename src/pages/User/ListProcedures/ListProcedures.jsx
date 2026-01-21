@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ListProcedures.css";
+import styles from "./ListProcedures.module.css";
 import ProcedureCard from "../../../components/ProcedureCard/ProcedureCard";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
@@ -51,15 +51,15 @@ const ListProcedures = () => {
         <div>
             <Navbar />
             <Breadcrumb />
-            <div className="company-services">
-                <h2 className="title-type-procedure">DỊCH VỤ THÀNH LẬP CÔNG TY</h2>
+            <div className={styles["company-services"]}>
+                <h2 className={styles["title-type-procedure"]}>DỊCH VỤ THÀNH LẬP CÔNG TY</h2>
 
                 {/* Tabs */}
-                <div className="tabs">
+                <div className={styles["tabs"]}>
                     {tabs.map((tab, index) => (
                         <button
                             key={index}
-                            className={activeTab === index ? "active" : ""}
+                            className={activeTab === index ? styles["active"] : ""}
                             onClick={() => handleTabChange(index)}
                         >
                             {tab.label}
@@ -68,7 +68,7 @@ const ListProcedures = () => {
                 </div>
 
                 {/* Grid hiển thị dịch vụ */}
-                <div className="services-grid">
+                <div className={styles["services-grid"]}>
                     {currentItems.map((item, index) => (
                         <ProcedureCard key={index} {...item} />
                     ))}
@@ -76,14 +76,14 @@ const ListProcedures = () => {
 
                 {/* Pagination */}
                 {totalPages > 1 && (
-                    <div className="pagination">
+                    <div className={styles["pagination"]}>
                         <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
                             <i className="fa-solid fa-angle-left"></i>
                         </button>
                         {Array.from({ length: totalPages }, (_, i) => (
                             <button
                                 key={i}
-                                className={currentPage === i + 1 ? "active" : ""}
+                                className={currentPage === i + 1 ? styles["active"] : ""}
                                 onClick={() => setCurrentPage(i + 1)}
                             >
                                 {i + 1}

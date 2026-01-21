@@ -28,7 +28,7 @@ const Tooltip = ({ text, children, copyValue, onCopy }) => {
     };
 
     return (
-        <div className={styles["custom-tooltip-container"]} onClick={handleClick}>
+        <span className={styles["custom-tooltip-container"]} onClick={handleClick}>
             {children}
             <span className={styles["custom-tooltip-text"]}>
                 {showCopied && (
@@ -48,7 +48,7 @@ const Tooltip = ({ text, children, copyValue, onCopy }) => {
                 )}
                 {tooltipText}
             </span>
-        </div>
+        </span>
     );
 };
 

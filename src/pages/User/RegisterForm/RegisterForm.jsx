@@ -7,13 +7,15 @@ import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLogin
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
-        ho: "",
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         password: "",
         phone: "",
     });
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
 
     const handleClose = () => {
@@ -47,7 +49,7 @@ const RegisterForm = () => {
             const response = await publicAxios.post("/api/auth/register", {
                 email: user.email,
                 password: user.password,
-                fullName: user.ho + " " + user.name,
+                fullName: user.first_name + " " + user.last_name,
                 phone: user.phone,
             });
 
@@ -66,9 +68,17 @@ const RegisterForm = () => {
     };
 
     return (
-        <div className="register-background">
+        <div
+            className="register-background"
+            style={{
+                backgroundImage: `url(${backgroundImage})`,
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+            }}
+        >
             <div className="register-wrapper">
-                <LeftLoginRegisterForm />
+                <LeftLoginRegisterForm onBackgroundChange={setBackgroundImage} />
                 <div className="register-right-form">
                     <div className="register-box">
                         <div className="register-header">
@@ -83,18 +93,18 @@ const RegisterForm = () => {
                         <div className="name-row">
                             <input
                                 type="text"
-                                name="ho"
+                                name="first_name"
                                 placeholder="Họ"
                                 className="name-input"
-                                value={user.ho}
+                                value={user.first_name}
                                 onChange={handleChange}
                             />
                             <input
                                 type="text"
-                                name="name"
+                                name="last_name"
                                 placeholder="Tên"
                                 className="name-input"
-                                value={user.name}
+                                value={user.last_name}
                                 onChange={handleChange}
                             />
                         </div>
@@ -112,13 +122,22 @@ const RegisterForm = () => {
                             value={user.email}
                             onChange={handleChange}
                         />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Mật khẩu"
-                            value={user.password}
-                            onChange={handleChange}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Mật khẩu"
+                                value={user.password}
+                                onChange={handleChange}
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                <i className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}></i>
+                            </button>
+                        </div>
                         <button className="btn-register" onClick={register} disabled={loading}>
                             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
                         </button>

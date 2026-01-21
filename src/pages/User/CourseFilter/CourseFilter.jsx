@@ -5,32 +5,102 @@ import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import FilterCourse from "../../../components/FilterCourse/FilterCourse";
 import CourseCardMini from "../../../components/CourseCardMini/CourseCardMini";
+import CourseSkeleton from "../../../components/Skeleton/CourseSkeleton";
 import { publicAxios } from "../../../services/axios-instance";
+import { useSearchParams, useParams } from "react-router-dom";
 
 const CourseFilter = () => {
+    const { category } = useParams();
+    const [searchParams] = useSearchParams();
+    const query = searchParams.get("query") || "";
     const [allCourses, setAllCourses] = useState([]); // Dữ liệu gốc (không bao giờ bị filter cắt bớt)
     const [courses, setCourses] = useState([]); // Dữ liệu hiển thị (bị thay đổi bởi search/filter)
-    const [searchTerm, setSearchTerm] = useState("");
+    const [searchTerm, setSearchTerm] = useState(query);
     const [currentPage, setCurrentPage] = useState(1);
-    const [selectedCategories, setSelectedCategories] = useState([]); // Moved state here
+    const categoryMap = {
+        "thanh-lap-cong-ty": "Thành lập Công ty",
+        "thanh-lap-ho-kinh-doanh": "Thành lập Hộ kinh doanh",
+        "giai-the-cong-ty": "Giải thể Công ty",
+        "giai-the-ho-kinh-doanh": "Giải thể Hộ kinh doanh",
+        "dang-ky-thay-doi": "Đăng ký thay đổi",
+        "sap-nhap-tinh": "Sáp nhập Tỉnh",
+        "cap-nhat-len-cccd": "Cập nhật lên CCCD",
+    };
+
+    const initialCategory = category && categoryMap[category] ? [categoryMap[category]] : [];
+    const [selectedCategories, setSelectedCategories] = useState(initialCategory); // Moved state here
+    const [loading, setLoading] = useState(true);
 
     const pageTitle = "Tất cả khóa học";
 
     useEffect(() => {
         const fetchProcedures = async () => {
+            setLoading(true);
             try {
-                // Gọi API 1 lần duy nhất ở đây
                 const res = await publicAxios.get("/api/course/get-all");
                 setAllCourses(res.data);
-                setCourses(res.data);
-                console.log("Fetched all courses:", res.data);
             } catch (error) {
                 console.error("Lỗi khi lấy danh sách khóa học:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchProcedures();
     }, []);
+
+    // Re-run filter when query, category, or allCourses changes
+    useEffect(() => {
+        if (allCourses.length === 0) return;
+
+        let filtered = allCourses;
+
+        // Filter by Query
+        if (query) {
+            filtered = filtered.filter(
+                (course) =>
+                    course.courseName?.toLowerCase().includes(query.toLowerCase()) ||
+                    course.title?.toLowerCase().includes(query.toLowerCase()),
+            );
+            setSearchTerm(query);
+        }
+
+        // Filter by Category (slug from URL)
+        if (category && categoryMap[category]) {
+            const mappedCategoryName = categoryMap[category];
+            filtered = filtered.filter((course) => course.typeCourse === mappedCategoryName);
+            // Update selected categories state to match URL
+            if (activeCategorySource === "url") {
+                setSelectedCategories([mappedCategoryName]);
+            }
+        } else if (selectedCategories.length > 0) {
+            // If manual selection differs from URL or no URL category, filter by selectedCategories state
+            // Note: Implementation of FilterCourse component sync needs care.
+            // For now, let's treat URL category as primary filter if present.
+            // Actually, clearer logic:
+            // 1. If category param exists -> filter by that.
+            // 2. If valid manual selection exists (and no category param or we want to support both), filter by that.
+            // Let's stick to the requested requirement: apply filter from URL category.
+        }
+
+        if (category && categoryMap[category]) {
+            const categoryName = categoryMap[category];
+            filtered = filtered.filter((course) => course.typeCourse === categoryName);
+        }
+
+        setCourses(filtered);
+    }, [query, category, allCourses]);
+
+    // Update selectedCategories when category param changes
+    const [activeCategorySource] = useState("url"); // simple tracking
+
+    useEffect(() => {
+        if (category && categoryMap[category]) {
+            setSelectedCategories([categoryMap[category]]);
+        } else {
+            if (!category) setSelectedCategories([]);
+        }
+    }, [category]);
 
     // Xử lý Search
     const handleSearch = (e) => {
@@ -91,7 +161,13 @@ const CourseFilter = () => {
                     </div>
 
                     <div className={styles["courses-list-container"]}>
-                        {courses.length > 0 ? (
+                        {loading ? (
+                            <div className={styles["courses-grid"]}>
+                                {Array.from({ length: 8 }).map((_, index) => (
+                                    <CourseSkeleton key={index} />
+                                ))}
+                            </div>
+                        ) : courses.length > 0 ? (
                             selectedCategories.length > 0 ? (
                                 // Grouped View (Filters Active)
                                 Object.entries(

@@ -1,5 +1,5 @@
 import React from "react";
-import "./Home.css";
+import styles from "./Home.module.css";
 // import { Link, useNavigate } from "react-router-dom";
 // import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import Navbar from "../../../components/NavBar/NavBar";
@@ -18,14 +18,14 @@ const Home = () => {
     // }
 
     return (
-        <div className="home-page-user">
+        <div className={styles["home-page-user"]}>
             <Navbar />
             <Hero />
             <TopCourses />
             <About />
             <Services />
             <Customers />
-            <div className="register-section">
+            <div className={styles["register-section"]}>
                 <p>Learn more about our listing process, as well as our additional staging and design work.</p>
                 <button>Đăng ký ngay</button>
             </div>

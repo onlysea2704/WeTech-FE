@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./DetailCourse.css";
+import styles from "./DetailCourse.module.css";
 import Navbar from "../../../components/NavBar/NavBar";
 import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
@@ -147,7 +147,7 @@ const DetailCourse = () => {
     };
 
     return (
-        <div className="detail-course-container">
+        <div className={styles["detail-course-container"]}>
             <Navbar />
             <Breadcrumb
                 items={[
@@ -157,10 +157,10 @@ const DetailCourse = () => {
                 ]}
             />
 
-            <div className="course-info-summary">
+            <div className={styles["course-info-summary"]}>
                 <h2>{courseDetail?.title}</h2>
-                <div className="course-meta">
-                    <div className="meta-item">
+                <div className={styles["course-meta"]}>
+                    <div className={styles["meta-item"]}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <g clip-path="url(#clip0_20_27762)">
                                 <path
@@ -176,7 +176,7 @@ const DetailCourse = () => {
                         </svg>
                         <span>{courseDetail?.numberRegister || 0} Học viên</span>
                     </div>
-                    <div className="meta-item">
+                    <div className={styles["meta-item"]}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M10.0003 1.66797C5.41699 1.66797 1.66699 5.41797 1.66699 10.0013C1.66699 14.5846 5.41699 18.3346 10.0003 18.3346C14.5837 18.3346 18.3337 14.5846 18.3337 10.0013C18.3337 5.41797 14.5837 1.66797 10.0003 1.66797ZM13.5003 13.5013L9.16699 10.8346V5.83464H10.417V10.168L14.167 12.418L13.5003 13.5013Z"
@@ -185,7 +185,7 @@ const DetailCourse = () => {
                         </svg>
                         <span>{getTotalTime()}</span>
                     </div>
-                    <div className="meta-item">
+                    <div className={styles["meta-item"]}>
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                             <path
                                 d="M17.4614 3.72944C17.4604 3.58153 17.437 3.431 17.401 3.28725C17.162 2.32059 16.3635 1.70653 15.3307 1.70184C14.0896 1.69663 12.8489 1.7008 11.6078 1.7008C8.87237 1.7008 6.13748 1.69819 3.40206 1.70184C2.1479 1.7034 1.24581 2.59038 1.24477 3.82267C1.24165 7.53986 1.24269 11.257 1.24633 14.9742C1.24633 15.1477 1.26508 15.3258 1.30623 15.494C1.53696 16.4451 2.33227 17.08 3.33331 17.0836C5.71769 17.093 8.10206 17.0867 10.487 17.0867C10.525 17.0867 10.5635 17.081 10.6323 17.0758C10.6323 17.0102 10.6359 16.9591 10.6317 16.9091C10.5797 16.2628 10.7677 15.6878 11.0963 15.1331C11.8765 13.8149 12.6286 12.48 13.4021 11.1576C13.6005 10.8175 13.7969 10.4873 13.7255 10.0711C13.7239 10.0607 13.7344 10.0482 13.7479 10.0154C14.0588 10.1164 14.1437 9.86903 14.2594 9.66434C14.288 9.61382 14.3172 9.5633 14.3463 9.51225C14.4838 9.27267 14.6213 9.03361 14.7771 8.7633H13.737V6.28309H16.2104C16.2156 6.38413 16.2198 6.47632 16.2239 6.55705C16.4307 6.481 16.6187 6.38725 16.8177 6.34559C17.0229 6.30288 17.238 6.31173 17.4594 6.29715C17.4614 6.26798 17.4651 6.23673 17.4651 6.20548C17.4651 5.37996 17.4672 4.55444 17.4614 3.72944ZM4.97185 15.8263C4.3656 15.8263 3.763 15.8466 3.163 15.8185C2.82446 15.8024 2.52342 15.4722 2.50362 15.1216C2.47862 14.6768 2.49737 14.2289 2.49737 13.7654H4.97185V15.8263ZM4.9729 12.5013H2.50258V10.0274H4.9729V12.5013ZM4.97706 8.75444H2.50519V6.28257H4.97706V8.75444ZM4.97706 5.01486H2.49165V4.60132C2.49165 4.32215 2.48696 4.04298 2.49321 3.76382C2.50154 3.36798 2.78644 2.99038 3.16144 2.97007C3.76196 2.93778 4.36508 2.96121 4.97706 2.96121V5.01486ZM11.5729 10.3664C10.7401 10.844 9.90987 11.3253 9.0781 11.8055C8.85362 11.9352 8.62915 12.0659 8.40415 12.1945C7.72133 12.5847 7.06404 12.2081 7.06144 11.4248C7.05935 10.8143 7.06092 10.2039 7.06092 9.59298C7.06092 8.98934 7.05987 8.38517 7.06144 7.78101C7.06352 6.99403 7.72081 6.61642 8.40206 7.00913C9.46404 7.62163 10.5255 8.23569 11.588 8.84715C11.8729 9.01121 12.0479 9.2435 12.0547 9.58153C12.0614 9.94455 11.8786 10.1909 11.5729 10.3664ZM16.2177 5.00965H13.7291V2.96278C13.7854 2.95809 13.8406 2.94923 13.8958 2.94923C14.3698 2.94819 14.8437 2.94663 15.3177 2.94923C15.8807 2.95236 16.2151 3.28621 16.2172 3.84507C16.2187 4.2284 16.2177 4.61121 16.2177 5.00965Z"
@@ -211,11 +211,11 @@ const DetailCourse = () => {
                         <span>{sections.length} Modul</span>
                     </div>
                 </div>
-                <div className="course-author">
+                <div className={styles["course-author"]}>
                     Tác giả:
                     <span>{courseDetail?.author}</span>
                 </div>
-                <div className="course-update">
+                <div className={styles["course-update"]}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20" fill="none">
                         <g clip-path="url(#clip0_20_27809)">
                             <path
@@ -233,10 +233,10 @@ const DetailCourse = () => {
                 </div>
             </div>
 
-            <div className="course-card-detail">
+            <div className={styles["course-card-detail"]}>
                 {/* Bên trái: video player */}
-                <div className="course-left">
-                    <div className="video-container">
+                <div className={styles["course-left"]}>
+                    <div className={styles["video-container"]}>
                         {currentVideo?.link ? (
                             <CustomYouTubePlayer
                                 key={currentVideo.videoId || currentVideo.link}
@@ -254,7 +254,7 @@ const DetailCourse = () => {
                     </div>
                 </div>
 
-                <div className="course-right">
+                <div className={styles["course-right"]}>
                     {isPurchased ? (
                         <CoursePlaylist
                             sections={sections}
@@ -262,53 +262,55 @@ const DetailCourse = () => {
                             currentVideo={currentVideo}
                         />
                     ) : (
-                        <div className="course-price-container">
-                            <div className="price-header">
-                                <h3 className="course-price">{formatPrice(courseDetail?.salePrice)}đ</h3>
-                                <span className="old-price">{formatPrice(courseDetail?.realPrice)}đ</span>
-                                <span className="discount-badge">Giảm giá {discountPercentage(courseDetail)}%</span>
+                        <div className={styles["course-price-container"]}>
+                            <div className={styles["price-header"]}>
+                                <h3 className={styles["course-price"]}>{formatPrice(courseDetail?.salePrice)}đ</h3>
+                                <span className={styles["old-price"]}>{formatPrice(courseDetail?.realPrice)}đ</span>
+                                <span className={styles["discount-badge"]}>
+                                    Giảm giá {discountPercentage(courseDetail)}%
+                                </span>
                             </div>
 
-                            <button className="add-to-cart-btn" onClick={handleAddCourse}>
+                            <button className={styles["add-to-cart-btn"]} onClick={handleAddCourse}>
                                 Thêm vào giỏ hàng
                             </button>
-                            <button className="buy-now-btn" onClick={handleBuyNow}>
+                            <button className={styles["buy-now-btn"]} onClick={handleBuyNow}>
                                 Mua ngay
                             </button>
-                            <p className="guarantee-text">Bảo đảm hoàn tiền trong vòng 30 ngày</p>
+                            <p className={styles["guarantee-text"]}>Bảo đảm hoàn tiền trong vòng 30 ngày</p>
 
-                            <div className="course-specs display-grid">
-                                <div className="spec-item">
-                                    <div className="spec-label">
+                            <div className={`${styles["course-specs"]} ${styles["display-grid"]}`}>
+                                <div className={styles["spec-item"]}>
+                                    <div className={styles["spec-label"]}>
                                         <img src={clockIcon2} alt="" />
                                         <span>Thời lượng khoá học</span>
                                     </div>
-                                    <span className="spec-value">{getTotalTime()}</span>
+                                    <span className={styles["spec-value"]}>{getTotalTime()}</span>
                                 </div>
-                                <div className="spec-item">
-                                    <div className="spec-label">
+                                <div className={styles["spec-item"]}>
+                                    <div className={styles["spec-label"]}>
                                         <img src={usersIcon} alt="" />
                                         <span>Học viên</span>
                                     </div>
-                                    <span className="spec-value">{courseDetail?.numberRegister || 0}</span>
+                                    <span className={styles["spec-value"]}>{courseDetail?.numberRegister || 0}</span>
                                 </div>
-                                <div className="spec-item">
-                                    <div className="spec-label">
+                                <div className={styles["spec-item"]}>
+                                    <div className={styles["spec-label"]}>
                                         <img src={notebookIcon} alt="" />
                                         <span>Ngôn ngữ</span>
                                     </div>
-                                    <span className="spec-value">Việt Nam</span>
+                                    <span className={styles["spec-value"]}>Việt Nam</span>
                                 </div>
-                                <div className="spec-item">
-                                    <div className="spec-label">
+                                <div className={styles["spec-item"]}>
+                                    <div className={styles["spec-label"]}>
                                         <img src={notepadIcon} alt="" />
                                         <span>Phụ đề</span>
                                     </div>
-                                    <span className="spec-value">Việt Nam</span>
+                                    <span className={styles["spec-value"]}>Việt Nam</span>
                                 </div>
                             </div>
 
-                            <div className="course-includes">
+                            <div className={styles["course-includes"]}>
                                 <h4>Khóa học này bao gồm:</h4>
                                 <ul>
                                     <li>
@@ -330,14 +332,14 @@ const DetailCourse = () => {
                                 </ul>
                             </div>
 
-                            <div className="course-share">
+                            <div className={styles["course-share"]}>
                                 <h4>Chia sẻ khóa học này:</h4>
-                                <div className="share-buttons">
-                                    <button className="copy-link-btn">
+                                <div className={styles["share-buttons"]}>
+                                    <button className={styles["copy-link-btn"]}>
                                         <img src={copyIcon} alt="" />
                                         Copy link
                                     </button>
-                                    <div className="social-icons">
+                                    <div className={styles["social-icons"]}>
                                         <img src={facekookIcon} alt="" />
                                         <img src={instagramIcon} alt="" />
                                         <img src={envelopeIcon} alt="" />

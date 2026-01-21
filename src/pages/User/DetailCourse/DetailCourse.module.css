@@ -7,7 +7,7 @@
     background-color: #111;
     /* Dark background */
     color: #fff;
-    padding: 20px 110px;
+    padding: 20px 67px;
     padding-bottom: 50px;
 }
 
@@ -103,7 +103,7 @@
     border-radius: 10px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     width: 90%;
-    margin: 20px 110px;
+    margin: 20px 67px;
     box-sizing: border-box;
 }
 
