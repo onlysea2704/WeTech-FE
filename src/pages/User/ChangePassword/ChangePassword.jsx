@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import "./ChangePassword.css"; // Tận dụng lại CSS của trang Profile
+import styles from "./ChangePassword.module.css";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ChangePassword = () => {
     // 1. State cho 3 ô mật khẩu
@@ -18,6 +19,7 @@ const ChangePassword = () => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const [loading, setLoading] = useState(false);
+    const { showError, showSuccess } = useNotification();
 
     // Xử lý submit form
     const handleSubmit = async (event) => {
@@ -25,17 +27,17 @@ const ChangePassword = () => {
 
         // Validate cơ bản
         if (!currentPassword || !newPassword || !confirmPassword) {
-            alert("Vui lòng điền đầy đủ thông tin!");
+            showError("Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            alert("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+            showError("Mật khẩu mới và xác nhận mật khẩu không khớp!");
             return;
         }
 
         if (newPassword.length < 6) {
-            alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
+            showError("Mật khẩu mới phải có ít nhất 6 ký tự!");
             return;
         }
 
@@ -50,7 +52,7 @@ const ChangePassword = () => {
             // Gọi API đổi mật khẩu (Thay đổi endpoint cho phù hợp với backend của bạn)
             await authAxios.post("/api/auth/change-password", payload);
 
-            alert("Đổi mật khẩu thành công!");
+            showSuccess("Đổi mật khẩu thành công!");
 
             // Reset form sau khi thành công
             setCurrentPassword("");
@@ -60,7 +62,7 @@ const ChangePassword = () => {
             console.error("Lỗi khi đổi mật khẩu:", error);
             // Xử lý lỗi từ backend trả về (ví dụ: Mật khẩu cũ không đúng)
             const errorMessage = error.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!";
-            alert(errorMessage);
+            showError(errorMessage);
         }
         setLoading(false);
     };
@@ -75,15 +77,15 @@ const ChangePassword = () => {
                     { label: "Đổi mật khẩu" },
                 ]}
             />
-            <div className="profile-page-container">
-                <h1 className="main-title">ĐỔI MẬT KHẨU</h1>
+            <div className={styles["profile-page-container"]}>
+                <h1 className={styles["main-title"]}>ĐỔI MẬT KHẨU</h1>
 
                 {/* Form Card - Tận dụng class cũ để giữ giao diện */}
-                <form className="profile-form-card" onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
+                <form className={styles["profile-form-card"]} onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
                     {/* 1. Mật khẩu hiện tại */}
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                         <label htmlFor="currentPassword">Mật khẩu hiện tại</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input
                                 id="currentPassword"
                                 type={showCurrent ? "text" : "password"} // Toggle type
@@ -92,7 +94,7 @@ const ChangePassword = () => {
                                 // placeholder="Nhập mật khẩu hiện tại"
                             />
                             <i
-                                className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} edit-icon`}
+                                className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
                                 onClick={() => setShowCurrent(!showCurrent)}
                                 style={{ cursor: "pointer" }}
                                 title={showCurrent ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
@@ -101,9 +103,9 @@ const ChangePassword = () => {
                     </div>
 
                     {/* 2. Mật khẩu mới */}
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                         <label htmlFor="newPassword">Mật khẩu mới</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input
                                 id="newPassword"
                                 type={showNew ? "text" : "password"}
@@ -112,7 +114,7 @@ const ChangePassword = () => {
                                 // placeholder="Nhập mật khẩu mới"
                             />
                             <i
-                                className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} edit-icon`}
+                                className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
                                 onClick={() => setShowNew(!showNew)}
                                 style={{ cursor: "pointer" }}
                             ></i>
@@ -120,9 +122,9 @@ const ChangePassword = () => {
                     </div>
 
                     {/* 3. Xác nhận mật khẩu mới */}
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                         <label htmlFor="confirmPassword">Xác nhận mật khẩu mới</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input
                                 id="confirmPassword"
                                 type={showConfirm ? "text" : "password"}
@@ -131,14 +133,14 @@ const ChangePassword = () => {
                                 // placeholder="Nhập lại mật khẩu mới"
                             />
                             <i
-                                className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} edit-icon`}
+                                className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
                                 onClick={() => setShowConfirm(!showConfirm)}
                                 style={{ cursor: "pointer" }}
                             ></i>
                         </div>
                     </div>
 
-                    <button type="submit" className="save-button">
+                    <button type="submit" className={styles["save-button"]}>
                         Cập nhật mật khẩu
                     </button>
                 </form>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./StatsHeader.css";
+import styles from "./StatsHeader.module.css";
 import StatsCard from "../../components/StatsCard/StatsCard";
 import { publicAxios } from "../../services/axios-instance";
 
@@ -51,26 +51,26 @@ const StatsHeader = ({ api_url }) => {
 
     return (
         <div>
-            {/* <div className="header-stat">
-                <div className="customer-info">
-                    <i className="fa-solid fa-user customer-icon"></i>
-                    <h1 className="customer-name">Khách Hàng</h1>
+            {/* <div className={styles["header-stat"]}>
+                <div className={styles["customer-info"]}>
+                    <i className={`fa-solid fa-user ${styles["customer-icon"]}`}></i>
+                    <h1 className={styles["customer-name"]}>Khách Hàng</h1>
                 </div>
 
-                <nav className="navigation-tabs">
-                    <button className="nav-button active">Khoá học</button>
-                    <button className="nav-button">Thủ tục</button>
+                <nav className={styles["navigation-tabs"]}>
+                    <button className={`${styles["nav-button"]} ${styles.active}`}>Khoá học</button>
+                    <button className={styles["nav-button"]}>Thủ tục</button>
                 </nav>
 
-                <div className="notification-area">
-                    <div className="notification-bell">
+                <div className={styles["notification-area"]}>
+                    <div className={styles["notification-bell"]}>
                         <i className="fa-regular fa-bell"></i>
-                        <span className="notification-dot"></span>
+                        <span className={styles["notification-dot"]}></span>
                     </div>
                 </div>
             </div> */}
             <div style={{ height: "40px" }}></div>
-            <div className="list-stat-card">
+            <div className={styles["list-stat-card"]}>
                 {stats.map((item, index) => (
                     <StatsCard key={index} {...item} />
                 ))}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { publicAxios } from "../../services/axios-instance";
-import "./CourseContent.css";
+import styles from "./CourseContent.module.css";
 
 // --- Component con cho cột trái ---
 // --- Component con cho cột trái ---
@@ -56,53 +56,58 @@ const SyllabusAccordion = ({ section, isOpen, onToggle, isPurchased }) => {
     };
 
     return (
-        <div className="accordion-item">
-            <div className="accordion-header" onClick={onToggle}>
-                <div className="accordion-title">
-                    <span className="accordion-arrow">
+        <div className={styles["accordion-item"]}>
+            <div className={styles["accordion-header"]} onClick={onToggle}>
+                <div className={styles["accordion-title"]}>
+                    <span className={styles["accordion-arrow"]}>
                         <i className={`fa-solid ${isOpen ? "fa-chevron-up" : "fa-chevron-down"}`}></i>
                     </span>
                     <strong>{section.name}</strong>
                 </div>
 
-                <div className="accordion-count">
+                <div className={styles["accordion-count"]}>
                     <span>{`${section?.videos?.length || 0} Bài giảng`}</span>
                     <span>{getTotalDurationFormatted(section?.videos)}</span>
                 </div>
             </div>
 
             {isOpen && (
-                <div className="accordion-content">
+                <div className={styles["accordion-content"]}>
                     {section?.items?.map((item, index) => {
                         if (item.type === "video") {
                             return (
-                                <div key={`video-${index}`} className="lesson-item">
-                                    <div className="lesson-info">
-                                        <i className="fa-regular fa-circle-play video-icon"></i>
+                                <div key={`video-${index}`} className={styles["lesson-item"]}>
+                                    <div className={styles["lesson-info"]}>
+                                        <i className={`fa-regular fa-circle-play ${styles["video-icon"]}`}></i>
                                         <p>{item?.description}</p>
                                     </div>
 
-                                    <div className="lesson-actions">
-                                        <button className="start-learning-btn">Vào học</button>
-                                        <span className="lesson-duration">{formatVideoDuration(item?.duration)}</span>
+                                    <div className={styles["lesson-actions"]}>
+                                        <button className={styles["start-learning-btn"]}>Vào học</button>
+                                        <span className={styles["lesson-duration"]}>
+                                            {formatVideoDuration(item?.duration)}
+                                        </span>
                                     </div>
                                 </div>
                             );
                         } else {
                             return (
-                                <div key={`doc-${index}`} className="lesson-item document-item">
-                                    <div className="lesson-info">
-                                        <i className="fa-regular fa-file-lines document-icon"></i>
+                                <div
+                                    key={`doc-${index}`}
+                                    className={`${styles["lesson-item"]} ${styles["document-item"]}`}
+                                >
+                                    <div className={styles["lesson-info"]}>
+                                        <i className={`fa-regular fa-file-lines ${styles["document-icon"]}`}></i>
                                         <div>
-                                            <p className="document-name">{item?.name}</p>
-                                            <span className="document-type">Microsoft Word</span>{" "}
+                                            <p className={styles["document-name"]}>{item?.name}</p>
+                                            <span className={styles["document-type"]}>Microsoft Word</span>{" "}
                                             {/* Placeholder type */}
                                         </div>
                                     </div>
-                                    <div className="lesson-actions">
+                                    <div className={styles["lesson-actions"]}>
                                         {/* <span className="document-size">5.2 MB</span> */}
                                         <button
-                                            className="download-text-btn"
+                                            className={styles["download-text-btn"]}
                                             disabled={!isPurchased}
                                             onClick={() => isPurchased && handleDownload(item?.link)}
                                         >
@@ -203,9 +208,9 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
     };
 
     return (
-        <div className="content-layout">
+        <div className={styles["content-layout"]}>
             {/* Combined Column */}
-            <div className="syllabus-column">
+            <div className={styles["syllabus-column"]}>
                 {mergedSections.map((section) => (
                     <SyllabusAccordion
                         key={section.sectionId}

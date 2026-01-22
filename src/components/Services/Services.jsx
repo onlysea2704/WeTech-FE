@@ -7,6 +7,7 @@ import taxBoxIcon from "../../assets/taxbox.png";
 import customerOne from "../../assets/customer-one.png";
 import customerTwo from "../../assets/customer-two.png";
 import customerThree from "../../assets/customer-three.png";
+import arrowIcon from "../../assets/arrow-icon.png";
 
 const Services = () => {
     return (
@@ -36,9 +37,12 @@ const Services = () => {
                         <img src={toolMisaProIcon} className={styles["service-icon"]} alt="" /> TOOL MIA PRO 2024
                     </h4>
                     <p className={styles["description-services"]}>Tải hoá đơn điện tử hàng loạt từ Tổng cục thuế.</p>
-                    <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
-                        Xem thêm
-                    </a>
+                    <div className={styles["view-more"]}>
+                        <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
+                            Xem thêm
+                        </a>
+                        <img src={arrowIcon} alt="" />
+                    </div>
                 </div>
                 <div className={styles["solution-card"]}>
                     <h4>
@@ -48,9 +52,12 @@ const Services = () => {
                         Hỗ trợ tích hợp hàng loạt HĐĐT mua vào, bán ra lên phần mềm misa offline thay vì nhập thủ công
                         từng tờ.
                     </p>
-                    <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
-                        Xem thêm
-                    </a>
+                    <div className={styles["view-more"]}>
+                        <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
+                            Xem thêm
+                        </a>
+                        <img src={arrowIcon} alt="" />
+                    </div>
                 </div>
                 <div className={styles["solution-card"]}>
                     <h4>
@@ -59,9 +66,12 @@ const Services = () => {
                     <p className={styles["description-services"]}>
                         Tải hàng loạt 1 lần 10 năm tất cả tờ khai thuế, thông báo, giấy nộp tiền từ TCT.
                     </p>
-                    <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
-                        Xem thêm
-                    </a>
+                    <div className={styles["view-more"]}>
+                        <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
+                            Xem thêm
+                        </a>
+                        <img src={arrowIcon} alt="" />
+                    </div>
                 </div>
                 <div className={styles["solution-card"]}>
                     <h4>
@@ -71,9 +81,12 @@ const Services = () => {
                         Phần mềm tra cứu MST hàng loạt: Từ CMT, CCCD → MST và ngược lại. Hỗ trợ thêm chức năng tra cứu
                         tình trạng rủi ro NCC hàng loạt.
                     </p>
-                    <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
-                        Xem thêm
-                    </a>
+                    <div className={styles["view-more"]}>
+                        <a href="https://wetechsoft.vn/" target="_blank" rel="noopener noreferrer">
+                            Xem thêm
+                        </a>
+                        <img src={arrowIcon} alt="" />
+                    </div>
                 </div>
             </div>
         </div>

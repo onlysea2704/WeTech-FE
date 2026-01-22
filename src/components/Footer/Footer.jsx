@@ -1,4 +1,4 @@
-import "./Footer.css";
+import styles from "./Footer.module.css";
 import imageLogoFooter from "../../assets/logo-footer.png";
 import iconLogoZalo from "../../assets/icon-zalo.png";
 import iconLogoYoutube from "../../assets/logo-youtube.png";
@@ -16,13 +16,13 @@ const Footer = () => {
     };
 
     return (
-        <footer className="footer">
-            <div className="footer-main">
+        <footer className={styles.footer}>
+            <div className={styles["footer-main"]}>
                 {/* Cột 1: Logo + mô tả + icon */}
-                <div className="footer-column logo-column">
-                    <img src={imageLogoFooter} alt="We-Tech Logo" className="footer-logo" />
-                    <p className="company-name">CÔNG TY CỔ PHẦN GIẢI PHÁP CÔNG NGHỆ SỐ WE-TECH</p>
-                    <div className="social-icons">
+                <div className={`${styles["footer-column"]} ${styles["logo-column"]}`}>
+                    <img src={imageLogoFooter} alt="We-Tech Logo" className={styles["footer-logo"]} />
+                    <p className={styles["company-name"]}>CÔNG TY CỔ PHẦN GIẢI PHÁP CÔNG NGHỆ SỐ WE-TECH</p>
+                    <div className={styles["social-icons"]}>
                         <img src={iconLogoFacebook} alt="Facebook" />
                         <img src={iconLogoZalo} alt="Zalo" />
                         <img src={iconLogoYoutube} alt="YouTube" />
@@ -30,8 +30,8 @@ const Footer = () => {
                 </div>
 
                 {/* Cột 2: Danh mục và liên kết nhanh */}
-                <div className="footer-column menu-column">
-                    <div className="menu-group">
+                <div className={`${styles["footer-column"]} ${styles["menu-column"]}`}>
+                    <div className={styles["menu-group"]}>
                         <h4>Danh Mục</h4>
                         <ul>
                             {/* 2. Gắn Link vào Trang chủ */}
@@ -59,7 +59,7 @@ const Footer = () => {
                             </li>
                         </ul>
                     </div>
-                    <div className="menu-group">
+                    <div className={styles["menu-group"]}>
                         <h4>Liên Kết Nhanh</h4>
                         <ul>
                             <li>Chính sách bảo mật</li>
@@ -74,7 +74,7 @@ const Footer = () => {
                         </ul>
                     </div>
 
-                    <div className="menu-group">
+                    <div className={styles["menu-group"]}>
                         <h4>Liên Hệ</h4>
                         <ul>
                             <li>
@@ -93,7 +93,7 @@ const Footer = () => {
                                 <div>
                                     <p>Email</p>
                                     <Tooltip text="Nhấn để sao chép" copyValue="wetechsoft.vn@gmail.com">
-                                        <p className="clickable-content">wetechsoft.vn@gmail.com</p>
+                                        <p className={styles["clickable-content"]}>wetechsoft.vn@gmail.com</p>
                                     </Tooltip>
                                 </div>
                             </li>
@@ -105,11 +105,11 @@ const Footer = () => {
                                     <p>Số điện thoại / Zalo</p>
                                     <p>
                                         <Tooltip text="Nhấn để sao chép" copyValue="0989466992">
-                                            <span className="clickable-content">0989-466-992</span>
+                                            <span className={styles["clickable-content"]}>0989-466-992</span>
                                         </Tooltip>
                                         <span> / </span>
                                         <Tooltip text="Nhấn để sao chép" copyValue="0383466992">
-                                            <span className="clickable-content">0383-466-992</span>
+                                            <span className={styles["clickable-content"]}>0383-466-992</span>
                                         </Tooltip>
                                     </p>
                                 </div>
@@ -120,7 +120,7 @@ const Footer = () => {
             </div>
 
             {/* Dòng cuối */}
-            <div className="footer-bottom">
+            <div className={styles["footer-bottom"]}>
                 <hr />
                 <p>Copyright © 2025 wetechsoft. All Rights Reserved.</p>
             </div>

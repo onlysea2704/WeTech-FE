@@ -61,16 +61,20 @@
 
 .content {
     position: absolute;
-    top: 50px;
-    left: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 110px;
     color: white;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .content h1 {
     font-size: 2.5rem;
     font-weight: bold;
     margin-bottom: 30px;
+    font-family: "Roboto Condensed";
 }
 
 .buttons {
@@ -82,7 +86,7 @@
 
 .buttons button {
     background-color: white;
-    color: #001f5f;
+    color: #1b154b;
     width: 140px;
     border: none;
     padding: 12px 24px;
@@ -103,24 +107,23 @@
     height: 35px;
     cursor: pointer;
     top: 50%;
-    transform: translateY(-50%);
 }
 
 .previous-icon {
-    left: 125px;
+    left: 70px;
 }
 
 .previous-icon:hover {
-    transform: scale(1.1) translateY(-50%);
+    transform: scale(1.1);
     transition: transform 0.1s ease;
 }
 
 .next-icon {
-    right: 125px;
+    right: 70px;
 }
 
 .next-icon:hover {
-    transform: scale(1.1) translateY(-50%);
+    transform: scale(1.1);
     transition: transform 0.1s ease;
 }
 

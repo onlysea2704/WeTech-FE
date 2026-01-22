@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
-import "./NavBar.css";
+import styles from "./Navbar.module.css";
+import { useCart } from "../../context/CartContext";
 import logoImage from "../../assets/logo.png";
 import avatarImage from "../../assets/avatar_user.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const { cartCount, fetchCartCount } = useCart();
     const [token, setToken] = useState(sessionStorage.getItem("authToken"));
     const [fullname, setFullname] = useState(localStorage.getItem("fullname") || "");
     const [email, setEmail] = useState(localStorage.getItem("email") || "");
@@ -23,7 +25,8 @@ const Navbar = () => {
         if (storedFullname) setFullname(storedFullname);
         if (storedEmail) setEmail(storedEmail);
         if (storedLinkImage) setLinkImage(storedLinkImage);
-    }, [token]);
+        fetchCartCount();
+    }, [fetchCartCount, token]);
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -37,13 +40,24 @@ const Navbar = () => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("authToken");
+        const finishedLession = localStorage.getItem("completedVideos");
         localStorage.clear();
+        if (finishedLession) localStorage.setItem("completedVideos", finishedLession);
         setToken(null);
         setFullname("");
         setEmail("");
         setIsUserDropdownOpen(false);
         navigate("/login");
     };
+
+    function handleSearch(e) {
+        if (e.key === "Enter") {
+            const searchValue = e.currentTarget.value;
+            if (searchValue.trim()) {
+                navigate(`/course-filter?query=${searchValue.trim()}`);
+            }
+        }
+    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -79,13 +93,12 @@ const Navbar = () => {
 
     return (
         <div>
-            <div className="navbar-top-bar"></div>
-            <div className="navbar-container">
-                <div className="navbar-left">
-                    <img src={logoImage} alt="WE-TECH Logo" className="logo" />
-                </div>
-
-                <ul className="navbar-menu">
+            <div className={styles["navbar-top-bar"]}></div>
+            <div className={styles["navbar-container"]}>
+                <ul className={styles["navbar-menu"]}>
+                    <li>
+                        <img src={logoImage} alt="WE-TECH Logo" className={styles.logo} />
+                    </li>
                     <li>
                         <Link to="/">TRANG CHỦ</Link>
                     </li>
@@ -93,12 +106,12 @@ const Navbar = () => {
                         <Link to="/">GIỚI THIỆU</Link>
                     </li>
 
-                    <li className="menu-item-dropdown" ref={servicesDropdownRef}>
-                        <div className="dropdown-toggle" onClick={toggleServicesDropdown}>
+                    <li className={styles["menu-item-dropdown"]} ref={servicesDropdownRef}>
+                        <div className={styles["dropdown-toggle"]} onClick={toggleServicesDropdown}>
                             LOẠI KHÓA HỌC <i className="fas fa-caret-down"></i>
                         </div>
                         {isServicesDropdownOpen && (
-                            <div className="dropdown-menu">
+                            <div className={`${styles["dropdown-menu"]} ${styles["dropdown-service-menu"]}`}>
                                 <ul>
                                     <li>
                                         <Link to="/course-filter/thanh-lap-cong-ty">Thành lập công ty</Link>
@@ -134,40 +147,47 @@ const Navbar = () => {
                     </li>
                 </ul>
 
-                <div className="navbar-right">
-                    <div className="search-box">
-                        <i className="fas fa-search search-icon"></i>
-                        <input className="search-navbar" type="text" placeholder="Tìm kiếm" />
-                    </div>
+                <div
+                    className={`${styles["search-box"]} ${token ? styles["search-box-logged"] : styles["search-box-not-logged"]}`}
+                >
+                    <i className={`fas fa-search ${styles["search-icon"]}`}></i>
+                    <input
+                        className={styles["search-navbar"]}
+                        type="text"
+                        placeholder="Tìm kiếm"
+                        name="search"
+                        onKeyDown={handleSearch}
+                    />
+                </div>
 
-                    <Link to="/cart">
-                        <i className="fas fa-shopping-cart cart-icon"></i>
+                <div className={styles["navbar-right"]}>
+                    <Link to="/cart" className={styles["cart-link"]} title="Giỏ hàng">
+                        <i className={`fas fa-shopping-cart ${styles["cart-icon"]}`}></i>
+                        {cartCount > 0 && <span className={styles["cart-badge"]}>{cartCount}</span>}
                     </Link>
 
                     {!token ? (
-                        <>
-                            <button className="btn-outline">
-                                {" "}
+                        <div className={styles["navbar-right-btn"]}>
+                            <button className={styles["btn-outline"]}>
                                 <Link to="/register">Đăng Ký</Link>
                             </button>
-                            <button className="btn-filled">
-                                {" "}
+                            <button className={styles["btn-filled"]}>
                                 <Link to="/login">Đăng Nhập</Link>
                             </button>
-                        </>
+                        </div>
                     ) : (
-                        <div className="user-profile" ref={userDropdownRef}>
-                            <div className="avatar-container" onClick={toggleUserDropdown}>
-                                <img src={linkImage} alt="User Avatar" className="user-avatar-img" />
-                                <i className="fas fa-caret-down dropdown-arrow"></i>
+                        <div className={styles["user-profile"]} ref={userDropdownRef}>
+                            <div className={styles["avatar-container"]} onClick={toggleUserDropdown}>
+                                <img src={linkImage} alt="User Avatar" className={styles["user-avatar-img"]} />
+                                <i className={`fas fa-caret-down ${styles["dropdown-arrow"]}`}></i>
                             </div>
                             {isUserDropdownOpen && (
-                                <div className="dropdown-menu">
-                                    <div className="dropdown-user-info">
+                                <div className={`${styles["dropdown-menu"]} ${styles["dropdown-user-menu"]}`}>
+                                    <div className={styles["dropdown-user-info"]}>
                                         <h4>{fullname || "Người dùng"}</h4>
                                         <p>{email || "Chưa có email"}</p>
                                     </div>
-                                    <hr className="dropdown-divider" />
+                                    <hr className={styles["dropdown-divider"]} />
                                     <ul>
                                         <li>
                                             <Link to="/my-courses">Khóa học của tôi</Link>
@@ -179,7 +199,7 @@ const Navbar = () => {
                                             <Link>Lịch sử</Link>
                                         </li>
                                     </ul>
-                                    <hr className="dropdown-divider" />
+                                    <hr className={styles["dropdown-divider"]} />
                                     <ul>
                                         <li>
                                             <Link to="/change-password">Đổi mật khẩu</Link>
@@ -188,9 +208,9 @@ const Navbar = () => {
                                             <Link to="/profile">Thiết lập tài khoản</Link>
                                         </li>
                                     </ul>
-                                    <hr className="dropdown-divider" />
+                                    <hr className={styles["dropdown-divider"]} />
                                     <ul>
-                                        <li onClick={handleLogout} className="logout-item">
+                                        <li onClick={handleLogout} className={styles["logout-item"]}>
                                             Đăng xuất
                                         </li>
                                     </ul>

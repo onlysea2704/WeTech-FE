@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./DashBoard.css";
+import styles from "./DashBoard.module.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import StatsHeader from "../../../components/StatsHeader/StatsHeader";
@@ -64,20 +64,20 @@ const DashBoard = () => {
     const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
     return (
-        <div className="dash-board-page">
+        <div className={styles["dash-board-page"]}>
             <Sidebar />
-            <div className="dash-board-container">
+            <div className={styles["dash-board-container"]}>
                 <StatsHeader api_url={"/stats/dashboard/get-info-card"} />
 
-                <div className="toolbar-container">
-                    <div className="toolbar-left">
-                        <h1 className="toolbar-title">Thống kê danh mục khóa học</h1>
+                <div className={styles["toolbar-container"]}>
+                    <div className={styles["toolbar-left"]}>
+                        <h1 className={styles["toolbar-title"]}>Thống kê danh mục khóa học</h1>
                     </div>
-                    <div className="toolbar-right">
-                        <div className="sort-dropdown-wrapper">
+                    <div className={styles["toolbar-right"]}>
+                        <div className={styles["sort-dropdown-wrapper"]}>
                             {/* ✅ Dropdown chọn tháng */}
                             <select
-                                className="sort-dropdown"
+                                className={styles["sort-dropdown"]}
                                 value={selectedMonth}
                                 onChange={(e) => setSelectedMonth(Number(e.target.value))}
                             >

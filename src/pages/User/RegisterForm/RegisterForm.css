@@ -1,5 +1,4 @@
 .register-background {
-    background: url("../../../assets/background_register.jpg") no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -9,7 +8,8 @@
     display: flex;
     width: 100%;
     height: 100vh;
-    background: rgba(0, 0, 0, 0.6); /* 💡 Nền đen trong suốt 40% */
+    background: rgba(0, 0, 0, 0.6);
+    /* 💡 Nền đen trong suốt 40% */
     /* border-radius: 12px; */
     overflow: hidden;
     box-shadow: none;
@@ -20,6 +20,8 @@
     display: flex;
     justify-content: left;
     align-items: center;
+    position: relative;
+    z-index: 100;
 }
 
 .register-box {
@@ -31,6 +33,8 @@
     max-width: 400px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     margin-left: 0;
+    position: relative;
+    z-index: 100;
     /* margin-top: 60px; */
 }
 
@@ -56,7 +60,7 @@
 
 .register-box h2 {
     margin-bottom: 0px;
-    color: #1d1d4f;
+    color: #1b154b;
 }
 
 .register-box p {
@@ -146,7 +150,8 @@
 
 .name-row {
     display: flex;
-    gap: 12px; /* Khoảng cách giữa ô Họ và Tên */
+    gap: 12px;
+    /* Khoảng cách giữa ô Họ và Tên */
 }
 
 .name-input {
@@ -156,22 +161,56 @@
     border-radius: 6px;
     font-size: 15px;
     background: rgba(255, 255, 255, 0.8);
-    color: #333;
+    color: #000;
 }
 
 /* Dòng chữ đăng ký */
 .login-text {
     margin-top: 15px;
     font-size: 14px;
-    color: #666;
+    color: #202020;
 }
 
 .login-text a {
-    color: #4facfe;
+    color: #1f7bf4;
     text-decoration: none;
     font-weight: bold;
 }
 
 .login-text a:hover {
     text-decoration: underline;
+}
+
+/* Password input container */
+.password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.password-input-container input {
+    padding-right: 45px;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn:hover {
+    color: #333;
 }

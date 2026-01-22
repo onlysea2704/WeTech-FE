@@ -2,7 +2,7 @@ import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { authAxios, publicAxios } from "../../services/axios-instance";
-// import "./google-login.css"; // CSS cũ có thể không tác động được vào nút của Google
+import styles from "./GoogleLoginButton.module.css";
 
 export default function GoogleLoginButton() {
     const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function GoogleLoginButton() {
     };
 
     return (
-        <div className="google-login-container">
+        <div className={styles["google-login-container"]}>
             {/* Component này sẽ hiển thị nút "Sign in with Google" chuẩn */}
             <GoogleLogin
                 onSuccess={handleSuccess}

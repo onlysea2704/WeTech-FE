@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "./ContactUs.css";
+import styles from "./ContactUs.module.css";
 import Navbar from "../../../components/NavBar/NavBar";
 import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import map from "../../../assets/map.png";
 import { publicAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ContactUs = () => {
     const [form, setForm] = useState({
@@ -16,6 +17,7 @@ const ContactUs = () => {
     });
 
     const [loading, setLoading] = useState(false);
+    const { showSuccess, showError } = useNotification();
 
     // Hàm cập nhật input
     const handleChange = (e) => {
@@ -34,12 +36,12 @@ const ContactUs = () => {
             const response = await publicAxios.post("/api/auth/contact", form);
 
             if (response.status === 200) {
-                alert("Đã gửi yêu cầu tư vấn thành công! Chúng tôi sẽ liên hệ với bạn sớm.");
+                showSuccess("Đã gửi yêu cầu tư vấn thành công! Chúng tôi sẽ liên hệ với bạn sớm.");
                 setForm({ name: "", email: "", phone: "", service: "" });
             }
         } catch (error) {
             console.error(error);
-            alert("Có lỗi xảy ra, vui lòng thử lại!");
+            showError("Có lỗi xảy ra, vui lòng thử lại!");
         } finally {
             setLoading(false);
         }
@@ -51,12 +53,12 @@ const ContactUs = () => {
 
             <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Liên hệ chúng tôi" }]} />
 
-            <div className="contact-container">
+            <div className={styles["contact-container"]}>
                 <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
 
-                <div className="contact-content">
+                <div className={styles["contact-content"]}>
                     {/* Form Tư Vấn */}
-                    <div className="form-wrapper">
+                    <div className={styles["form-wrapper"]}>
                         <h2>Nhận Tư Vấn Miễn Phí</h2>
                         <p>Để lại thông tin để được tư vấn dịch vụ chi tiết!</p>
 
@@ -101,27 +103,33 @@ const ContactUs = () => {
                             </button>
                         </form>
 
-                        <p className="terms-policy">
+                        <p className={styles["terms-policy"]}>
                             Khi gửi thông tin, bạn đồng ý với <a href="#1">Điều khoản</a> và{" "}
                             <a href="#1">Chính sách bảo mật</a>.
                         </p>
                     </div>
 
                     {/* Thông Tin Liên Hệ */}
-                    <div className="info-wrapper">
+                    <div className={styles["info-wrapper"]}>
                         <h2>Thông Tin Liên Hệ</h2>
 
-                        <div className="info-item">
+                        <div className={styles["info-item"]}>
                             <i className="fas fa-phone-alt"></i>
-                            <p>0989 466 992</p>
+                            <div className={`${styles["info-item-detail"]} ${styles.phone}`}>
+                                <p>Phone</p>
+                                <p>0989 466 992</p>
+                            </div>
                         </div>
 
-                        <div className="info-item">
+                        <div className={styles["info-item"]}>
                             <i className="fas fa-envelope"></i>
-                            <p>wetechsoft.vn@gmail.com</p>
+                            <div className={`${styles["info-item-detail"]} ${styles.email}`}>
+                                <p>Email</p>
+                                <p>wetechsoft.vn@gmail.com</p>
+                            </div>
                         </div>
 
-                        <div className="map-container">
+                        <div className={styles["map-container"]}>
                             <img src={map} alt="Bản đồ vị trí" />
                         </div>
                     </div>

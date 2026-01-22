@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import "./ListCourse.css";
+import styles from "./ListCourse.module.css";
 import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ListCourse = () => {
     const navigate = useNavigate();
+    const { showSuccess, showError } = useNotification();
 
     const columns = [
         { headerName: "ID Khóa học", field: "courseId" },
@@ -105,13 +107,13 @@ const ListCourse = () => {
         try {
             const response = await publicAxios.get(`/api/course/delete-course?courseId=${course.courseId}`);
             if (response.data === true) {
-                alert("Xóa khóa học thành công!");
+                showSuccess("Xóa khóa học thành công!");
                 fetchCourses();
             } else {
-                alert("Xóa khóa học thất bại!");
+                showError("Xóa khóa học thất bại!");
             }
         } catch (error) {
-            alert("Xóa khóa học thất bại!");
+            showError("Xóa khóa học thất bại!");
         }
     };
 
@@ -127,22 +129,22 @@ const ListCourse = () => {
     };
 
     return (
-        <div className="dash-board-page">
+        <div className={styles["dash-board-page"]}>
             <Sidebar />
-            <div className="manage-course-container">
-                <div className="toolbar-container">
+            <div className={styles["manage-course-container"]}>
+                <div className={styles["toolbar-container"]}>
                     {/* Phần bên trái */}
-                    <div className="toolbar-left">
-                        <h1 className="toolbar-title">Danh sách khóa học</h1>
+                    <div className={styles["toolbar-left"]}>
+                        <h1 className={styles["toolbar-title"]}>Danh sách khóa học</h1>
                     </div>
 
                     {/* Phần bên phải */}
-                    <div className="toolbar-right">
-                        <button className="export-button" onClick={handleCreateCourse}>
+                    <div className={styles["toolbar-right"]}>
+                        <button className={styles["export-button"]} onClick={handleCreateCourse}>
                             <span>Tạo khóa học mới</span>
                         </button>
 
-                        <div className="search-box-table">
+                        <div className={styles["search-box-table"]}>
                             <i className="fa-solid fa-magnifying-glass"></i>
                             <input
                                 type="text"
@@ -152,8 +154,8 @@ const ListCourse = () => {
                             />
                         </div>
 
-                        <div className="sort-dropdown-wrapper">
-                            <select className="sort-dropdown" value={sortOption} onChange={handleSortChange}>
+                        <div className={styles["sort-dropdown-wrapper"]}>
+                            <select className={styles["sort-dropdown"]} value={sortOption} onChange={handleSortChange}>
                                 <option value="newest">Sort: Mới nhất</option>
                                 <option value="oldest">Sort: Cũ nhất</option>
                                 <option value="name_asc">Sort: A-Z</option>

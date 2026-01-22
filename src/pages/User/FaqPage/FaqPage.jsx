@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./FaqPage.css";
+import styles from "./FaqPage.module.css";
 import answerImage from "../../../assets/error-image.png"; // <-- THAY ĐỔI đường dẫn đến hình ảnh của bạn
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
@@ -41,25 +41,25 @@ const FaqPage = () => {
     return (
         <div>
             <Navbar />
-            <div className="faq-page-container">
-                <div className="breadcrumb">
+            <div className={styles["faq-page-container"]}>
+                <div className={styles["breadcrumb"]}>
                     <p>Câu hỏi thường gặp</p>
                     <span>Home / Pages</span>
                 </div>
 
-                <main className="faq-accordion-container">
+                <main className={styles["faq-accordion-container"]}>
                     {faqData.map((item, index) => (
-                        <div className="faq-page-item" key={index}>
+                        <div className={styles["faq-page-item"]} key={index}>
                             <div
-                                className={`faq-question-page ${openIndex === index ? "active" : ""}`}
+                                className={`${styles["faq-question-page"]} ${openIndex === index ? styles["active"] : ""}`}
                                 onClick={() => handleToggle(index)}
                             >
                                 <p>{item.question}</p>
-                                <span className="faq-page-icon">{openIndex === index ? "−" : "+"}</span>
+                                <span className={styles["faq-page-icon"]}>{openIndex === index ? "−" : "+"}</span>
                             </div>
                             {openIndex === index && (
-                                <div className="faq-page-answer">
-                                    <p className="answer-text">{item.answer}</p>
+                                <div className={styles["faq-page-answer"]}>
+                                    <p className={styles["answer-text"]}>{item.answer}</p>
                                 </div>
                             )}
                         </div>

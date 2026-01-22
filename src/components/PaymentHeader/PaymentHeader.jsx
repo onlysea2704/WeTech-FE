@@ -1,5 +1,5 @@
 import React from "react";
-import "./PaymentHeader.css";
+import styles from "./PaymentHeader.module.css";
 
 const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
     const steps = [
@@ -9,8 +9,8 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
     ];
 
     return (
-        <div className="header-payment">
-            <div className="steps">
+        <div className={styles["header-payment"]}>
+            <div className={styles.steps}>
                 {steps.map((step, index) => {
                     let status = "";
                     if (currentStep > step.id) status = "done";
@@ -21,16 +21,16 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
                     }
 
                     return (
-                        <div key={step.id} className={`step-item ${status}`}>
-                            <div className="step-circle">
+                        <div key={step.id} className={`${styles["step-item"]} ${status ? styles[status] : ""}`}>
+                            <div className={styles["step-circle"]}>
                                 {status === "done" || status === "success" ? (
                                     <i className="fa-solid fa-check"></i>
                                 ) : (
                                     <span>{step.id}</span>
                                 )}
                             </div>
-                            <span className="step-label">{step.label}</span>
-                            {index < steps.length - 1 && <div className="step-line"></div>}
+                            <span className={styles["step-label"]}>{step.label}</span>
+                            {index < steps.length - 1 && <div className={styles["step-line"]}></div>}
                         </div>
                     );
                 })}

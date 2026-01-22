@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ScanQR.css";
+import styles from "./ScanQR.module.css";
 import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
 import SuccessPayment from "../../../components/SuccessPayment/SuccessPayment";
 import FailurePayment from "../../../components/FailurePayment/FailurePayment";
@@ -33,6 +33,7 @@ const ScanQR = () => {
     };
 
     useEffect(() => {
+        window.scrollTo(0, 0);
         const fetchTransactionDetails = async () => {
             try {
                 const res = await publicAxios.get(`/payment/get?idTransaction=${idTransaction}`);
@@ -92,31 +93,31 @@ const ScanQR = () => {
                 ]}
             />
             <PaymentHeader currentStep={3} isSuccess={isSuccess} />
-            <div className="payment-container-qr">
-                <table className="order-info">
+            <div className={styles["payment-container-qr"]}>
+                <table className={styles["order-info"]}>
                     <caption>Thông tin thanh toán</caption>
                     <tbody>
-                        <tr className="info-item-qr-page">
+                        <tr className={styles["info-item-qr-page"]}>
                             <td>Nhà cung cấp</td>
                             <td>LE THI LAN</td>
                         </tr>
-                        <tr className="info-item-qr-page">
+                        <tr className={styles["info-item-qr-page"]}>
                             <td>Số điện thoại</td>
                             <Tooltip text="Nhấn để sao chép" copyValue="0989466992">
                                 <td>0989466992</td>
                             </Tooltip>
                         </tr>
-                        <tr className="info-item-qr-page">
+                        <tr className={styles["info-item-qr-page"]}>
                             <td>Ngân hàng</td>
                             <td>MB Bank</td>
                         </tr>
-                        <tr className="info-item-qr-page">
+                        <tr className={styles["info-item-qr-page"]}>
                             <td>Nội dung</td>
                             <Tooltip text="Nhấn để sao chép" copyValue={code}>
                                 <td>{code}</td>
                             </Tooltip>
                         </tr>
-                        <tr className="amount">
+                        <tr className={styles.amount}>
                             <td>Số tiền</td>
                             <td>{formatPrice(amount)}đ</td>
                         </tr>
@@ -124,16 +125,20 @@ const ScanQR = () => {
                     <tfoot>
                         <tr>
                             <td colSpan="2">
-                                <div className="countdown">
+                                <div className={styles["countdown"]}>
                                     <p>Đơn hàng sẽ hết hạn sau:</p>
-                                    <div className="timer">
-                                        <div className="time-box">
-                                            <span className="time-value">{minutes.toString().padStart(2, "0")}</span>
-                                            <span className="time-label">Phút</span>
+                                    <div className={styles["timer"]}>
+                                        <div className={styles["time-box"]}>
+                                            <span className={styles["time-value"]}>
+                                                {minutes.toString().padStart(2, "0")}
+                                            </span>
+                                            <span className={styles["time-label"]}>Phút</span>
                                         </div>
-                                        <div className="time-box">
-                                            <span className="time-value">{seconds.toString().padStart(2, "0")}</span>
-                                            <span className="time-label">Giây</span>
+                                        <div className={styles["time-box"]}>
+                                            <span className={styles["time-value"]}>
+                                                {seconds.toString().padStart(2, "0")}
+                                            </span>
+                                            <span className={styles["time-label"]}>Giây</span>
                                         </div>
                                     </div>
                                 </div>
@@ -143,9 +148,9 @@ const ScanQR = () => {
                 </table>
 
                 {/* QR thanh toán */}
-                <div className="qr-section">
+                <div className={styles["qr-section"]}>
                     <h3>Quét mã QR thanh toán trực tiếp</h3>
-                    <div className="qr-box">
+                    <div className={styles["qr-box"]}>
                         {/* <img
               src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
               alt="QR Code"
@@ -153,9 +158,9 @@ const ScanQR = () => {
                         <img src={qrThanhToan} alt="QR Code" />
                         <p>Lê Thị Lan - 0989466992</p>
                     </div>
-                    <p className="qr-note">Mở ứng dụng ngân hàng để Quét Mã QR</p>
+                    <p className={styles["qr-note"]}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
                     {/* Nút check giao dịch */}
-                    <button className="check-transaction-btn" onClick={handleCheckTransaction}>
+                    <button className={styles["check-transaction-btn"]} onClick={handleCheckTransaction}>
                         Kiểm tra giao dịch
                     </button>
                 </div>

@@ -1,0 +1,323 @@
+.detail-course-container h2 {
+    margin-left: 70px;
+}
+
+/* Course Info Summary (Dark Section) */
+.course-info-summary {
+    background-color: #111;
+    /* Dark background */
+    color: #fff;
+    padding: 20px 67px;
+    padding-bottom: 50px;
+}
+
+.course-info-summary h2 {
+    color: #fff;
+    font-size: 28px;
+    margin-left: 0;
+    font-family: "Roboto Condensed";
+    font-weight: 600;
+}
+
+.course-meta {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    color: var(--Neutral-colors-Gray-4, #cbcbcb);
+    font-family: "Roboto";
+}
+
+.meta-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.meta-item img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
+    /* Attempt gold filter or just use original if colored */
+}
+
+/* Use gold color for text/icons if needed, or rely on image color */
+.meta-item span {
+    color: #ccc;
+}
+
+.course-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 15px;
+    font-family: "Roboto";
+    color: var(--Neutral-colors-Gray-4, #cbcbcb);
+}
+
+.author-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.course-author span {
+    font-weight: 600;
+    color: #ffbb54;
+    font-family: "Roboto";
+}
+
+.course-update {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--Neutral-colors-Gray-4, #cbcbcb);
+    font-family: "Roboto";
+}
+
+.course-update img {
+    width: 14px;
+    height: 14px;
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
+}
+
+.video-container {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* Thiết lập tỷ lệ 16:9 */
+    overflow: hidden;
+    border-radius: 20px;
+}
+
+.course-card-detail {
+    display: flex;
+    gap: 20px;
+    background: #fff;
+    padding: 20px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    margin: 20px 67px;
+    box-sizing: border-box;
+}
+
+.course-left {
+    flex: 3;
+}
+
+.course-image {
+    width: 100%;
+    border-radius: 8px;
+}
+
+.course-right {
+    flex: 1;
+    background: #fff;
+    /* Changed to white or keep gray, list is contained */
+    padding: 0 15px;
+    border-radius: 8px;
+    text-align: left;
+    min-width: 400px;
+    font-family: "Roboto";
+}
+
+.course-price-container {
+    margin-top: -150px;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    gap: 16px;
+    border: 1px solid #e8e8ed;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    width: 100%;
+    font-family: "Roboto";
+}
+
+.price-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+
+.course-price {
+    font-size: 28px;
+    font-weight: bold;
+    margin: 0;
+    color: var(--Neutral-colors-Black, #0c0c0c);
+    font-family: "Roboto Condensed";
+}
+
+.old-price {
+    text-decoration: line-through;
+    color: gray;
+    font-size: 16px;
+    font-weight: normal;
+}
+
+.discount-badge {
+    background-color: #ececf9;
+    color: #0c0c0c;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px;
+}
+
+.add-to-cart-btn {
+    background: #eaebf0;
+    color: #1c1d1f;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.buy-now-btn {
+    background: #443f6b;
+    /* Dark purple/blue from image? Using a close match or existing theme color */
+    color: white;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.guarantee-text {
+    text-align: center;
+    font-size: 12px;
+    color: #666;
+    margin-top: 5px;
+}
+
+.course-specs {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    color: #0c0c0c;
+}
+
+.spec-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.spec-label img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.spec-value {
+    font-weight: 500;
+}
+
+.course-includes {
+    margin-top: 10px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.course-includes h4,
+.course-share h4 {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #0c0c0c;
+}
+
+.course-includes ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.course-includes li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #0c0c0c;
+}
+
+.course-includes li img {
+    width: 16px;
+    height: 16px;
+    margin-top: 3px;
+    object-fit: contain;
+}
+
+.course-share {
+    margin-top: 10px;
+}
+
+.share-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.copy-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f7f9fa;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13px;
+    color: #0c0c0c;
+    cursor: pointer;
+}
+
+.copy-link-btn img {
+    width: 14px;
+    height: 14px;
+}
+
+.social-icons {
+    display: flex;
+    gap: 12px;
+}
+
+.social-icons img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    filter: opacity(0.7);
+}
+
+.social-icons img:hover {
+    filter: opacity(1);
+}

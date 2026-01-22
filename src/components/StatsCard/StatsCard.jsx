@@ -1,18 +1,20 @@
 import React from "react";
-import "./StatsCard.css";
+import styles from "./StatsCard.module.css";
 
 const StatsCard = ({ title, value, icon, trend, percentage }) => {
     const formattedValue = typeof value === "number" ? value.toLocaleString("vi-VN") : value;
 
     return (
-        <div className="stats-card">
-            <div className="stats-header">
-                <span className="stats-title">{title}</span>
-                <span className="stats-icon">{icon}</span>
+        <div className={styles["stats-card"]}>
+            <div className={styles["stats-header"]}>
+                <span className={styles["stats-title"]}>{title}</span>
+                <span className={styles["stats-icon"]}>{icon}</span>
             </div>
-            <div className="stats-value">{formattedValue}</div>
+            <div className={styles["stats-value"]}>{formattedValue}</div>
             {percentage && (
-                <div className={`stats-trend ${trend === "up" ? "trend-up" : "trend-down"}`}>
+                <div
+                    className={`${styles["stats-trend"]} ${trend === "up" ? styles["trend-up"] : styles["trend-down"]}`}
+                >
                     {trend === "up" ? "▲" : "▼"} {percentage}% Tháng này
                 </div>
             )}

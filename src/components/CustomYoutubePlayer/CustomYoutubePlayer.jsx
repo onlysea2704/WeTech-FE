@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import "./CustomYoutubePlayer.css";
+import styles from "./CustomYoutubePlayer.module.css";
 
 const CustomYouTubePlayer = ({ videoUrl, title }) => {
     // 1. Dùng ref để giữ DOM element
@@ -189,14 +189,14 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
         }
     };
 
-    if (!videoId) return <div className="video-error">URL video không hợp lệ</div>;
+    if (!videoId) return <div className={styles["video-error"]}>URL video không hợp lệ</div>;
 
     return (
-        <div className="custom-video-player" ref={containerRef}>
-            <div className="video-wrapper">
+        <div className={styles["custom-video-player"]} ref={containerRef}>
+            <div className={styles["video-wrapper"]}>
                 {/* Lớp phủ chặn tương tác trực tiếp lên iframe */}
                 <div
-                    className="video-blocker"
+                    className={styles["video-blocker"]}
                     onContextMenu={(e) => e.preventDefault()}
                     onClick={togglePlay}
                     onDoubleClick={toggleFullscreen}
@@ -204,17 +204,20 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
 
                 {/* Thẻ div này sẽ được YouTube thay thế bằng Iframe */}
                 {/* Chúng ta gán ref vào đây để API tìm thấy */}
-                <div ref={videoNodeRef} className="youtube-player"></div>
+                <div ref={videoNodeRef} className={styles["youtube-player"]}></div>
 
-                <div className="video-controls">
-                    <div className="progress-bar" onClick={handleSeek}>
-                        <div className="progress-filled" style={{ width: `${(currentTime / duration) * 100}%` }}></div>
+                <div className={styles["video-controls"]}>
+                    <div className={styles["progress-bar"]} onClick={handleSeek}>
+                        <div
+                            className={styles["progress-filled"]}
+                            style={{ width: `${(currentTime / duration) * 100}%` }}
+                        ></div>
                     </div>
 
-                    <div className="controls-wrapper">
-                        <div className="controls-left">
+                    <div className={styles["controls-wrapper"]}>
+                        <div className={styles["controls-left"]}>
                             <p
-                                className="video-overlay-title"
+                                className={styles["video-overlay-title"]}
                                 style={{
                                     position: "absolute",
                                     top: "-40px",
@@ -224,16 +227,16 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
                             >
                                 {title}
                             </p>
-                            <button onClick={togglePlay} className="control-btn">
+                            <button onClick={togglePlay} className={styles["control-btn"]}>
                                 <i className={`fas ${isPlaying ? "fa-pause" : "fa-play"}`}></i>
                             </button>
 
                             <div
-                                className="volume-control"
+                                className={styles["volume-control"]}
                                 onMouseEnter={() => setShowVolumeSlider(true)}
                                 onMouseLeave={() => setShowVolumeSlider(false)}
                             >
-                                <button onClick={toggleMute} className="control-btn">
+                                <button onClick={toggleMute} className={styles["control-btn"]}>
                                     <i
                                         className={`fas ${isMuted ? "fa-volume-mute" : volume < 50 ? "fa-volume-down" : "fa-volume-up"}`}
                                     ></i>
@@ -245,18 +248,18 @@ const CustomYouTubePlayer = ({ videoUrl, title }) => {
                                         max="100"
                                         value={isMuted ? 0 : volume}
                                         onChange={handleVolumeChange}
-                                        className="volume-slider"
+                                        className={styles["volume-slider"]}
                                     />
                                 )}
                             </div>
 
-                            <span className="time-display">
+                            <span className={styles["time-display"]}>
                                 {formatTime(currentTime)} / {formatTime(duration)}
                             </span>
                         </div>
 
-                        <div className="controls-right">
-                            <button onClick={toggleFullscreen} className="control-btn">
+                        <div className={styles["controls-right"]}>
+                            <button onClick={toggleFullscreen} className={styles["control-btn"]}>
                                 <i className="fas fa-expand"></i>
                             </button>
                         </div>

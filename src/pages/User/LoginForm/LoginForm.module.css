@@ -1,0 +1,206 @@
+.login-background {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-wrapper {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
+    /* 💡 Nền đen trong suốt 40% */
+    /* border-radius: 12px; */
+    overflow: hidden;
+    box-shadow: none;
+}
+
+.login-right {
+    flex: 1;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    position: relative;
+    z-index: 100;
+}
+
+.login-box {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 400px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    margin-left: 0;
+    position: relative;
+    z-index: 100;
+    /* margin-top: 60px; */
+}
+
+.login-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: #666;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-btn:hover {
+    color: #000;
+}
+
+.login-box h2 {
+    margin-bottom: 10px;
+    color: #1b154b;
+}
+
+.login-box p {
+    margin-bottom: 20px;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.btn-login {
+    width: 100%;
+    background-color: #1976f2;
+    color: white;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.btn-login:hover {
+    background-color: #1565c0;
+}
+
+.divider {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+    color: #888;
+    font-size: 14px;
+    gap: 10px;
+}
+
+.divider .line {
+    flex: 1;
+    height: 1px;
+    background-color: #ccc;
+}
+
+.btn-google {
+    width: 100%;
+    padding: 12px;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.btn-google img {
+    width: 20px;
+    height: 20px;
+}
+
+.forgot-password {
+    color: #555;
+    text-align: left;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.forgot-password a {
+    text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    color: #2b4e9a;
+}
+
+.terms {
+    font-size: 12px;
+    color: #999;
+    margin-top: 20px;
+    text-align: flex-start;
+}
+
+.terms a {
+    color: #3f51b5;
+    text-decoration: none;
+}
+
+/* Dòng chữ đăng ký */
+.register-text {
+    margin-top: 15px;
+    font-size: 14px;
+    font-family: "Roboto";
+}
+
+.register-text a {
+    color: #1f7bf4;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.register-text a:hover {
+    text-decoration: underline;
+}
+
+/* Password input container */
+.password-input-container {
+    position: relative;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.password-input-container input {
+    padding-right: 45px;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 16px;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+    margin-bottom: 0;
+}
+
+.password-toggle-btn:hover {
+    color: #333;
+}

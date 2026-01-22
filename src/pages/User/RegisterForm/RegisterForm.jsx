@@ -4,17 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
 import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
+import { useNotification } from "../../../hooks/useNotification";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
-        ho: "",
-        name: "",
+        first_name: "",
+        last_name: "",
         email: "",
         password: "",
         phone: "",
     });
     const [loading, setLoading] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
+    const { showError, showSuccess } = useNotification();
 
     const handleClose = () => {
         navigate("/");
@@ -39,7 +43,7 @@ const RegisterForm = () => {
         try {
             // Validate inputs
             if (isValidPhone(user.phone) === false || isValidEmail(user.email) === false) {
-                alert("Email không hợp lệ hoặc số điện thoại phải gồm đúng 10 chữ số");
+                showError("Email không hợp lệ hoặc số điện thoại phải gồm đúng 10 chữ số");
                 return;
             }
 
@@ -47,19 +51,19 @@ const RegisterForm = () => {
             const response = await publicAxios.post("/api/auth/register", {
                 email: user.email,
                 password: user.password,
-                fullName: user.ho + " " + user.name,
+                fullName: user.first_name + " " + user.last_name,
                 phone: user.phone,
             });
 
             if (response.data.userId) {
-                alert("Đăng ký thành công! Vui lòng đăng nhập.");
+                showSuccess("Đăng ký thành công! Vui lòng đăng nhập.");
                 navigate("/login");
             } else {
-                alert("Đăng ký thất bại. Vui lòng thử lại.");
+                showError("Đăng ký thất bại. Vui lòng thử lại.");
             }
         } catch (error) {
             console.error(error);
-            alert(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
+            showError(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
         } finally {
             setLoading(false);
         }
@@ -83,18 +87,18 @@ const RegisterForm = () => {
                         <div className="name-row">
                             <input
                                 type="text"
-                                name="ho"
+                                name="first_name"
                                 placeholder="Họ"
                                 className="name-input"
-                                value={user.ho}
+                                value={user.first_name}
                                 onChange={handleChange}
                             />
                             <input
                                 type="text"
-                                name="name"
+                                name="last_name"
                                 placeholder="Tên"
                                 className="name-input"
-                                value={user.name}
+                                value={user.last_name}
                                 onChange={handleChange}
                             />
                         </div>
@@ -112,13 +116,22 @@ const RegisterForm = () => {
                             value={user.email}
                             onChange={handleChange}
                         />
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Mật khẩu"
-                            value={user.password}
-                            onChange={handleChange}
-                        />
+                        <div className="password-input-container">
+                            <input
+                                type={showPassword ? "text" : "password"}
+                                name="password"
+                                placeholder="Mật khẩu"
+                                value={user.password}
+                                onChange={handleChange}
+                            />
+                            <button
+                                type="button"
+                                className="password-toggle-btn"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                <i className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}></i>
+                            </button>
+                        </div>
                         <button className="btn-register" onClick={register} disabled={loading}>
                             {loading ? "Đang xử lý..." : "Tạo tài khoản"}
                         </button>

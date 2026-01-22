@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react"; // 1. Thêm useRef
-import "./Profile.css";
+import styles from "./Profile.module.css";
 import avatarImage from "../../../assets/avatar_user.png";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
@@ -14,6 +15,7 @@ const Profile = () => {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
+    const { showSuccess, showError } = useNotification();
 
     // 2. Tạo Refs để tham chiếu đến các ô input
     const fullNameRef = useRef(null);
@@ -65,10 +67,10 @@ const Profile = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert("Cập nhật thông tin thành công!");
+            showSuccess("Cập nhật thông tin thành công!");
         } catch (error) {
             console.error("Lỗi khi cập nhật thông tin:", error);
-            alert("Có lỗi xảy ra khi cập nhật thông tin!");
+            showError("Có lỗi xảy ra khi cập nhật thông tin!");
         }
         setLoading(false);
     };
@@ -84,12 +86,12 @@ const Profile = () => {
         <div>
             <Navbar />
             <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Tài khoản của tôi" }]} />
-            <div className="profile-page-container">
-                <h1 className="main-title">MY PROFILE</h1>
+            <div className={styles["profile-page-container"]}>
+                <h1 className={styles["main-title"]}>MY PROFILE</h1>
 
-                <div className="avatar-wrapper">
-                    <img src={avatar} alt="User Avatar" className="avatar-img" />
-                    <label htmlFor="avatar-upload" className="camera-icon">
+                <div className={styles["avatar-wrapper"]}>
+                    <img src={avatar} alt="User Avatar" className={styles["avatar-img"]} />
+                    <label htmlFor="avatar-upload" className={styles["camera-icon"]}>
                         <i className="fa-solid fa-camera"></i>
                     </label>
                     <input
@@ -101,10 +103,10 @@ const Profile = () => {
                     />
                 </div>
 
-                <form className="profile-form-card" onSubmit={handleSubmit}>
-                    <div className="form-group">
+                <form className={styles["profile-form-card"]} onSubmit={handleSubmit}>
+                    <div className={styles["form-group"]}>
                         <label htmlFor="fullName">Họ và Tên</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input
                                 id="fullName"
                                 type="text"
@@ -114,16 +116,16 @@ const Profile = () => {
                             />
                             {/* 4. Thêm sự kiện onClick cho icon */}
                             <i
-                                className="fa-solid fa-pen-to-square edit-icon"
+                                className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
                                 onClick={() => handleFocusInput(fullNameRef)}
                                 style={{ cursor: "pointer" }} // Thêm style pointer để người dùng biết click được
                             ></i>
                         </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                         <label htmlFor="phone">Phone</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input
                                 id="phone"
                                 type="tel"
@@ -133,22 +135,22 @@ const Profile = () => {
                             />
                             {/* 4. Thêm sự kiện onClick cho icon */}
                             <i
-                                className="fa-solid fa-pen-to-square edit-icon"
+                                className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
                                 onClick={() => handleFocusInput(phoneRef)}
                                 style={{ cursor: "pointer" }}
                             ></i>
                         </div>
                     </div>
 
-                    <div className="form-group">
+                    <div className={styles["form-group"]}>
                         <label htmlFor="email">Email</label>
-                        <div className="input-wrapper">
+                        <div className={styles["input-wrapper"]}>
                             <input id="email" type="email" value={email} readOnly />
                             {/* Email thường không sửa được nên không cần icon edit */}
                         </div>
                     </div>
 
-                    <button type="submit" className="save-button">
+                    <button type="submit" className={styles["save-button"]}>
                         Lưu
                     </button>
                 </form>

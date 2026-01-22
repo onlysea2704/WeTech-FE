@@ -13,9 +13,10 @@
 
 .course-content-header h3 {
     margin: 0;
-    font-size: 20px;
-    font-weight: 700;
-    color: #000;
+    color: var(--Neutral-colors-Black, #0c0c0c);
+    font-family: "Roboto Condensed";
+    font-size: 25px;
+    font-weight: 600;
 }
 
 .progress-percent {
@@ -186,8 +187,9 @@
 }
 
 .playlist-video-item.active {
-    background-color: #443f6b;
-    color: white;
+    border-radius: 4px;
+    background: var(--Color-Tin-Blue-blue-2, #c8c7d4);
+    color: black;
 }
 
 .video-left {
@@ -201,7 +203,7 @@
 .custom-checkbox {
     width: 18px;
     height: 18px;
-    border: 2px solid #ccc;
+    border: 2px solid #333;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -214,7 +216,7 @@
 }
 
 .custom-checkbox:hover {
-    border-color: #aaa;
+    border-color: #666;
 }
 
 .custom-checkbox.checked {
@@ -257,15 +259,15 @@
 
 .playlist-video-item.active .video-name {
     font-weight: 500;
-    color: white;
+    color: black;
 }
 
 .playlist-video-item.active .video-right {
-    color: white;
+    color: black;
 }
 
 .playlist-video-item.active .video-right i {
-    color: white;
+    color: black;
 }
 
 .extra-space {

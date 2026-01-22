@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import "./Sidebar.css";
+import styles from "./Sidebar.module.css";
 import imageAdmin from "../../assets/avatar_user.png";
 
 const Sidebar = () => {
@@ -17,64 +17,76 @@ const Sidebar = () => {
     };
 
     return (
-        <div className="sidebar">
+        <div className={styles.sidebar}>
             {/* User Info */}
-            <div className="sidebar-header">
-                <img src={imageAdmin} alt="avatar" className="sidebar-avatar" />
+            <div className={styles["sidebar-header"]}>
+                <img src={imageAdmin} alt="avatar" className={styles["sidebar-avatar"]} />
                 <div>
-                    <h3 className="sidebar-title">Admin Panel</h3>
-                    <p className="sidebar-username">
+                    <h3 className={styles["sidebar-title"]}>Admin Panel</h3>
+                    <p className={styles["sidebar-username"]}>
                         admin1 <i className="fa-solid fa-caret-down"></i>
                     </p>
                 </div>
             </div>
 
             {/* Menu */}
-            <div className="sidebar-menu">
-                <Link to="/dashboard" className={`menu-item ${isActive("/dashboard") ? "active" : ""}`}>
-                    <i className="fa-solid fa-table-cells-large menu-icon"></i>
+            <div className={styles["sidebar-menu"]}>
+                <Link
+                    to="/dashboard"
+                    className={`${styles["menu-item"]} ${isActive("/dashboard") ? styles.active : ""}`}
+                >
+                    <i className={`fa-solid fa-table-cells-large ${styles["menu-icon"]}`}></i>
                     <span>Dashboard</span>
                 </Link>
 
-                <Link to="/list-course" className={`menu-item ${isActive("/list-course") ? "active" : ""}`}>
-                    <i className="fa-solid fa-graduation-cap menu-icon"></i>
+                <Link
+                    to="/list-course"
+                    className={`${styles["menu-item"]} ${isActive("/list-course") ? styles.active : ""}`}
+                >
+                    <i className={`fa-solid fa-graduation-cap ${styles["menu-icon"]}`}></i>
                     <span>Khóa học</span>
                 </Link>
 
-                <Link to="/list-course" className={`menu-item ${isActive("/renew") ? "active" : ""}`}>
-                    <i className="fa-solid fa-calendar-days menu-icon"></i>
+                <Link to="/list-course" className={`${styles["menu-item"]} ${isActive("/renew") ? styles.active : ""}`}>
+                    <i className={`fa-solid fa-calendar-days ${styles["menu-icon"]}`}></i>
                     <span>Thủ tục pháp lý</span>
                 </Link>
 
-                <Link to="/list-customer" className={`menu-item ${isActive("/list-customer") ? "active" : ""}`}>
-                    <i className="fa-solid fa-user menu-icon"></i>
+                <Link
+                    to="/list-customer"
+                    className={`${styles["menu-item"]} ${isActive("/list-customer") ? styles.active : ""}`}
+                >
+                    <i className={`fa-solid fa-user ${styles["menu-icon"]}`}></i>
                     <span>Khách hàng</span>
                 </Link>
 
-                <Link to="/sales" className={`menu-item ${isActive("/sales") ? "active" : ""}`}>
-                    <i className="fa-solid fa-clipboard-list menu-icon"></i>
+                <Link to="/sales" className={`${styles["menu-item"]} ${isActive("/sales") ? styles.active : ""}`}>
+                    <i className={`fa-solid fa-clipboard-list ${styles["menu-icon"]}`}></i>
                     <span>Giao dịch</span>
                 </Link>
 
-                <Link to="/sales" className={`menu-item ${isActive("/consult") ? "active" : ""}`}>
-                    <i className="fa-solid fa-comments menu-icon"></i>
+                <Link to="/sales" className={`${styles["menu-item"]} ${isActive("/consult") ? styles.active : ""}`}>
+                    <i className={`fa-solid fa-comments ${styles["menu-icon"]}`}></i>
                     <span>Tư vấn</span>
                 </Link>
 
-                <Link to="/sales" className={`menu-item ${isActive("/questions") ? "active" : ""}`}>
-                    <i className="fa-solid fa-circle-question menu-icon"></i>
+                <Link to="/sales" className={`${styles["menu-item"]} ${isActive("/questions") ? styles.active : ""}`}>
+                    <i className={`fa-solid fa-circle-question ${styles["menu-icon"]}`}></i>
                     <span>Câu hỏi</span>
                 </Link>
 
                 {/* Đăng xuất */}
-                <div className={`menu-item ${isActive("/questions") ? "active" : ""}`} onClick={handleLogout}>
-                    <i className="fa-solid fa-right-from-bracket menu-icon"></i>
+                <div
+                    className={`${styles["menu-item"]} ${isActive("/questions") ? styles.active : ""}`}
+                    onClick={handleLogout}
+                >
+                    <i className={`fa-solid fa-right-from-bracket ${styles["menu-icon"]}`}></i>
                     <span>Đăng xuất</span>
                 </div>
             </div>
 
             {/* Footer */}
-            <div className="sidebar-footer">
+            <div className={styles["sidebar-footer"]}>
                 <h4>WETECH</h4>
                 <p>Version: 1.0.0</p>
             </div>

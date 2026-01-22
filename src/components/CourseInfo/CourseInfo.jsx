@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "./CourseInfo.css";
+import styles from "./CourseInfo.module.css";
 import CourseContent from "../CourseContent/CourseContent";
 import CourseIntro from "../CourseIntro/CourseIntro";
 import Faq from "../Faq/Faq";
@@ -8,23 +8,23 @@ const CourseInfo = ({ courseDetail, isPurchased }) => {
     const [activeTab, setActiveTab] = useState("intro"); // 'intro' hoặc 'content'
 
     return (
-        <div className="course-container">
-            <div className="course-tabs">
+        <div className={styles["course-container"]}>
+            <div className={styles["course-tabs"]}>
                 <button
-                    className={`tab-button ${activeTab === "intro" ? "active" : ""}`}
+                    className={`${styles["tab-button"]} ${activeTab === "intro" ? styles.active : ""}`}
                     onClick={() => setActiveTab("intro")}
                 >
                     Giới Thiệu
                 </button>
                 <button
-                    className={`tab-button ${activeTab === "content" ? "active" : ""}`}
+                    className={`${styles["tab-button"]} ${activeTab === "content" ? styles.active : ""}`}
                     onClick={() => setActiveTab("content")}
                 >
                     Nội dung
                 </button>
             </div>
 
-            <div className="course-content">
+            <div className={styles["course-content"]}>
                 {activeTab === "intro" ? (
                     <CourseIntro courseDetails={courseDetail} />
                 ) : (

@@ -18,9 +18,10 @@
     justify-content: center;
     gap: 30px;
     max-width: 1200px;
-    margin: 0px auto;
-    padding: 0 20px;
+    margin: 0px 90px;
+    padding: 0;
     flex-wrap: wrap;
+    font-family: "Roboto Condensed";
 }
 
 /* --- Cột bên trái --- */
@@ -49,8 +50,8 @@
 }
 
 .courseImg {
-    width: 100px;
-    height: 75px;
+    width: 225px;
+    height: 127px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -94,8 +95,6 @@
    The JSX now uses courseInfoPayment. I'll replace courseDetails block if I can to keep file clean */
 
 .courseTitle {
-    font-size: 18px;
-    font-weight: 700;
     margin: 0;
     color: var(--text-color);
     /* Giới hạn số dòng hiển thị của Title nếu quá dài */
@@ -103,6 +102,27 @@
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    color: var(--Neutral-colors-Black, #0c0c0c);
+    /* Desktop/Headline5 */
+    font-family: "Roboto Condensed";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
+    /* 28.8px */
+}
+
+.courseAuthor {
+    color: var(--Brand-Color-Button, #2b4e9a);
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 150%;
+}
+
+.courseAuthor span {
+    color: #ec9819;
 }
 
 .courseActions {
@@ -112,16 +132,31 @@
 }
 
 .actionLink {
-    color: #2f80ed;
+    color: #0c68f4;
     text-decoration: none;
     cursor: pointer;
     margin-right: 10px;
+    /* Desktop/Body6 */
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    /* 22.4px */
 }
 
 .actionDelete {
     color: #eb5757;
     text-decoration: none;
     cursor: pointer;
+    color: var(--State-Color-Error-2, #eb5757);
+    /* Desktop/Body6 */
+    font-family: "Roboto";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 140%;
+    /* 22.4px */
 }
 
 /* .coursePriceWrapper, .currentPrice, .originalPrice are likely unused now if I switched to .coursePrices etc.
@@ -158,12 +193,15 @@
     padding: 20px;
     border-radius: 8px;
     box-shadow: var(--shadow);
+    font-family: "Roboto";
 }
 
 .paymentRow {
     display: flex;
     justify-content: space-between;
     margin-bottom: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
     font-size: 14px;
     color: var(--text-color);
 }

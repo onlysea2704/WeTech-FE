@@ -10,9 +10,15 @@ const CoursePlaylist = ({ sections = [], onSelectVideo, currentVideo }) => {
 
     // Load completed videos from localStorage on mount
     useEffect(() => {
-        const stored = localStorage.getItem("completedVideos");
-        if (stored) {
-            setCompletedVideos(JSON.parse(stored));
+        const storedStr = localStorage.getItem("completedVideos");
+        if (storedStr) {
+            const storedJson = JSON.parse(storedStr);
+            const checked = storedJson["userId"] === localStorage.getItem("userId");
+            console.log("checked: ", checked);
+
+            if (checked) {
+                setCompletedVideos(storedJson);
+            }
         }
     }, []);
 
@@ -80,7 +86,11 @@ const CoursePlaylist = ({ sections = [], onSelectVideo, currentVideo }) => {
     // Handle checkbox toggle
     const toggleCompletion = (e, videoId) => {
         e.stopPropagation(); // Prevent playing video when clicking checkbox
-        const newCompleted = { ...completedVideos, [videoId]: !completedVideos[videoId] };
+        const newCompleted = {
+            userId: localStorage.getItem("userId"),
+            ...completedVideos,
+            [videoId]: !completedVideos[videoId],
+        };
         setCompletedVideos(newCompleted);
         localStorage.setItem("completedVideos", JSON.stringify(newCompleted));
     };

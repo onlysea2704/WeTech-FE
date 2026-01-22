@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./ListCourses.css";
+import styles from "./ListCourses.module.css";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../../components/NavBar/NavBar";
 import Banner from "../../../components/Banner/Banner";
@@ -7,8 +7,9 @@ import Footer from "../../../components/Footer/Footer";
 import CourseCard from "../../../components/CourseCard/CourseCard";
 import { publicAxios, authAxios } from "../../../services/axios-instance";
 import JoinCourses from "../../../components/JoinCourses/JoinCourses.jsx";
+import CourseSkeleton from "../../../components/Skeleton/CourseSkeleton";
 
-const Courses = ({ title, description, courses }) => {
+const Courses = ({ title, description, courses, loading }) => {
     const [visibleCount, setVisibleCount] = useState(4);
 
     const handleViewMore = () => {
@@ -16,23 +17,25 @@ const Courses = ({ title, description, courses }) => {
     };
 
     return (
-        <div className="new-courses-container">
-            <div className="header">
+        <div className={styles["new-courses-container"]}>
+            <div className={styles["header"]}>
                 <div>
                     <h2>{title}</h2>
                     <p>{description}</p>
                 </div>
-                {visibleCount < courses.length && (
-                    <button className="view-more" onClick={handleViewMore}>
+                {!loading && visibleCount < courses.length && (
+                    <button className={styles["view-more"]} onClick={handleViewMore}>
                         Xem thêm
                     </button>
                 )}
             </div>
 
-            <div className="course-list">
-                {courses.slice(0, visibleCount).map((course, index) => (
-                    <CourseCard key={index} index={index} course={course} />
-                ))}
+            <div className={styles["course-list"]}>
+                {loading
+                    ? Array.from({ length: 4 }).map((_, index) => <CourseSkeleton key={index} />)
+                    : courses
+                          .slice(0, visibleCount)
+                          .map((course, index) => <CourseCard key={index} index={index} course={course} />)}
             </div>
         </div>
     );
@@ -54,6 +57,7 @@ const ListCourses = () => {
     const [myCourse, setMyCourse] = useState([]);
     const [newCourse, setNewCourse] = useState([]);
     const [topCourse, setTopCourse] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const navigate = useNavigate();
 
@@ -64,29 +68,26 @@ const ListCourses = () => {
 
     useEffect(() => {
         const fetchCourses = async () => {
+            setLoading(true);
             const token = sessionStorage.getItem("authToken");
 
-            if (token) {
-                try {
-                    const myCourseResponse = await authAxios.get("/api/course/find-my-course");
-                    setMyCourse(myCourseResponse.data);
-                } catch (error) {
-                    console.error("Lỗi khi load courses:", error);
+            try {
+                // Sử dụng Promise.allSettled để đảm bảo tất cả request chạy xong dù có lỗi
+                const promises = [];
+
+                if (token) {
+                    promises.push(authAxios.get("/api/course/find-my-course").then((res) => setMyCourse(res.data)));
                 }
-            }
 
-            try {
-                const newCourseResponse = await publicAxios.get("/api/course/get-all");
-                setNewCourse(newCourseResponse.data);
+                promises.push(publicAxios.get("/api/course/get-all").then((res) => setNewCourse(res.data)));
+
+                promises.push(publicAxios.get("/api/course/get-top").then((res) => setTopCourse(res.data)));
+
+                await Promise.allSettled(promises);
             } catch (error) {
                 console.error("Lỗi khi load courses:", error);
-            }
-
-            try {
-                const topCourseResponse = await publicAxios.get("/api/course/get-top");
-                setTopCourse(topCourseResponse.data);
-            } catch (error) {
-                console.error("Lỗi khi load courses:", error);
+            } finally {
+                setLoading(false);
             }
         };
 
@@ -97,31 +98,38 @@ const ListCourses = () => {
         <div>
             <Navbar />
 
-            <div className="courses-page">
+            <div className={styles["courses-page"]}>
                 <Banner />
 
-                {myCourse.length > 0 && (
+                {isLogin && (loading || myCourse.length > 0) && (
                     <Courses
                         title="HOÀN THÀNH KHÓA HỌC CỦA BẠN"
                         description="Các khoá học đã đăng ký"
                         courses={myCourse}
+                        loading={loading}
                     />
                 )}
 
-                <div className="category-bar">
+                <div className={styles["category-bar"]}>
                     {Object.entries(categoryMap).map(([slug, label]) => (
-                        <button key={slug} className="category-btn" onClick={() => handleClick(slug)}>
+                        <button key={slug} className={styles["category-btn"]} onClick={() => handleClick(slug)}>
                             {label}
                         </button>
                     ))}
                 </div>
 
-                <Courses title="KHÓA HỌC MỚI" description="Các khoá học mới nhất được update." courses={newCourse} />
+                <Courses
+                    title="KHÓA HỌC MỚI"
+                    description="Các khoá học mới nhất được update."
+                    courses={newCourse}
+                    loading={loading}
+                />
 
                 <Courses
                     title="KHÓA HỌC NỔI BẬT"
                     description="Khóa học có lượt đăng ký nhiều nhất."
                     courses={topCourse}
+                    loading={loading}
                 />
 
                 {!isLogin && <JoinCourses />}
