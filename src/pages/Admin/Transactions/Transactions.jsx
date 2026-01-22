@@ -6,8 +6,10 @@ import StatsHeader from "../../../components/StatsHeader/StatsHeader";
 import { publicAxios } from "../../../services/axios-instance";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
+import { useNotification } from "../../../hooks/useNotification";
 
 const Transactions = () => {
+    const { showError } = useNotification();
     const columns = [
         { headerName: "STT", field: "stt" },
         { headerName: "Họ tên", field: "fullname" },
@@ -117,7 +119,7 @@ const Transactions = () => {
     // --- EXPORT EXCEL ---
     const exportToExcel = () => {
         if (filteredData.length === 0) {
-            alert("Không có dữ liệu để xuất!");
+            showError("Không có dữ liệu để xuất!");
             return;
         }
 

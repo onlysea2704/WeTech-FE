@@ -6,6 +6,7 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
@@ -14,6 +15,7 @@ const Profile = () => {
     const [phone, setPhone] = useState("");
     const [email, setEmail] = useState("");
     const [loading, setLoading] = useState(false);
+    const { showSuccess, showError } = useNotification();
 
     // 2. Tạo Refs để tham chiếu đến các ô input
     const fullNameRef = useRef(null);
@@ -65,10 +67,10 @@ const Profile = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
-            alert("Cập nhật thông tin thành công!");
+            showSuccess("Cập nhật thông tin thành công!");
         } catch (error) {
             console.error("Lỗi khi cập nhật thông tin:", error);
-            alert("Có lỗi xảy ra khi cập nhật thông tin!");
+            showError("Có lỗi xảy ra khi cập nhật thông tin!");
         }
         setLoading(false);
     };

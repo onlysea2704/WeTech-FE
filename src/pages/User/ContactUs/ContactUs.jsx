@@ -6,6 +6,7 @@ import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import map from "../../../assets/map.png";
 import { publicAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ContactUs = () => {
     const [form, setForm] = useState({
@@ -16,6 +17,7 @@ const ContactUs = () => {
     });
 
     const [loading, setLoading] = useState(false);
+    const { showSuccess, showError } = useNotification();
 
     // Hàm cập nhật input
     const handleChange = (e) => {
@@ -34,12 +36,12 @@ const ContactUs = () => {
             const response = await publicAxios.post("/api/auth/contact", form);
 
             if (response.status === 200) {
-                alert("Đã gửi yêu cầu tư vấn thành công! Chúng tôi sẽ liên hệ với bạn sớm.");
+                showSuccess("Đã gửi yêu cầu tư vấn thành công! Chúng tôi sẽ liên hệ với bạn sớm.");
                 setForm({ name: "", email: "", phone: "", service: "" });
             }
         } catch (error) {
             console.error(error);
-            alert("Có lỗi xảy ra, vui lòng thử lại!");
+            showError("Có lỗi xảy ra, vui lòng thử lại!");
         } finally {
             setLoading(false);
         }

@@ -1,9 +1,7 @@
 .login-background {
-    background: url("../../../assets/background_login.png") no-repeat center center/cover;
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: background-image 0.5s ease-in-out;
 }
 
 .login-wrapper {
@@ -22,6 +20,8 @@
     display: flex;
     justify-content: left;
     align-items: center;
+    position: relative;
+    z-index: 100;
 }
 
 .login-box {
@@ -32,6 +32,8 @@
     max-width: 400px;
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
     margin-left: 0;
+    position: relative;
+    z-index: 100;
     /* margin-top: 60px; */
 }
 
@@ -132,6 +134,12 @@
 
 .forgot-password a {
     text-decoration: none;
+    color: #000;
+    font-size: 14px;
+}
+
+.forgot-password a:hover {
+    color: #2b4e9a;
 }
 
 .terms {

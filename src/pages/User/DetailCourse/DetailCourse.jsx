@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useCart } from "../../../context/CartContext";
 import styles from "./DetailCourse.module.css";
 import Navbar from "../../../components/NavBar/NavBar";
 import Footer from "../../../components/Footer/Footer";
@@ -24,10 +25,13 @@ import notebookIcon from "../../../assets/notebook-icon.png";
 import notepadIcon from "../../../assets/notepad-icon.png";
 import monitorIcon from "../../../assets/monitor-icon.png";
 import trophyIcon from "../../../assets/trophy-icon.png";
+import { useNotification } from "../../../hooks/useNotification";
 
 const DetailCourse = () => {
+    const { fetchCartCount } = useCart();
     const { courseId } = useParams();
     const navigate = useNavigate();
+    const { showError, showSuccess } = useNotification();
     const [isPurchased, setIsPurchased] = useState(false);
     const [sections, setSections] = useState([]); // Store full section data
     const [currentVideo, setCurrentVideo] = useState(null);
@@ -115,11 +119,11 @@ const DetailCourse = () => {
             if (res.data?.idTransaction) {
                 navigate(`/register-payment/${res.data?.idTransaction}`);
             } else {
-                alert("Có lỗi xảy ra khi tạo thanh toán.");
+                showError("Có lỗi xảy ra khi tạo thanh toán.");
             }
         } catch (error) {
             console.error(error);
-            alert("Có lỗi xảy ra khi tạo thanh toán.");
+            showError("Có lỗi xảy ra khi tạo thanh toán.");
         }
     };
 
@@ -127,13 +131,14 @@ const DetailCourse = () => {
         try {
             const response = await authAxios.get(`/cart/add?courseId=${courseDetail?.courseId}`);
             if (response.data != null) {
-                alert("Đã thêm vào giỏ hàng!");
+                showSuccess("Đã thêm vào giỏ hàng!");
+                fetchCartCount();
             } else {
-                alert("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
+                showError("Thêm vào giỏ hàng thất bại. Vui lòng thử lại.");
             }
         } catch (error) {
             console.error("Lỗi khi thêm vào giỏ hàng:", error);
-            alert("Có lỗi xảy ra khi kết nối tới server.");
+            showError("Có lỗi xảy ra khi kết nối tới server.");
         }
     };
 

@@ -3,12 +3,14 @@ import styles from "./VideoManager.module.css";
 import { useParams } from "react-router-dom";
 import { authAxios, publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
+import { useNotification } from "../../hooks/useNotification";
 
 export default function VideoManager() {
     const [sections, setSections] = useState([]);
     const { courseId } = useParams();
     const [loading, setLoading] = useState(false);
     const [previewVideoUrl, setPreviewVideoUrl] = useState(null);
+    const { showSuccess, showError } = useNotification();
 
     const getYoutubeEmbedUrl = (url) => {
         if (!url) return null;
@@ -79,11 +81,11 @@ export default function VideoManager() {
         try {
             // Gửi đầy đủ thông tin bao gồm cả duration
             const res = await authAxios.post("/api/video/update", videoInfo);
-            alert("Cập nhật video thành công!");
+            showSuccess("Cập nhật video thành công!");
             fetchCourseVideo();
         } catch (err) {
             console.error("Error updating video:", err);
-            alert("Cập nhật thất bại.");
+            showError("Cập nhật thất bại.");
         } finally {
             setLoading(false);
         }

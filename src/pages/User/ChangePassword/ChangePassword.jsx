@@ -5,6 +5,7 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ChangePassword = () => {
     // 1. State cho 3 ô mật khẩu
@@ -18,6 +19,7 @@ const ChangePassword = () => {
     const [showConfirm, setShowConfirm] = useState(false);
 
     const [loading, setLoading] = useState(false);
+    const { showError, showSuccess } = useNotification();
 
     // Xử lý submit form
     const handleSubmit = async (event) => {
@@ -25,17 +27,17 @@ const ChangePassword = () => {
 
         // Validate cơ bản
         if (!currentPassword || !newPassword || !confirmPassword) {
-            alert("Vui lòng điền đầy đủ thông tin!");
+            showError("Vui lòng điền đầy đủ thông tin!");
             return;
         }
 
         if (newPassword !== confirmPassword) {
-            alert("Mật khẩu mới và xác nhận mật khẩu không khớp!");
+            showError("Mật khẩu mới và xác nhận mật khẩu không khớp!");
             return;
         }
 
         if (newPassword.length < 6) {
-            alert("Mật khẩu mới phải có ít nhất 6 ký tự!");
+            showError("Mật khẩu mới phải có ít nhất 6 ký tự!");
             return;
         }
 
@@ -50,7 +52,7 @@ const ChangePassword = () => {
             // Gọi API đổi mật khẩu (Thay đổi endpoint cho phù hợp với backend của bạn)
             await authAxios.post("/api/auth/change-password", payload);
 
-            alert("Đổi mật khẩu thành công!");
+            showSuccess("Đổi mật khẩu thành công!");
 
             // Reset form sau khi thành công
             setCurrentPassword("");
@@ -60,7 +62,7 @@ const ChangePassword = () => {
             console.error("Lỗi khi đổi mật khẩu:", error);
             // Xử lý lỗi từ backend trả về (ví dụ: Mật khẩu cũ không đúng)
             const errorMessage = error.response?.data?.message || "Có lỗi xảy ra, vui lòng thử lại!";
-            alert(errorMessage);
+            showError(errorMessage);
         }
         setLoading(false);
     };

@@ -7,10 +7,12 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import qrCode from "../../../assets/qr-code.png";
 import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
+import { useNotification } from "../../../hooks/useNotification";
 
 const RegisterPayment = () => {
     const { idTransaction } = useParams();
     const navigate = useNavigate();
+    const { showError } = useNotification();
 
     const [status, setStatus] = useState("edit");
     const [editingValue, setEditingValue] = useState(null);
@@ -272,7 +274,7 @@ const RegisterPayment = () => {
             setStatus("confirm");
         } catch (error) {
             console.error("Lỗi cập nhật thông tin:", error);
-            alert("Cập nhật thông tin thất bại, vui lòng thử lại!");
+            showError("Cập nhật thông tin thất bại, vui lòng thử lại!");
         }
     };
 
@@ -281,7 +283,7 @@ const RegisterPayment = () => {
             navigate(`/scan-qr/${idTransaction}`);
         } catch (error) {
             console.error(error);
-            alert("Có lỗi xảy ra, vui lòng thử lại.");
+            showError("Có lỗi xảy ra, vui lòng thử lại.");
         }
     };
 

@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react";
+import { useCart } from "../../../context/CartContext";
 import { useNavigate } from "react-router-dom"; // Import hook chuyển trang
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import styles from "./CartPage.module.css";
 import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
+import { useNotification } from "../../../hooks/useNotification";
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount).replace("₫", "đ");
 };
 
 const CartPage = () => {
+    const { fetchCartCount } = useCart();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const navigate = useNavigate();
+    const { showSuccess, showError } = useNotification();
     useEffect(() => {
         const fetchCourses = async () => {
             setLoading(true);
@@ -41,13 +45,14 @@ const CartPage = () => {
             if (response.data === true) {
                 const response = await authAxios.get("/cart/get-item");
                 setCourses(response.data);
-                alert("Đã xóa thành công!");
+                fetchCartCount();
+                showSuccess("Đã xóa thành công!");
             } else {
-                alert("Xóa thất bại. Vui lòng thử lại.");
+                showError("Xóa thất bại. Vui lòng thử lại.");
             }
         } catch (error) {
             console.error("Lỗi khi xóa:", error);
-            alert("Có lỗi xảy ra khi kết nối tới server.");
+            showError("Có lỗi xảy ra khi kết nối tới server.");
         }
     };
 
@@ -80,11 +85,11 @@ const CartPage = () => {
             if (res.data?.idTransaction) {
                 navigate(`/register-payment/${res.data?.idTransaction}`);
             } else {
-                alert("Có lỗi xảy ra khi tạo thanh toán.");
+                showError("Có lỗi xảy ra khi tạo thanh toán.");
             }
         } catch (error) {
             console.error(error);
-            alert("Có lỗi xảy ra khi tạo thanh toán.");
+            showError("Có lỗi xảy ra khi tạo thanh toán.");
         }
     };
 

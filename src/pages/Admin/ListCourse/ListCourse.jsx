@@ -4,9 +4,11 @@ import Sidebar from "../../../components/Sidebar/Sidebar";
 import TableComponent from "../../../components/TableComponent/TableComponent";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
 import { useNavigate } from "react-router-dom";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ListCourse = () => {
     const navigate = useNavigate();
+    const { showSuccess, showError } = useNotification();
 
     const columns = [
         { headerName: "ID Khóa học", field: "courseId" },
@@ -105,13 +107,13 @@ const ListCourse = () => {
         try {
             const response = await publicAxios.get(`/api/course/delete-course?courseId=${course.courseId}`);
             if (response.data === true) {
-                alert("Xóa khóa học thành công!");
+                showSuccess("Xóa khóa học thành công!");
                 fetchCourses();
             } else {
-                alert("Xóa khóa học thất bại!");
+                showError("Xóa khóa học thất bại!");
             }
         } catch (error) {
-            alert("Xóa khóa học thất bại!");
+            showError("Xóa khóa học thất bại!");
         }
     };
 

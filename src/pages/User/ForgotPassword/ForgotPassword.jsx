@@ -3,9 +3,11 @@ import styles from "./ForgotPassword.module.css";
 import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
+import { useNotification } from "../../../hooks/useNotification";
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
+    const { showSuccess, showError } = useNotification();
     const handleClose = async () => {
         navigate("/");
     };
@@ -19,10 +21,10 @@ const ForgotPassword = () => {
         });
         console.log(response);
         if (response.data === true) {
-            alert("Đã gửi email khôi phục mật khẩu! Vui lòng kiểm tra hộp thư đến.");
+            showSuccess("Đã gửi email khôi phục mật khẩu! Vui lòng kiểm tra hộp thư đến.");
             navigate("/login");
         } else {
-            alert("Có lỗi xảy ra khi gửi email. Vui lòng thử lại.");
+            showError("Có lỗi xảy ra khi gửi email. Vui lòng thử lại.");
         }
     };
 

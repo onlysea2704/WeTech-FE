@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
 import { publicAxios } from "../../../services/axios-instance";
 import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
+import { useNotification } from "../../../hooks/useNotification";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
@@ -17,6 +18,7 @@ const RegisterForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
+    const { showError, showSuccess } = useNotification();
 
     const handleClose = () => {
         navigate("/");
@@ -41,7 +43,7 @@ const RegisterForm = () => {
         try {
             // Validate inputs
             if (isValidPhone(user.phone) === false || isValidEmail(user.email) === false) {
-                alert("Email không hợp lệ hoặc số điện thoại phải gồm đúng 10 chữ số");
+                showError("Email không hợp lệ hoặc số điện thoại phải gồm đúng 10 chữ số");
                 return;
             }
 
@@ -54,31 +56,23 @@ const RegisterForm = () => {
             });
 
             if (response.data.userId) {
-                alert("Đăng ký thành công! Vui lòng đăng nhập.");
+                showSuccess("Đăng ký thành công! Vui lòng đăng nhập.");
                 navigate("/login");
             } else {
-                alert("Đăng ký thất bại. Vui lòng thử lại.");
+                showError("Đăng ký thất bại. Vui lòng thử lại.");
             }
         } catch (error) {
             console.error(error);
-            alert(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
+            showError(error.response?.data?.message || "Lỗi đăng ký. Vui lòng thử lại.");
         } finally {
             setLoading(false);
         }
     };
 
     return (
-        <div
-            className="register-background"
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
+        <div className="register-background">
             <div className="register-wrapper">
-                <LeftLoginRegisterForm onBackgroundChange={setBackgroundImage} />
+                <LeftLoginRegisterForm />
                 <div className="register-right-form">
                     <div className="register-box">
                         <div className="register-header">

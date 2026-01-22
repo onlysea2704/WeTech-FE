@@ -5,6 +5,7 @@ import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/Lef
 import { authAxios } from "../../../services/axios-instance";
 import { publicAxios } from "../../../services/axios-instance";
 import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
+import { useNotification } from "../../../hooks/useNotification";
 
 const LoginForm = () => {
     const [loading, setLoading] = useState(false);
@@ -13,6 +14,7 @@ const LoginForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
+    const { showError } = useNotification();
     const handleClose = async () => {
         navigate("/");
     };
@@ -84,22 +86,14 @@ const LoginForm = () => {
                 navigate("/dashboard");
             }
         } catch (error) {
-            alert("Sai tài khoản hoặc mật khẩu.");
+            showError("Sai tài khoản hoặc mật khẩu.");
         }
     };
 
     return (
-        <div
-            className={styles["login-background"]}
-            style={{
-                backgroundImage: `url(${backgroundImage})`,
-                backgroundSize: "cover",
-                backgroundPosition: "center",
-                backgroundRepeat: "no-repeat",
-            }}
-        >
+        <div className={styles["login-background"]}>
             <div className={styles["login-wrapper"]}>
-                <LeftLoginRegisterForm onBackgroundChange={setBackgroundImage} />
+                <LeftLoginRegisterForm />
                 <div className={styles["login-right"]}>
                     <div className={styles["login-box"]}>
                         <div className={styles["login-header"]}>

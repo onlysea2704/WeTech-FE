@@ -3,7 +3,7 @@ import styles from "./LeftLoginRegisterForm.module.css";
 import backgroundLogin from "../../assets/background_login.png";
 import backgroundRegister from "../../assets/background_register.jpg";
 
-const LeftLoginRegisterForm = ({ onBackgroundChange }) => {
+const LeftLoginRegisterForm = () => {
     const [index, setIndex] = useState(0);
 
     const slides = [
@@ -29,20 +29,19 @@ const LeftLoginRegisterForm = ({ onBackgroundChange }) => {
         return () => clearInterval(interval);
     }, [slides.length]);
 
-    // Notify parent component of background change
-    useEffect(() => {
-        if (onBackgroundChange) {
-            onBackgroundChange(slides[index].backgroundImage);
-        }
-    }, [index, onBackgroundChange, slides]);
-
     const handleDotClick = (i) => {
         setIndex(i);
     };
 
     return (
         <div className={styles["login-left"]}>
-            <div className={styles["text-slider"]}>
+            <div
+                key={index}
+                className={styles["fixed-background"]}
+                style={{ backgroundImage: `url(${slides[index].backgroundImage})` }}
+            ></div>
+            <div className={styles["dark-overlay"]}></div>
+            <div className={styles["text-slider"]} key={`text-${index}`}>
                 <h2>{slides[index].title}</h2>
                 <p>{slides[index].content}</p>
                 <div className={styles["slider-dots"]}>

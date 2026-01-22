@@ -105,7 +105,7 @@
     color: var(--Neutral-colors-Black, #0c0c0c);
     /* Desktop/Headline5 */
     font-family: "Roboto Condensed";
-    font-size: 18px;
+    font-size: 22px;
     font-style: normal;
     font-weight: 600;
     line-height: 120%;
@@ -113,18 +113,16 @@
 }
 
 .courseAuthor {
-    color: var(--Neutral-Color-Gray-3, #666);
-    /* Desktop/Body6 */
+    color: var(--Brand-Color-Button, #2b4e9a);
     font-family: "Roboto";
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
-    /* 21px */
 }
 
 .courseAuthor span {
-    color: var(--Brand-Color-Button, #2b4e9a);
+    color: #ec9819;
 }
 
 .courseActions {
@@ -203,6 +201,7 @@
     justify-content: space-between;
     margin-bottom: 15px;
     margin-left: 20px;
+    margin-right: 20px;
     font-size: 14px;
     color: var(--text-color);
 }

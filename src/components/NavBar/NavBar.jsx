@@ -1,10 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Navbar.module.css";
+import { useCart } from "../../context/CartContext";
 import logoImage from "../../assets/logo.png";
 import avatarImage from "../../assets/avatar_user.png";
 import { Link, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
+    const { cartCount, fetchCartCount } = useCart();
     const [token, setToken] = useState(sessionStorage.getItem("authToken"));
     const [fullname, setFullname] = useState(localStorage.getItem("fullname") || "");
     const [email, setEmail] = useState(localStorage.getItem("email") || "");
@@ -23,7 +25,8 @@ const Navbar = () => {
         if (storedFullname) setFullname(storedFullname);
         if (storedEmail) setEmail(storedEmail);
         if (storedLinkImage) setLinkImage(storedLinkImage);
-    }, [token]);
+        fetchCartCount();
+    }, [fetchCartCount, token]);
 
     const toggleUserDropdown = () => {
         setIsUserDropdownOpen(!isUserDropdownOpen);
@@ -37,7 +40,9 @@ const Navbar = () => {
 
     const handleLogout = () => {
         sessionStorage.removeItem("authToken");
+        const finishedLession = localStorage.getItem("completedVideos");
         localStorage.clear();
+        if (finishedLession) localStorage.setItem("completedVideos", finishedLession);
         setToken(null);
         setFullname("");
         setEmail("");
@@ -142,20 +147,23 @@ const Navbar = () => {
                     </li>
                 </ul>
 
-                <div className={styles["navbar-right"]}>
-                    <div className={styles["search-box"]}>
-                        <i className={`fas fa-search ${styles["search-icon"]}`}></i>
-                        <input
-                            className={styles["search-navbar"]}
-                            type="text"
-                            placeholder="Tìm kiếm"
-                            name="search"
-                            onKeyDown={handleSearch}
-                        />
-                    </div>
+                <div
+                    className={`${styles["search-box"]} ${token ? styles["search-box-logged"] : styles["search-box-not-logged"]}`}
+                >
+                    <i className={`fas fa-search ${styles["search-icon"]}`}></i>
+                    <input
+                        className={styles["search-navbar"]}
+                        type="text"
+                        placeholder="Tìm kiếm"
+                        name="search"
+                        onKeyDown={handleSearch}
+                    />
+                </div>
 
-                    <Link to="/cart">
+                <div className={styles["navbar-right"]}>
+                    <Link to="/cart" className={styles["cart-link"]} title="Giỏ hàng">
                         <i className={`fas fa-shopping-cart ${styles["cart-icon"]}`}></i>
+                        {cartCount > 0 && <span className={styles["cart-badge"]}>{cartCount}</span>}
                     </Link>
 
                     {!token ? (

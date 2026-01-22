@@ -3,9 +3,11 @@ import styles from "./CourseForm.module.css";
 import { useParams } from "react-router-dom";
 import { publicAxios } from "../../services/axios-instance";
 import Popup from "../Popup/Popup";
+import { useNotification } from "../../hooks/useNotification";
 
 const CourseForm = () => {
     const { courseId } = useParams();
+    const { showSuccess, showError } = useNotification();
     const [formData, setFormData] = useState({
         courseId: "",
         title: "",
@@ -89,10 +91,10 @@ const CourseForm = () => {
             });
 
             console.log("Cập nhật thành công:", res.data);
-            alert("Lưu khóa học thành công!");
+            showSuccess("Lưu khóa học thành công!");
         } catch (error) {
             console.error("Lỗi khi lưu khóa học:", error);
-            alert("Có lỗi xảy ra khi lưu khóa học!");
+            showError("Có lỗi xảy ra khi lưu khóa học!");
         }
     };
 
