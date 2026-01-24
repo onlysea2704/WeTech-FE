@@ -28,5 +28,5 @@ export default function usePaymentSocket(userId, onMessage) {
         return () => {
             client.deactivate();
         };
-    }, [userId, onMessage]);
+    }, [userId, onMessage, baseURL]);
 }
