@@ -1,15 +1,14 @@
 /* Tổng thể container */
 .course-container {
-    max-width: 1200px;
-    margin: 0.5rem 4rem;
-    margin: 20px 40px;
-    margin-left: 70px;
+    width: 100%;
+    margin-top: 20px;
     color: #000;
     font-family: "Roboto";
-    background-color: #f9f9f9;
-    padding: 1rem 1rem;
+    background-color: #fff;
+    padding-top: 1rem;
     border-radius: 8px;
-    margin-bottom: 2rem;
+    /* margin-bottom: 2rem; */
+    box-sizing: border-box;
 }
 
 /* Phần điều hướng Tabs */

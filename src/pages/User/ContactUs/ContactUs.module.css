@@ -1,6 +1,17 @@
 /* --- Tổng thể --- */
 /* @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap'); */
 
+.contact-page {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.contact-page-main {
+    margin-top: 138px;
+    flex: 1;
+}
+
 .contact-container {
     width: 100%;
     max-width: 1100px;
@@ -8,12 +19,12 @@
     font-family: "Roboto";
 }
 
-.contact-container > h2 {
+.contact-container>h2 {
     text-align: center;
     color: #334a6d;
     font-weight: 700;
     margin-bottom: 10px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 .contact-content {
@@ -26,13 +37,13 @@
 /* --- Phần Form bên trái --- */
 .form-wrapper {
     background-color: #ffffff;
-    padding: 15px 30px;
+    padding: 15px 30px 20px 30px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
     flex: 1;
     min-width: 320px;
     max-width: 450px;
-    margin-bottom: 30px;
+    /* margin-bottom: 30px; */
 }
 
 .form-wrapper h2 {
@@ -43,7 +54,7 @@
     text-align: center;
 }
 
-.form-wrapper > p {
+.form-wrapper>p {
     color: #666;
     margin-bottom: 10px;
     text-align: center;
@@ -106,7 +117,9 @@
     flex: 1;
     min-width: 320px;
     max-width: 500px;
-    padding-top: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 12px;
+    padding: 10px 20px;
 }
 
 .info-wrapper h2 {

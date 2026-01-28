@@ -7,6 +7,7 @@ import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import Popup from "../../../components/Popup/Popup";
 import { useNotification } from "../../../hooks/useNotification";
+import { useAuth } from "../../../context/AuthContext";
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);
@@ -17,9 +18,9 @@ const Profile = () => {
     const [loading, setLoading] = useState(false);
     const { showSuccess, showError } = useNotification();
 
-    // 2. Tạo Refs để tham chiếu đến các ô input
     const fullNameRef = useRef(null);
     const phoneRef = useRef(null);
+    const { updateProfile } = useAuth();
 
     useEffect(() => {
         const fetchUserProfile = async () => {
@@ -67,6 +68,13 @@ const Profile = () => {
                     "Content-Type": "multipart/form-data",
                 },
             });
+            // Update context with new info
+            updateProfile({
+                fullname: fullname,
+                phone: phone,
+                email: email,
+                linkImage: avatar, // avatar state is already updated with objectURL or existing
+            });
             showSuccess("Cập nhật thông tin thành công!");
         } catch (error) {
             console.error("Lỗi khi cập nhật thông tin:", error);
@@ -83,77 +91,79 @@ const Profile = () => {
     };
 
     return (
-        <div>
+        <div className={styles.profilePage}>
             <Navbar />
-            <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Tài khoản của tôi" }]} />
-            <div className={styles["profile-page-container"]}>
-                <h1 className={styles["main-title"]}>MY PROFILE</h1>
+            <div className={styles["profile-page-main"]}>
+                <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Tài khoản của tôi" }]} />
+                <div className={styles["profile-page-container"]}>
+                    <h1 className={styles["main-title"]}>MY PROFILE</h1>
 
-                <div className={styles["avatar-wrapper"]}>
-                    <img src={avatar} alt="User Avatar" className={styles["avatar-img"]} />
-                    <label htmlFor="avatar-upload" className={styles["camera-icon"]}>
-                        <i className="fa-solid fa-camera"></i>
-                    </label>
-                    <input
-                        id="avatar-upload"
-                        type="file"
-                        accept="image/*"
-                        onChange={handleAvatarChange}
-                        style={{ display: "none" }}
-                    />
+                    <div className={styles["avatar-wrapper"]}>
+                        <img src={avatar} alt="User Avatar" className={styles["avatar-img"]} />
+                        <label htmlFor="avatar-upload" className={styles["camera-icon"]}>
+                            <i className="fa-solid fa-camera"></i>
+                        </label>
+                        <input
+                            id="avatar-upload"
+                            type="file"
+                            accept="image/*"
+                            onChange={handleAvatarChange}
+                            style={{ display: "none" }}
+                        />
+                    </div>
+
+                    <form className={styles["profile-form-card"]} onSubmit={handleSubmit}>
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="fullName">Họ và Tên</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input
+                                    id="fullName"
+                                    type="text"
+                                    value={fullname}
+                                    ref={fullNameRef} // 3. Gán ref vào input
+                                    onChange={(e) => setFullname(e.target.value)}
+                                />
+                                {/* 4. Thêm sự kiện onClick cho icon */}
+                                <i
+                                    className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
+                                    onClick={() => handleFocusInput(fullNameRef)}
+                                    style={{ cursor: "pointer" }} // Thêm style pointer để người dùng biết click được
+                                ></i>
+                            </div>
+                        </div>
+
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="phone">Phone</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input
+                                    id="phone"
+                                    type="tel"
+                                    value={phone}
+                                    ref={phoneRef} // 3. Gán ref vào input
+                                    onChange={(e) => setPhone(e.target.value)}
+                                />
+                                {/* 4. Thêm sự kiện onClick cho icon */}
+                                <i
+                                    className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
+                                    onClick={() => handleFocusInput(phoneRef)}
+                                    style={{ cursor: "pointer" }}
+                                ></i>
+                            </div>
+                        </div>
+
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="email">Email</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input id="email" type="email" value={email} readOnly />
+                                {/* Email thường không sửa được nên không cần icon edit */}
+                            </div>
+                        </div>
+
+                        <button type="submit" className={styles["save-button"]}>
+                            Lưu
+                        </button>
+                    </form>
                 </div>
-
-                <form className={styles["profile-form-card"]} onSubmit={handleSubmit}>
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="fullName">Họ và Tên</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input
-                                id="fullName"
-                                type="text"
-                                value={fullname}
-                                ref={fullNameRef} // 3. Gán ref vào input
-                                onChange={(e) => setFullname(e.target.value)}
-                            />
-                            {/* 4. Thêm sự kiện onClick cho icon */}
-                            <i
-                                className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
-                                onClick={() => handleFocusInput(fullNameRef)}
-                                style={{ cursor: "pointer" }} // Thêm style pointer để người dùng biết click được
-                            ></i>
-                        </div>
-                    </div>
-
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="phone">Phone</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input
-                                id="phone"
-                                type="tel"
-                                value={phone}
-                                ref={phoneRef} // 3. Gán ref vào input
-                                onChange={(e) => setPhone(e.target.value)}
-                            />
-                            {/* 4. Thêm sự kiện onClick cho icon */}
-                            <i
-                                className={`fa-solid fa-pen-to-square ${styles["edit-icon"]}`}
-                                onClick={() => handleFocusInput(phoneRef)}
-                                style={{ cursor: "pointer" }}
-                            ></i>
-                        </div>
-                    </div>
-
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="email">Email</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input id="email" type="email" value={email} readOnly />
-                            {/* Email thường không sửa được nên không cần icon edit */}
-                        </div>
-                    </div>
-
-                    <button type="submit" className={styles["save-button"]}>
-                        Lưu
-                    </button>
-                </form>
             </div>
             <Footer />
             {loading && <Popup message="Đang cập nhật thông tin cá nhân" />}

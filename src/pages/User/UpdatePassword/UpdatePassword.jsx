@@ -15,10 +15,10 @@ const UpdatePassword = () => {
                 <LeftLoginRegisterForm />
                 <div className="update-password-right">
                     <div className="update-password-box">
-                        <div class="update-password-header">
+                        <div className="update-password-header">
                             <h2>Đổi Mật Khẩu</h2>
-                            <button class="close-btn" onClick={handleClose}>
-                                <i class="fas fa-times"></i>
+                            <button className="close-btn" onClick={handleClose}>
+                                <i className="fas fa-times"></i>
                             </button>
                         </div>
                         <p className="register-text">Vui lòng tạo mật khẩu mới</p>

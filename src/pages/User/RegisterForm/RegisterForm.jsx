@@ -133,7 +133,7 @@ const RegisterForm = () => {
                             </button>
                         </div>
                         <button className="btn-register" onClick={register} disabled={loading}>
-                            {loading ? "Đang xử lý..." : "Tạo tài khoản"}
+                            {loading ? <i className="fas fa-spinner fa-spin"></i> : "Tạo tài khoản"}
                         </button>
 
                         <div className="divider">

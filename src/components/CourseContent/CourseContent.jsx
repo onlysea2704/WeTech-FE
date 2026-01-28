@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { publicAxios } from "../../services/axios-instance";
 import styles from "./CourseContent.module.css";
+import CourseContentSkeleton from "../Skeleton/CourseContentSkeleton";
+import { useBuyCourse } from "../../utils/buyCourseHelper";
+import { useDetailCourse } from "../../context/DetailCourseContext";
 
 // --- Component con cho cột trái ---
 // --- Component con cho cột trái ---
-const SyllabusAccordion = ({ section, isOpen, onToggle, isPurchased }) => {
+const SyllabusAccordion = ({ section, isOpen, onToggle, courseDetail, isPurchased }) => {
+    const { handleBuyNow } = useBuyCourse();
+    const { onPlayVideo } = useDetailCourse();
+    console.log(section);
+
     // 👉 Hàm định dạng tổng thời lượng
     const getTotalDurationFormatted = (videos = []) => {
         const totalSeconds = videos.reduce((sum, v) => sum + (v.duration || 0), 0);
@@ -50,8 +57,30 @@ const SyllabusAccordion = ({ section, isOpen, onToggle, isPurchased }) => {
     };
 
     const handleDownload = (link) => {
+        if (!isPurchased) handleBuyNow(courseDetail);
+
         if (link) {
-            window.location.href = link;
+            window.open(link, "_blank", "noopener,noreferrer");
+        }
+    };
+
+    const handleStartLearning = (item) => {
+        if (!isPurchased) {
+            handleBuyNow(courseDetail);
+            return;
+        }
+
+        if (onPlayVideo) {
+            onPlayVideo(item);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else if (item?.link) {
+            window.open(item.link, "_blank", "noopener,noreferrer");
+        }
+    };
+
+    const handleStartLearningVideo = (link) => {
+        if (link) {
+            window.open(link, "_blank", "noopener,noreferrer");
         }
     };
 
@@ -83,7 +112,13 @@ const SyllabusAccordion = ({ section, isOpen, onToggle, isPurchased }) => {
                                     </div>
 
                                     <div className={styles["lesson-actions"]}>
-                                        <button className={styles["start-learning-btn"]}>Vào học</button>
+                                        <button
+                                            className={styles["start-learning-btn"]}
+                                            // disabled={!isPurchased}
+                                            onClick={() => handleStartLearning(item)}
+                                        >
+                                            Vào học
+                                        </button>
                                         <span className={styles["lesson-duration"]}>
                                             {formatVideoDuration(item?.duration)}
                                         </span>
@@ -108,8 +143,8 @@ const SyllabusAccordion = ({ section, isOpen, onToggle, isPurchased }) => {
                                         {/* <span className="document-size">5.2 MB</span> */}
                                         <button
                                             className={styles["download-text-btn"]}
-                                            disabled={!isPurchased}
-                                            onClick={() => isPurchased && handleDownload(item?.link)}
+                                            // disabled={!isPurchased}
+                                            onClick={() => handleDownload(item?.link)}
                                         >
                                             Download
                                         </button>
@@ -130,11 +165,13 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
     const [openSyllabusSection, setOpenSyllabusSection] = useState(1);
     const [videoResponse, setVideoResponse] = useState([]);
     const [documentResponse, setDocumentResponse] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     // Fetch course sections
     useEffect(() => {
         if (!courseDetails) return;
         const fetchSections = async () => {
+            setIsLoading(true);
             try {
                 const videoRes = await publicAxios.get(
                     `/api/video/find-by-courseId?courseId=${courseDetails?.courseId}`,
@@ -196,6 +233,8 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
                 setMergedSections(Array.from(sectionsMap.values()));
             } catch (error) {
                 console.error("Error fetching course sections:", error);
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -207,6 +246,16 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
         setOpenSyllabusSection(openSyllabusSection === id ? null : id);
     };
 
+    if (isLoading) {
+        return (
+            <div className={styles["content-layout"]}>
+                <div className={styles["syllabus-column"]}>
+                    <CourseContentSkeleton />
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className={styles["content-layout"]}>
             {/* Combined Column */}
@@ -217,6 +266,7 @@ const CourseContent = ({ courseDetails, isPurchased }) => {
                         section={section}
                         isOpen={openSyllabusSection === section.sectionId}
                         onToggle={() => handleSyllabusToggle(section.sectionId)}
+                        courseDetail={courseDetails}
                         isPurchased={isPurchased}
                     />
                 ))}

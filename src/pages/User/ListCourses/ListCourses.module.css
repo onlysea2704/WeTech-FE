@@ -1,16 +1,18 @@
 .courses-page {
-    padding: 0 67px 10px 67px;
+    padding: 0 67px 0 67px;
+    margin-top: 138px;
 }
 
 .category-bar {
     margin-top: 16px;
     display: flex;
-    gap: 10px;
+    gap: 5px;
     justify-content: space-between;
     flex-wrap: wrap;
 }
 
 .category-btn {
+    min-width: calc(100% / 9);
     border: 1px solid #ccc;
     background: white;
     border-radius: 8px;
@@ -19,7 +21,7 @@
     font-size: 14px;
     color: var(--Style1, #5f5f64);
     text-align: center;
-    font-family: Roboto;
+    font-family: "Roboto";
 }
 
 .category-btn:hover {

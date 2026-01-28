@@ -49,7 +49,7 @@ const Faq = () => {
 
     return (
         <div className={styles["faq-container"]}>
-            <h2 className={styles["faq-title"]}>CÂU HỎI THƯỜNG GẶP</h2>
+            <h3 className={styles["faq-title"]}>CÂU HỎI THƯỜNG GẶP</h3>
             <div className={styles["faq-list"]}>
                 {faqData.map((item, index) => (
                     <FaqItem key={index} item={item} index={index} openIndex={openIndex} setOpenIndex={setOpenIndex} />

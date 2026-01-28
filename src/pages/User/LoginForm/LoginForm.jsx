@@ -6,6 +6,7 @@ import { authAxios } from "../../../services/axios-instance";
 import { publicAxios } from "../../../services/axios-instance";
 import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
 import { useNotification } from "../../../hooks/useNotification";
+import { useAuth } from "../../../context/AuthContext";
 
 const LoginForm = () => {
     const [loading, setLoading] = useState(false);
@@ -15,6 +16,7 @@ const LoginForm = () => {
     const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
     const { showError } = useNotification();
+    const { login: contextLogin } = useAuth();
     const handleClose = async () => {
         navigate("/");
     };
@@ -66,6 +68,7 @@ const LoginForm = () => {
     }, []);
 
     const login = async (email, password) => {
+        setLoading(true);
         try {
             const token = await publicAxios.post("/api/auth/login", {
                 username: email,
@@ -74,12 +77,12 @@ const LoginForm = () => {
             });
             sessionStorage.setItem("authToken", token.data.token);
             const userInfo = await authAxios.get("/api/auth/get-info");
-            localStorage.setItem("fullName", userInfo.data.fullname);
-            localStorage.setItem("email", userInfo.data.email);
-            if (userInfo.data.linkImage) {
-                localStorage.setItem("linkImage", userInfo.data.linkImage);
-            }
+
+            // Use context login
+            contextLogin(userInfo.data, token.data.token);
+
             localStorage.setItem("userId", userInfo.data.userId);
+
             if (userInfo.data.role === "USER") {
                 navigate("/");
             } else {
@@ -87,6 +90,8 @@ const LoginForm = () => {
             }
         } catch (error) {
             showError("Sai tài khoản hoặc mật khẩu.");
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -99,7 +104,7 @@ const LoginForm = () => {
                         <div className={styles["login-header"]}>
                             <h2>Đăng nhập</h2>
                             <button className={styles["close-btn"]} onClick={handleClose}>
-                                <i class="fas fa-times"></i>
+                                <i className="fas fa-times"></i>
                             </button>
                         </div>
                         <p className={styles["register-text"]}>
@@ -112,6 +117,7 @@ const LoginForm = () => {
                                 placeholder="Email / Tên đăng nhập"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
+                                required
                             />
                             <div className={styles["password-input-container"]}>
                                 <input
@@ -120,6 +126,7 @@ const LoginForm = () => {
                                     placeholder="Mật khẩu"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
+                                    required
                                 />
                                 <button
                                     type="button"
@@ -134,7 +141,7 @@ const LoginForm = () => {
                                 <Link to="/forgot-password">Quên mật khẩu?</Link>{" "}
                             </p>
                             <button type="submit" className={styles["btn-login"]} disabled={loading}>
-                                Đăng Nhập
+                                {loading ? <i className="fas fa-spinner fa-spin"></i> : "Đăng Nhập"}
                             </button>
                         </form>
                         <div className={styles.divider}>

@@ -11,8 +11,7 @@
 
 /* ---- FAQ Component Styling ---- */
 .faq-container {
-    max-width: 800px;
-    width: 58.5%;
+    width: 100%;
     background-color: #ffffff;
     padding-top: 10px;
     border-radius: 10px;

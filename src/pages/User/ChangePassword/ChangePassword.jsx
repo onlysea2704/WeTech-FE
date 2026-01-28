@@ -68,82 +68,84 @@ const ChangePassword = () => {
     };
 
     return (
-        <div>
+        <div className={styles.changePassword}>
             <Navbar />
-            <Breadcrumb
-                items={[
-                    { label: "Trang chủ", link: "/" },
-                    { label: "Tài khoản", link: "/profile" },
-                    { label: "Đổi mật khẩu" },
-                ]}
-            />
-            <div className={styles["profile-page-container"]}>
-                <h1 className={styles["main-title"]}>ĐỔI MẬT KHẨU</h1>
+            <div className={styles["profile-page-main"]}>
+                <Breadcrumb
+                    items={[
+                        { label: "Trang chủ", link: "/" },
+                        { label: "Tài khoản", link: "/profile" },
+                        { label: "Đổi mật khẩu" },
+                    ]}
+                />
+                <div className={styles["profile-page-container"]}>
+                    <h1 className={styles["main-title"]}>ĐỔI MẬT KHẨU</h1>
 
-                {/* Form Card - Tận dụng class cũ để giữ giao diện */}
-                <form className={styles["profile-form-card"]} onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
-                    {/* 1. Mật khẩu hiện tại */}
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="currentPassword">Mật khẩu hiện tại</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input
-                                id="currentPassword"
-                                type={showCurrent ? "text" : "password"} // Toggle type
-                                value={currentPassword}
-                                onChange={(e) => setCurrentPassword(e.target.value)}
+                    {/* Form Card - Tận dụng class cũ để giữ giao diện */}
+                    <form className={styles["profile-form-card"]} onSubmit={handleSubmit} style={{ marginTop: "20px" }}>
+                        {/* 1. Mật khẩu hiện tại */}
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="currentPassword">Mật khẩu hiện tại</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input
+                                    id="currentPassword"
+                                    type={showCurrent ? "text" : "password"} // Toggle type
+                                    value={currentPassword}
+                                    onChange={(e) => setCurrentPassword(e.target.value)}
                                 // placeholder="Nhập mật khẩu hiện tại"
-                            />
-                            <i
-                                className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
-                                onClick={() => setShowCurrent(!showCurrent)}
-                                style={{ cursor: "pointer" }}
-                                title={showCurrent ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
-                            ></i>
+                                />
+                                <i
+                                    className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
+                                    onClick={() => setShowCurrent(!showCurrent)}
+                                    style={{ cursor: "pointer" }}
+                                    title={showCurrent ? "Ẩn mật khẩu" : "Hiện mật khẩu"}
+                                ></i>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* 2. Mật khẩu mới */}
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="newPassword">Mật khẩu mới</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input
-                                id="newPassword"
-                                type={showNew ? "text" : "password"}
-                                value={newPassword}
-                                onChange={(e) => setNewPassword(e.target.value)}
+                        {/* 2. Mật khẩu mới */}
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="newPassword">Mật khẩu mới</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input
+                                    id="newPassword"
+                                    type={showNew ? "text" : "password"}
+                                    value={newPassword}
+                                    onChange={(e) => setNewPassword(e.target.value)}
                                 // placeholder="Nhập mật khẩu mới"
-                            />
-                            <i
-                                className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
-                                onClick={() => setShowNew(!showNew)}
-                                style={{ cursor: "pointer" }}
-                            ></i>
+                                />
+                                <i
+                                    className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
+                                    onClick={() => setShowNew(!showNew)}
+                                    style={{ cursor: "pointer" }}
+                                ></i>
+                            </div>
                         </div>
-                    </div>
 
-                    {/* 3. Xác nhận mật khẩu mới */}
-                    <div className={styles["form-group"]}>
-                        <label htmlFor="confirmPassword">Xác nhận mật khẩu mới</label>
-                        <div className={styles["input-wrapper"]}>
-                            <input
-                                id="confirmPassword"
-                                type={showConfirm ? "text" : "password"}
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
+                        {/* 3. Xác nhận mật khẩu mới */}
+                        <div className={styles["form-group"]}>
+                            <label htmlFor="confirmPassword">Xác nhận mật khẩu mới</label>
+                            <div className={styles["input-wrapper"]}>
+                                <input
+                                    id="confirmPassword"
+                                    type={showConfirm ? "text" : "password"}
+                                    value={confirmPassword}
+                                    onChange={(e) => setConfirmPassword(e.target.value)}
                                 // placeholder="Nhập lại mật khẩu mới"
-                            />
-                            <i
-                                className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
-                                onClick={() => setShowConfirm(!showConfirm)}
-                                style={{ cursor: "pointer" }}
-                            ></i>
+                                />
+                                <i
+                                    className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
+                                    onClick={() => setShowConfirm(!showConfirm)}
+                                    style={{ cursor: "pointer" }}
+                                ></i>
+                            </div>
                         </div>
-                    </div>
 
-                    <button type="submit" className={styles["save-button"]}>
-                        Cập nhật mật khẩu
-                    </button>
-                </form>
+                        <button type="submit" className={styles["save-button"]}>
+                            Cập nhật mật khẩu
+                        </button>
+                    </form>
+                </div>
             </div>
             <Footer />
             {loading && <Popup message="Đang xử lý..." />}

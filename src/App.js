@@ -1,5 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
 import LoginForm from "./pages/User/LoginForm/LoginForm";
 import RegisterForm from "./pages/User/RegisterForm/RegisterForm";
 import ForgotPassword from "./pages/User/ForgotPassword/ForgotPassword";
@@ -94,7 +95,9 @@ function App() {
     return (
         <CartProvider>
             <NotificationProvider>
-                <AppContent />
+                <AuthProvider>
+                    <AppContent />
+                </AuthProvider>
             </NotificationProvider>
         </CartProvider>
     );
