@@ -1,7 +1,19 @@
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
 /* Phần dải màu xanh đậm ở trên */
 .navbar-top-bar {
     height: 38px;
     background: #1b154b;
+}
+
+.navbar-container-main {
+    background-color: white;
 }
 
 /* Phần navbar chính */
@@ -29,26 +41,31 @@
 
 .navbar-menu {
     display: flex;
-    justify-content: center;
     align-items: center;
-    list-style: none;
-    gap: 24px;
-    margin: 0;
-    padding: 0;
+    gap: 25px;
+    /* Space between logo and links */
     color: #1b154b;
     font-size: 17px;
 }
 
-.navbar-menu li a {
+.navbar-links {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-item a {
     text-decoration: none;
     color: #1b154b;
     font-family: "Roboto Condensed";
     /* font-weight: 600; */
 }
 
-.navbar-menu li {
+.nav-item {
     cursor: pointer;
     position: relative;
+    /* font-weight: 600; */
 }
 
 .dropdown-toggle {
@@ -59,12 +76,18 @@
     color: #ff782d;
 }
 
-.navbar-menu li:hover a {
+.nav-item:hover a,
+.nav-item:hover .dropdown-toggle {
     color: #ff782d;
 }
 
-.menu-item-dropdown:hover .dropdown-menu a {
+.menu-item-dropdown:hover .dropdown-menu ul li a {
     color: black;
+}
+
+.menu-item-dropdown:hover .dropdown-menu ul li:hover a {
+    color: black;
+    /* Or hover color specific to dropdown item */
 }
 
 .navbar-right {
@@ -76,12 +99,14 @@
 .search-box {
     position: relative;
     background: #f1f1f1;
-    border-radius: 20px;
-    padding: 4px 15px;
+    border-radius: 60px;
+    border: 1px solid #9194ac;
+    padding: 7px 18px;
     display: flex;
     align-items: center;
     margin: 0 12px;
-    /* max-width: 20%; */
+    flex: 1;
+    margin: 0 20px 0 30px;
 }
 
 .search-box-logged {
@@ -97,7 +122,8 @@
     background: transparent;
     padding: 6px 8px;
     outline: none;
-    width: 120px;
+    /* width: 120px; */
+    flex: 1;
     font-size: 16px;
 }
 

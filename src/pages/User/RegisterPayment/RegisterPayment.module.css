@@ -1,15 +1,25 @@
+.registerPaymentMain {
+    margin-top: 138px;
+}
+
 /* Body */
 .registerContainer {
     display: flex;
     gap: 40px;
     margin: 0 auto;
-    padding: 0 40px;
+    padding: 0 140px;
     font-family: "Roboto";
 }
 
-.registerLeft,
+.registerLeft {
+    flex: 2;
+}
+
 .registerRight {
     flex: 1;
+}
+
+.registerRight {
     background: #fff;
     padding: 20px;
     border-radius: 12px;
@@ -18,15 +28,20 @@
 
 .registerLeft h3 {
     font-family: "Roboto Condensed";
+    font-size: 20px;
 }
 
 .registerRight h3 {
     font-family: "Roboto Condensed";
+    margin: 0;
+    font-size: 20px;
 }
 
 /* Course card */
 .courseCardPayment {
     display: flex;
+    align-items: center;
+    justify-content: center;
     gap: 15px;
     padding: 15px;
     border-radius: 12px;
@@ -36,8 +51,8 @@
 }
 
 .courseImg {
-    width: 160px;
-    height: 130px;
+    width: 140px;
+    height: 120px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -51,6 +66,7 @@
 
 .courseHeaderPayment {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: flex-start;
 }
@@ -74,7 +90,7 @@
 .courseAuthor {
     color: var(--Neutral-Color-Gray-3, #666);
     font-family: "Roboto";
-    font-size: 16px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
@@ -92,12 +108,16 @@
 
 .coursePrices {
     text-align: right;
+    display: flex;
+    align-items: start;
+    gap: 5px;
 }
 
 .price {
     font-weight: bold;
     color: #000;
     display: block;
+    font-size: 19px;
 }
 
 .oldPrice {
@@ -411,6 +431,8 @@
 .selectInput {
     width: 100%;
     padding: 10px;
+    padding-right: 30px;
+    /* Ensure text doesn't overlap with arrow */
     margin-bottom: 12px;
     border: 1px solid #ddd;
     border-radius: 6px;
@@ -418,6 +440,15 @@
     font-family: "Roboto";
     background-color: #fff;
     cursor: pointer;
+
+    /* Custom Arrow */
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
 }
 
 .selectInput:disabled {

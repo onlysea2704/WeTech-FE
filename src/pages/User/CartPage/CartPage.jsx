@@ -7,6 +7,7 @@ import { authAxios } from "../../../services/axios-instance";
 import styles from "./CartPage.module.css";
 import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
 import { useNotification } from "../../../hooks/useNotification";
+import Footer from "../../../components/Footer/Footer";
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount).replace("₫", "đ");
@@ -106,96 +107,102 @@ const CartPage = () => {
         return acc + course.salePrice;
     }, 0);
     return (
-        <>
+        <div className={styles.cartPage}>
             <Navbar />
-            <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Tài khoản của tôi" }]} />
-            <div className={styles.cartContainer}>
-                <div className={styles.cartListSection}>
-                    <h2 className={styles.sectionTitle}>Giỏ hàng</h2>
+            <div className={styles.cartPageContainer}>
+                <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Tài khoản của tôi" }]} />
+                <div className={styles.cartContainer}>
+                    <div className={styles.cartListSection}>
+                        <h2 className={styles.sectionTitle}>Giỏ hàng</h2>
 
-                    {loading ? (
-                        Array.from({ length: 3 }).map((_, index) => <CourseListSkeleton key={index} />)
-                    ) : courses.length === 0 ? (
-                        <p>Giỏ hàng của bạn đang trống.</p>
-                    ) : (
-                        courses.map((item, index) => {
-                            if (!item) return null;
-                            return (
-                                <div key={index} className={styles.courseCardPayment}>
-                                    <img
-                                        src={item.linkImage || "https://via.placeholder.com/150"}
-                                        alt={item.title}
-                                        className={styles.courseImg}
-                                    />
-                                    <div className={styles.courseInfoPayment}>
-                                        <div className={styles.courseHeaderPayment}>
-                                            <div>
-                                                <p className={styles.courseTitle}>{item.title}</p>
-                                                <p className={styles.courseAuthor}>
-                                                    Tác giả: <span>{item.author}</span>
-                                                </p>
-                                                <div className={styles.courseActions}>
-                                                    <span
-                                                        className={styles.actionLink}
-                                                        onClick={() => handleBuyCourse(item?.courseId)}
-                                                    >
-                                                        Mua khoá học
-                                                    </span>
-                                                    <span style={{ color: "#ddd" }}>|</span>
-                                                    {/* Bắt sự kiện Click để xóa */}
-                                                    <span
-                                                        className={styles.actionDelete}
-                                                        style={{ marginLeft: "10px" }}
-                                                        onClick={() => handleDelete(item?.courseId)}
-                                                    >
-                                                        Xoá
-                                                    </span>
+                        {loading ? (
+                            Array.from({ length: 3 }).map((_, index) => <CourseListSkeleton key={index} />)
+                        ) : courses.length === 0 ? (
+                            <p>Giỏ hàng của bạn đang trống.</p>
+                        ) : (
+                            courses.map((item, index) => {
+                                if (!item) return null;
+                                return (
+                                    <div key={index} className={styles.courseCardPayment}>
+                                        <img
+                                            src={item.linkImage || "https://via.placeholder.com/150"}
+                                            alt={item.title}
+                                            className={styles.courseImg}
+                                        />
+                                        <div className={styles.courseInfoPayment}>
+                                            <div className={styles.courseHeaderPayment}>
+                                                <div>
+                                                    <p className={styles.courseTitle}>{item.title}</p>
+                                                    <p className={styles.courseAuthor}>
+                                                        Tác giả: <span>{item.author}</span>
+                                                    </p>
+                                                    <div className={styles.courseActions}>
+                                                        <span
+                                                            className={styles.actionLink}
+                                                            onClick={() => handleBuyCourse(item?.courseId)}
+                                                        >
+                                                            Mua khoá học
+                                                        </span>
+                                                        <span style={{ color: "#ddd" }}>|</span>
+                                                        {/* Bắt sự kiện Click để xóa */}
+                                                        <span
+                                                            className={styles.actionDelete}
+                                                            style={{ marginLeft: "10px" }}
+                                                            onClick={() => handleDelete(item?.courseId)}
+                                                        >
+                                                            Xoá
+                                                        </span>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div className={styles.coursePrices}>
-                                                <span className={styles.price}>{formatCurrency(item.salePrice)}</span>
-                                                {item.realPrice > item.salePrice && (
-                                                    <span className={styles.oldPrice}>
-                                                        {formatCurrency(item.realPrice)}
+                                                <div className={styles.coursePrices}>
+                                                    <span className={styles.price}>
+                                                        {formatCurrency(item.salePrice)}
                                                     </span>
-                                                )}
+                                                    {item.realPrice > item.salePrice && (
+                                                        <span className={styles.oldPrice}>
+                                                            {formatCurrency(item.realPrice)}
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            );
-                        })
-                    )}
-                </div>
+                                );
+                            })
+                        )}
+                    </div>
 
-                <div className={styles.paymentSection}>
-                    <h2 className={styles.sectionTitle}>Thanh toán</h2>
-                    <div className={styles.paymentBox}>
-                        <div className={styles.paymentRow}>
-                            <span>Số lượng khoá học</span>
-                            <span>{courses.length} Khoá học</span>
-                        </div>
-                        <div className={styles.paymentRow}>
-                            <span>Số tiền</span>
-                            <span>{formatCurrency(totalRealPrice)}</span>
-                        </div>
-                        <div className={styles.paymentRow}>
-                            <span>Giảm giá</span>
-                            <span>{formatCurrency(totalDiscount)}</span>
-                        </div>
-                        <div className={styles.paymentDivider}></div>
-                        <div className={`${styles.paymentRow} ${styles.paymentTotal}`}>
-                            <span>Tổng</span>
-                            <span>{formatCurrency(totalAmount)}</span>
-                        </div>
+                    <div className={styles.paymentSection}>
+                        <h2 className={styles.sectionTitle}>Thanh toán</h2>
+                        <div className={styles.paymentBox}>
+                            <div className={styles.paymentRow}>
+                                <span>Số lượng khoá học</span>
+                                <span>{courses.length} Khoá học</span>
+                            </div>
+                            <div className={styles.paymentRow}>
+                                <span>Số tiền</span>
+                                <span>{formatCurrency(totalRealPrice)}</span>
+                            </div>
+                            <div className={styles.paymentRow}>
+                                <span>Giảm giá</span>
+                                <span>{formatCurrency(totalDiscount)}</span>
+                            </div>
+                            <div className={styles.paymentDivider}></div>
+                            <div className={`${styles.paymentRow} ${styles.paymentTotal}`}>
+                                <span>Tổng</span>
+                                <span>{formatCurrency(totalAmount)}</span>
+                            </div>
 
-                        <button className={styles.checkoutBtn} onClick={handleCheckout}>
-                            Thanh Toán
-                        </button>
+                            <button className={styles.checkoutBtn} onClick={handleCheckout}>
+                                Thanh Toán
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </>
+
+            <Footer />
+        </div>
     );
 };
 

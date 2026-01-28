@@ -3,7 +3,17 @@
     /* Dark blue base */
     color: white;
     padding: 60px 80px 0 80px;
+    margin-top: 50px;
 }
+
+/* @media (min-width: 1700px) {
+    .footer {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+    }
+} */
 
 .footer-main {
     display: flex;
@@ -126,7 +136,7 @@
 }
 
 /* Contact Specific Styles */
-.menu-group li > div:first-child {
+.menu-group li>div:first-child {
     /* Container for contact icons */
     display: flex;
     align-items: center;
@@ -136,13 +146,13 @@
     flex-shrink: 0;
 }
 
-.menu-group li > div img {
+.menu-group li>div img {
     max-width: 100%;
     max-height: 100%;
     object-fit: contain;
 }
 
-.menu-group li > div:last-child p:first-child {
+.menu-group li>div:last-child p:first-child {
     /* Label (e.g., Địa chỉ) */
     font-weight: 600;
     margin: 0 0 4px 0;
@@ -150,7 +160,7 @@
     font-size: 12px;
 }
 
-.menu-group li > div:last-child p:last-child {
+.menu-group li>div:last-child p:last-child {
     /* Content */
     margin: 0;
     line-height: 1.4;

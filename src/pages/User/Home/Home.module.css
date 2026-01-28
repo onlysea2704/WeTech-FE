@@ -17,7 +17,7 @@
     box-sizing: border-box;
     overflow-x: hidden;
     flex-direction: column;
-    /* 👉 xếp phần tử theo chiều dọc */
+    margin-bottom: -50px;
 }
 
 .register-section::before {
@@ -39,11 +39,12 @@
 }
 
 .register-section p {
+    width: 55%;
     color: white;
     font-family: "Poppins";
     text-shadow: 0 0 8px rgba(0, 0, 0, 0.8);
     text-align: center;
-    margin: 20px 250px;
+    margin: 20px 20px;
     font-size: 36px;
     font-style: normal;
     font-weight: 700;
@@ -60,5 +61,5 @@
     border-radius: 8px;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s ease;
 }

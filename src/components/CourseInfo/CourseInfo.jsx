@@ -11,13 +11,13 @@ const CourseInfo = ({ courseDetail, isPurchased }) => {
         <div className={styles["course-container"]}>
             <div className={styles["course-tabs"]}>
                 <button
-                    className={`${styles["tab-button"]} ${activeTab === "intro" ? styles.active : ""}`}
+                    className={`${styles["tab-button"]} ${activeTab === "intro" ? styles.active : ""} `}
                     onClick={() => setActiveTab("intro")}
                 >
                     Giới Thiệu
                 </button>
                 <button
-                    className={`${styles["tab-button"]} ${activeTab === "content" ? styles.active : ""}`}
+                    className={`${styles["tab-button"]} ${activeTab === "content" ? styles.active : ""} `}
                     onClick={() => setActiveTab("content")}
                 >
                     Nội dung

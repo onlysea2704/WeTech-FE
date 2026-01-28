@@ -73,7 +73,7 @@ const MyCourses = () => {
     }, []);
 
     return (
-        <div>
+        <div className={styles.myCourses}>
             <Navbar />
             <div className={styles["courses-page"]}>
                 <Banner />

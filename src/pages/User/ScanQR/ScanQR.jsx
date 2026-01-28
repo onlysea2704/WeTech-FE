@@ -85,97 +85,101 @@ const ScanQR = () => {
     return (
         <div>
             <Navbar />
-            <Breadcrumb
-                items={[
-                    { label: "Trang chủ", link: "/" },
-                    { label: "Khóa học", link: "/list-courses" },
-                    { label: "Thanh toán" },
-                ]}
-            />
-            <PaymentHeader currentStep={3} isSuccess={isSuccess} />
-            <div className={styles["payment-container-qr"]}>
-                <table className={styles["order-info"]}>
-                    <caption>Thông tin thanh toán</caption>
-                    <tbody>
-                        <tr className={styles["info-item-qr-page"]}>
-                            <td>Nhà cung cấp</td>
-                            <td>LE THI LAN</td>
-                        </tr>
-                        <tr className={styles["info-item-qr-page"]}>
-                            <td>Số điện thoại</td>
-                            <Tooltip text="Nhấn để sao chép" copyValue="0989466992">
-                                <td>0989466992</td>
-                            </Tooltip>
-                        </tr>
-                        <tr className={styles["info-item-qr-page"]}>
-                            <td>Ngân hàng</td>
-                            <td>MB Bank</td>
-                        </tr>
-                        <tr className={styles["info-item-qr-page"]}>
-                            <td>Nội dung</td>
-                            <Tooltip text="Nhấn để sao chép" copyValue={code}>
-                                <td>{code}</td>
-                            </Tooltip>
-                        </tr>
-                        <tr className={styles.amount}>
-                            <td>Số tiền</td>
-                            <td>{formatPrice(amount)}đ</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td colSpan="2">
-                                <div className={styles["countdown"]}>
-                                    <p>Đơn hàng sẽ hết hạn sau:</p>
-                                    <div className={styles["timer"]}>
-                                        <div className={styles["time-box"]}>
-                                            <span className={styles["time-value"]}>
-                                                {minutes.toString().padStart(2, "0")}
-                                            </span>
-                                            <span className={styles["time-label"]}>Phút</span>
+            <div className={styles["scan-qr-container"]}>
+                <Breadcrumb
+                    items={[
+                        { label: "Trang chủ", link: "/" },
+                        { label: "Khóa học", link: "/list-courses" },
+                        { label: "Thanh toán" },
+                    ]}
+                />
+                <PaymentHeader currentStep={3} isSuccess={isSuccess} />
+                <div className={styles["payment-container-qr"]}>
+                    <div className={styles["payment-info-container"]}>
+                        <h3>Thông tin thanh toán</h3>
+                        <table className={styles["order-info"]}>
+                            <tbody>
+                                <tr className={styles["info-item-qr-page"]}>
+                                    <td>Nhà cung cấp</td>
+                                    <td>LE THI LAN</td>
+                                </tr>
+                                <tr className={styles["info-item-qr-page"]}>
+                                    <td>Số điện thoại</td>
+                                    <Tooltip text="Nhấn để sao chép" copyValue="0989466992">
+                                        <td>0989466992</td>
+                                    </Tooltip>
+                                </tr>
+                                <tr className={styles["info-item-qr-page"]}>
+                                    <td>Ngân hàng</td>
+                                    <td>MB Bank</td>
+                                </tr>
+                                <tr className={styles["info-item-qr-page"]}>
+                                    <td>Nội dung</td>
+                                    <Tooltip text="Nhấn để sao chép" copyValue={code}>
+                                        <td>{code}</td>
+                                    </Tooltip>
+                                </tr>
+                                <tr className={styles.amount}>
+                                    <td>Số tiền</td>
+                                    <td>{formatPrice(amount)}đ</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colSpan="2">
+                                        <div className={styles["countdown"]}>
+                                            <p>Đơn hàng sẽ hết hạn sau:</p>
+                                            <div className={styles["timer"]}>
+                                                <div className={styles["time-box"]}>
+                                                    <span className={styles["time-value"]}>
+                                                        {minutes.toString().padStart(2, "0")}
+                                                    </span>
+                                                    <span className={styles["time-label"]}>Phút</span>
+                                                </div>
+                                                <div className={styles["time-box"]}>
+                                                    <span className={styles["time-value"]}>
+                                                        {seconds.toString().padStart(2, "0")}
+                                                    </span>
+                                                    <span className={styles["time-label"]}>Giây</span>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className={styles["time-box"]}>
-                                            <span className={styles["time-value"]}>
-                                                {seconds.toString().padStart(2, "0")}
-                                            </span>
-                                            <span className={styles["time-label"]}>Giây</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </tfoot>
-                </table>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
 
-                {/* QR thanh toán */}
-                <div className={styles["qr-section"]}>
-                    <h3>Quét mã QR thanh toán trực tiếp</h3>
-                    <div className={styles["qr-box"]}>
-                        {/* <img
+                    {/* QR thanh toán */}
+                    <div className={styles["qr-section"]}>
+                        <h3>Quét mã QR thanh toán trực tiếp</h3>
+                        <div className={styles["qr-box"]}>
+                            {/* <img
               src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
               alt="QR Code"
             /> */}
-                        <img src={qrThanhToan} alt="QR Code" />
-                        <p>Lê Thị Lan - 0989466992</p>
+                            <img src={qrThanhToan} alt="QR Code" />
+                            <p>Lê Thị Lan - 0989466992</p>
+                        </div>
+                        <p className={styles["qr-note"]}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
+                        {/* Nút check giao dịch */}
+                        <button className={styles["check-transaction-btn"]} onClick={handleCheckTransaction}>
+                            Kiểm tra giao dịch
+                        </button>
                     </div>
-                    <p className={styles["qr-note"]}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
-                    {/* Nút check giao dịch */}
-                    <button className={styles["check-transaction-btn"]} onClick={handleCheckTransaction}>
-                        Kiểm tra giao dịch
-                    </button>
                 </div>
-            </div>
-            <Footer />
+                <Footer />
 
-            {showPopup && isSuccess && (
-                <SuccessPayment
-                    onClose={() => {
-                        setShowPopup(false);
-                        navigate("/my-courses");
-                    }}
-                />
-            )}
-            {showPopup && !isSuccess && <FailurePayment onClose={() => setShowPopup(false)} />}
+                {showPopup && isSuccess && (
+                    <SuccessPayment
+                        onClose={() => {
+                            setShowPopup(false);
+                            navigate("/my-courses");
+                        }}
+                    />
+                )}
+                {showPopup && !isSuccess && <FailurePayment onClose={() => setShowPopup(false)} />}
+            </div>
         </div>
     );
 };

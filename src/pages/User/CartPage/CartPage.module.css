@@ -13,6 +13,17 @@
   margin: 0;
 } */
 
+.cartPage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.cartPageContainer {
+    margin-top: 138px;
+    flex: 1;
+}
+
 .cartContainer {
     display: flex;
     justify-content: center;
@@ -22,6 +33,13 @@
     padding: 0;
     flex-wrap: wrap;
     font-family: "Roboto Condensed";
+}
+
+@media (min-width: 1700px) {
+    .cartContainer {
+        max-width: 1600px;
+        margin: 0px auto;
+    }
 }
 
 /* --- Cột bên trái --- */

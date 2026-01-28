@@ -127,90 +127,100 @@ const CourseFilter = () => {
     const currentCourses = courses.slice(startIndex, startIndex + itemsPerPage);
 
     return (
-        <div>
+        <div className={styles.courseFilter}>
             <Navbar />
-            <Breadcrumb
-                items={[
-                    { label: "Trang chủ", link: "/" },
-                    { label: "Khóa học", link: "/list-courses" },
-                    { label: "Tất cả khóa học" },
-                ]}
-            />
+            <div className={styles["courses-filter-main"]}>
+                <Breadcrumb
+                    items={[
+                        { label: "Trang chủ", link: "/" },
+                        { label: "Khóa học", link: "/list-courses" },
+                        { label: "Tất cả khóa học" },
+                    ]}
+                />
 
-            <div className={styles["courses-page-layout"]}>
-                {/* Left Column: Title + Filter */}
-                <div className={styles["filter-column"]}>
-                    <h2 className={styles["course-title-sidebar"]}>{pageTitle}</h2>
-                    <FilterCourse
-                        originalCourses={allCourses}
-                        setCourses={setCourses}
-                        setCurrentPage={setCurrentPage}
-                        selectedCategory={selectedCategories} // Use state
-                        setSelectedCategories={setSelectedCategories} // Pass setter
-                    />
-                </div>
-
-                <div className={styles["main-content"]}>
-                    <div className={styles["course-header"]}>
-                        <div className={styles["header-controls"]}>
-                            <div className={styles["search-box-custom"]}>
-                                <input type="text" placeholder="Search" value={searchTerm} onChange={handleSearch} />
-                                <i className="fa-solid fa-magnifying-glass"></i>
-                            </div>
-                        </div>
+                <div className={styles["courses-page-layout"]}>
+                    {/* Left Column: Title + Filter */}
+                    <div className={styles["filter-column"]}>
+                        <h2 className={styles["course-title-sidebar"]}>{pageTitle}</h2>
+                        <FilterCourse
+                            originalCourses={allCourses}
+                            setCourses={setCourses}
+                            setCurrentPage={setCurrentPage}
+                            selectedCategory={selectedCategories} // Use state
+                            setSelectedCategories={setSelectedCategories} // Pass setter
+                        />
                     </div>
 
-                    <div className={styles["courses-list-container"]}>
-                        {loading ? (
-                            <div className={styles["courses-grid"]}>
-                                {Array.from({ length: 8 }).map((_, index) => (
-                                    <CourseSkeleton key={index} />
-                                ))}
+                    <div className={styles["main-content"]}>
+                        <div className={styles["course-header"]}>
+                            <div className={styles["header-controls"]}>
+                                <div className={styles["search-box-custom"]}>
+                                    <input
+                                        type="text"
+                                        placeholder="Search"
+                                        value={searchTerm}
+                                        onChange={handleSearch}
+                                    />
+                                    <i className="fa-solid fa-magnifying-glass"></i>
+                                </div>
                             </div>
-                        ) : courses.length > 0 ? (
-                            selectedCategories.length > 0 ? (
-                                // Grouped View (Filters Active)
-                                Object.entries(
-                                    courses.reduce((group, course) => {
-                                        const type = course.typeCourse || "Khác";
-                                        group[type] = group[type] ?? [];
-                                        group[type].push(course);
-                                        return group;
-                                    }, {}),
-                                ).map(([type, groupCourses]) => (
-                                    <div key={type} className={styles["course-group-section"]}>
-                                        <div className={styles["group-header"]}>
-                                            <h3 className={styles["group-title"]}>Khoá Học: {type}</h3>
-                                            <p className={styles["group-subtitle"]}>
-                                                Khoá học đăng ký {type.toLowerCase()}
-                                            </p>
-                                        </div>
-                                        <div className={styles["courses-grid"]}>
-                                            {groupCourses.map((course, index) => (
-                                                <CourseCardMini
-                                                    key={course.courseId || index}
-                                                    index={index}
-                                                    course={course}
-                                                />
-                                            ))}
-                                        </div>
-                                    </div>
-                                ))
-                            ) : (
-                                // Flat View (No Category Filter)
+                        </div>
+
+                        <div className={styles["courses-list-container"]}>
+                            {loading ? (
                                 <div className={styles["courses-grid"]}>
-                                    {courses.map((course, index) => (
-                                        <CourseCardMini key={course.courseId || index} index={index} course={course} />
+                                    {Array.from({ length: 8 }).map((_, index) => (
+                                        <CourseSkeleton key={index} />
                                     ))}
                                 </div>
-                            )
-                        ) : (
-                            <p>Không tìm thấy khóa học nào.</p>
-                        )}
+                            ) : courses.length > 0 ? (
+                                selectedCategories.length > 0 ? (
+                                    // Grouped View (Filters Active)
+                                    Object.entries(
+                                        courses.reduce((group, course) => {
+                                            const type = course.typeCourse || "Khác";
+                                            group[type] = group[type] ?? [];
+                                            group[type].push(course);
+                                            return group;
+                                        }, {}),
+                                    ).map(([type, groupCourses]) => (
+                                        <div key={type} className={styles["course-group-section"]}>
+                                            <div className={styles["group-header"]}>
+                                                <h3 className={styles["group-title"]}>Khoá Học: {type}</h3>
+                                                <p className={styles["group-subtitle"]}>
+                                                    Khoá học đăng ký {type.toLowerCase()}
+                                                </p>
+                                            </div>
+                                            <div className={styles["courses-grid"]}>
+                                                {groupCourses.map((course, index) => (
+                                                    <CourseCardMini
+                                                        key={course.courseId || index}
+                                                        index={index}
+                                                        course={course}
+                                                    />
+                                                ))}
+                                            </div>
+                                        </div>
+                                    ))
+                                ) : (
+                                    // Flat View (No Category Filter)
+                                    <div className={styles["courses-grid"]}>
+                                        {courses.map((course, index) => (
+                                            <CourseCardMini
+                                                key={course.courseId || index}
+                                                index={index}
+                                                course={course}
+                                            />
+                                        ))}
+                                    </div>
+                                )
+                            ) : (
+                                <p>Không tìm thấy khóa học nào.</p>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
-
             {/* Pagination Hidden for Grouped View (or remove if no longer needed) */}
             {/* 
             {totalPages > 1 && (

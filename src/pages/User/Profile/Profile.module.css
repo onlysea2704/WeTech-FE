@@ -1,9 +1,21 @@
 /* ---- Profile Page Container ---- */
+.profilePage {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.profile-page-main {
+    margin-top: 138px;
+    flex: 1;
+}
+
 .profile-page-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Khoảng cách giữa các phần tử */
+    gap: 15px;
+    /* Khoảng cách giữa các phần tử */
     padding: 0 20px;
 }
 
@@ -12,7 +24,7 @@
     font-size: 24px;
     font-weight: 700;
     margin-bottom: 0px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 /* ---- Avatar Section ---- */
@@ -61,7 +73,7 @@
     max-width: 400px;
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    /* margin-bottom: 20px; */
 }
 
 .form-group {
@@ -92,14 +104,16 @@
 }
 
 .edit-icon {
-    color: #007bff; /* Màu xanh của icon */
+    color: #007bff;
+    /* Màu xanh của icon */
     cursor: pointer;
     font-size: 20px;
 }
 
 /* ---- Save Button ---- */
 .save-button {
-    background-color: #3b3a63; /* Màu xanh đậm giống tiêu đề */
+    background-color: #3b3a63;
+    /* Màu xanh đậm giống tiêu đề */
     color: white;
     border: none;
     border-radius: 10px;

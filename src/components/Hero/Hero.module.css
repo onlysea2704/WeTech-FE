@@ -7,6 +7,7 @@
     justify-content: center;
     box-sizing: border-box;
     overflow: hidden;
+    margin-top: 138px;
 }
 
 .hero-slider {
@@ -63,7 +64,7 @@
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: 110px;
+    left: 15%;
     color: white;
     display: flex;
     flex-direction: column;

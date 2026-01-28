@@ -1,5 +1,13 @@
+.myCourses {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
 .courses-page {
     padding: 0 67px 10px 67px;
+    margin-top: 138px;
+    flex: 1;
 }
 
 .new-courses-container {

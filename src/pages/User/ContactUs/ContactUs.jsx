@@ -48,89 +48,91 @@ const ContactUs = () => {
     };
 
     return (
-        <div>
+        <div className={styles["contact-page"]}>
             <Navbar />
 
-            <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Liên hệ chúng tôi" }]} />
+            <div className={styles["contact-page-main"]}>
+                <Breadcrumb items={[{ label: "Trang chủ", link: "/" }, { label: "Liên hệ chúng tôi" }]} />
 
-            <div className={styles["contact-container"]}>
-                <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
+                <div className={styles["contact-container"]}>
+                    <h2>LIÊN HỆ VỚI CHÚNG TÔI</h2>
 
-                <div className={styles["contact-content"]}>
-                    {/* Form Tư Vấn */}
-                    <div className={styles["form-wrapper"]}>
-                        <h2>Nhận Tư Vấn Miễn Phí</h2>
-                        <p>Để lại thông tin để được tư vấn dịch vụ chi tiết!</p>
+                    <div className={styles["contact-content"]}>
+                        {/* Form Tư Vấn */}
+                        <div className={styles["form-wrapper"]}>
+                            <h2>Nhận Tư Vấn Miễn Phí</h2>
+                            <p>Để lại thông tin để được tư vấn dịch vụ chi tiết!</p>
 
-                        <form onSubmit={handleSubmit}>
-                            <input
-                                type="text"
-                                name="name"
-                                placeholder="Họ và Tên"
-                                value={form.name}
-                                onChange={handleChange}
-                                required
-                            />
+                            <form onSubmit={handleSubmit}>
+                                <input
+                                    type="text"
+                                    name="name"
+                                    placeholder="Họ và Tên"
+                                    value={form.name}
+                                    onChange={handleChange}
+                                    required
+                                />
 
-                            <input
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                                value={form.email}
-                                onChange={handleChange}
-                                required
-                            />
+                                <input
+                                    type="email"
+                                    name="email"
+                                    placeholder="Email"
+                                    value={form.email}
+                                    onChange={handleChange}
+                                    required
+                                />
 
-                            <input
-                                type="tel"
-                                name="phone"
-                                placeholder="Số điện thoại"
-                                value={form.phone}
-                                onChange={handleChange}
-                                required
-                            />
+                                <input
+                                    type="tel"
+                                    name="phone"
+                                    placeholder="Số điện thoại"
+                                    value={form.phone}
+                                    onChange={handleChange}
+                                    required
+                                />
 
-                            <textarea
-                                name="service"
-                                placeholder="Dịch vụ bạn muốn tư vấn?"
-                                value={form.service}
-                                onChange={handleChange}
-                                required
-                            />
+                                <textarea
+                                    name="service"
+                                    placeholder="Dịch vụ bạn muốn tư vấn?"
+                                    value={form.service}
+                                    onChange={handleChange}
+                                    required
+                                />
 
-                            <button type="submit" disabled={loading}>
-                                {loading ? "Đang gửi..." : "Đăng Ký Ngay"}
-                            </button>
-                        </form>
+                                <button type="submit" disabled={loading}>
+                                    {loading ? "Đang gửi..." : "Đăng Ký Ngay"}
+                                </button>
+                            </form>
 
-                        <p className={styles["terms-policy"]}>
-                            Khi gửi thông tin, bạn đồng ý với <a href="#1">Điều khoản</a> và{" "}
-                            <a href="#1">Chính sách bảo mật</a>.
-                        </p>
-                    </div>
-
-                    {/* Thông Tin Liên Hệ */}
-                    <div className={styles["info-wrapper"]}>
-                        <h2>Thông Tin Liên Hệ</h2>
-
-                        <div className={styles["info-item"]}>
-                            <i className="fas fa-phone-alt"></i>
-                            <div className={`${styles["info-item-detail"]} ${styles.phone}`}>
-                                <p>Phone</p>
-                                <p>0989 466 992</p>
-                            </div>
+                            <p className={styles["terms-policy"]}>
+                                Khi gửi thông tin, bạn đồng ý với <a href="#1">Điều khoản</a> và{" "}
+                                <a href="#1">Chính sách bảo mật</a>.
+                            </p>
                         </div>
 
-                        <div className={styles["info-item"]}>
-                            <i className="fas fa-envelope"></i>
-                            <div className={`${styles["info-item-detail"]} ${styles.email}`}>
-                                <p>Email</p>
-                                <p>wetechsoft.vn@gmail.com</p>
-                            </div>
-                        </div>
+                        {/* Thông Tin Liên Hệ */}
+                        <div className={styles["info-wrapper"]}>
+                            <h2>Thông Tin Liên Hệ</h2>
 
-                        <div className={styles["map-container"]}>
-                            <img src={map} alt="Bản đồ vị trí" />
+                            <div className={styles["info-item"]}>
+                                <i className="fas fa-phone-alt"></i>
+                                <div className={`${styles["info-item-detail"]} ${styles.phone}`}>
+                                    <p>Phone</p>
+                                    <p>0989 466 992</p>
+                                </div>
+                            </div>
+
+                            <div className={styles["info-item"]}>
+                                <i className="fas fa-envelope"></i>
+                                <div className={`${styles["info-item-detail"]} ${styles.email}`}>
+                                    <p>Email</p>
+                                    <p>wetechsoft.vn@gmail.com</p>
+                                </div>
+                            </div>
+
+                            <div className={styles["map-container"]}>
+                                <img src={map} alt="Bản đồ vị trí" />
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,10 @@
     margin-left: 70px;
 }
 
+.detail-course-content {
+    margin-top: 138px;
+}
+
 /* Course Info Summary (Dark Section) */
 .course-info-summary {
     background-color: #111;
@@ -90,9 +94,139 @@
 .video-container {
     width: 100%;
     aspect-ratio: 16 / 9;
-    /* Thiết lập tỷ lệ 16:9 */
     overflow: hidden;
     border-radius: 20px;
+    position: relative;
+    background-color: #000;
+}
+
+.video-container .video-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+}
+
+/* Center Play Button */
+.center-play-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 10;
+    pointer-events: auto;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.purchased {
+    display: none;
+    visibility: hidden;
+}
+
+.center-play-icon {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+    margin-left: 5px;
+    /* Visual adjustment for play triangle center */
+    /* filter: invert(0%) sepia(0%) saturate(7500%) hue-rotate(327deg) brightness(96%) contrast(104%); */
+}
+
+.center-play-icon:hover {
+    transform: scale(1.1);
+    border-radius: 50%;
+}
+
+/* Video Footer Controls */
+.video-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.6) 100%);
+    padding: 20px 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    width: 100%;
+    height: 4px;
+    background: #fff;
+    border-radius: 2px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    position: relative;
+}
+
+.progress-bar-filled {
+    width: 0;
+    /* Mock progress */
+    height: 100%;
+    background-color: #ededed;
+    border-radius: 2px;
+    position: relative;
+}
+
+.progress-bar-filled::after {
+    content: "";
+    position: absolute;
+    right: -6px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: #443f6b;
+    border-radius: 50%;
+}
+
+/* Controls Row */
+.controls-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.left-controls,
+.right-controls {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.control-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    object-fit: contain;
+    /* Invert to make icons white if they are black SVGs/PNGs. 
+       If they are already white? 
+       Safest is brightness(0) invert(1) for monochrome white icons from black. */
+    filter: brightness(0) invert(1);
+    opacity: 0.9;
+    transition:
+        opacity 0.2s,
+        transform 0.2s;
+}
+
+.control-icon:hover {
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.time-display {
+    color: #fff;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 5px;
 }
 
 .course-card-detail {
@@ -101,9 +235,9 @@
     background: #fff;
     padding: 20px 0;
     border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); */
     width: 90%;
-    margin: 20px 67px;
+    margin: 0 67px;
     box-sizing: border-box;
 }
 
@@ -125,6 +259,12 @@
     text-align: left;
     min-width: 400px;
     font-family: "Roboto";
+    align-self: flex-start;
+}
+
+.course-right-unpurchased {
+    position: sticky;
+    top: 284px;
 }
 
 .course-price-container {

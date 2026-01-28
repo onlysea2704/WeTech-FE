@@ -1,12 +1,24 @@
+.courseFilter {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.courses-filter-main {
+    margin-top: 138px;
+    flex: 1;
+}
+
 .courses-page-layout {
     display: flex;
     gap: 61px;
     /* Khoảng cách giữa Filter và CourseList */
-    max-width: 1400px;
+    /* max-width: 1400px; */
     /* Giới hạn chiều rộng tối đa của trang */
     margin: 0 auto;
     /* Căn giữa trang */
     padding: 15px 67px;
+    align-items: flex-start;
 }
 
 .course-header {
@@ -66,6 +78,16 @@
 .filter-column {
     width: 250px;
     flex-shrink: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 150px;
+    align-self: flex-start;
+    height: fit-content;
+    max-height: calc(100vh - 160px);
+    /* Ensure it doesn't exceed viewport height */
+    overflow-y: auto;
+    /* Enable internal scrolling if content is too long */
+    z-index: 900;
 }
 
 .course-title-sidebar {
@@ -87,7 +109,6 @@
     flex-grow: 1;
     min-width: 0;
     padding: 0;
-    /* padding-left: 55px; */
 }
 
 /* Group Section Styles */
@@ -97,6 +118,7 @@
     gap: 40px;
     /* Space between different category sections */
     width: 100%;
+    /* overflow-y: auto; */
 }
 
 .course-group-section {

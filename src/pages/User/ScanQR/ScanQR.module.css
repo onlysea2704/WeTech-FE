@@ -1,17 +1,40 @@
+.scan-qr-container {
+    margin-top: 138px;
+}
+
 .payment-container-qr {
     display: flex;
     gap: 20px;
     justify-content: center;
-    align-items: flex-start;
+    align-items: stretch;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    padding-bottom: 0;
+    font-family: "Roboto";
+}
+
+.payment-info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 20px 0 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+}
+
+.payment-info-container h3 {
+    margin: 0;
+    font-family: "Roboto";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
 }
 
 /* Table Layout Updates */
 table.order-info {
     background: #fff;
     border-radius: 10px;
-    padding: 20px;
+    padding: 0;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.05);
     width: auto;
     border: none;
@@ -36,10 +59,18 @@ table.order-info {
 .qr-section {
     background: #fff;
     border-radius: 10px;
-    padding: 20px;
-    padding: 20px;
-    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px 20px 0 20px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
     width: 300px;
+}
+
+.qr-section h3 {
+    margin: 0;
+    font-family: "Roboto";
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 120%;
 }
 
 /* Table Row Styles */
