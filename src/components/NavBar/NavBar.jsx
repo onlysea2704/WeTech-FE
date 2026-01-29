@@ -5,6 +5,7 @@ import logoImage from "../../assets/logo.png";
 import avatarImage from "../../assets/avatar_user.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
+import SearchInput from "../SearchInput/SearchInput";
 
 const Navbar = () => {
     const { cartCount, fetchCartCount } = useCart();
@@ -40,15 +41,6 @@ const Navbar = () => {
         setIsUserDropdownOpen(false);
         navigate("/login");
     };
-
-    function handleSearch(e) {
-        if (e.key === "Enter") {
-            const searchValue = e.currentTarget.value;
-            if (searchValue.trim()) {
-                navigate(`/course-filter?query=${searchValue.trim()}`);
-            }
-        }
-    }
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -145,18 +137,7 @@ const Navbar = () => {
                         </div>
                     </div>
 
-                    <div
-                        className={`${styles["search-box"]} ${isAuthenticated ? styles["search-box-logged"] : styles["search-box-not-logged"]}`}
-                    >
-                        <i className={`fas fa-search ${styles["search-icon"]}`}></i>
-                        <input
-                            className={styles["search-navbar"]}
-                            type="text"
-                            placeholder="Tìm kiếm"
-                            name="search"
-                            onKeyDown={handleSearch}
-                        />
-                    </div>
+                    <SearchInput />
 
                     <div className={styles["navbar-right"]}>
                         <Link to="/cart" className={styles["cart-link"]} title="Giỏ hàng">
