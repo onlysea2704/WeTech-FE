@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./ChatWidget.module.css";
 import iconLogoZalo from "../../assets/icon-zalo.png";
 import logoWeTech from "../../assets/logo.png";
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(() => {
+        const timeoutId = setTimeout(() => {
+            setIsOpen(true);
+        }, 30000);
+        return () => clearTimeout(timeoutId);
+    }, [])
 
     return (
         <div className={styles["chat-widget-container"]}>
