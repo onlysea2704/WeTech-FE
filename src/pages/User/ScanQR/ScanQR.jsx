@@ -9,7 +9,6 @@ import usePaymentSocket from "../../../services/usePaymentSocket";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import qrThanhToan from "../../../assets/qr-thanh-toan.png";
 import Tooltip from "../../../components/Tooltip/Tooltip";
 
 const ScanQR = () => {
@@ -154,11 +153,10 @@ const ScanQR = () => {
                     <div className={styles["qr-section"]}>
                         <h3>Quét mã QR thanh toán trực tiếp</h3>
                         <div className={styles["qr-box"]}>
-                            {/* <img
-              src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
-              alt="QR Code"
-            /> */}
-                            <img src={qrThanhToan} alt="QR Code" />
+                            <img
+                                src={`https://qr.sepay.vn/img?acc=0918297371&bank=MBBank&amount=${amount}&des=${code}&template=compact`}
+                                alt="QR Code"
+                            />
                             <p>Lê Thị Lan - 0989466992</p>
                         </div>
                         <p className={styles["qr-note"]}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
