@@ -1,24 +1,146 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./ProcessProcedure.css";
-import Footer from "../../../components/Footer/Footer";
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-// import HoSo from './HoSo'; // Import component cho tab đầu tiên
+import DeclarationForms from "../../../components/DeclarationForms/DeclarationForms";
+import FormsConfirmation from "../../../components/FormsConfirmation/FormsConfirmation";
+import ProgressStepper from "../../../components/ProgressStepper/ProgressStepper";
+import { useParams, useSearchParams, useNavigate } from "react-router-dom";
+import { authAxios } from "../../../services/axios-instance";
+import Overlay from "../../../components/Loading/Overlay/Overlay";
+import typeCompanyOptions from "../../../consts/typeCompany";
+import ProcedurePayment from "../../../components/ProcedurePayment/ProcedurePayment";
+import SubmitProcedure from "../../../components/SubmitProcedure/SubmitProcedure";
+import { downloadPdf } from "../../../utils/downloadPdf";
+import iconCheck from "../../../assets/Check_perspective_matte.png"
+import iconCancel from "../../../assets/Error_perspective_matte.png"
+import plusIcon from "../../../assets/Plus_perspective_matte.png"
+
+const tabs = [
+    { id: 0, title: "Kê khai Hồ Sơ" },
+    { id: 1, title: "Thông tin kê khai" },
+    { id: 2, title: "Thanh Toán" },
+    { id: 3, title: "Nộp hồ sơ" },
+];
 
 const ProcessProcedure = () => {
-    // Sử dụng useState để theo dõi tab đang hoạt động
-    const [activeTab, setActiveTab] = useState(0); // Bắt đầu ở tab 2 như trong hình
+    const { id_procedure } = useParams();
+    const [searchParams] = useSearchParams();
+    const tab = searchParams.get("tab");
+    const viewMode = searchParams.get("viewMode");
+    const navigate = useNavigate();
 
-    const tabs = [
-        { id: 0, title: "Hồ Sơ" },
-        { id: 1, title: "Thời hạn giải quyết" },
-        { id: 2, title: "Kết quả hồ sơ" },
-        { id: 3, title: "Phí, Lệ phí" },
-    ];
+    const [procedure, setProcedure] = useState(null);
+    const [forms, setForms] = useState([]);
+    const [formDeclarationSteps, setFormDeclarationSteps] = useState([]);
+    const [activeTab, setActiveTab] = useState(tab || 0);
+    const [currentFormStep, setCurrentFormStep] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [isConfirming, setIsConfirming] = useState(false);
+    const [isDownloading, setIsDownloading] = useState(false);
+    const declarationFormsRef = useRef(null);
+    const confirmationFormsRef = useRef(null);
 
-    // Hàm để chuyển tới tab tiếp theo
+    useEffect(() => {
+        const fetchFormDeclarationSteps = async () => {
+            try {
+                setLoading(true);
+                const response = await authAxios.get(`/api/procedurer/find-by-id-and-check-status`, {
+                    params: {
+                        id: id_procedure,
+                    },
+                });
+                const procedureResponse = response.data;
+                const serviceType = procedureResponse.serviceType;
+                const typeCompany = procedureResponse.typeCompany;
+                const forms = procedureResponse.forms.map((form) => {
+                    const matchedFormType = typeCompanyOptions.find((item) => item.value === typeCompany)
+                        ?.services.find((item) => item.value === serviceType)
+                        ?.procedures?.find((p) => p.title === procedureResponse.title)
+                        ?.formsType?.find((item) => item.title === form.name);
+                    return {
+                        ...form,
+                        declaration: matchedFormType?.declaration,
+                        confirmation: matchedFormType?.confirmation
+                    };
+                });
+
+                if (['PENDING', 'SUCCESS', 'FAILED'].includes(procedureResponse.status)) {
+                    if (viewMode !== 'see_again') {
+                        navigate(`/process-procedure/${id_procedure}?tab=1&viewMode=see_again`, { replace: true });
+                        return;
+                    }
+                }
+
+                const formDeclarationSteps = procedureResponse.forms.map((form, idx) => {
+                    return {
+                        id: idx,
+                        label: form.name
+                    };
+                });
+
+                setForms(forms);
+                setFormDeclarationSteps(formDeclarationSteps);
+                setProcedure(procedureResponse);
+
+            } catch (error) {
+                console.error("Error fetching form declaration steps:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchFormDeclarationSteps();
+    }, [id_procedure]);
+
+    // Được gọi sau khi form submit thành công
+    const handleStepSubmitSuccess = () => {
+        if (currentFormStep < formDeclarationSteps.length - 1) {
+            setCurrentFormStep(prev => prev + 1);
+            window.scrollTo(0, 0);
+        } else {
+            if (viewMode === 'see_again') {
+                navigate(`/list-procedures/${procedure?.typeCompany}`);
+            } else {
+                setActiveTab((prev) => Math.min(prev + 1, tabs.length - 1));
+                setCurrentFormStep(0);
+                window.scrollTo(0, 0);
+            }
+        }
+    };
+
+    // Hàm để chuyển tới tab (hoặc form) tiếp theo
     const handleNext = () => {
-        setActiveTab((prev) => Math.min(prev + 1, tabs.length - 1));
+        if (activeTab === 0) {
+            // Tab 0: kích hoạt submit form, bước tiếp theo xử lý qua onStepSubmitSuccess
+            if (declarationFormsRef.current) {
+                declarationFormsRef.current.submitCurrentForm();
+            }
+        } else if (activeTab === 1) {
+            if (viewMode === 'see_again') {
+                if (currentFormStep < formDeclarationSteps.length - 1) {
+                    setCurrentFormStep((prev) => prev + 1);
+                    window.scrollTo(0, 0);
+                } else {
+                    navigate(`/list-procedures/${procedure?.typeCompany}`);
+                }
+            } else {
+                // Tab 1: Mở form xác nhận, khi submit sẽ tạo file pdf lưu lên server 
+                const processConfirmation = async () => {
+                    setIsConfirming(true);
+                    try {
+                        if (confirmationFormsRef.current) {
+                            await confirmationFormsRef.current.submitCurrentForm();
+                        }
+                    } finally {
+                        setIsConfirming(false);
+                    }
+                };
+                processConfirmation();
+            }
+        } else {
+            // Các hoạt động view_again hoặc tab khác
+            setActiveTab((prev) => Math.min(prev + 1, tabs.length - 1));
+            setCurrentFormStep(0);
+            window.scrollTo(0, 0);
+        }
     };
 
     // Hàm để quay lại tab trước đó
@@ -30,76 +152,179 @@ const ProcessProcedure = () => {
     const renderTabContent = () => {
         switch (activeTab) {
             case 0:
-                // return <HoSo />; // Render component HoSo
                 return (
-                    <div className="tab-content">
-                        <ul>
-                            <li>03 ngày làm việc kể từ ngày nhận được hồ sơ.</li>
-                        </ul>
-                    </div>
+                    <DeclarationForms
+                        ref={declarationFormsRef}
+                        forms={forms}
+                        currentFormStep={currentFormStep}
+                        onStepSubmitSuccess={handleStepSubmitSuccess}
+                    />
                 );
             case 1:
                 return (
-                    <div className="tab-content">
-                        <ul>
-                            <li>03 ngày làm việc kể từ ngày nhận được hồ sơ.</li>
-                        </ul>
-                    </div>
+                    <FormsConfirmation
+                        ref={confirmationFormsRef}
+                        forms={forms}
+                        currentFormStep={currentFormStep}
+                        onStepSubmitSuccess={handleStepSubmitSuccess}
+                    />
                 );
             case 2:
                 return (
-                    <div className="tab-content">
-                        <ul>
-                            <li>Giấy chứng nhận đăng ký doanh nghiệp.</li>
-                        </ul>
-                    </div>
+                    <ProcedurePayment
+                        procedure={procedure}
+                        onPaymentSuccess={() => {
+                            setActiveTab(3);
+                            setCurrentFormStep(0);
+                            window.scrollTo(0, 0);
+                        }}
+                    />
                 );
             case 3:
                 return (
-                    <div className="tab-content">
-                        <ul>
-                            <li>Lệ phí đăng ký doanh nghiệp: 50.000 đồng/lần.</li>
-                            <li>Phí công bố nội dung đăng ký doanh nghiệp: 100.000 đồng/lần.</li>
-                        </ul>
-                    </div>
+                    <SubmitProcedure
+                        procedure={procedure}
+                        setActiveTab={setActiveTab}
+                    />
                 );
             default:
                 return null;
         }
     };
 
+    const handleDownloadPdf = async () => {
+        try {
+            setIsDownloading(true);
+            const currentForm = forms?.[currentFormStep];
+            if (!currentForm?.code) {
+                console.error("Không tìm thấy mã form để tải PDF");
+                return;
+            }
+
+            const response = await authAxios.get(`/api/form-submission/get/pdf-file-url`, {
+                params: { code: currentForm.code }
+            });
+            console.log("PDF Response (Cloud URL):", response.data);
+
+            if (response.data) {
+                const url = response.data;
+                const fileName = currentForm?.name ? `${currentForm.name}.pdf` : 'document.pdf';
+                await downloadPdf(url, fileName);
+            }
+        } catch (err) {
+            console.error('Lỗi khi tải file PDF:', err);
+        } finally {
+            setIsDownloading(false);
+        }
+    };
+
+    useEffect(() => {
+        if (tab && tab !== 0 && tab <= 3) {
+            setActiveTab(Number(tab));
+            setCurrentFormStep(0);
+        }
+    }, [tab]);
+
     return (
-        <div>
-            <Navbar />
-            <Breadcrumb />
-            <div className="stepper-container">
-                <h1 className="main-title">ĐĂNG KÝ THÀNH LẬP MỚI VỚI CÔNG TY CỔ PHẦN</h1>
-                <div className="stepper-header">
-                    {tabs.map((tab, index) => (
-                        <div
-                            key={tab.id}
-                            className={`step ${activeTab === tab.id ? "active" : ""} ${activeTab > tab.id ? "completed" : ""}`}
-                            onClick={() => setActiveTab(tab.id)}
-                        >
-                            <span className="step-number">{index + 1}</span>
-                            <span className="step-title">{tab.title}</span>
-                        </div>
-                    ))}
-                </div>
+        <div className="stepper-container">
+            {(loading) && <Overlay />}
+            <div className="stepper-header-main">
+                <h1 className="main-title">{procedure?.title}</h1>
+                {viewMode !== 'see_again' && (
+                    <div className="stepper-header">
+                        {tabs.map((tab, index) => (
+                            <div
+                                key={tab.id}
+                                className={`step ${activeTab === tab.id ? "active" : ""} ${activeTab > tab.id ? "completed" : ""}`}
+                            >
+                                <span className="step-number">{index + 1}</span>
+                                <span className="step-title">{tab.title}</span>
+                            </div>
+                        ))}
+                    </div>
+                )}
+            </div>
+
+            <div className={(viewMode !== 'see_again') ? "stepper-body-main1" : "stepper-body-main2"}>
+                {(activeTab === 0 || activeTab === 1) && (
+                    <ProgressStepper
+                        currentStep={currentFormStep}
+                        isSuccess={true}
+                        steps={formDeclarationSteps}
+                    />
+                )}
 
                 <div className="stepper-body">{renderTabContent()}</div>
-
-                <div className="stepper-footer">
-                    <button onClick={handlePrev} disabled={activeTab === 0}>
-                        Trước
-                    </button>
-                    <button onClick={handleNext} disabled={activeTab === tabs.length - 1}>
-                        Tiếp theo
-                    </button>
-                </div>
             </div>
-            <Footer />
-        </div>
+
+            {(activeTab <= 1) && (
+                <div className="stepper-footer custom-footer">
+                    {activeTab !== 2 && (
+                        <button className="btn-cancel" onClick={() => {
+                            if (viewMode === 'see_again' && currentFormStep === 0) {
+                                navigate(-1); // Quay lại trang trước đó
+                            } else if (activeTab === 0 && currentFormStep > 0) {
+                                setCurrentFormStep(prev => prev - 1);
+                            } else if (activeTab === 0 && currentFormStep === 0) {
+                                navigate(`/list-procedures/${procedure.typeCompany}`);
+                            } else if (activeTab === 1 && currentFormStep > 0) {
+                                setCurrentFormStep(prev => prev - 1);
+                            } else {
+                                setActiveTab(0);
+                                setCurrentFormStep(formDeclarationSteps.length - 1); // Trở về form khai báo cuối cùng
+                            }
+                        }}>
+                            <img src={iconCancel} alt="" />
+                            Huỷ
+                        </button>
+                    )}
+                    {activeTab !== 2 && (
+                        <div className="footer-right-actions">
+                            {activeTab === 1 ? (
+                                viewMode === 'see_again' ? (
+                                    <button className="btn-action import" onClick={handleDownloadPdf} disabled={isDownloading}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                            <path d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z" fill="#1B154B" />
+                                        </svg> {isDownloading ? 'Đang tải...' : 'Tải file'}
+                                    </button>
+                                ) : (
+                                    <button className="btn-action" onClick={() => setActiveTab(0)}>
+                                        <img src={plusIcon} alt="" /> Sửa thông tin
+                                    </button>
+                                )
+                            ) : (
+                                <>
+                                    <button className="btn-action export" onClick={() => declarationFormsRef.current?.exportExcel()}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
+                                            <path d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z" fill="#1B154B" />
+                                        </svg> Xuất File Excel
+                                    </button>
+                                    <button className="btn-action import" onClick={() => declarationFormsRef.current?.importExcel()}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                            <path d="M8.0625 7.68647L12 3.75L15.9375 7.68647" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M12 14.2492V3.75195" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                            <path d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                                        </svg> Import File Excel
+                                    </button>
+                                </>
+                            )}
+                            <button className="btn-next" onClick={handleNext} disabled={activeTab === tabs.length - 1 || activeTab === 2 || isConfirming || loading}>
+                                <img src={iconCheck} alt="" />
+                                {viewMode === 'see_again' && activeTab === 1 && currentFormStep === formDeclarationSteps.length - 1 ? 'Tạo mới' : 'Tiếp theo'}
+
+                                {isConfirming && (
+                                    <div className="overlay-loading" title="Đang tải dữ liệu...">
+                                        <div className="spinner-border spinner-border-sm" role="status">
+                                        </div>
+                                    </div>
+                                )}
+                            </button>
+                        </div>
+                    )}
+                </div>
+            )
+            }
+        </div >
     );
 };
 

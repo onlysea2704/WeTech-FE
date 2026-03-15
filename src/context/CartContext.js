@@ -31,8 +31,10 @@ export const CartProvider = ({ children }) => {
     };
 
     useEffect(() => {
+        if (cartCount > 0) return;
+
         fetchCartCount();
-    }, []);
+    }, [cartCount]);
 
     return <CartContext.Provider value={{ cartCount, fetchCartCount }}>{children}</CartContext.Provider>;
 };

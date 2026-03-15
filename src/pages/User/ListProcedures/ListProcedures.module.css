@@ -1,83 +1,200 @@
+.list-procedures-main {
+    padding: 0 67px 0 67px;
+    margin-top: 138px;
+}
+
 .company-services {
-    text-align: center;
-    padding: 20px;
+    padding: 30px 0;
+    /* max-width: 1200px; */
+    margin: 0 auto;
 }
 
-.title {
-    font-size: 22px;
-    font-weight: bold;
-    margin-bottom: 20px;
-}
-
+/* ====== TABS ====== */
 .tabs {
     display: flex;
     justify-content: center;
-    gap: 10px;
-    margin-bottom: 30px;
+    gap: 16px;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
 }
 
 .tabs button {
-    border: 1px solid #ccc;
+    min-width: calc(20% - 22px);
+    border: 1px solid #c4c4c4;
     background: white;
-    padding: 8px 16px;
+    padding: 10px 24px;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333;
     transition: all 0.2s ease;
 }
 
 .tabs button.active {
-    background: #1a237e;
     color: white;
-    border-color: #1a237e;
+    border-color: #1B154B;
+    background: #1B154B;
 }
 
-.tabs button:hover {
-    background: #1a237e;
-    color: white;
+.tabs button:hover:not(.active) {
+    border-color: #1B154B;
+    color: #1B154B;
+    box-shadow: 0 4px 8px 0 rgba(145, 158, 171, 0.16);
 }
 
-.services-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+/* ====== SERVICE GROUP ====== */
+.service-group {
+    margin-bottom: 40px;
 }
 
-.service-item {
+.service-group-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #1B154B;
+    margin-bottom: 24px;
+    text-transform: uppercase;
+    text-align: left;
+}
+
+/* ====== PROCEDURE LIST ====== */
+.procedures-list {
     display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* ====== EMPTY / LOADING ====== */
+.empty-text {
+    color: #6c757d;
+    font-style: italic;
+    text-align: center;
+    padding: 40px 0;
+}
+
+/* ====== MODAL ====== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
     justify-content: center;
 }
 
-/* Pagination */
-.pagination {
+.modal-box {
+    background: white;
+    border-radius: 8px;
+    width: 600px;
+    max-width: 95vw;
+    max-height: 85vh;
     display: flex;
-    justify-content: center;
-    margin-top: 20px;
-    gap: 8px;
+    flex-direction: column;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
 }
 
-.pagination button {
+.modal-header {
+    background: #1B154B;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+}
+
+.modal-header h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    margin: 0;
+    flex: 1;
+}
+
+.modal-close {
+    background: none;
     border: none;
-    padding: 8px 12px;
-    border-radius: 6px;
-    background: #f0f0f0;
+    font-size: 20px;
     cursor: pointer;
+    color: white;
+    padding: 0 4px;
+    margin-left: 12px;
+}
+
+.modal-close:hover {
+    opacity: 0.8;
+}
+
+.modal-body {
+    padding: 24px 32px;
+    overflow-y: auto;
+    flex: 1;
     font-size: 14px;
-    min-width: 36px;
-    transition: all 0.2s ease;
+    color: #0C0C0C;
+    line-height: 1.6;
 }
 
-.pagination button:hover:not(:disabled) {
-    background: #007bff;
+.modal-body p {
+    margin: 0 0 12px 0;
+}
+
+.modal-list {
+    padding-left: 20px;
+    margin: 0 0 20px 0;
+}
+
+.modal-list li {
+    margin-bottom: 4px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 16px 32px 24px;
+}
+
+.btn-cancel,
+.btn-confirm {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border-radius: 6px;
+    border: 1px solid #d9d9d9;
+    background: white;
+    color: #1B154B;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-cancel:hover,
+.btn-confirm:hover {
+    background: #f5f5f5;
+    border-color: #c4c4c4;
+}
+
+.icon-cancel {
+    background: #ff4d4f;
     color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
 }
 
-.pagination button.active {
-    background: #007bff;
+.icon-confirm {
+    background: #8bc34a;
     color: white;
-}
-
-.pagination button:disabled {
-    background: #e0e0e0;
-    cursor: not-allowed;
-    color: #999;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
 }

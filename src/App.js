@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import LoginForm from "./pages/User/LoginForm/LoginForm";
 import RegisterForm from "./pages/User/RegisterForm/RegisterForm";
@@ -10,6 +10,8 @@ import ListCourses from "./pages/User/ListCourses/ListCourses";
 import CourseFilter from "./pages/User/CourseFilter/CourseFilter";
 import DetailCourse from "./pages/User/DetailCourse/DetailCourse";
 import ListProcedures from "./pages/User/ListProcedures/ListProcedures";
+import SearchProfile from "./pages/User/SearchProcedure/SearchProcedure";
+import ProcedureFilter from "./pages/User/ProcedureFilter/ProcedureFilter";
 import ContactUs from "./pages/User/ContactUs/ContactUs";
 import Profile from "./pages/User/Profile/Profile";
 import NotFoundPage from "./pages/User/NotFoundPage/NotFoundPage";
@@ -21,6 +23,8 @@ import DashBoard from "./pages/Admin/DashBoard/DashBoard";
 import ListCustomer from "./pages/Admin/ListCustomer/ListCustomer";
 import Transactions from "./pages/Admin/Transactions/Transactions";
 import ListCourse from "./pages/Admin/ListCourse/ListCourse";
+import ListProcedure from "./pages/Admin/ListProcedure/ListProcedure";
+import ProcedureManager from "./pages/Admin/ProcedureManager/ProcedureManager";
 import CourseManager from "./pages/Admin/CourseManager/CourseManager";
 import MyCourses from "./pages/User/MyCourses/MyCourses";
 import ChangePassword from "./pages/User/ChangePassword/ChangePassword";
@@ -33,6 +37,8 @@ import { setNotificationHelper } from "./utils/notificationHelper";
 
 function AppContent() {
     const notificationContext = useContext(NotificationContext);
+    const location = useLocation();
+    const hideChatWidget = location.pathname.startsWith('/process-procedure');
 
     useEffect(() => {
         if (notificationContext) {
@@ -43,49 +49,44 @@ function AppContent() {
     return (
         <CartProvider>
             <NotificationProvider>
-                <Router>
-                    <Routes>
-                        <Route path="/" element={<Home />} />
-                        <Route path="/login" element={<LoginForm />} />
-                        <Route path="/register" element={<RegisterForm />} />
-                        <Route path="/forgot-password" element={<ForgotPassword />} />
-                        <Route path="/update-password" element={<UpdatePassword />} />
-                        <Route path="/list-courses" element={<ListCourses />} />
-                        <Route path="/my-courses" element={<MyCourses />} />
-                        <Route path="/course-filter/:category" element={<CourseFilter />} />
-                        <Route path="/course-filter" element={<CourseFilter />} />
-                        <Route path="/detail-course/:courseId" element={<DetailCourse />} />
-                        <Route path="/list-procedures/:typeProcedure" element={<ListProcedures />} />
-                        <Route path="/contact-us" element={<ContactUs />} />
-                        <Route path="/profile" element={<Profile />} />
-                        <Route path="/change-password" element={<ChangePassword />} />
-                        <Route path="/not-found" element={<NotFoundPage />} />
-                        <Route path="/faq" element={<FaqPage />} />
-                        <Route path="/register-payment/:idTransaction" element={<RegisterPayment />} />
-                        <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
-                        <Route path="/scan-qr/:idTransaction" element={<ScanQR />} />
+                <Routes>
+                    <Route path="/" element={<Home />} />
+                    <Route path="/login" element={<LoginForm />} />
+                    <Route path="/register" element={<RegisterForm />} />
+                    <Route path="/forgot-password" element={<ForgotPassword />} />
+                    <Route path="/update-password" element={<UpdatePassword />} />
+                    <Route path="/list-courses" element={<ListCourses />} />
+                    <Route path="/my-courses" element={<MyCourses />} />
+                    <Route path="/course-filter/:category" element={<CourseFilter />} />
+                    <Route path="/course-filter" element={<CourseFilter />} />
+                    <Route path="/procedure-filter" element={<ProcedureFilter />} />
+                    <Route path="/detail-course/:courseId" element={<DetailCourse />} />
+                    <Route path="/list-procedures/:typeCompany" element={<ListProcedures />} />
+                    <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
+                    <Route path="/procedure/search" element={<SearchProfile />} />
+                    <Route path="/contact-us" element={<ContactUs />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/not-found" element={<NotFoundPage />} />
+                    <Route path="/faq" element={<FaqPage />} />
+                    <Route path="/register-payment/:idTransaction" element={<RegisterPayment />} />
+                    <Route path="/scan-qr/:idTransaction" element={<ScanQR />} />
 
-                        <Route path="/dashboard" element={<DashBoard />} />
-                        <Route path="/list-customer" element={<ListCustomer />} />
-                        <Route path="/sales" element={<Transactions />} />
-                        <Route path="/list-course" element={<ListCourse />} />
-                        <Route path="/manage-course/:courseId" element={<CourseManager />} />
-                        <Route path="/cart" element={<CartPage />} />
+                    <Route path="/dashboard" element={<DashBoard />} />
+                    <Route path="/list-customer" element={<ListCustomer />} />
+                    <Route path="/sales" element={<Transactions />} />
+                    <Route path="/list-course" element={<ListCourse />} />
+                    <Route path="/list-procedure" element={<ListProcedure />} />
+                    <Route path="/create-procedure" element={<ProcedureManager />} />
+                    <Route path="/manage-procedure/:procedureId" element={<ProcedureManager />} />
+                    <Route path="/manage-course/:courseId" element={<CourseManager />} />
+                    <Route path="/cart" element={<CartPage />} />
 
-                        {/* <Route path="/coursedetail">
-          <Route path=":id_course" element={<CourseDetail />} />
-          <Route path=":id_course/lesson/:id_lesson" element={<Lesson />} />
-        </Route>
-        <Route path="/change-password" element={<ChangePassword />} />
-        <Route path="/profile-edit" element={<ProfileEdit />} />
-        <Route path="/progress/:id_course" element={<Progress />} /> */}
-
-                        {/* Catch-all route for 404 */}
-                        <Route path="*" element={<NotFoundPage />} />
-                    </Routes>
-                    <Notification />
-                    <ChatWidget />
-                </Router>
+                    {/* Catch-all route for 404 */}
+                    <Route path="*" element={<NotFoundPage />} />
+                </Routes>
+                <Notification />
+                {!hideChatWidget && <ChatWidget />}
             </NotificationProvider>
         </CartProvider>
     );
@@ -96,7 +97,9 @@ function App() {
         <CartProvider>
             <NotificationProvider>
                 <AuthProvider>
-                    <AppContent />
+                    <Router>
+                        <AppContent />
+                    </Router>
                 </AuthProvider>
             </NotificationProvider>
         </CartProvider>

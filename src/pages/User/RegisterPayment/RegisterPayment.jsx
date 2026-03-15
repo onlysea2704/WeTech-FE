@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./RegisterPayment.module.css";
-import PaymentHeader from "../../../components/PaymentHeader/PaymentHeader";
+import ProgressStepper from "../../../components/ProgressStepper/ProgressStepper";
 import { useParams, useNavigate } from "react-router-dom";
 import { authAxios, publicAxios } from "../../../services/axios-instance";
 import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import qrCode from "../../../assets/qr-code.png";
-import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
+import CourseListSkeleton from "../../../components/Loading/Skeleton/CourseListSkeleton";
 import { useNotification } from "../../../hooks/useNotification";
 import Footer from "../../../components/Footer/Footer";
 
@@ -299,7 +299,15 @@ const RegisterPayment = () => {
                         { label: "Thanh toán" },
                     ]}
                 />
-                <PaymentHeader currentStep={status === "edit" ? 1 : 2} isSuccess={status === "confirm"} />
+                <ProgressStepper
+                    currentStep={status === "edit" ? 1 : 2}
+                    isSuccess={status === "confirm"}
+                    steps={[
+                        { id: 0, label: "Thông tin" },
+                        { id: 1, label: "Thanh toán" },
+                        { id: 2, label: "Thành công" },
+                    ]}
+                />
                 <div className={styles.registerContainer}>
                     {/* ===== BÊN TRÁI: FORM THÔNG TIN ===== */}
                     <div className={styles.registerLeft}>
@@ -586,7 +594,7 @@ const RegisterPayment = () => {
                         </div>
 
                         {status === "edit" ? (
-                            <button className={`primary-color ${styles.submitBtn}`} onClick={handleUpdateAndContinue}>
+                            <button className={`${styles.submitBtn}`} onClick={handleUpdateAndContinue}>
                                 Mua hàng
                             </button>
                         ) : (

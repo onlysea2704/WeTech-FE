@@ -1,0 +1,290 @@
+.uploadCCCDContainer {
+    width: 100%;
+}
+
+.imageUploadColumn {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    width: 100%;
+}
+
+.uploadBoxRow {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    width: 100%;
+}
+
+.uploadBox {
+    width: 100%;
+    height: 180px;
+    border-radius: 6px;
+    border: 3px dashed #ccc;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    background-color: #ffffff;
+    overflow: hidden;
+    font-size: 12px;
+}
+
+.uploadBox span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+}
+
+.uploadIcon {
+    color: #999;
+}
+
+.previewImg {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.uploadButton {
+    background: transparent;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.uploadButton:hover {
+    background-color: #1B154B;
+    color: #ffffff;
+}
+
+.uploadButton:hover svg path {
+    stroke: #ffffff;
+}
+
+/* Modal styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #fff;
+    width: 600px;
+    max-width: 90vw;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.modalHeader {
+    background-color: #1c1c3c;
+    color: #fff;
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modalHeader h2 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.closeButton {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    padding: 4px;
+    border-radius: 4px;
+}
+
+.closeButton:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.modalBody {
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.dottedBox {
+    border: 2px dashed #e0e0e0;
+    background-color: #f7f7f7;
+    width: 320px;
+    height: 180px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.boxText {
+    color: #999;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.blueHeading {
+    color: #1b4ea0;
+    font-size: 18px;
+    font-weight: 600;
+    margin: 0 0 12px 0;
+}
+
+.mutedText {
+    color: #333;
+    font-size: 15px;
+    margin: 0 0 8px 0;
+}
+
+.mutedTextSmall {
+    color: #333;
+    font-size: 15px;
+    margin: 0 0 20px 0;
+}
+
+.boldText {
+    font-weight: 600;
+}
+
+.actionButton {
+    background-color: #fff;
+    border: 1px solid #C8C7D4;
+    color: #1c1c3c;
+    font-weight: 600;
+    padding: 10px 24px;
+    font-size: 14px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.actionButton:hover {
+    border-color: #1B154B;
+    background-color: #1B154B;
+    color: #ffffff;
+}
+
+.actionButton:hover svg path {
+    stroke: #ffffff;
+}
+
+.actionButtonPrimary {
+    background-color: #1B154B;
+    color: #ffffff;
+    border: 1px solid #1B154B;
+    padding: 10px 24px;
+    font-size: 14px;
+    border-radius: 4px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.actionButtonPrimary:hover {
+    background-color: #1B154B;
+    color: #ffffff;
+    border: 1px solid #1B154B;
+}
+
+.reviewContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.reviewImages {
+    display: flex;
+    gap: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.reviewImages p {
+    margin: 0;
+}
+
+.reviewImages>div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.reviewImg {
+    width: 240px;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+
+.popupPreviewContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.popupPreviewImg {
+    max-width: 100%;
+    max-height: 250px;
+    object-fit: contain;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+}
+
+.actionRow {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}

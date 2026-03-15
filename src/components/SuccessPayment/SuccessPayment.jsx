@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "./SuccessPayment.module.css";
+import successIcon from '../../assets/success-icon.png'
 
-const SuccessPayment = ({ onClose }) => {
+const SuccessPayment = ({ onClose, txDetails }) => {
+    const formatPrice = (price) => new Intl.NumberFormat('vi-VN').format(price || 0);
+
     return (
         <div className={styles["popup-overlay"]}>
             <div className={styles["popup-box"]}>
@@ -12,7 +15,7 @@ const SuccessPayment = ({ onClose }) => {
 
                 {/* Icon check */}
                 <div className={styles.checkmark}>
-                    <i className="fa-solid fa-check"></i>
+                    <img src={successIcon} alt="Success" />
                 </div>
 
                 <h2 className={styles["success-title"]}>Thanh toán thành công!</h2>
@@ -20,23 +23,23 @@ const SuccessPayment = ({ onClose }) => {
                 <div className={styles.info}>
                     <div className={styles["info-row"]}>
                         <span>Họ và Tên</span>
-                        <span>Nguyễn Trường</span>
+                        <span>{txDetails?.fullName || ''}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Số điện thoại</span>
-                        <span>0834 085 578</span>
+                        <span>{txDetails?.phone || ''}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Email</span>
-                        <span>Truongnguyen@gmail.com</span>
+                        <span>{txDetails?.email || ''}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Đơn hàng</span>
-                        <span>WETECH1135</span>
+                        <span>{txDetails?.code || ''}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Số tiền</span>
-                        <span>299.000đ</span>
+                        <span>{formatPrice(txDetails?.amount)}đ</span>
                     </div>
                 </div>
 

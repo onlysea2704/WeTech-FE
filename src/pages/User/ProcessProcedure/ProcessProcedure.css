@@ -1,62 +1,95 @@
 /* ---- BẮT ĐẦU PHẦN CSS CẬP NHẬT ---- */
 
+.main-container {
+    padding: 0 67px 0 67px;
+    margin-top: 138px;
+}
+
 /* Tổng thể container */
 .stepper-container {
     width: 100%;
     margin: 0px auto;
-    padding: 20px 0;
+    /* padding: 20px 0; */
     background-color: #fff;
 }
 
 .main-title {
-    color: #00338d;
+    color: #003875;
     text-align: center;
     font-size: 24px;
-    margin-bottom: 25px;
     font-weight: 700;
+    margin: 25px 0;
     text-transform: uppercase;
 }
 
-/* Phần header chứa các tab */
+.stepper-header-main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    background-color: #f5f5f5;
+}
+
 .stepper-header {
     display: flex;
     width: 100%;
-    height: 50px; /* Chiều cao cố định cho các tab */
-    list-style: none;
-    padding: 0;
-    margin: 0;
+    /* margin-bottom: 24px; */
+    height: 48px;
+    background-color: #f5f5f5;
+    border: 1px solid #d9d9d9;
+    /* Border ngoài cùng */
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .step {
-    /* Thiết lập flex để các tab chia đều không gian */
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     position: relative;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-
-    /* Kiểu chữ mặc định cho tab chưa tới */
-    color: #a0a0a0;
+    color: #8c8c8c;
     background-color: #f5f5f5;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 600;
-
-    /* Tạo hình mũi tên chỉ sang phải */
-    clip-path: polygon(0% 0%, calc(100% - 25px) 0%, 100% 50%, calc(100% - 25px) 100%, 0% 100%);
 }
 
-/* Xếp chồng các tab lên nhau để tạo hiệu ứng nối liền */
-.step:not(:first-child) {
-    margin-left: -25px;
-    padding-left: 25px; /* Đẩy nội dung ra khỏi vùng bị che */
+/* Kẻ chéo (Hình tam giác) ở đuôi của mỗi step */
+.step::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -24px;
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-left: 24px solid #f5f5f5;
+    /* Cùng màu nền mặc định */
+    z-index: 2;
 }
 
-/* Loại bỏ hình mũi tên cho tab cuối cùng */
-.step:last-child {
-    clip-path: none;
-    padding-right: 25px; /* Cân bằng lại padding */
+/* Đường viền kẻ chéo (được đặt phía dưới phần after) */
+.step::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: -25px;
+    /* Rộng hơn 1px để lộ viền */
+    width: 0;
+    height: 0;
+    border-top: 24px solid transparent;
+    border-bottom: 24px solid transparent;
+    border-left: 25px solid #bfbfbf;
+    /* Màu xám 6 */
+    z-index: 1;
+}
+
+/* Ẩn hình tam giác ở tab cuối cùng */
+.step:last-child::after,
+.step:last-child::before {
+    display: none;
 }
 
 .step-number {
@@ -64,28 +97,39 @@
     font-weight: bold;
 }
 
-/* Kiểu cho tab ĐÃ HOÀN THÀNH (tab 1 trong ảnh) */
-.step.completed {
-    background-color: #ffffff;
-    color: #00338d;
-    border-bottom: 2px solid #e0e0e0;
-}
-
-/* Kiểu cho tab ĐANG HOẠT ĐỘNG (tab 2 trong ảnh) */
+/* Kiểu cho tab hoàn thành và đang thao tác */
+.step.completed,
 .step.active {
-    background-color: #00338d;
-    color: white;
-    z-index: 10; /* Đảm bảo tab active nằm trên các tab khác */
+    background-color: #2B4E9A;
+    /* Màu xanh đen */
+    color: #ffffff;
 }
 
-/* ---- KẾT THÚC PHẦN CSS CẬP NHẬT ---- */
+/* Tam giác của tab đang thao tác/đã hoàn thành */
+.step.completed::after,
+.step.active::after {
+    border-left-color: #2B4E9A;
+}
 
-/* Phần thân và footer giữ nguyên */
+/* Màu viền tam giác của tab đang thao tác/đã hoàn thành (xám 5) */
+.step.completed::before,
+.step.active::before {
+    border-left-color: #d9d9d9;
+}
+
 .stepper-body {
     min-height: 120px;
-    padding: 20px 5px;
-    clear: both; /* Đảm bảo nội dung không bị ảnh hưởng bởi header */
-    padding-top: 40px;
+    padding: 20px 0;
+    margin-bottom: 100px;
+    clear: both;
+}
+
+.stepper-body-main1 {
+    margin-top: 125px;
+}
+
+.stepper-body-main2 {
+    margin-top: 90px;
 }
 
 .tab-content ul {
@@ -96,7 +140,7 @@
 .tab-content li {
     background-color: transparent;
     padding: 10px 0;
-    color: #00338d;
+    color: #2B4E9A;
     font-size: 18px;
     position: relative;
     padding-left: 25px;
@@ -106,7 +150,7 @@
 
 .tab-content li::before {
     content: "•";
-    color: #00338d;
+    color: #2B4E9A;
     font-weight: bold;
     font-size: 24px;
     position: absolute;
@@ -115,33 +159,94 @@
     transform: translateY(-50%);
 }
 
-.stepper-footer {
+.stepper-footer.custom-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
     display: flex;
-    justify-content: flex-end;
-    margin-top: 20px;
-    padding-top: 20px;
-    border-top: 1px solid #e0e0e0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 25px 155px;
+    background-color: #fff;
+    max-width: 1040px;
+    margin: 0 auto;
 }
 
-.stepper-footer button {
-    padding: 10px 20px;
-    border: none;
+.footer-right-actions {
+    display: flex;
+    gap: 12px;
+}
+
+.stepper-footer.custom-footer button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    border: 1px solid #C8C7D4;
     border-radius: 4px;
-    font-size: 16px;
+    font-size: 14px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-left: 10px;
-    background-color: #00338d;
-    color: white;
+    background-color: #fff;
+    color: #1B154B;
+    margin-left: 0;
 }
 
-.stepper-footer button:first-child {
-    background-color: #f0f0f0;
-    color: #333;
+.stepper-footer.custom-footer button:hover {
+    color: #ffffff;
+    background-color: #1B154B;
 }
 
-.stepper-footer button:disabled {
-    background-color: #ccc;
+.stepper-footer.custom-footer .btn-cancel {
+    background-color: #fff;
+}
+
+.btn-action.import:hover svg path {
+    stroke: #fff;
+}
+
+.btn-action.export:hover svg path {
+    fill: #fff;
+    stroke: #fff;
+}
+
+.stepper-footer.custom-footer button:disabled {
     cursor: not-allowed;
-    opacity: 0.7;
+    opacity: 0.6;
+}
+
+.btn-next {
+    position: relative;
+}
+
+.overlay-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 2px;
+    z-index: 10000;
+}
+
+.spinner-border {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+    to {
+        transform: rotate(360deg);
+    }
 }

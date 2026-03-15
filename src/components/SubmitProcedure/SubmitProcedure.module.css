@@ -1,0 +1,386 @@
+.container {
+    background-color: #fff;
+    min-height: 500px;
+    font-size: 16px;
+    color: #000;
+    margin: 0 auto;
+    max-width: 1100px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px 0 rgba(145, 158, 171, 0.16);
+    padding: 20px;
+}
+
+/* Step 1 Styles */
+.feeInfo {
+    margin-bottom: 24px;
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto;
+    font-weight: 600;
+}
+
+.feeTitle {
+    margin-bottom: 8px;
+}
+
+.feeItem {
+    margin-left: 16px;
+    margin-bottom: 4px;
+}
+
+.greyBox {
+    border-radius: 12px;
+    border: 1px solid var(--Gray-2, #F6F6F6);
+    background: var(--Gray-1, #F9F9F9);
+    padding: 24px;
+    margin-top: 32px;
+    margin-bottom: 32px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: -2px 2px 15px -1px rgba(113, 113, 113, 0.12);
+}
+
+.greyBoxTitle {
+    text-align: center;
+    color: #2F5597;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 24px;
+}
+
+.pdfList {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.pdfItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.pdfIconBox {
+    width: 60px;
+    height: 70px;
+    background-color: #fff;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: #2F5597;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pdfIconBox:hover {
+    background-color: #f0f4f8;
+}
+
+.downloadBtn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #e0e0e0;
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    color: #1B154B;
+}
+
+.downloadBtn:hover {
+    background: #f5f5f5;
+}
+
+.step1Actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 48px;
+    padding-top: 24px;
+    gap: 16px;
+}
+
+.btnAction {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #d9d9d9;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    color: #1B154B;
+    margin: 0 auto;
+    transition: all 0.2s;
+}
+
+.btnAction:hover {
+    background: #1B154B;
+    color: #fff;
+}
+
+.btnAction img {
+    width: 24px;
+    height: 24px;
+}
+
+.btnPrimary {
+    border-color: #e2e8f0;
+}
+
+/* Step 2 & 3 Layout */
+.step2Layout {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+}
+
+.leftCol {
+    flex-basis: 55%;
+}
+
+.rightCol {
+    flex-basis: 45%;
+    position: sticky;
+    top: 145px;
+}
+
+.sectionTitle {
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+/* Radio Group */
+.radioGroup {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 16px;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+}
+
+.radioLabel input[type="radio"] {
+    accent-color: #10A142;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0;
+}
+
+/* Select Group */
+.selectRow {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.selectGroup {
+    flex: 1;
+}
+
+.selectLabel {
+    display: block;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.btnAgree {
+    background: #eef2f6;
+    color: #333;
+    border: 1px solid #d9d9d9;
+    padding: 6px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin: 0 auto;
+}
+
+.btnAgree:hover {
+    background: #e2e8f0;
+}
+
+/* Step 3 Layout */
+.serviceList {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.serviceCard {
+    border-radius: 8px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 4px 8px 0 rgba(145, 158, 171, 0.16);
+
+}
+
+.serviceCardTitle {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 16px;
+    color: #0C0C0C;
+}
+
+.serviceCardBody {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.serviceDetails {
+    display: flex;
+    gap: 10px;
+    color: #505050;
+}
+
+.detailItem p {
+    margin-top: 0;
+}
+
+.feeHighlight {
+    color: #EA4335 !important;
+}
+
+.btnSubmitOnline {
+    background-color: #1B154B;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.btnSubmitOnline:hover {
+    background-color: #312e81;
+}
+
+/* Step 2 Left Content */
+.infoContent {
+    line-height: 1.6;
+    margin-bottom: 24px;
+}
+
+.infoContent p {
+    margin-bottom: 8px;
+    color: #505050;
+}
+
+.infoTable {
+    width: 160%;
+    border-collapse: collapse;
+    margin-bottom: 24px;
+}
+
+.infoTable th,
+.infoTable td {
+    border: 1px solid #eee;
+    padding: 12px;
+    text-align: left;
+    vertical-align: top;
+}
+
+.infoTable th {
+    background-color: #f8f9fa;
+    font-weight: 600;
+}
+
+/* Loading Overlay */
+.loadingOverlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    color: #2F5597;
+}
+
+.successIcon {
+    color: #52c41a;
+}
+
+/* Modal Styles */
+.modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background: #fff;
+    border-radius: 8px;
+    width: 700px;
+    max-width: 90%;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modalHeader {
+    margin-bottom: 24px;
+}
+
+.modalBody {
+    margin-bottom: 24px;
+}
+
+.feeTable {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.feeTable th,
+.feeTable td {
+    padding: 12px;
+    border: 1px solid #f0f0f0;
+    text-align: left;
+    vertical-align: top;
+}
+
+.feeTable th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.modalFooter {
+    text-align: center;
+}
+
+.btnCloseModal {
+    background: #eef2f6;
+    border: 1px solid #d9d9d9;
+    padding: 8px 32px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #4b4b8a;
+}
+
+.btnCloseModal:hover {
+    background: #e2e8f0;
+}

@@ -5,9 +5,15 @@ import logoWeTech from "../../assets/logo.png";
 
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
+    const location = window.location.href
+    console.log(location
+    );
 
     useEffect(() => {
+
         const timeoutId = setTimeout(() => {
+            if (location.includes('process-procedure')) return
+
             setIsOpen(true);
         }, 30000);
         return () => clearTimeout(timeoutId);
