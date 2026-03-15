@@ -300,12 +300,12 @@ const RegisterPayment = () => {
                     ]}
                 />
                 <ProgressStepper
-                    currentStep={status === "edit" ? 1 : 2}
+                    currentStep={status === "edit" ? 0 : 1}
                     isSuccess={status === "confirm"}
                     steps={[
                         { id: 0, label: "Thông tin" },
-                        { id: 1, label: "Thanh toán" },
-                        { id: 2, label: "Thành công" },
+                        { id: 1, label: "Xác nhận" },
+                        { id: 2, label: "Thanh toán" },
                     ]}
                 />
                 <div className={styles.registerContainer}>

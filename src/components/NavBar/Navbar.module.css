@@ -256,6 +256,10 @@
     right: -50%;
 }
 
+.dropdown-user-menu li a {
+    color: var(--primary-color);
+}
+
 .dropdown-menu li a {
     display: block;
     padding: 6px 15px;
@@ -274,7 +278,7 @@
 }
 
 .logout-item {
-    color: #d9534f;
+    color: var(--danger-color);
     padding: 10px 15px;
     font-weight: 500;
     margin-left: 18px;
