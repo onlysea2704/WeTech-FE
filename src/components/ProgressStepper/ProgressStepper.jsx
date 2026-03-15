@@ -1,13 +1,7 @@
 import React from "react";
-import styles from "./PaymentHeader.module.css";
+import styles from "./ProgressStepper.module.css";
 
-const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
-    const steps = [
-        { id: 1, label: "Thông tin" },
-        { id: 2, label: "Thanh toán" },
-        { id: 3, label: "Thành công" },
-    ];
-
+const ProgressStepper = ({ currentStep = 3, isSuccess = false, steps = [] }) => {
     return (
         <div className={styles["header-payment"]}>
             <div className={styles.steps}>
@@ -17,7 +11,7 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
                     else if (currentStep === step.id) {
                         status = "active";
                         if (step.id === 3 && isSuccess) status = "success";
-                        if (step.id === 3 && isSuccess === false) status = "failed"; // Keep existing logic just in case, though usually 3 is just active or success
+                        if (step.id === 3 && isSuccess === false) status = "failed";
                     }
 
                     return (
@@ -26,7 +20,7 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
                                 {status === "done" || status === "success" ? (
                                     <i className="fa-solid fa-check"></i>
                                 ) : (
-                                    <span>{step.id}</span>
+                                    <span>{step.id + 1}</span>
                                 )}
                             </div>
                             <span className={styles["step-label"]}>{step.label}</span>
@@ -35,10 +29,8 @@ const PaymentHeader = ({ currentStep = 3, isSuccess = false }) => {
                     );
                 })}
             </div>
-
-            <div></div>
         </div>
     );
 };
 
-export default PaymentHeader;
+export default ProgressStepper;

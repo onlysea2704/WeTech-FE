@@ -1,8 +1,6 @@
 body {
     margin: 0;
-    font-family:
-        -apple-system, BlinkMacSystemFont, "Roboto", "Segoe UI", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans",
-        "Droid Sans", "Helvetica Neue", sans-serif;
+    font-family: "Roboto";
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
@@ -11,7 +9,16 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
-.primary-color {
-    background-color: #443f6b;
-    color: white;
+:root {
+    --primary-font-family: "Roboto Condensed";
+    --secondary-font-family: "Roboto";
+    --primary-color: #1B154B;
+    --primary-content: #0C0C0C;
+    --secondary-content: #505050;
+    --danger-color: #FF3B30;
+    --success-color: #10A142;
+    --warning-color: #FF782D;
+    --info-color: #2B4E9A;
+
+    --border-color: #C8C7D4;
 }

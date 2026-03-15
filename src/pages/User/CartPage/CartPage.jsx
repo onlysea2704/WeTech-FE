@@ -5,7 +5,7 @@ import Navbar from "../../../components/NavBar/NavBar";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import { authAxios } from "../../../services/axios-instance";
 import styles from "./CartPage.module.css";
-import CourseListSkeleton from "../../../components/Skeleton/CourseListSkeleton";
+import CourseListSkeleton from "../../../components/Loading/Skeleton/CourseListSkeleton";
 import { useNotification } from "../../../hooks/useNotification";
 import Footer from "../../../components/Footer/Footer";
 

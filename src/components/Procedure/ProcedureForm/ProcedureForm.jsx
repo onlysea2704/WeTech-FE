@@ -1,0 +1,416 @@
+import React, { useState, useEffect } from "react";
+import styles from "./ProcedureForm.module.css";
+import { authAxios } from "../../../services/axios-instance";
+import { useNotification } from "../../../hooks/useNotification";
+import { useNavigate } from "react-router-dom";
+import typeCompanyOptions from "../../../consts/typeCompany";
+
+
+const ProcedureForm = ({ procedureId }) => {
+    const { showSuccess, showError } = useNotification();
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        title: "",
+        description: "",
+        realPrice: 0,
+        salePrice: 0,
+        typeCompany: "cong_ty_tnhh_mot_thanh_vien",
+        typeCompanyTitle: "",
+        serviceType: "",
+        serviceTypeTitle: "",
+        linkImage: "",
+        imageFile: null,
+    });
+
+    const [forms, setForms] = useState([]);
+    const [previewImage, setPreviewImage] = useState(null);
+
+    const allFormTypes = [];
+    const currentTypeCompanyData = typeCompanyOptions.find(tc => tc.value === formData.typeCompany);
+    if (currentTypeCompanyData) {
+        const currentServiceData = currentTypeCompanyData.services?.find(svc => svc.value === formData.serviceType);
+        if (currentServiceData) {
+            currentServiceData.procedures?.forEach(proc => {
+                proc.formsType?.forEach(ft => {
+                    if (ft.title && !allFormTypes.find(a => a.value === (ft.value || ft.title))) {
+                        allFormTypes.push({ title: ft.title, value: ft.value || ft.title });
+                    }
+                });
+            });
+        }
+    }
+
+    // ============ Derived options from typeCompany ============
+
+    // Danh sách services theo typeCompany đang chọn
+    const currentTypeCompanyObj = typeCompanyOptions.find(
+        (tc) => tc.value === formData.typeCompany
+    );
+    const serviceOptions = currentTypeCompanyObj?.services || [];
+
+    // Danh sách procedures theo service đang chọn
+    const currentServiceObj = serviceOptions.find(
+        (s) => s.value === formData.serviceType
+    );
+    const procedureOptions = currentServiceObj?.procedures || [];
+
+    // ============================================================
+
+    // Fetch existing data if in Edit Mode
+    useEffect(() => {
+        if (procedureId) {
+            const fetchProcedureById = async () => {
+                try {
+                    const res = await authAxios.get(`/api/procedurer/find-by-id-and-check-status?id=${procedureId}`);
+                    const procedure = res.data;
+                    if (procedure) {
+                        setFormData({
+                            title: procedure.title || "",
+                            description: procedure.description || "",
+                            realPrice: procedure.realPrice || 0,
+                            salePrice: procedure.salePrice || 0,
+                            typeCompany: procedure.typeCompany || "cong_ty_tnhh_mot_thanh_vien",
+                            typeCompanyTitle: procedure.typeCompanyTitle || "",
+                            serviceType: procedure.serviceType || "",
+                            serviceTypeTitle: procedure.serviceTypeTitle || "",
+                            linkImage: procedure.linkImage || "",
+                            imageFile: null,
+                        });
+                        if (procedure.linkImage) setPreviewImage(procedure.linkImage);
+                        if (procedure.forms && Array.isArray(procedure.forms)) {
+                            setForms(procedure.forms);
+                        }
+                    }
+                } catch (error) {
+                    console.error("Lỗi khi lấy dữ liệu thủ tục:", error);
+                    showError("Không thể tải thông tin thủ tục.");
+                }
+            };
+            fetchProcedureById();
+        }
+    }, [procedureId, showError]);
+
+    const handleFormChange = (e) => {
+        const { name, value } = e.target;
+
+        if (name === "typeCompany") {
+            // Khi đổi loại công ty: reset serviceType, serviceTypeTitle và các forms
+            const selectedTc = typeCompanyOptions.find((tc) => tc.value === value);
+            setFormData({
+                ...formData,
+                typeCompany: value,
+                typeCompanyTitle: selectedTc?.title || "",
+                serviceType: "",
+                serviceTypeTitle: "",
+            });
+            return;
+        }
+
+        if (name === "serviceType") {
+            const selectedSvc = serviceOptions.find((s) => s.value === value);
+            setFormData({
+                ...formData,
+                serviceType: value,
+                serviceTypeTitle: selectedSvc?.title || "",
+            });
+            return;
+        }
+
+        setFormData({ ...formData, [name]: value });
+    };
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setFormData({ ...formData, imageFile: file });
+            setPreviewImage(URL.createObjectURL(file));
+        }
+    };
+
+    // --- Dynamic Forms Handlers ---
+    const handleAddDynamicForm = () => {
+        setForms([
+            ...forms,
+            {
+                name: "",       // title của procedure
+                nameValue: "",  // value của procedure (dùng nội bộ để tìm formsType)
+                type: "",       // title của formsType
+            },
+        ]);
+    };
+
+    const handleRemoveDynamicForm = (index) => {
+        const updatedForms = [...forms];
+        updatedForms.splice(index, 1);
+        setForms(updatedForms);
+    };
+
+    // Khi chọn tên biểu mẫu (procedure name), cập nhật name + reset type
+    const handleFormNameChange = (index, selectedValue) => {
+        const selectedProc = procedureOptions.find((p) => p.value === selectedValue);
+        const updatedForms = [...forms];
+        updatedForms[index] = {
+            ...updatedForms[index],
+            name: selectedProc?.title || "",
+            nameValue: selectedValue,
+            type: "", // reset type khi đổi procedure
+        };
+        setForms(updatedForms);
+    };
+
+    // Khi chọn type (formsType title)
+    const handleFormTypeChange = (index, selectedValue) => {
+        const form = forms[index];
+        const proc = procedureOptions.find((p) => p.value === form.nameValue);
+        const selectedFormType = proc?.formsType?.find((ft) => ft.value === selectedValue);
+        const updatedForms = [...forms];
+        updatedForms[index] = {
+            ...updatedForms[index],
+            type: selectedFormType?.title || "",
+            typeValue: selectedValue,
+        };
+        setForms(updatedForms);
+    };
+
+    // --- Submit Handler ---
+    const handleSave = async () => {
+        try {
+            const { imageFile, linkImage, typeCompany, typeCompanyTitle, serviceType, serviceTypeTitle, ...rest } = formData;
+
+            // Chỉ gửi name và type cho mỗi form
+            const parsedForms = forms.map((f) => ({
+                name: f.name,
+                type: f.type,
+            }));
+
+            const payload = {
+                salePrice: Number(rest.salePrice),
+                typeCompany,
+                typeCompanyTitle,
+                serviceType,
+                serviceTypeTitle,
+                realPrice: Number(rest.realPrice),
+                forms: parsedForms,
+                title: rest.title,
+                description: rest.description,
+            };
+
+            if (procedureId && linkImage) {
+                payload.linkImage = linkImage;
+            }
+
+            const formDataToSend = new FormData();
+            formDataToSend.append("procedure", new Blob([JSON.stringify(payload)], { type: "application/json" }));
+
+            if (imageFile) {
+                formDataToSend.append("image", imageFile);
+            }
+
+            let res;
+            if (procedureId) {
+                res = await authAxios.post(`/api/procedurer/update?procedureId=${procedureId}`, formDataToSend, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                showSuccess("Cập nhật thủ tục thành công!");
+            } else {
+                res = await authAxios.post("/api/procedurer/create", formDataToSend, {
+                    headers: { "Content-Type": "multipart/form-data" },
+                });
+                showSuccess("Tạo mới thủ tục thành công!");
+                if (res.data && res.data.procedureId) {
+                    navigate(`/manage-procedure/${res.data.procedureId}`);
+                } else {
+                    navigate("/list-procedure");
+                }
+            }
+        } catch (error) {
+            console.error("Lỗi khi lưu thủ tục:", error);
+            showError("Có lỗi xảy ra khi lưu thủ tục!");
+        }
+    };
+
+    return (
+        <div className={styles["procedure-form-container"]}>
+            <div className={styles["procedure-form"]}>
+                {procedureId && (
+                    <div className={styles["form-row"]}>
+                        <div className={styles["form-group-procedure-info"]}>
+                            <label>ID Thủ tục</label>
+                            <input type="text" value={procedureId} readOnly />
+                        </div>
+                    </div>
+                )}
+
+                {/* Hàng 1: Tiêu đề */}
+                <div className={styles["form-row"]}>
+                    <div className={styles["form-group-procedure-info"]}>
+                        <label>Tên thủ tục <span style={{ color: "red" }}>*</span></label>
+                        <input type="text" name="title" value={formData.title} onChange={handleFormChange} required />
+                    </div>
+                </div>
+
+                {/* Hàng 2: Loại Công Ty + Loại Dịch Vụ */}
+                <div className={styles["form-row"]}>
+                    <div className={styles["form-group-procedure-info"]}>
+                        <label>Loại Công Ty <span style={{ color: "red" }}>*</span></label>
+                        <select name="typeCompany" value={formData.typeCompany} onChange={handleFormChange}>
+                            {typeCompanyOptions.map((option) => (
+                                <option key={option.value} value={option.value}>
+                                    {option.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className={styles["form-group-procedure-info"]}>
+                        <label>Loại Dịch Vụ <span style={{ color: "red" }}>*</span></label>
+                        <select name="serviceType" value={formData.serviceType} onChange={handleFormChange}>
+                            <option value="">-- Chọn dịch vụ --</option>
+                            {serviceOptions.map((svc) => (
+                                <option key={svc.value} value={svc.value}>
+                                    {svc.title}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                </div>
+
+                {/* Hàng 3: Giá */}
+                <div className={styles["form-row"]}>
+                    <div className={styles["form-group-procedure-info"]}>
+                        <label>Giá gốc</label>
+                        <input
+                            type="number"
+                            name="realPrice"
+                            value={formData.realPrice}
+                            onChange={handleFormChange}
+                        />
+                    </div>
+                    <div className={styles["form-group-procedure-info"]}>
+                        <label>Giá bán (Sale)</label>
+                        <input
+                            type="number"
+                            name="salePrice"
+                            value={formData.salePrice}
+                            onChange={handleFormChange}
+                        />
+                    </div>
+                </div>
+
+                {/* Hàng 4: Mô tả */}
+                <div className={`${styles["form-group-procedure-info"]} ${styles["full-width"]} ${styles["procedure-description"]}`}>
+                    <label>Mô tả chi tiết</label>
+                    <textarea name="description" value={formData.description} onChange={handleFormChange} />
+                </div>
+
+                {/* Hàng 5: Ảnh thủ tục */}
+                <div className={`${styles["form-group-procedure-info"]} ${styles["full-width"]}`}>
+                    <label>Ảnh hiển thị thủ tục (linkImage)</label>
+                    <input type="file" accept="image/*" onChange={handleImageChange} />
+                    {previewImage && (
+                        <div className={styles["image-preview"]}>
+                            <img src={previewImage} alt="preview" />
+                        </div>
+                    )}
+                </div>
+
+                {/* --- BIỂU MẪU ĐỘNG --- */}
+                <div className={styles["dynamic-forms-section"]}>
+                    <div className={styles["forms-header"]}>
+                        <h3>Danh sách Biểu mẫu (Forms)</h3>
+                        <button type="button" className={styles["add-form-btn"]} onClick={handleAddDynamicForm}>
+                            <i className="fa-solid fa-plus"></i> Thêm biểu mẫu
+                        </button>
+                    </div>
+
+                    {forms.map((form, index) => {
+                        // Lấy formsType của procedure đang chọn cho biểu mẫu này
+                        const selectedProc = procedureOptions.find((p) => p.value === form.nameValue);
+                        const formTypeOptions = selectedProc?.formsType || [];
+
+                        return (
+                            <div key={index} className={styles["form-block"]}>
+                                <div className={styles["form-block-header"]}>
+                                    <h4>Biểu mẫu #{index + 1}</h4>
+                                    <button
+                                        type="button"
+                                        className={styles["remove-form-btn"]}
+                                        onClick={() => handleRemoveDynamicForm(index)}
+                                    >
+                                        <i className="fa-solid fa-trash"></i> Xóa biểu mẫu
+                                    </button>
+                                </div>
+
+                                {/* Tên biểu mẫu - select từ procedures */}
+                                <div className={styles["form-group-procedure-info"]} style={{ marginBottom: "16px" }}>
+                                    <label>Tên biểu mẫu <span style={{ color: "red" }}>*</span></label>
+                                    {procedureOptions.length > 0 ? (
+                                        <select
+                                            value={form.nameValue || ""}
+                                            onChange={(e) => handleFormNameChange(index, e.target.value)}
+                                        >
+                                            <option value="">-- Chọn tên biểu mẫu --</option>
+                                            {procedureOptions.map((proc) => (
+                                                <option key={proc.value} value={proc.value}>
+                                                    {proc.title}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <input
+                                            type="text"
+                                            value={form.name || ""}
+                                            onChange={(e) => {
+                                                const updatedForms = [...forms];
+                                                updatedForms[index].name = e.target.value;
+                                                updatedForms[index].nameValue = e.target.value;
+                                                setForms(updatedForms);
+                                            }}
+                                            placeholder="Nhập tên biểu mẫu (nếu không có trong danh sách)"
+                                        />
+                                    )}
+                                </div>
+
+                                {/* Loại biểu mẫu - select từ formsType */}
+                                <div className={styles["form-group-procedure-info"]} style={{ marginBottom: "16px" }}>
+                                    <label>Loại biểu mẫu (Type) <span style={{ color: "red" }}>*</span></label>
+                                    <select
+                                        value={form.typeValue || form.type || ""}
+                                        onChange={(e) => {
+                                            const updatedForms = [...forms];
+                                            const selectedOptions = e.target.options;
+                                            const selectedTitle = e.target.value ? selectedOptions[selectedOptions.selectedIndex].text : "";
+                                            updatedForms[index].type = selectedTitle;
+                                            updatedForms[index].typeValue = e.target.value;
+                                            setForms(updatedForms);
+                                        }}
+                                    >
+                                        <option value="">-- Chọn loại biểu mẫu --</option>
+                                        {allFormTypes.map((ft, i) => (
+                                            <option key={i} value={ft.value}>
+                                                {ft.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </div>
+                        );
+                    })}
+
+                    {forms.length === 0 && (
+                        <p style={{ color: "#6c757d", fontSize: "14px", fontStyle: "italic" }}>
+                            Chưa có biểu mẫu nào. Nhấn "Thêm biểu mẫu" để tạo.
+                        </p>
+                    )}
+                </div>
+
+                <button type="button" className={styles["submit-btn"]} onClick={handleSave}>
+                    {procedureId ? "Lưu cập nhật Thủ tục" : "Tạo mới Thủ tục"}
+                </button>
+            </div>
+        </div>
+    );
+};
+
+export default ProcedureForm;

@@ -7,10 +7,11 @@ import Footer from "../../../components/Footer/Footer";
 import CourseCard from "../../../components/CourseCard/CourseCard";
 import { publicAxios, authAxios } from "../../../services/axios-instance";
 import JoinCourses from "../../../components/JoinCourses/JoinCourses.jsx";
-import CourseSkeleton from "../../../components/Skeleton/CourseSkeleton";
+import CourseSkeleton from "../../../components/Loading/Skeleton/CourseSkeleton";
 
 const Courses = ({ title, description, courses, loading }) => {
     const [visibleCount, setVisibleCount] = useState(4);
+    console.log(title, description, courses);
 
     const handleViewMore = () => {
         setVisibleCount((prev) => prev + 4); // mỗi lần bấm tăng thêm 4
@@ -23,7 +24,7 @@ const Courses = ({ title, description, courses, loading }) => {
                     <h2>{title}</h2>
                     <p>{description}</p>
                 </div>
-                {!loading && visibleCount < courses.length && (
+                {!loading && courses && visibleCount < courses.length && (
                     <button className={styles["view-more"]} onClick={handleViewMore}>
                         Xem thêm
                     </button>
@@ -33,9 +34,9 @@ const Courses = ({ title, description, courses, loading }) => {
             <div className={styles["course-list"]}>
                 {loading
                     ? Array.from({ length: 4 }).map((_, index) => <CourseSkeleton key={index} />)
-                    : courses
-                          .slice(0, visibleCount)
-                          .map((course, index) => <CourseCard key={index} index={index} course={course} />)}
+                    : (courses || [])
+                        .slice(0, visibleCount)
+                        .map((course, index) => <CourseCard key={index} index={index} course={course} />)}
             </div>
         </div>
     );
@@ -101,7 +102,7 @@ const ListCourses = () => {
             <div className={styles["courses-page"]}>
                 <Banner />
 
-                {isLogin && (loading || myCourse.length > 0) && (
+                {isLogin && (loading || myCourse?.length > 0) && (
                     <Courses
                         title="HOÀN THÀNH KHÓA HỌC CỦA BẠN"
                         description="Các khoá học đã đăng ký"

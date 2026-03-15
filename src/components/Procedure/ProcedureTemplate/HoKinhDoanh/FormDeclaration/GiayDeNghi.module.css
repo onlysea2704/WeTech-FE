@@ -1,0 +1,396 @@
+.row {
+    display: flex;
+    /* margin-bottom: 25px; */
+    gap: 60px;
+}
+
+.colLeft {
+    flex-basis: calc(65% - 10px);
+}
+
+.sectionTitle {
+    color: #1C1C1B;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 14px;
+}
+
+.colRight {
+    flex-basis: calc(35% - 10px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding-top: 68px;
+}
+
+@media screen and (width <=768px) {
+    .row {
+        flex-direction: column;
+    }
+
+    .colLeft,
+    .colRight,
+    .colHalf {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+}
+
+.colHalf {
+    flex-basis: 50%;
+    max-width: 50%;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 6px;
+    color: #505050;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.required {
+    color: #f5222d;
+    margin-left: 3px;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    color: #505050;
+    background-color: #fff;
+    min-height: 40px;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #40a9ff;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.inputWithSuffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSuffix {
+    position: absolute;
+    right: 14px;
+    color: #505050;
+    font-weight: 600;
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.inputWithSuffix input {
+    padding-right: 48px;
+}
+
+.inputKinhGui {
+    padding: 0;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-bottom: 1px dashed #1e1b4b;
+    color: #333;
+}
+
+.greyBox {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 10px;
+    background-color: #fafafa;
+}
+
+.greyBoxContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.greyBoxContent .greyText {
+    color: #555;
+    flex-shrink: 0;
+}
+
+.greyBoxContent .spacer {
+    flex: 1;
+    height: 1px;
+    background-color: transparent;
+}
+
+.imageUploadColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 0;
+    width: 100%;
+}
+
+.uploadBox {
+    width: 100%;
+    max-width: 220px;
+    /* Khống chế chiều ngang tối đa để không bao giờ bị quá dài */
+    height: 120px;
+    /* Chiều cao cố định phù hợp 2 ảnh chồng lên nhau */
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.uploadBox:hover {
+    border-color: #40a9ff;
+}
+
+.uploadBox span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #888;
+}
+
+.uploadIcon {
+    color: #389e0d;
+}
+
+.uploadButton {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    padding: 6px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.uploadButton:hover {
+    border-color: #40a9ff;
+    color: #40a9ff;
+}
+
+.actionRow {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.btnPrimary {
+    background-color: #1B154B;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btnSecondary {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #d9d9d9;
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+    font-size: 12px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e8e8e8;
+    padding: 10px 12px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #1B154B;
+    color: white;
+    font-weight: 500;
+}
+
+.table td {
+    color: #000000;
+}
+
+table img {
+    cursor: pointer;
+}
+
+/* ── Table cell styles ── */
+.tableInput {
+    min-height: 32px;
+    padding: 4px 6px;
+    font-size: 12px;
+    border: 1px solid #d9d9d9;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.tdLeft {
+    text-align: left !important;
+    word-break: break-word;
+    white-space: normal;
+}
+
+.tdActions {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+}
+
+.emptyRow {
+    text-align: center;
+    color: #999;
+    padding: 20px;
+    font-style: italic;
+}
+
+/* ── Validation error ── */
+.inputError {
+    border-color: #f5222d !important;
+    background-color: #fff2f0;
+}
+
+.inputError:focus {
+    box-shadow: 0 0 0 2px rgba(245, 34, 45, 0.2) !important;
+}
+
+/* ── Buttons ── */
+.btnSave {
+    background-color: #1B154B;
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 12px;
+    white-space: nowrap;
+}
+
+.btnSave:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* ── Section group spacing ── */
+.sectionGroup {
+    margin-top: 20px;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #333;
+}
+
+.radioInput {
+    accent-color: #10A142;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    margin: 0;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #1e1b4b;
+    cursor: pointer;
+}
+
+@media (max-width: 900px) {
+
+    .colLeft,
+    .colRight,
+    .colHalf {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .colRight {
+        margin-top: 20px;
+    }
+
+    .imageUploadColumn {
+        flex-direction: row;
+        gap: 15px;
+        padding-top: 0;
+    }
+
+    .uploadBox {
+        margin-bottom: 0;
+        height: 100px;
+    }
+
+    .uploadButton {
+        align-self: flex-start;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid2 {
+        grid-template-columns: 1fr;
+    }
+
+    .imageUploadColumn {
+        flex-direction: column;
+    }
+
+    .uploadBox {
+        height: 140px;
+    }
+}

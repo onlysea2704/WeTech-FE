@@ -32,7 +32,7 @@ import notepadIcon from "../../../assets/notepad-icon.png";
 import monitorIcon from "../../../assets/monitor-icon.png";
 import trophyIcon from "../../../assets/trophy-icon.png";
 import { useNotification } from "../../../hooks/useNotification";
-import DetailCourseSkeleton from "../../../components/Skeleton/DetailCourseSkeleton";
+import DetailCourseSkeleton from "../../../components/Loading/Skeleton/DetailCourseSkeleton";
 import { useBuyCourse } from "../../../utils/buyCourseHelper";
 import { DetailCourseProvider } from "../../../context/DetailCourseContext";
 

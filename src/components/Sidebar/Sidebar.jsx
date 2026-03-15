@@ -47,7 +47,7 @@ const Sidebar = () => {
                     <span>Khóa học</span>
                 </Link>
 
-                <Link to="/list-course" className={`${styles["menu-item"]} ${isActive("/renew") ? styles.active : ""}`}>
+                <Link to="/list-procedure" className={`${styles["menu-item"]} ${isActive("/list-procedure") ? styles.active : ""}`}>
                     <i className={`fa-solid fa-calendar-days ${styles["menu-icon"]}`}></i>
                     <span>Thủ tục pháp lý</span>
                 </Link>

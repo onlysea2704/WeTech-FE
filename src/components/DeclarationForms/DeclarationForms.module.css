@@ -1,0 +1,358 @@
+.container {
+    width: 100%;
+    max-width: 960px;
+    /* Thêm max-width để form không bị kéo dãn toàn màn hình */
+    margin: 0 auto;
+    color: #000000;
+    padding: 0 40px;
+    background-color: #fff;
+    border-radius: 8px;
+    /* Tùy chọn để form có bo góc tự nhiên */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    /* Tùy chọn để form nổi lên */
+}
+
+.mainTitle {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    padding: 0;
+    margin: 0;
+    margin-top: 10px;
+    text-transform: uppercase;
+}
+
+.sectionTitle {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    color: #111;
+}
+
+.sectionGroup {
+    margin-bottom: 25px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    margin-bottom: 25px;
+}
+
+.colLeft {
+    flex: 0 0 75%;
+    max-width: 75%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.colRight {
+    flex: 0 0 25%;
+    max-width: 25%;
+    padding-top: 40px;
+    /* Thêm padding-top để căn chỉnh với các file bên trái */
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.colHalf {
+    flex: 0 0 50%;
+    max-width: 50%;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 6px;
+    color: #444;
+}
+
+.required {
+    color: #f5222d;
+    margin-left: 3px;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 8px 12px;
+    font-size: 13px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    color: #333;
+    background-color: #fff;
+    min-height: 36px;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #40a9ff;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.inputWithSuffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSuffix {
+    position: absolute;
+    right: 12px;
+    color: #333;
+    font-size: 13px;
+    font-weight: 600;
+    pointer-events: none;
+}
+
+.inputWithSuffix input {
+    padding-right: 48px;
+}
+
+.greyBox {
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 10px;
+    background-color: #fafafa;
+}
+
+.greyBoxContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+
+.greyBoxContent .greyText {
+    font-size: 11px;
+    color: #555;
+    flex-shrink: 0;
+}
+
+.greyBoxContent .spacer {
+    flex: 1;
+    height: 1px;
+    background-color: transparent;
+}
+
+.imageUploadColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 36px;
+    /* Để thẳng hàng với dòng chữ "Tên người đại diện" và input */
+}
+
+.uploadBox {
+    width: 100%;
+    max-width: 220px;
+    /* Khống chế chiều ngang tối đa để không bao giờ bị quá dài */
+    height: 120px;
+    /* Chiều cao cố định phù hợp 2 ảnh chồng lên nhau */
+    border: 1px dashed #d9d9d9;
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #fcfcfc;
+    margin-bottom: 16px;
+    cursor: pointer;
+    transition: border-color 0.2s;
+}
+
+.uploadBox:hover {
+    border-color: #40a9ff;
+}
+
+.uploadBox span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #888;
+}
+
+.uploadIcon {
+    color: #389e0d;
+}
+
+.uploadButton {
+    background-color: #fff;
+    border: 1px solid #d9d9d9;
+    padding: 6px 16px;
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #333;
+    transition: all 0.2s;
+}
+
+.uploadButton:hover {
+    border-color: #40a9ff;
+    color: #40a9ff;
+}
+
+.actionRow {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.btnPrimary {
+    background-color: #1e1b4b;
+    color: white;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.btnSecondary {
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #d9d9d9;
+    padding: 6px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.tableContainer {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 600px;
+}
+
+.table th,
+.table td {
+    border: 1px solid #e8e8e8;
+    padding: 10px 12px;
+    text-align: center;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.table th {
+    background-color: #1e1b4b;
+    color: white;
+    font-weight: 500;
+}
+
+.table td {
+    color: #333;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 24px;
+    align-items: center;
+}
+
+.radioLabel {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #333;
+}
+
+.radioInput {
+    accent-color: #52c41a;
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: #1e1b4b;
+    cursor: pointer;
+}
+
+.deleteIcon {
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s;
+}
+
+.deleteIcon:hover {
+    color: #ff4d4f;
+}
+
+@media (max-width: 900px) {
+
+    .colLeft,
+    .colRight,
+    .colHalf {
+        flex: 0 0 100%;
+        max-width: 100%;
+    }
+
+    .colRight {
+        margin-top: 20px;
+    }
+
+    .imageUploadColumn {
+        flex-direction: row;
+        gap: 15px;
+        padding-top: 0;
+    }
+
+    .uploadBox {
+        margin-bottom: 0;
+        height: 100px;
+    }
+
+    .uploadButton {
+        align-self: flex-start;
+        margin-top: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    .grid2 {
+        grid-template-columns: 1fr;
+    }
+
+    .imageUploadColumn {
+        flex-direction: column;
+    }
+
+    .uploadBox {
+        height: 140px;
+    }
+}

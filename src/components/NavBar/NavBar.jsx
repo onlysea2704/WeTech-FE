@@ -18,9 +18,11 @@ const Navbar = () => {
 
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
     const [isServicesDropdownOpen, setIsServicesDropdownOpen] = useState(false);
+    const [isProcedureDropdownOpen, setIsProcedureDropdownOpen] = useState(false);
     const navigate = useNavigate();
     const userDropdownRef = useRef(null);
     const servicesDropdownRef = useRef(null);
+    const procedureDropdownRef = useRef(null);
 
     useEffect(() => {
         fetchCartCount();
@@ -33,6 +35,11 @@ const Navbar = () => {
 
     const toggleServicesDropdown = () => {
         setIsServicesDropdownOpen(!isServicesDropdownOpen);
+        setIsUserDropdownOpen(false);
+    };
+
+    const toggleProcedureDropdown = () => {
+        setIsProcedureDropdownOpen(!isProcedureDropdownOpen);
         setIsUserDropdownOpen(false);
     };
 
@@ -89,7 +96,7 @@ const Navbar = () => {
                             <Link to="/">GIỚI THIỆU</Link>
                         </div>
 
-                        <div
+                        {/* <div
                             className={`${styles["nav-item"]} ${styles["menu-item-dropdown"]}`}
                             ref={servicesDropdownRef}
                         >
@@ -123,6 +130,65 @@ const Navbar = () => {
                                         </li>
                                         <li>
                                             <Link to="/course-filter/cap-nhat-len-cccd">Cập nhật lên CCCD</Link>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div> */}
+
+                        <div
+                            className={`${styles["nav-item"]} ${styles["menu-item-dropdown"]}`}
+                            ref={procedureDropdownRef}
+                        >
+                            <div className={styles["dropdown-toggle"]} onClick={toggleProcedureDropdown}>
+                                DỊCH VỤ PHÁP LÝ <i className="fas fa-caret-down"></i>
+                            </div>
+                            {isProcedureDropdownOpen && (
+                                <div className={`${styles["dropdown-menu"]} ${styles["dropdown-service-menu"]}`}>
+                                    <ul>
+                                        <li className={styles["submenu-item"]}>
+                                            <div className={styles["submenu-toggle"]}>
+                                                Xem tất cả <i className="fas fa-caret-right"></i>
+                                            </div>
+                                            <div className={styles["submenu"]}>
+                                                <ul>
+                                                    <li>
+                                                        <Link to="/list-procedures/cong_ty_tnhh_mot_thanh_vien">
+                                                            Công ty TNHH 1 thành viên
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to="/list-procedures/cong_ty_tnhh_hai_thanh_vien_tro_len">
+                                                            Công ty TNHH 2 thành viên trở lên
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to="/list-procedures/cong_ty_co_phan">
+                                                            Công ty cổ phần
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to="/list-procedures/doanh_nghiep_tu_nhan">
+                                                            Doanh nghiệp tư nhân
+                                                        </Link>
+                                                    </li>
+                                                    <li>
+                                                        <Link to="/list-procedures/ho_kinh_doanh">
+                                                            Hộ kinh doanh
+                                                        </Link>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <Link to="/procedure-filter">
+                                                Tìm kiếm dịch vụ pháp lý
+                                            </Link>
+                                        </li>
+                                        <li>
+                                            <Link to="/procedure/search">
+                                                Tra cứu hồ sơ của tôi
+                                            </Link>
                                         </li>
                                     </ul>
                                 </div>

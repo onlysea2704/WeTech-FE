@@ -1,0 +1,171 @@
+.procedure-form-container {
+    width: 100%;
+}
+
+.procedure-form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+/* Hàng ngang */
+.form-row {
+    display: flex;
+    gap: 24px;
+    width: 100%;
+}
+
+/* Nhóm input */
+.form-group-procedure-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form-group-procedure-info.full-width {
+    width: 100%;
+    flex: none;
+}
+
+.form-group-procedure-info label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.form-group-procedure-info input,
+.form-group-procedure-info select,
+.form-group-procedure-info textarea {
+    padding: 10px 14px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #212529;
+    background-color: #fff;
+    transition: border-color 0.2s;
+    font-family: inherit;
+}
+
+.form-group-procedure-info input:focus,
+.form-group-procedure-info select:focus,
+.form-group-procedure-info textarea:focus {
+    outline: none;
+    border-color: #1a8917;
+}
+
+.form-group-procedure-info input[readonly] {
+    background-color: #f8f9fa;
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+/* Textarea dành cho description */
+.procedure-description textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* Preview ảnh */
+.image-preview {
+    margin-top: 10px;
+    max-width: 300px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 1px solid #dee2e6;
+}
+
+.image-preview img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Forms Section */
+.dynamic-forms-section {
+    margin-top: 24px;
+    border-top: 1px solid #dee2e6;
+    padding-top: 24px;
+}
+
+.forms-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.forms-header h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #212529;
+}
+
+.add-form-btn {
+    padding: 8px 16px;
+    background-color: #e9ecef;
+    color: #333;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.add-form-btn:hover {
+    background-color: #dee2e6;
+}
+
+.form-block {
+    background-color: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.form-block-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.form-block-header h4 {
+    margin: 0;
+    font-size: 16px;
+    color: #495057;
+}
+
+.remove-form-btn {
+    background: none;
+    border: none;
+    color: #dc3545;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.remove-form-btn:hover {
+    text-decoration: underline;
+}
+
+/* Nút Submit */
+.submit-btn {
+    margin-top: 24px;
+    padding: 12px 24px;
+    background-color: #1a8917;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    align-self: flex-start;
+}
+
+.submit-btn:hover {
+    background-color: #156c12;
+}

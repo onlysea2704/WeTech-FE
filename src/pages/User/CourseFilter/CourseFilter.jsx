@@ -5,7 +5,7 @@ import Footer from "../../../components/Footer/Footer";
 import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
 import FilterCourse from "../../../components/FilterCourse/FilterCourse";
 import CourseCardMini from "../../../components/CourseCardMini/CourseCardMini";
-import CourseSkeleton from "../../../components/Skeleton/CourseSkeleton";
+import CourseSkeleton from "../../../components/Loading/Skeleton/CourseSkeleton";
 import { publicAxios } from "../../../services/axios-instance";
 import { useSearchParams, useParams } from "react-router-dom";
 

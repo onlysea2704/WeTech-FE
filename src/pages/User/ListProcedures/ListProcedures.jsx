@@ -1,103 +1,152 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ListProcedures.module.css";
-import ProcedureCard from "../../../components/ProcedureCard/ProcedureCard";
 import Footer from "../../../components/Footer/Footer";
 import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import { useParams } from "react-router-dom";
 import { publicAxios } from "../../../services/axios-instance";
+import Banner from "../../../components/Banner/Banner";
+import typeCompanyOptions from "../../../consts/typeCompany";
+import { useNavigate, useParams } from "react-router-dom";
+import ProcedureCard from "../../../components/Procedure/ProcedureCard/ProcedureCard";
 
-const tabs = [
-    { label: "Công ty TNHH một thành viên", value: "cong_ty_tnhh_mot_thanh_vien" },
-    { label: "Công ty TNHH hai thành viên trở lên", value: "cong_ty_tnhh_hai_thanh_vien_tro_len" },
-    { label: "Công ty Cổ phần", value: "cong_ty_co_phan" },
-];
+// Tabs chính = từng item trong typeCompanyOptions
+const tabs = typeCompanyOptions;
 
 const ListProcedures = () => {
-    const [activeTab, setActiveTab] = useState(0);
-    const [currentPage, setCurrentPage] = useState(1);
-    const [listProcedures, setListProcedures] = useState([]);
+    const navigate = useNavigate();
+    const { typeCompany } = useParams();
 
-    const itemsPerPage = 12;
-    const { typeProcedure } = useParams();
+    const [activeTab, setActiveTab] = useState(() => {
+        const index = tabs.findIndex((tab) => tab.value === typeCompany);
+        return index !== -1 ? index : 0;
+    });
+    const [allProcedures, setAllProcedures] = useState([]); // grouped array
+    const [loading, setLoading] = useState(false);
 
+    // Modal state
+    const [selectedProcedure, setSelectedProcedure] = useState(null);
+
+    // Fetch khi đổi tab
     useEffect(() => {
-        const fetchCourseDetails = async () => {
+        const selectedTypeCompany = tabs[activeTab]?.value;
+        if (!selectedTypeCompany) return;
+        setLoading(true);
+        const fetchProcedures = async () => {
             try {
-                const res = await publicAxios.get(`/api/procedurer/find-by-type?type=${typeProcedure}`);
-                setListProcedures(res.data);
-                console.log(res.data);
+                const res = await publicAxios.get("/api/procedurer/find-by-type-company?typeCompany=" + selectedTypeCompany);
+                setAllProcedures(res.data || []);
             } catch (error) {
-                console.error(error);
+                console.error("Lỗi khi tải danh sách thủ tục:", error);
+                setAllProcedures([]);
+            } finally {
+                setLoading(false);
             }
         };
-        fetchCourseDetails();
-    }, [typeProcedure]);
+        fetchProcedures();
+    }, [activeTab]);
 
-    // Reset về page 1 khi đổi tab
     const handleTabChange = (index) => {
         setActiveTab(index);
-        setCurrentPage(1);
     };
 
-    // Lọc dữ liệu theo tab
-    const filteredProcedures = listProcedures.filter((item) => item.typeCompany === tabs[activeTab].value);
+    const openModal = (procedure) => {
+        setSelectedProcedure(procedure);
+    };
 
-    const totalPages = Math.ceil(filteredProcedures.length / itemsPerPage);
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const currentItems = filteredProcedures.slice(startIndex, startIndex + itemsPerPage);
+    const closeModal = () => {
+        setSelectedProcedure(null);
+    };
+
+    const handleRegister = () => {
+        if (selectedProcedure?.procedureId) {
+            navigate(`/process-procedure/${selectedProcedure.procedureId}`);
+            window.scrollTo(0, 0);
+        }
+        closeModal();
+    };
 
     return (
         <div>
             <Navbar />
-            <Breadcrumb />
-            <div className={styles["company-services"]}>
-                <h2 className={styles["title-type-procedure"]}>DỊCH VỤ THÀNH LẬP CÔNG TY</h2>
+            <div className={styles["list-procedures-main"]}>
+                <Banner />
+                <div className={styles["company-services"]}>
 
-                {/* Tabs */}
-                <div className={styles["tabs"]}>
-                    {tabs.map((tab, index) => (
-                        <button
-                            key={index}
-                            className={activeTab === index ? styles["active"] : ""}
-                            onClick={() => handleTabChange(index)}
-                        >
-                            {tab.label}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Grid hiển thị dịch vụ */}
-                <div className={styles["services-grid"]}>
-                    {currentItems.map((item, index) => (
-                        <ProcedureCard key={index} {...item} />
-                    ))}
-                </div>
-
-                {/* Pagination */}
-                {totalPages > 1 && (
-                    <div className={styles["pagination"]}>
-                        <button onClick={() => setCurrentPage((p) => Math.max(p - 1, 1))} disabled={currentPage === 1}>
-                            <i className="fa-solid fa-angle-left"></i>
-                        </button>
-                        {Array.from({ length: totalPages }, (_, i) => (
+                    {/* Tabs = các loại công ty */}
+                    <div className={styles["tabs"]}>
+                        {tabs.map((tab, index) => (
                             <button
-                                key={i}
-                                className={currentPage === i + 1 ? styles["active"] : ""}
-                                onClick={() => setCurrentPage(i + 1)}
+                                key={index}
+                                className={activeTab === index ? styles["active"] : ""}
+                                onClick={() => handleTabChange(index)}
                             >
-                                {i + 1}
+                                {tab.title}
                             </button>
                         ))}
-                        <button
-                            onClick={() => setCurrentPage((p) => Math.min(p + 1, totalPages))}
-                            disabled={currentPage === totalPages}
-                        >
-                            <i className="fa-solid fa-angle-right"></i>
-                        </button>
                     </div>
-                )}
+
+                    {/* Nội dung: hiển thị theo từng group serviceType */}
+                    {loading ? (
+                        <p className={styles["empty-text"]}>Đang tải...</p>
+                    ) : allProcedures.length === 0 ? (
+                        <p className={styles["empty-text"]}>Chưa có thủ tục nào cho loại công ty này.</p>
+                    ) : (
+                        allProcedures.map((group, gIndex) => (
+                            <div key={gIndex} className={styles["service-group"]}>
+                                <h2 className={styles["service-group-title"]}>{group.serviceTypeTitle?.toUpperCase()}</h2>
+                                <div className={styles["procedures-list"]}>
+                                    {(group.procedures || []).map((proc, pIndex) => (
+                                        <ProcedureCard
+                                            key={pIndex}
+                                            procedure={proc}
+                                            onOpenModal={openModal}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
             </div>
+
+            {/* Modal popup */}
+            {selectedProcedure && (
+                <div className={styles["modal-overlay"]} onClick={closeModal}>
+                    <div className={styles["modal-box"]} onClick={(e) => e.stopPropagation()}>
+                        <div className={styles["modal-header"]}>
+                            <h3>Thông tin các hồ sơ cần chuẩn bị trước khi nộp hồ sơ</h3>
+                            <button className={styles["modal-close"]} onClick={closeModal}>✕</button>
+                        </div>
+                        <div className={styles["modal-body"]}>
+                            <p>{selectedProcedure.description} cần chuẩn bị 1 trong các hồ sơ đính kèm sau:</p>
+                            {selectedProcedure.forms && selectedProcedure.forms.length > 0 && (
+                                <ol className={styles["modal-list"]}>
+                                    {selectedProcedure.forms.map((form, i) => (
+                                        <li key={i}>{form.name}</li>
+                                    ))}
+                                </ol>
+                            )}
+                            <p>Quý khách nhận được kết quả sau 5-7 ngày làm việc bao gồm:</p>
+                            <ol className={styles["modal-list"]}>
+                                <li>Giấy phép kinh doanh</li>
+                                <li>Dấu (mộc) công ty hàng cao cấp</li>
+                                <li>Chữ ký số cao cấp</li>
+                                <li>Tài khoản ngân hàng chọn số của TechcomBank</li>
+                                <li>Thông báo phát hành hoá đơn điện tử</li>
+                                <li>Cập nhật chính sách thuế liên tục</li>
+                            </ol>
+                        </div>
+                        <div className={styles["modal-footer"]}>
+                            <button className={styles["btn-cancel"]} onClick={closeModal}>
+                                <span className={styles["icon-cancel"]}>✕</span> Huỷ
+                            </button>
+                            <button className={styles["btn-confirm"]} onClick={handleRegister}>
+                                <span className={styles["icon-confirm"]}>✓</span> Thực hiện
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <Footer />
         </div>
     );

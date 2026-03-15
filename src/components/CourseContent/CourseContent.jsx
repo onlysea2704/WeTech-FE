@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { publicAxios } from "../../services/axios-instance";
 import styles from "./CourseContent.module.css";
-import CourseContentSkeleton from "../Skeleton/CourseContentSkeleton";
+import CourseContentSkeleton from "../Loading/Skeleton/CourseContentSkeleton";
 import { useBuyCourse } from "../../utils/buyCourseHelper";
 import { useDetailCourse } from "../../context/DetailCourseContext";
 

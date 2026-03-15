@@ -1,0 +1,364 @@
+.procedureFilter {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.procedures-filter-main {
+    margin-top: 138px;
+    flex: 1;
+}
+
+.procedures-page-layout {
+    display: flex;
+    gap: 61px;
+    margin: 0 auto;
+    padding: 15px 67px;
+    align-items: flex-start;
+}
+
+.procedure-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    padding: 0 0 20px 0;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.search-box-custom {
+    position: relative;
+    width: 270px;
+    height: 29px;
+    border-bottom: 1px solid #0c0c0c;
+    display: flex;
+    align-items: center;
+    padding: 0px 0px 4px;
+}
+
+.search-box-custom input {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 14px;
+    color: #333;
+    padding-right: 25px;
+    background: transparent;
+}
+
+.search-box-custom i {
+    position: absolute;
+    right: 0;
+    color: #555;
+    font-size: 14px;
+}
+
+.view-mode {
+    color: #555;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.filter-column {
+    width: 250px;
+    flex-shrink: 0;
+    position: -webkit-sticky;
+    position: sticky;
+    top: 150px;
+    align-self: flex-start;
+    height: fit-content;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    z-index: 900;
+}
+
+.procedure-title-sidebar {
+    font-weight: 800;
+    font-size: 24px;
+    margin: 0 0 20px 0;
+    color: #000;
+    line-height: 1.2;
+    font-family: "Roboto Condensed";
+}
+
+.main-content {
+    flex-grow: 1;
+    min-width: 0;
+    padding: 0;
+}
+
+.procedures-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    width: 100%;
+}
+
+.procedure-group-section {
+    width: 100%;
+}
+
+.group-header {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.group-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000;
+    margin: 0 0 4px 0;
+    font-family: "Roboto Condensed";
+}
+
+.group-subtitle {
+    font-size: 14px;
+    margin: 0;
+    font-family: "Roboto";
+    color: var(--Neutral-colors-Gray-7, #717171);
+}
+
+.procedures-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+}
+
+@media (max-width: 1200px) {
+    .procedures-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .procedures-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .procedures-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
+
+/* ── Filter Sidebar Elements (from FilterCourse.module.css) ── */
+.filter-container {
+    width: 100%;
+    background-color: transparent;
+    box-shadow: none;
+    font-family: "Inter", sans-serif;
+    color: #1e1e2f;
+}
+
+.filter-section {
+    margin-bottom: 24px;
+}
+
+.section-header {
+    font-weight: 700;
+    font-size: 18px;
+    color: var(--Brand-Color-Secondary, #1b154b);
+    font-family: "Roboto Condensed";
+    margin-bottom: 12px;
+    cursor: default;
+}
+
+.section-content {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.filter-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    font-size: 14px;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.filter-option:hover {
+    color: #000;
+}
+
+.option-left {
+    display: flex;
+    align-items: center;
+}
+
+.filter-option input[type="checkbox"] {
+    display: none;
+}
+
+.custom-checkbox {
+    width: 16px;
+    height: 16px;
+    border: 1.5px solid #888;
+    border-radius: 4px;
+    margin-right: 10px;
+    display: inline-block;
+    position: relative;
+    transition: all 0.2s;
+}
+
+.filter-option input[type="checkbox"]:checked+.custom-checkbox {
+    background-color: #2e2e48;
+    border-color: #2e2e48;
+}
+
+.custom-checkbox::after {
+    content: "";
+    position: absolute;
+    display: none;
+    left: 5px;
+    top: 1px;
+    width: 4px;
+    height: 9px;
+    border: solid white;
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.filter-option input[type="checkbox"]:checked+.custom-checkbox::after {
+    display: block;
+}
+
+.option-text {
+    line-height: 1.4;
+}
+
+.option-count {
+    font-size: 13px;
+    color: #999;
+}
+
+/* ── Procedure Card Updates to Match CourseCardMini layout inside ProcedureFilter ── */
+.procedureCard {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .08);
+    cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.2s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.procedureCard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(27, 21, 75, .15);
+}
+
+.cardImg {
+    position: relative;
+    height: 150px;
+    background: #f0f0f8;
+    overflow: hidden;
+}
+
+.cardImg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cardImgPlaceholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #9090b0;
+}
+
+.discountBadge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: #e53935;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.cardBody {
+    padding: 14px 16px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.cardCategory {
+    font-size: 11px;
+    font-weight: 600;
+    color: #1b154b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0;
+}
+
+.cardTitle {
+    font-size: 14px;
+    font-weight: 700;
+    color: #111;
+    margin: 0;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cardDesc {
+    font-size: 12px;
+    color: #666;
+    margin: 0;
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+}
+
+.cardPrices {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 4px;
+}
+
+.salePrice {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1b154b;
+}
+
+.realPrice {
+    font-size: 13px;
+    color: #aaa;
+    text-decoration: line-through;
+}
+
+.empty {
+    color: #888;
+    font-size: 15px;
+    padding: 40px 0;
+    text-align: center;
+}

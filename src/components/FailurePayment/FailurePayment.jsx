@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./FailurePayment.module.css";
+import failureIcon from '../../assets/failure-icon.png'
 
 const FailurePayment = ({ onClose }) => {
     return (
@@ -12,7 +13,7 @@ const FailurePayment = ({ onClose }) => {
 
                 {/* Icon lỗi */}
                 <div className={styles["error-icon"]}>
-                    <i className="fa-solid fa-xmark"></i>
+                    <img src={failureIcon} alt="Failure" />
                 </div>
 
                 <h2 className={styles["error-title"]}>Thanh toán thất bại!</h2>
