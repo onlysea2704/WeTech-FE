@@ -89,9 +89,8 @@ const LoginForm = () => {
                 navigate("/dashboard");
             }
         } catch (error) {
-            console.log('error:', error);
 
-            showError("Sai tài khoản hoặc mật khẩu.");
+            showError(error.response.data || "Sai tài khoản hoặc mật khẩu.");
         } finally {
             setLoading(false);
         }

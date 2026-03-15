@@ -235,7 +235,8 @@
     border-radius: 6px;
     font-size: 16px;
     cursor: pointer;
-    color: var(--primary-color);
+    color: #fff;
+    background-color: var(--buy-color);
 }
 
 .paymentContainer {
