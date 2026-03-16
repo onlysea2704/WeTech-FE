@@ -89,8 +89,10 @@ const LoginForm = () => {
                 navigate("/dashboard");
             }
         } catch (error) {
-
-            showError(error.response.data || "Sai tài khoản hoặc mật khẩu.");
+            console.error("Login error:", error);
+            const apiMessage =
+                error.status === 403 ? "Tài khoản hoặc mật khẩu không đúng." : "Tài khoản không được phép đăng nhập.";
+            showError(apiMessage);
         } finally {
             setLoading(false);
         }

@@ -238,7 +238,7 @@ const Navbar = () => {
                                                 <Link to="/my-courses">Khóa học của tôi</Link>
                                             </li>
                                             <li>
-                                                <Link>Thủ tục pháp lý</Link>
+                                                <Link to="/procedure-filter">Thủ tục pháp lý</Link>
                                             </li>
                                             <li>
                                                 <Link>Lịch sử</Link>
