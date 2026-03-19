@@ -13,8 +13,8 @@ const ProcedureForm = ({ procedureId }) => {
     const [formData, setFormData] = useState({
         title: "",
         description: "",
-        realPrice: 0,
-        salePrice: 0,
+        realPrice: null,
+        salePrice: null,
         typeCompany: "cong_ty_tnhh_mot_thanh_vien",
         typeCompanyTitle: "",
         serviceType: "",
@@ -133,9 +133,8 @@ const ProcedureForm = ({ procedureId }) => {
         setForms([
             ...forms,
             {
-                name: "",       // title của procedure
-                nameValue: "",  // value của procedure (dùng nội bộ để tìm formsType)
-                type: "",       // title của formsType
+                name: "", // The name of the form, e.g. "Giấy đề nghị đăng ký hộ kinh doanh"
+                type: "", // The procedure value, e.g. "thanh_lap_moi"
             },
         ]);
     };
@@ -146,29 +145,13 @@ const ProcedureForm = ({ procedureId }) => {
         setForms(updatedForms);
     };
 
-    // Khi chọn tên biểu mẫu (procedure name), cập nhật name + reset type
-    const handleFormNameChange = (index, selectedValue) => {
-        const selectedProc = procedureOptions.find((p) => p.value === selectedValue);
+    // Khi chọn loại biểu mẫu (procedure), cập nhật type + reset name
+    const handleProcedureChange = (index, selectedValue) => {
         const updatedForms = [...forms];
         updatedForms[index] = {
             ...updatedForms[index],
-            name: selectedProc?.title || "",
-            nameValue: selectedValue,
-            type: "", // reset type khi đổi procedure
-        };
-        setForms(updatedForms);
-    };
-
-    // Khi chọn type (formsType title)
-    const handleFormTypeChange = (index, selectedValue) => {
-        const form = forms[index];
-        const proc = procedureOptions.find((p) => p.value === form.nameValue);
-        const selectedFormType = proc?.formsType?.find((ft) => ft.value === selectedValue);
-        const updatedForms = [...forms];
-        updatedForms[index] = {
-            ...updatedForms[index],
-            type: selectedFormType?.title || "",
-            typeValue: selectedValue,
+            type: selectedValue, // backend expects procedure value here (e.g. 'thanh_lap_moi')
+            name: "", // reset Tên biểu mẫu
         };
         setForms(updatedForms);
     };
@@ -199,7 +182,7 @@ const ProcedureForm = ({ procedureId }) => {
             if (procedureId && linkImage) {
                 payload.linkImage = linkImage;
             }
-
+            console.log("payload: ", payload)
             const formDataToSend = new FormData();
             formDataToSend.append("procedure", new Blob([JSON.stringify(payload)], { type: "application/json" }));
 
@@ -266,7 +249,7 @@ const ProcedureForm = ({ procedureId }) => {
                     <div className={styles["form-group-procedure-info"]}>
                         <label>Loại Dịch Vụ <span style={{ color: "red" }}>*</span></label>
                         <select name="serviceType" value={formData.serviceType} onChange={handleFormChange}>
-                            <option value="">-- Chọn dịch vụ --</option>
+                            <option value="" disabled>-- Chọn dịch vụ --</option>
                             {serviceOptions.map((svc) => (
                                 <option key={svc.value} value={svc.value}>
                                     {svc.title}
@@ -326,7 +309,7 @@ const ProcedureForm = ({ procedureId }) => {
 
                     {forms.map((form, index) => {
                         // Lấy formsType của procedure đang chọn cho biểu mẫu này
-                        const selectedProc = procedureOptions.find((p) => p.value === form.nameValue);
+                        const selectedProc = procedureOptions.find((p) => (p.value || p.title) === form.type);
                         const formTypeOptions = selectedProc?.formsType || [];
 
                         return (
@@ -342,56 +325,65 @@ const ProcedureForm = ({ procedureId }) => {
                                     </button>
                                 </div>
 
-                                {/* Tên biểu mẫu - select từ procedures */}
+                                {/* Loại biểu mẫu - select từ procedures */}
                                 <div className={styles["form-group-procedure-info"]} style={{ marginBottom: "16px" }}>
-                                    <label>Tên biểu mẫu <span style={{ color: "red" }}>*</span></label>
+                                    <label>Loại biểu mẫu <span style={{ color: "red" }}>*</span></label>
                                     {procedureOptions.length > 0 ? (
                                         <select
-                                            value={form.nameValue || ""}
-                                            onChange={(e) => handleFormNameChange(index, e.target.value)}
+                                            value={form.type || ""}
+                                            onChange={(e) => handleProcedureChange(index, e.target.value)}
                                         >
-                                            <option value="">-- Chọn tên biểu mẫu --</option>
-                                            {procedureOptions.map((proc) => (
-                                                <option key={proc.value} value={proc.value}>
-                                                    {proc.title}
-                                                </option>
-                                            ))}
+                                            <option value="" disabled>-- Chọn loại biểu mẫu --</option>
+                                            {procedureOptions.map((proc) => {
+                                                const val = proc.value || proc.title;
+                                                return (
+                                                    <option key={val} value={val}>
+                                                        {proc.title}
+                                                    </option>
+                                                );
+                                            })}
                                         </select>
                                     ) : (
                                         <input
                                             type="text"
-                                            value={form.name || ""}
+                                            value={form.type || ""}
                                             onChange={(e) => {
                                                 const updatedForms = [...forms];
-                                                updatedForms[index].name = e.target.value;
-                                                updatedForms[index].nameValue = e.target.value;
+                                                updatedForms[index].type = e.target.value;
                                                 setForms(updatedForms);
                                             }}
-                                            placeholder="Nhập tên biểu mẫu (nếu không có trong danh sách)"
+                                            placeholder="Nhập loại biểu mẫu (nếu không có trong danh sách)"
                                         />
                                     )}
                                 </div>
 
-                                {/* Loại biểu mẫu - select từ formsType */}
+                                {/* Tên biểu mẫu - select từ formsType */}
                                 <div className={styles["form-group-procedure-info"]} style={{ marginBottom: "16px" }}>
-                                    <label>Loại biểu mẫu (Type) <span style={{ color: "red" }}>*</span></label>
+                                    <label>Tên biểu mẫu <span style={{ color: "red" }}>*</span></label>
                                     <select
-                                        value={form.typeValue || form.type || ""}
+                                        value={form.name || ""}
                                         onChange={(e) => {
                                             const updatedForms = [...forms];
-                                            const selectedOptions = e.target.options;
-                                            const selectedTitle = e.target.value ? selectedOptions[selectedOptions.selectedIndex].text : "";
-                                            updatedForms[index].type = selectedTitle;
-                                            updatedForms[index].typeValue = e.target.value;
+                                            updatedForms[index].name = e.target.value;
                                             setForms(updatedForms);
                                         }}
                                     >
-                                        <option value="">-- Chọn loại biểu mẫu --</option>
-                                        {allFormTypes.map((ft, i) => (
-                                            <option key={i} value={ft.value}>
-                                                {ft.title}
-                                            </option>
-                                        ))}
+                                        <option value="" disabled>-- Chọn tên biểu mẫu --</option>
+                                        {(formTypeOptions.length > 0 ? formTypeOptions : allFormTypes)
+                                            .filter(ft => {
+                                                const ftVal = ft.title;
+                                                // Loại bỏ tên biểu mẫu đã được chọn ở form khác trong cùng một Loại biểu mẫu
+                                                return !forms.some((f, idx) =>
+                                                    idx !== index &&
+                                                    f.type === form.type &&
+                                                    f.name === ftVal
+                                                );
+                                            })
+                                            .map((ft, i) => (
+                                                <option key={i} value={ft.title}>
+                                                    {ft.title}
+                                                </option>
+                                            ))}
                                     </select>
                                 </div>
                             </div>

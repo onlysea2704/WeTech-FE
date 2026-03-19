@@ -6,8 +6,6 @@ import logoWeTech from "../../assets/logo.png";
 export default function ChatWidget() {
     const [isOpen, setIsOpen] = useState(false);
     const location = window.location.href
-    console.log(location
-    );
 
     useEffect(() => {
 

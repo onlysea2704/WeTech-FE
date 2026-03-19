@@ -3,21 +3,6 @@ import GiayDeNghi2 from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/F
 import GiayUyQuyen from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayUyQuyen";
 import GiayUyQuyen2 from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayUyQuyen";
 
-const additionalServices = [
-    {
-        title: "Đăng ký thay đổi",
-        value: "dang_ky_thay_doi"
-    },
-    {
-        title: "Tạm ngừng - tiếp tục KD",
-        value: "tam_ngung_tiep_tuc_kd"
-    },
-    {
-        title: "Giải thể",
-        value: "giai_the"
-    }
-];
-
 const typeCompanyOptions = [
     {
         title: "Công ty TNHH 1 thành viên",
@@ -25,22 +10,26 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập công ty",
-                value: "dich_vu_thanh_lap_cong_ty",
+                value: "thanh_lap_cong_ty",
                 procedures: [
                     {
                         title: "Thành lập mới",
+                        value: "thanh_lap_moi",
                         formsType: [
                             {
                                 title: "Danh sách các cổ đông sáng lập",
-                                component: "ListShareholder"
+                                declaration: "ListShareholderDeclaration",
+                                confirmation: "ListShareholderConfirmation"
                             },
                             {
                                 title: "Danh sách CSH hưởng lợi",
-                                component: "ListBeneficiary"
+                                declaration: "ListBeneficiaryDeclaration",
+                                confirmation: "ListBeneficiaryConfirmation"
                             },
                             {
                                 title: "Điều lệ công ty",
-                                component: "Charter"
+                                declaration: "CharterDeclaration",
+                                confirmation: "CharterConfirmation"
                             }
                         ]
                     }
@@ -48,36 +37,84 @@ const typeCompanyOptions = [
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",
-                value: "dich_vu_cap_nhat_thay_doi",
+                value: "cap_nhat_thay_doi",
                 procedures: [
                     {
                         title: "Cập nhật địa chỉ, Chủ sở hữu hưởng lợi, người đại diện, ngành nghề, email, số điện thoại",
+                        value: "cap_nhat_dia_chi_chu_so_huu_huong_loi_nguoi_dai_dien_nganh_nghe_email_so_dien_thoai",
                         formsType: [
                             {
                                 title: "Quyết định của ĐHĐCĐ",
-                                component: "ListShareholder",
-                                type: "TH1. CMND chuyển thành căn cước"
+                                declaration: "ListShareholderDeclaration",
+                                confirmation: "ListShareholderConfirmation",
+                                type: "TH1. CMND chuyển thành căn cước",
+                                type_code: "th1_cmnd_chuyen_thanh_can_cuoc"
                             },
                             {
                                 title: "Danh sách CSH hưởng lợi",
-                                component: "ListBeneficiary",
-                                type: "TH1. CMND chuyển thành căn cước"
+                                declaration: "ListBeneficiaryDeclaration",
+                                confirmation: "ListBeneficiaryConfirmation",
+                                type: "TH1. CMND chuyển thành căn cước",
+                                type_code: "th1_cmnd_chuyen_thanh_can_cuoc"
                             },
                             {
                                 title: "Giấy đề nghị",
-                                component: "Charter",
-                                type: "TH1. CMND chuyển thành căn cước"
+                                declaration: "CharterDeclaration",
+                                confirmation: "CharterConfirmation",
+                                type: "TH1. CMND chuyển thành căn cước",
+                                type_code: "th1_cmnd_chuyen_thanh_can_cuoc"
                             },
                             {
                                 title: "Giấy uỷ quyền",
-                                component: "Charter",
-                                type: "TH1. CMND chuyển thành căn cước"
+                                declaration: "CharterDeclaration",
+                                confirmation: "CharterConfirmation",
+                                type: "TH1. CMND chuyển thành căn cước",
+                                type_code: "th1_cmnd_chuyen_thanh_can_cuoc"
+                            },
+                            {
+                                title: "Quyết định của ĐHĐCĐ",
+                                declaration: "ListShareholderDeclaration",
+                                confirmation: "ListShareholderConfirmation",
+                                type: "TH2. CMND chuyển thành căn cước",
+                                type_code: "th2_cmnd_chuyen_thanh_can_cuoc"
+                            },
+                            {
+                                title: "Danh sách CSH hưởng lợi",
+                                declaration: "ListBeneficiaryDeclaration",
+                                confirmation: "ListBeneficiaryConfirmation",
+                                type: "TH2. CMND chuyển thành căn cước",
+                                type_code: "th2_cmnd_chuyen_thanh_can_cuoc"
+                            },
+                            {
+                                title: "Giấy đề nghị",
+                                declaration: "CharterDeclaration",
+                                confirmation: "CharterConfirmation",
+                                type: "TH2. CMND chuyển thành căn cước",
+                                type_code: "th2_cmnd_chuyen_thanh_can_cuoc"
+                            },
+                            {
+                                title: "Giấy uỷ quyền",
+                                declaration: "CharterDeclaration",
+                                confirmation: "CharterConfirmation",
+                                type: "TH2. CMND chuyển thành căn cước",
+                                type_code: "th2_cmnd_chuyen_thanh_can_cuoc"
                             }
                         ]
                     }
                 ]
             },
-            ...additionalServices
+            {
+                title: "Đăng ký thay đổi",
+                value: "dang_ky_thay_doi"
+            },
+            {
+                title: "Tạm ngừng - tiếp tục KD",
+                value: "tam_ngung_tiep_tuc_kd"
+            },
+            {
+                title: "Giải thể",
+                value: "giai_the"
+            }
         ]
     },
     {
@@ -86,13 +123,24 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập công ty",
-                value: "dich_vu_thanh_lap_cong_ty"
+                value: "thanh_lap_cong_ty"
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",
-                value: "dich_vu_cap_nhat_thay_doi"
+                value: "cap_nhat_thay_doi"
             },
-            ...additionalServices
+            {
+                title: "Đăng ký thay đổi",
+                value: "dang_ky_thay_doi"
+            },
+            {
+                title: "Tạm ngừng - tiếp tục KD",
+                value: "tam_ngung_tiep_tuc_kd"
+            },
+            {
+                title: "Giải thể",
+                value: "giai_the"
+            }
         ]
     },
     {
@@ -101,11 +149,11 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập công ty",
-                value: "dich_vu_thanh_lap_cong_ty"
+                value: "thanh_lap_cong_ty"
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",
-                value: "dich_vu_cap_nhat_thay_doi",
+                value: "cap_nhat_thay_doi",
                 procedures: [
                     {
                         title: "Cập nhật địa chỉ, Chủ sở hữu hưởng lợi, người đại diện, ngành nghề, email, số điện thoại",
@@ -123,7 +171,18 @@ const typeCompanyOptions = [
                     }
                 ]
             },
-            ...additionalServices
+            {
+                title: "Đăng ký thay đổi",
+                value: "dang_ky_thay_doi"
+            },
+            {
+                title: "Tạm ngừng - tiếp tục KD",
+                value: "tam_ngung_tiep_tuc_kd"
+            },
+            {
+                title: "Giải thể",
+                value: "giai_the"
+            }
         ]
     },
     {
@@ -132,13 +191,24 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập doanh nghiệp tư nhân",
-                value: "dich_vu_thanh_lap_cong_ty"
+                value: "thanh_lap_cong_ty"
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",
-                value: "dich_vu_cap_nhat_thay_doi"
+                value: "cap_nhat_thay_doi"
             },
-            ...additionalServices
+            {
+                title: "Đăng ký thay đổi",
+                value: "dang_ky_thay_doi"
+            },
+            {
+                title: "Tạm ngừng - tiếp tục KD",
+                value: "tam_ngung_tiep_tuc_kd"
+            },
+            {
+                title: "Giải thể",
+                value: "giai_the"
+            }
         ]
     },
     {
@@ -147,10 +217,11 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập hộ kinh doanh",
-                value: "dich_vu_thanh_lap_ho_kinh_doanh",
+                value: "thanh_lap_ho_kinh_doanh",
                 procedures: [
                     {
-                        title: "Đăng ký thành lập hộ kinh doanh",
+                        title: "Thành lập mới",
+                        value: "thanh_lap_moi",
                         formsType: [
                             {
                                 title: "Giấy đề nghị đăng ký hộ kinh doanh",

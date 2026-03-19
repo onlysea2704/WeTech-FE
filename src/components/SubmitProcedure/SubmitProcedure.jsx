@@ -126,11 +126,14 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                 window.open('https://dichvucong.gov.vn/p/home/dvc-trang-chu.html', '_blank');
             }
             const taxAuth = agencyType === 'tinh_thanh' ? `UBND ${wardValue}` : boNganhValue;
-            await authAxios.post('/api/procedurer/update-my-procedure', {
-                procedureId: id_procedure,
-                status: 'PENDING',
-                taxAuthority: taxAuth || 'Cơ quan nhà nước'
+            await authAxios.post('/api/procedurer/update-my-procedure', null, {
+                params: {
+                    procedureId: id_procedure,
+                    status: 'PENDING',
+                    taxAuthority: taxAuth || 'Cơ quan nhà nước'
+                }
             });
+
 
             setSubmissionStatus('success');
         } catch (error) {

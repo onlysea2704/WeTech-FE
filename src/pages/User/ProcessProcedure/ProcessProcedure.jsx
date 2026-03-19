@@ -54,7 +54,7 @@ const ProcessProcedure = () => {
                 const forms = procedureResponse.forms.map((form) => {
                     const matchedFormType = typeCompanyOptions.find((item) => item.value === typeCompany)
                         ?.services.find((item) => item.value === serviceType)
-                        ?.procedures?.find((p) => p.title === procedureResponse.title)
+                        ?.procedures?.find((p) => (p.value || p.title) === form.type)
                         ?.formsType?.find((item) => item.title === form.name);
                     return {
                         ...form,

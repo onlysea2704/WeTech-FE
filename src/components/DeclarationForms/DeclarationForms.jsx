@@ -18,11 +18,15 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     const [dataJson, setDataJson] = useState(null);
     const [importKey, setImportKey] = useState(0);
     const formRef = useRef(null);
-    const componentRef = useRef(null); 
+    const componentRef = useRef(null);
     const importInputRef = useRef(null);
 
     const currentForm = forms?.[currentFormStep];
     const CurrentFormComponent = currentForm?.declaration;
+    console.log('currentForm', currentForm)
+    console.log('forms', forms)
+    console.log('currentFormStep', currentFormStep)
+
 
     const isUyQuyen = currentForm?.name?.toLowerCase().includes('uỷ quyền') || currentForm?.name?.toLowerCase().includes('ủy quyền');
 
@@ -42,37 +46,6 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         }
         fetchFormSubmission();
     }, [currentForm?.formId]);
-
-    // ── AUTO SAVE (on tab close/leave) ──────────────────────────────────────
-    useEffect(() => {
-        const handleVisibilityChange = () => {
-            if (document.visibilityState === 'hidden' && componentRef.current?.getDraftData && currentForm?.formId) {
-                const draftData = componentRef.current.getDraftData();
-                if (draftData) {
-                    const token = sessionStorage.getItem("authToken");
-                    if (token) {
-                        const isUpdate = !!dataJson;
-                        const url = `${process.env.REACT_APP_BACKEND_URL}/api/form-submission/${isUpdate ? 'update' : 'create'}`;
-                        fetch(url, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${token}`
-                            },
-                            keepalive: true,
-                            body: JSON.stringify({ formId: currentForm.formId, dataJson: draftData })
-                        }).catch(console.error);
-                    }
-                }
-            }
-        };
-        window.addEventListener('visibilitychange', handleVisibilityChange);
-        window.addEventListener('pagehide', handleVisibilityChange);
-        return () => {
-            window.removeEventListener('visibilitychange', handleVisibilityChange);
-            window.removeEventListener('pagehide', handleVisibilityChange);
-        };
-    }, [currentForm?.formId, dataJson]);
 
     async function handleFormSubmission(data) {
         try {

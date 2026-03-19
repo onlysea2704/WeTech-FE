@@ -117,9 +117,9 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
 
     // ── Ngành nghề actions ───────────────────────────────────────────────────
     const handleAddNganh = () => { setEditingNganhIdx('new'); setEditingNganh({ ...EMPTY_NGANH_NGHE }); setEditingNganhPath([]); };
-    const handleEditNganh = (idx) => { 
-        setEditingNganhIdx(idx); 
-        setEditingNganh({ ...nganhNgheRows[idx] }); 
+    const handleEditNganh = (idx) => {
+        setEditingNganhIdx(idx);
+        setEditingNganh({ ...nganhNgheRows[idx] });
         setEditingNganhPath(findPathByTitle(maNganhNgheData, nganhNgheRows[idx].tenNganh) || []);
     };
     const handleSaveNganh = () => {
@@ -145,24 +145,24 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     const renderNganhSelects = () => {
         let currentOptions = maNganhNgheData;
         const selects = [];
-        
+
         for (let i = 0; i <= editingNganhPath.length; i++) {
             if (!currentOptions || currentOptions.length === 0) break;
-            
+
             selects.push(
-                <select 
-                    key={i} 
-                    className={`${styles.select} ${styles.tableInput}`} 
-                    style={{marginBottom: '4px'}}
+                <select
+                    key={i}
+                    className={`${styles.select} ${styles.tableInput}`}
+                    style={{ marginBottom: '4px' }}
                     value={editingNganhPath[i] ?? ""}
                     onChange={(e) => {
                         const val = e.target.value;
-                        const newPath = [...editingNganhPath.slice(0, i)]; 
+                        const newPath = [...editingNganhPath.slice(0, i)];
                         if (val !== "") {
                             newPath.push(Number(val));
                         }
                         setEditingNganhPath(newPath);
-                        
+
                         let node = null;
                         let opts = maNganhNgheData;
                         for (const idx of newPath) {
@@ -170,8 +170,8 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             opts = node.children || [];
                         }
                         if (node) {
-                            setEditingNganh(p => ({ 
-                                ...p, 
+                            setEditingNganh(p => ({
+                                ...p,
                                 tenNganh: node.title,
                                 maNganh: node.maNganh || ''
                             }));
@@ -180,20 +180,20 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         }
                     }}
                 >
-                    <option value="">-- Chọn ngành cấp {i+1} --</option>
+                    <option value="">-- Chọn ngành cấp {i + 1} --</option>
                     {currentOptions.map((opt, idx) => (
                         <option key={idx} value={idx}>{opt.title}</option>
                     ))}
                 </select>
             );
-            
+
             if (editingNganhPath[i] !== undefined && currentOptions[editingNganhPath[i]]) {
                 currentOptions = currentOptions[editingNganhPath[i]].children;
             } else {
                 break;
             }
         }
-        return <div style={{display: 'flex', flexDirection: 'column'}}>{selects}</div>;
+        return <div style={{ display: 'flex', flexDirection: 'column' }}>{selects}</div>;
     };
 
 
@@ -251,7 +251,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="tel" className={styles.input}
                                 name="nguoiDaiDien_phone" defaultValue={dataJson?.nguoiDaiDien_phone || ''}
                                 required
-                                pattern="(0|\+84)[0-9]{9,10}" title="VD: 0912345678"
+                                pattern="(0|\+84)[0-9]{9,10}"
                             />
                         </div>
                         <div className={styles.formGroup}>
@@ -313,7 +313,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Điện thoại <span className={styles.required}>*</span></label>
-                            <input type="tel" className={styles.input} name="truSo_phone" defaultValue={dataJson?.truSo_phone || ''} required pattern="(0|\+84)[0-9]{9,10}" placeholder="0912345678" />
+                            <input type="tel" className={styles.input} name="truSo_phone" defaultValue={dataJson?.truSo_phone || ''} required pattern="(0|\+84)[0-9]{9,10}" />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Email:</label>
@@ -359,7 +359,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                         <td>{idx + 1}</td>
                                         <td>{renderNganhSelects()}</td>
                                         <td><input className={`${styles.input} ${styles.tableInput}`} value={editingNganh.chiTiet} onChange={e => setEditingNganh(p => ({ ...p, chiTiet: e.target.value }))} /></td>
-                                        <td><input className={`${styles.input} ${styles.tableInput}`} value={editingNganh.maNganh} readOnly style={{backgroundColor: '#e9ecef'}} /></td>
+                                        <td><input className={`${styles.input} ${styles.tableInput}`} value={editingNganh.maNganh} readOnly style={{ backgroundColor: '#e9ecef' }} /></td>
                                         <td><input type="checkbox" className={styles.checkbox} checked={editingNganh.laNganhChinh} onChange={e => setEditingNganh(p => ({ ...p, laNganhChinh: e.target.checked }))} /></td>
                                         <td><button type="button" className={styles.btnSave} onClick={handleSaveNganh} disabled={isNganhNgheEmpty(editingNganh)}>Lưu</button></td>
                                     </tr>
@@ -384,7 +384,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                     <td>{nganhNgheRows.length + 1}</td>
                                     <td>{renderNganhSelects()}</td>
                                     <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Chi tiết" value={editingNganh.chiTiet} onChange={e => setEditingNganh(p => ({ ...p, chiTiet: e.target.value }))} /></td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Mã ngành" value={editingNganh.maNganh} readOnly style={{backgroundColor: '#e9ecef'}} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Mã ngành" value={editingNganh.maNganh} readOnly style={{ backgroundColor: '#e9ecef' }} /></td>
                                     <td><input type="checkbox" className={styles.checkbox} checked={editingNganh.laNganhChinh} onChange={e => setEditingNganh(p => ({ ...p, laNganhChinh: e.target.checked }))} /></td>
                                     <td><button type="button" className={styles.btnSave} onClick={handleSaveNganh} disabled={isNganhNgheEmpty(editingNganh)}>Lưu</button></td>
                                 </tr>
@@ -449,7 +449,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Điện thoại</label>
-                        <input type="tel" className={styles.input} name="thue_phone" defaultValue={dataJson?.thue_phone || ''} pattern="(0|\+84)[0-9]{9,10}" placeholder="0912345678" />
+                        <input type="tel" className={styles.input} name="thue_phone" defaultValue={dataJson?.thue_phone || ''} pattern="(0|\+84)[0-9]{9,10}" />
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Email:</label>
