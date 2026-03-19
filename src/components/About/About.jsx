@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./About.module.css";
 import imageAbout from "../../assets/about.jpg";
+import { Link } from "react-router-dom";
 
 const About = () => {
     return (
@@ -29,7 +30,9 @@ const About = () => {
 
             {/* Right Content */}
             <div className={styles["right-about"]}>
-                <h3 className={styles["subtitle-about"]}>Về Chúng Tôi</h3>
+                <h3 className={styles["subtitle-about"]}>Về Chúng Tôi
+                    <Link to="/dashboard" style={{ color: '#fff' }}>.</Link>
+                </h3>
                 <h2 className={styles["title-about"]}>Tại sao nên lựa chọn chúng tôi?</h2>
                 <p className={styles["description-about"]}>
                     Chúng tôi cung cấp tổng hợp giải pháp hồ sơ pháp lý toàn diện cho doanh nghiệp, hỗ trợ kinh doanh
