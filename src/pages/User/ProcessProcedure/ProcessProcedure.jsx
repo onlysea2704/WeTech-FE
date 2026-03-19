@@ -13,6 +13,7 @@ import { downloadPdf } from "../../../utils/downloadPdf";
 import iconCheck from "../../../assets/Check_perspective_matte.png"
 import iconCancel from "../../../assets/Error_perspective_matte.png"
 import plusIcon from "../../../assets/Plus_perspective_matte.png"
+import { useNotification } from "../../../hooks/useNotification";
 
 const tabs = [
     { id: 0, title: "Kê khai Hồ Sơ" },
@@ -27,6 +28,7 @@ const ProcessProcedure = () => {
     const tab = searchParams.get("tab");
     const viewMode = searchParams.get("viewMode");
     const navigate = useNavigate();
+    const { showNotification } = useNotification();
 
     const [procedure, setProcedure] = useState(null);
     const [forms, setForms] = useState([]);
@@ -66,7 +68,6 @@ const ProcessProcedure = () => {
                 if (['PENDING', 'SUCCESS', 'FAILED'].includes(procedureResponse.status)) {
                     if (viewMode !== 'see_again') {
                         navigate(`/process-procedure/${id_procedure}?tab=1&viewMode=see_again`, { replace: true });
-                        return;
                     }
                 }
 
@@ -197,7 +198,8 @@ const ProcessProcedure = () => {
             setIsDownloading(true);
             const currentForm = forms?.[currentFormStep];
             if (!currentForm?.code) {
-                console.error("Không tìm thấy mã form để tải PDF");
+
+                showNotification("Không tìm thấy mã form để tải PDF", "error");
                 return;
             }
 

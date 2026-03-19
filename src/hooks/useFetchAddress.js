@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
-const PROVINCES_URL = 'https://production.cas.so/address-kit/latest/provinces';
-const COMMUNES_URL = (code) => `https://production.cas.so/address-kit/latest/provinces/${code}/communes`;
+const PROVINCES_URL = 'https://www.tinhthanhpho.com/api/v1/new-provinces?limit=40';
+const COMMUNES_URL = (code) => `https://www.tinhthanhpho.com/api/v1/new-provinces/${code}/wards?limit=130`;
 
 // Cache provinces globally to avoid repeated fetches across component instances
 let cachedProvinces = null;
@@ -13,7 +13,7 @@ async function getProvincesOnce() {
         provincesFetchPromise = fetch(PROVINCES_URL)
             .then(r => r.json())
             .then(data => {
-                cachedProvinces = data.provinces || [];
+                cachedProvinces = data.data || [];
                 return cachedProvinces;
             });
     }
@@ -61,7 +61,7 @@ export function useFetchAddress(provinceCode = '') {
         setLoadingCommunes(true);
         fetch(COMMUNES_URL(provinceCode))
             .then(r => r.json())
-            .then(data => setCommunes(data.communes || []))
+            .then(data => setCommunes(data.data || []))
             .catch(err => console.error('[useFetchAddress] communes error:', err))
             .finally(() => setLoadingCommunes(false));
     }, [provinceCode]);
