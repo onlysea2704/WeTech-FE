@@ -42,7 +42,10 @@ const ListProcedure = () => {
             const lowerTerm = searchTerm.toLowerCase();
             processedData = processedData.filter((procedure) => {
                 // Tìm theo tên thủ tục hoặc ID (bạn có thể thêm field khác nếu muốn)
-                return procedure.title?.toLowerCase().includes(lowerTerm) || String(procedure.procedureId).includes(lowerTerm);
+                return (
+                    procedure.title?.toLowerCase().includes(lowerTerm) ||
+                    String(procedure.procedureId).includes(lowerTerm)
+                );
             });
         }
 

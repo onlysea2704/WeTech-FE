@@ -33,13 +33,13 @@
 
 .tabs button.active {
     color: white;
-    border-color: #1B154B;
-    background: #1B154B;
+    border-color: #1b154b;
+    background: #1b154b;
 }
 
 .tabs button:hover:not(.active) {
-    border-color: #1B154B;
-    color: #1B154B;
+    border-color: #1b154b;
+    color: #1b154b;
     box-shadow: 0 4px 8px 0 rgba(145, 158, 171, 0.16);
 }
 
@@ -51,7 +51,7 @@
 .service-group-title {
     font-size: 20px;
     font-weight: 700;
-    color: #1B154B;
+    color: #1b154b;
     margin-bottom: 24px;
     text-transform: uppercase;
     text-align: left;
@@ -96,7 +96,7 @@
 }
 
 .modal-header {
-    background: #1B154B;
+    background: #1b154b;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -130,7 +130,7 @@
     overflow-y: auto;
     flex: 1;
     font-size: 14px;
-    color: #0C0C0C;
+    color: #0c0c0c;
     line-height: 1.6;
 }
 
@@ -162,7 +162,7 @@
     border-radius: 6px;
     border: 1px solid #d9d9d9;
     background: white;
-    color: #1B154B;
+    color: #1b154b;
     font-size: 14px;
     font-weight: 600;
     cursor: pointer;

@@ -36,14 +36,7 @@ function numberToVietnameseText(number) {
         return result.trim();
     }
 
-    const scales = [
-        "",
-        "nghìn",
-        "triệu",
-        "tỷ",
-        "nghìn tỷ",
-        "triệu tỷ"
-    ];
+    const scales = ["", "nghìn", "triệu", "tỷ", "nghìn tỷ", "triệu tỷ"];
 
     let result = "";
     let i = 0;

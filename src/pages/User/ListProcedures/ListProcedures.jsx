@@ -32,7 +32,9 @@ const ListProcedures = () => {
         setLoading(true);
         const fetchProcedures = async () => {
             try {
-                const res = await publicAxios.get("/api/procedurer/find-by-type-company?typeCompany=" + selectedTypeCompany);
+                const res = await publicAxios.get(
+                    "/api/procedurer/find-by-type-company?typeCompany=" + selectedTypeCompany,
+                );
                 setAllProcedures(res.data || []);
             } catch (error) {
                 console.error("Lỗi khi tải danh sách thủ tục:", error);
@@ -70,7 +72,6 @@ const ListProcedures = () => {
             <div className={styles["list-procedures-main"]}>
                 <Banner />
                 <div className={styles["company-services"]}>
-
                     {/* Tabs = các loại công ty */}
                     <div className={styles["tabs"]}>
                         {tabs.map((tab, index) => (
@@ -92,14 +93,12 @@ const ListProcedures = () => {
                     ) : (
                         allProcedures.map((group, gIndex) => (
                             <div key={gIndex} className={styles["service-group"]}>
-                                <h2 className={styles["service-group-title"]}>{group.serviceTypeTitle?.toUpperCase()}</h2>
+                                <h2 className={styles["service-group-title"]}>
+                                    {group.serviceTypeTitle?.toUpperCase()}
+                                </h2>
                                 <div className={styles["procedures-list"]}>
                                     {(group.procedures || []).map((proc, pIndex) => (
-                                        <ProcedureCard
-                                            key={pIndex}
-                                            procedure={proc}
-                                            onOpenModal={openModal}
-                                        />
+                                        <ProcedureCard key={pIndex} procedure={proc} onOpenModal={openModal} />
                                     ))}
                                 </div>
                             </div>
@@ -114,7 +113,9 @@ const ListProcedures = () => {
                     <div className={styles["modal-box"]} onClick={(e) => e.stopPropagation()}>
                         <div className={styles["modal-header"]}>
                             <h3>Thông tin các hồ sơ cần chuẩn bị trước khi nộp hồ sơ</h3>
-                            <button className={styles["modal-close"]} onClick={closeModal}>✕</button>
+                            <button className={styles["modal-close"]} onClick={closeModal}>
+                                ✕
+                            </button>
                         </div>
                         <div className={styles["modal-body"]}>
                             <p>{selectedProcedure.description} cần chuẩn bị 1 trong các hồ sơ đính kèm sau:</p>

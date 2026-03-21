@@ -173,22 +173,16 @@ const Navbar = () => {
                                                         </Link>
                                                     </li>
                                                     <li>
-                                                        <Link to="/list-procedures/ho_kinh_doanh">
-                                                            Hộ kinh doanh
-                                                        </Link>
+                                                        <Link to="/list-procedures/ho_kinh_doanh">Hộ kinh doanh</Link>
                                                     </li>
                                                 </ul>
                                             </div>
                                         </li>
                                         <li>
-                                            <Link to="/procedure-filter">
-                                                Tìm kiếm dịch vụ pháp lý
-                                            </Link>
+                                            <Link to="/procedure-filter">Tìm kiếm dịch vụ pháp lý</Link>
                                         </li>
                                         <li>
-                                            <Link to="/procedure/search">
-                                                Tra cứu hồ sơ của tôi
-                                            </Link>
+                                            <Link to="/procedure/search">Tra cứu hồ sơ của tôi</Link>
                                         </li>
                                     </ul>
                                 </div>

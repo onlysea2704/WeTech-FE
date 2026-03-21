@@ -13,7 +13,7 @@ const ScanQR = () => {
     const { idTransaction } = useParams();
     const [amount, setAmount] = useState(0);
     const [code, setCode] = useState("");
-    const [txDetails, setTxDetails] = useState({ fullName: '', phone: '', email: '', code: '', amount: 0 });
+    const [txDetails, setTxDetails] = useState({ fullName: "", phone: "", email: "", code: "", amount: 0 });
     const navigate = useNavigate();
 
     // Countdown 10 phút = 600 giây
@@ -40,11 +40,11 @@ const ScanQR = () => {
                 setAmount(data?.transferAmount || 0);
                 setCode(data?.code || "");
                 setTxDetails({
-                    fullName: data?.fullName || '',
-                    phone: data?.phone || '',
-                    email: data?.email || '',
-                    code: data?.code || '',
-                    amount: data?.transferAmount || 0
+                    fullName: data?.fullName || "",
+                    phone: data?.phone || "",
+                    email: data?.email || "",
+                    code: data?.code || "",
+                    amount: data?.transferAmount || 0,
                 });
             } catch (error) {
                 console.error(error);
@@ -57,7 +57,7 @@ const ScanQR = () => {
     const handleCheckTransaction = async () => {
         try {
             const res = await publicAxios.get(`/payment/get?idTransaction=${idTransaction}`);
-            return res.data?.status === 'SUCCESS';
+            return res.data?.status === "SUCCESS";
         } catch (err) {
             console.error(err);
             return false;
@@ -104,7 +104,7 @@ const ScanQR = () => {
                     txDetails={txDetails}
                     timeLeft={timeLeft}
                     onCheckTransaction={handleCheckTransaction}
-                    onPaymentSuccess={() => navigate('/my-courses')}
+                    onPaymentSuccess={() => navigate("/my-courses")}
                 />
                 <Footer />
             </div>

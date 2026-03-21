@@ -35,8 +35,8 @@ const Courses = ({ title, description, courses, loading }) => {
                 {loading
                     ? Array.from({ length: 4 }).map((_, index) => <CourseSkeleton key={index} />)
                     : (courses || [])
-                        .slice(0, visibleCount)
-                        .map((course, index) => <CourseCard key={index} index={index} course={course} />)}
+                          .slice(0, visibleCount)
+                          .map((course, index) => <CourseCard key={index} index={index} course={course} />)}
             </div>
         </div>
     );

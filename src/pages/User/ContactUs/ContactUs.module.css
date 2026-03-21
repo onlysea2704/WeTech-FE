@@ -19,7 +19,7 @@
     font-family: "Roboto";
 }
 
-.contact-container>h2 {
+.contact-container > h2 {
     text-align: center;
     color: #1b154b;
     font-weight: 700;
@@ -54,7 +54,7 @@
     text-align: center;
 }
 
-.form-wrapper>p {
+.form-wrapper > p {
     color: #000;
     margin-bottom: 10px;
     text-align: center;

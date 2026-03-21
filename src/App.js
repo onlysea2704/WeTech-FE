@@ -38,7 +38,7 @@ import { setNotificationHelper } from "./utils/notificationHelper";
 function AppContent() {
     const notificationContext = useContext(NotificationContext);
     const location = useLocation();
-    const hideChatWidget = location.pathname.startsWith('/process-procedure');
+    const hideChatWidget = location.pathname.startsWith("/process-procedure");
 
     useEffect(() => {
         if (notificationContext) {

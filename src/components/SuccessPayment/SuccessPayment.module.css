@@ -64,7 +64,7 @@
 .success-title {
     font-size: 20px;
     font-weight: bold;
-    color: #10A142;
+    color: #10a142;
     margin-bottom: 20px;
 }
 
@@ -83,7 +83,7 @@
 .done-btn {
     width: 100%;
     padding: 10px;
-    background: #10A142;
+    background: #10a142;
     color: #fff;
     font-size: 15px;
     font-weight: bold;
@@ -94,5 +94,5 @@
 }
 
 .done-btn:hover {
-    background: #10A142;
+    background: #10a142;
 }

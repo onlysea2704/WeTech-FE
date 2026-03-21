@@ -92,7 +92,7 @@ const ChangePassword = () => {
                                     type={showCurrent ? "text" : "password"} // Toggle type
                                     value={currentPassword}
                                     onChange={(e) => setCurrentPassword(e.target.value)}
-                                // placeholder="Nhập mật khẩu hiện tại"
+                                    // placeholder="Nhập mật khẩu hiện tại"
                                 />
                                 <i
                                     className={`fa-solid ${showCurrent ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
@@ -112,7 +112,7 @@ const ChangePassword = () => {
                                     type={showNew ? "text" : "password"}
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                // placeholder="Nhập mật khẩu mới"
+                                    // placeholder="Nhập mật khẩu mới"
                                 />
                                 <i
                                     className={`fa-solid ${showNew ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}
@@ -131,7 +131,7 @@ const ChangePassword = () => {
                                     type={showConfirm ? "text" : "password"}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                // placeholder="Nhập lại mật khẩu mới"
+                                    // placeholder="Nhập lại mật khẩu mới"
                                 />
                                 <i
                                     className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"} ${styles["edit-icon"]}`}

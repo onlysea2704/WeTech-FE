@@ -1,4 +1,4 @@
-import styles from './Overlay.module.css'
+import styles from "./Overlay.module.css";
 
 export default function Overlay() {
     return (

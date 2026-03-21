@@ -93,7 +93,7 @@ const LoginForm = () => {
             console.error("Login error:", error);
 
             let apiMessage = error?.response?.data?.message || error.message;
-            if (error.code === 'ERR_NETWORK') {
+            if (error.code === "ERR_NETWORK") {
                 apiMessage = "Không thể kết nối đến máy chủ. Vui lòng kiểm tra kết nối mạng hoặc thử lại sau.";
             }
             showError(apiMessage);

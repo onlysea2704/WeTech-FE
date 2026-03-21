@@ -64,7 +64,7 @@
 }
 
 .uploadButton:hover {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: #ffffff;
 }
 
@@ -189,7 +189,7 @@
 
 .actionButton {
     background-color: #fff;
-    border: 1px solid #C8C7D4;
+    border: 1px solid #c8c7d4;
     color: #1c1c3c;
     font-weight: 600;
     padding: 10px 24px;
@@ -203,8 +203,8 @@
 }
 
 .actionButton:hover {
-    border-color: #1B154B;
-    background-color: #1B154B;
+    border-color: #1b154b;
+    background-color: #1b154b;
     color: #ffffff;
 }
 
@@ -213,9 +213,9 @@
 }
 
 .actionButtonPrimary {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: #ffffff;
-    border: 1px solid #1B154B;
+    border: 1px solid #1b154b;
     padding: 10px 24px;
     font-size: 14px;
     border-radius: 4px;
@@ -227,9 +227,9 @@
 }
 
 .actionButtonPrimary:hover {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: #ffffff;
-    border: 1px solid #1B154B;
+    border: 1px solid #1b154b;
 }
 
 .reviewContainer {
@@ -251,7 +251,7 @@
     margin: 0;
 }
 
-.reviewImages>div {
+.reviewImages > div {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -265,7 +265,6 @@
     border-radius: 8px;
     border: 1px solid #ddd;
 }
-
 
 .popupPreviewContainer {
     display: flex;

@@ -1,14 +1,14 @@
-import React, { useState, useImperativeHandle, forwardRef } from 'react';
-import styles from '../../pages/User/ScanQR/ScanQR.module.css';
-import Tooltip from '../Tooltip/Tooltip';
-import SuccessPayment from '../SuccessPayment/SuccessPayment';
-import FailurePayment from '../FailurePayment/FailurePayment';
+import React, { useState, useImperativeHandle, forwardRef } from "react";
+import styles from "../../pages/User/ScanQR/ScanQR.module.css";
+import Tooltip from "../Tooltip/Tooltip";
+import SuccessPayment from "../SuccessPayment/SuccessPayment";
+import FailurePayment from "../FailurePayment/FailurePayment";
 
-const formatPrice = (price) => new Intl.NumberFormat('vi-VN').format(price || 0);
+const formatPrice = (price) => new Intl.NumberFormat("vi-VN").format(price || 0);
 
 const PaymentQRCard = forwardRef(function PaymentQRCard(
     { amount, code, timeLeft, onCheckTransaction, onPaymentSuccess, txDetails },
-    ref
+    ref,
 ) {
     const [showPopup, setShowPopup] = useState(false);
     const [isSuccess, setIsSuccess] = useState(false);
@@ -46,17 +46,17 @@ const PaymentQRCard = forwardRef(function PaymentQRCard(
 
     return (
         <>
-            <div className={styles['payment-container-qr']}>
+            <div className={styles["payment-container-qr"]}>
                 {/* LEFT: payment info */}
-                <div className={styles['payment-info-container']}>
+                <div className={styles["payment-info-container"]}>
                     <h3>Thông tin thanh toán</h3>
-                    <table className={styles['order-info']}>
+                    <table className={styles["order-info"]}>
                         <tbody>
-                            <tr className={styles['info-item-qr-page']}>
+                            <tr className={styles["info-item-qr-page"]}>
                                 <td>Nhà cung cấp</td>
                                 <td>LE THI LAN</td>
                             </tr>
-                            <tr className={styles['info-item-qr-page']}>
+                            <tr className={styles["info-item-qr-page"]}>
                                 <td>Số điện thoại</td>
                                 <td>
                                     <Tooltip text="Nhấn để sao chép" copyValue="0989466992">
@@ -64,11 +64,11 @@ const PaymentQRCard = forwardRef(function PaymentQRCard(
                                     </Tooltip>
                                 </td>
                             </tr>
-                            <tr className={styles['info-item-qr-page']}>
+                            <tr className={styles["info-item-qr-page"]}>
                                 <td>Ngân hàng</td>
                                 <td>MB Bank</td>
                             </tr>
-                            <tr className={styles['info-item-qr-page']}>
+                            <tr className={styles["info-item-qr-page"]}>
                                 <td>Nội dung</td>
                                 <td>
                                     <Tooltip text="Nhấn để sao chép" copyValue={code}>
@@ -84,20 +84,20 @@ const PaymentQRCard = forwardRef(function PaymentQRCard(
                         <tfoot>
                             <tr>
                                 <td colSpan="2">
-                                    <div className={styles['countdown']}>
+                                    <div className={styles["countdown"]}>
                                         <p>Đơn hàng sẽ hết hạn sau:</p>
-                                        <div className={styles['timer']}>
-                                            <div className={styles['time-box']}>
-                                                <span className={styles['time-value']}>
-                                                    {minutes.toString().padStart(2, '0')}
+                                        <div className={styles["timer"]}>
+                                            <div className={styles["time-box"]}>
+                                                <span className={styles["time-value"]}>
+                                                    {minutes.toString().padStart(2, "0")}
                                                 </span>
-                                                <span className={styles['time-label']}>Phút</span>
+                                                <span className={styles["time-label"]}>Phút</span>
                                             </div>
-                                            <div className={styles['time-box']}>
-                                                <span className={styles['time-value']}>
-                                                    {seconds.toString().padStart(2, '00')}
+                                            <div className={styles["time-box"]}>
+                                                <span className={styles["time-value"]}>
+                                                    {seconds.toString().padStart(2, "00")}
                                                 </span>
-                                                <span className={styles['time-label']}>Giây</span>
+                                                <span className={styles["time-label"]}>Giây</span>
                                             </div>
                                         </div>
                                     </div>
@@ -108,19 +108,15 @@ const PaymentQRCard = forwardRef(function PaymentQRCard(
                 </div>
 
                 {/* RIGHT: QR */}
-                <div className={styles['qr-section']}>
+                <div className={styles["qr-section"]}>
                     <h3>Quét mã QR thanh toán trực tiếp</h3>
-                    <div className={styles['qr-box']}>
+                    <div className={styles["qr-box"]}>
                         <img src={qrUrl} alt="QR Code" />
                         <p>Lê Thị Lan - 0989466992</p>
                     </div>
-                    <p className={styles['qr-note']}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
-                    <button
-                        className={styles['check-transaction-btn']}
-                        onClick={handleCheck}
-                        disabled={checking}
-                    >
-                        {checking ? 'Đang kiểm tra...' : 'Kiểm tra giao dịch'}
+                    <p className={styles["qr-note"]}>Mở ứng dụng ngân hàng để Quét Mã QR</p>
+                    <button className={styles["check-transaction-btn"]} onClick={handleCheck} disabled={checking}>
+                        {checking ? "Đang kiểm tra..." : "Kiểm tra giao dịch"}
                     </button>
                 </div>
             </div>
@@ -135,9 +131,7 @@ const PaymentQRCard = forwardRef(function PaymentQRCard(
                     }}
                 />
             )}
-            {showPopup && !isSuccess && (
-                <FailurePayment onClose={() => setShowPopup(false)} />
-            )}
+            {showPopup && !isSuccess && <FailurePayment onClose={() => setShowPopup(false)} />}
         </>
     );
 });

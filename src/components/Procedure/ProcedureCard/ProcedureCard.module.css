@@ -5,8 +5,8 @@
     padding: 10px;
     background: white;
     border-radius: 8px;
-    border: 1px solid #F6F6F6;
-    box-shadow: 0 6px 12px 0 rgba(171, 190, 209, 0.30);
+    border: 1px solid #f6f6f6;
+    box-shadow: 0 6px 12px 0 rgba(171, 190, 209, 0.3);
     transition: box-shadow 0.2s;
 }
 
@@ -32,7 +32,7 @@
 .procedure-title {
     font-size: 16px;
     font-weight: 700;
-    color: #2B4E9A;
+    color: #2b4e9a;
     margin: 0;
     cursor: pointer;
 }
@@ -43,7 +43,7 @@
 
 .procedure-desc {
     font-size: 14px;
-    color: #0C0C0C;
+    color: #0c0c0c;
     margin: 0;
     line-height: 1.5;
 }
@@ -70,7 +70,7 @@
 .detail-btn {
     background: none;
     border: none;
-    color: #0C0C0C;
+    color: #0c0c0c;
     font-size: 13px;
     cursor: pointer;
     padding: 0;
@@ -85,7 +85,7 @@
 .detail-btn span {
     display: inline-block;
     padding-bottom: 3px;
-    border-bottom: 1px solid #0C0C0C;
+    border-bottom: 1px solid #0c0c0c;
 }
 
 .detail-btn:hover {

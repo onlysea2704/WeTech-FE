@@ -30,8 +30,11 @@ const About = () => {
 
             {/* Right Content */}
             <div className={styles["right-about"]}>
-                <h3 className={styles["subtitle-about"]}>Về Chúng Tôi
-                    <Link to="/dashboard" style={{ color: '#fff' }}>.</Link>
+                <h3 className={styles["subtitle-about"]}>
+                    Về Chúng Tôi
+                    <Link to="/dashboard" style={{ color: "#fff" }}>
+                        .
+                    </Link>
                 </h3>
                 <h2 className={styles["title-about"]}>Tại sao nên lựa chọn chúng tôi?</h2>
                 <p className={styles["description-about"]}>

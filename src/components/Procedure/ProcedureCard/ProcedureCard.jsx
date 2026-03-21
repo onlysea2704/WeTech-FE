@@ -29,12 +29,13 @@ const ProcedureCard = ({ procedure, onOpenModal }) => {
                         </span>
                     )}
                 </div>
-                <button
-                    className={styles["detail-btn"]}
-                    onClick={() => onOpenModal && onOpenModal(procedure)}
-                >
+                <button className={styles["detail-btn"]} onClick={() => onOpenModal && onOpenModal(procedure)}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="11" height="11" viewBox="0 0 11 11" fill="none">
-                        <path d="M5.39062 0.34375L9.98062 5.17383L5.39062 10.2539" stroke="#0C0C0C" strokeMiterlimit="10" />
+                        <path
+                            d="M5.39062 0.34375L9.98062 5.17383L5.39062 10.2539"
+                            stroke="#0C0C0C"
+                            strokeMiterlimit="10"
+                        />
                         <path d="M0 5.80469H9" stroke="#0C0C0C" strokeMiterlimit="10" />
                     </svg>
                     <span>Chi tiết</span>

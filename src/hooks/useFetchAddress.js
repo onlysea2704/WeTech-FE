@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 
-const PROVINCES_URL = 'https://www.tinhthanhpho.com/api/v1/new-provinces?limit=40';
+const PROVINCES_URL = "https://www.tinhthanhpho.com/api/v1/new-provinces?limit=40";
 const COMMUNES_URL = (code) => `https://www.tinhthanhpho.com/api/v1/new-provinces/${code}/wards?limit=1300`;
 
 // Cache provinces globally to avoid repeated fetches across component instances
@@ -11,8 +11,8 @@ async function getProvincesOnce() {
     if (cachedProvinces) return cachedProvinces;
     if (!provincesFetchPromise) {
         provincesFetchPromise = fetch(PROVINCES_URL)
-            .then(r => r.json())
-            .then(data => {
+            .then((r) => r.json())
+            .then((data) => {
                 cachedProvinces = data.data || [];
                 return cachedProvinces;
             });
@@ -30,7 +30,7 @@ async function getProvincesOnce() {
  * @param {string} provinceCode - Mã tỉnh (code) để fetch communes. Truyền '' nếu chưa chọn.
  * @returns {{ provinces: Array, communes: Array, loadingProvinces: boolean, loadingCommunes: boolean }}
  */
-export function useFetchAddress(provinceCode = '') {
+export function useFetchAddress(provinceCode = "") {
     const [provinces, setProvinces] = useState(cachedProvinces || []);
     const [communes, setCommunes] = useState([]);
     const [loadingProvinces, setLoadingProvinces] = useState(!cachedProvinces);
@@ -45,10 +45,10 @@ export function useFetchAddress(provinceCode = '') {
         }
         setLoadingProvinces(true);
         getProvincesOnce()
-            .then(data => {
+            .then((data) => {
                 setProvinces(data);
             })
-            .catch(err => console.error('[useFetchAddress] provinces error:', err))
+            .catch((err) => console.error("[useFetchAddress] provinces error:", err))
             .finally(() => setLoadingProvinces(false));
     }, []);
 
@@ -60,9 +60,9 @@ export function useFetchAddress(provinceCode = '') {
         }
         setLoadingCommunes(true);
         fetch(COMMUNES_URL(provinceCode))
-            .then(r => r.json())
-            .then(data => setCommunes(data.data || []))
-            .catch(err => console.error('[useFetchAddress] communes error:', err))
+            .then((r) => r.json())
+            .then((data) => setCommunes(data.data || []))
+            .catch((err) => console.error("[useFetchAddress] communes error:", err))
             .finally(() => setLoadingCommunes(false));
     }, [provinceCode]);
 

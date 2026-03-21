@@ -10,9 +10,9 @@ import typeCompanyOptions from "../../../consts/typeCompany";
 import ProcedurePayment from "../../../components/ProcedurePayment/ProcedurePayment";
 import SubmitProcedure from "../../../components/SubmitProcedure/SubmitProcedure";
 import { downloadPdf } from "../../../utils/downloadPdf";
-import iconCheck from "../../../assets/Check_perspective_matte.png"
-import iconCancel from "../../../assets/Error_perspective_matte.png"
-import plusIcon from "../../../assets/Plus_perspective_matte.png"
+import iconCheck from "../../../assets/Check_perspective_matte.png";
+import iconCancel from "../../../assets/Error_perspective_matte.png";
+import plusIcon from "../../../assets/Plus_perspective_matte.png";
 import { useNotification } from "../../../hooks/useNotification";
 
 const tabs = [
@@ -56,19 +56,20 @@ const ProcessProcedure = () => {
                 const serviceType = procedureResponse.serviceType;
                 const typeCompany = procedureResponse.typeCompany;
                 const forms = procedureResponse.forms.map((form) => {
-                    const matchedFormType = typeCompanyOptions.find((item) => item.value === typeCompany)
+                    const matchedFormType = typeCompanyOptions
+                        .find((item) => item.value === typeCompany)
                         ?.services.find((item) => item.value === serviceType)
                         ?.procedures?.find((p) => (p.value || p.title) === form.type)
                         ?.formsType?.find((item) => item.title === form.name);
                     return {
                         ...form,
                         declaration: matchedFormType?.declaration,
-                        confirmation: matchedFormType?.confirmation
+                        confirmation: matchedFormType?.confirmation,
                     };
                 });
 
-                if (['PENDING', 'SUCCESS', 'FAILED'].includes(procedureResponse.status)) {
-                    if (viewMode !== 'see_again') {
+                if (["PENDING", "SUCCESS", "FAILED"].includes(procedureResponse.status)) {
+                    if (viewMode !== "see_again") {
                         navigate(`/process-procedure/${id_procedure}?tab=1&viewMode=see_again`, { replace: true });
                     }
                 }
@@ -76,14 +77,13 @@ const ProcessProcedure = () => {
                 const formDeclarationSteps = procedureResponse.forms.map((form, idx) => {
                     return {
                         id: idx,
-                        label: form.name
+                        label: form.name,
                     };
                 });
 
                 setForms(forms);
                 setFormDeclarationSteps(formDeclarationSteps);
                 setProcedure(procedureResponse);
-
             } catch (error) {
                 console.error("Error fetching form declaration steps:", error);
             } finally {
@@ -104,10 +104,10 @@ const ProcessProcedure = () => {
         }
 
         if (currentFormStep < formDeclarationSteps.length - 1) {
-            setCurrentFormStep(prev => prev + 1);
+            setCurrentFormStep((prev) => prev + 1);
             window.scrollTo(0, 0);
         } else {
-            if (viewMode === 'see_again') {
+            if (viewMode === "see_again") {
                 navigate(`/list-procedures/${procedure?.typeCompany}`);
             } else {
                 setActiveTab((prev) => Math.min(prev + 1, tabs.length - 1));
@@ -125,7 +125,7 @@ const ProcessProcedure = () => {
                 declarationFormsRef.current.submitCurrentForm();
             }
         } else if (activeTab === 1) {
-            if (viewMode === 'see_again') {
+            if (viewMode === "see_again") {
                 if (currentFormStep < formDeclarationSteps.length - 1) {
                     setCurrentFormStep((prev) => prev + 1);
                     window.scrollTo(0, 0);
@@ -133,7 +133,7 @@ const ProcessProcedure = () => {
                     navigate(`/list-procedures/${procedure?.typeCompany}`);
                 }
             } else {
-                // Tab 1: Mở form xác nhận, khi submit sẽ tạo file pdf lưu lên server 
+                // Tab 1: Mở form xác nhận, khi submit sẽ tạo file pdf lưu lên server
                 const processConfirmation = async () => {
                     setIsConfirming(true);
                     try {
@@ -193,12 +193,7 @@ const ProcessProcedure = () => {
                     />
                 );
             case 3:
-                return (
-                    <SubmitProcedure
-                        procedure={procedure}
-                        setActiveTab={setActiveTab}
-                    />
-                );
+                return <SubmitProcedure procedure={procedure} setActiveTab={setActiveTab} />;
             default:
                 return null;
         }
@@ -209,23 +204,22 @@ const ProcessProcedure = () => {
             setIsDownloading(true);
             const currentForm = forms?.[currentFormStep];
             if (!currentForm?.code) {
-
                 showNotification("Không tìm thấy mã form để tải PDF", "error");
                 return;
             }
 
             const response = await authAxios.get(`/api/form-submission/get/pdf-file-url`, {
-                params: { code: currentForm.code }
+                params: { code: currentForm.code },
             });
             console.log("PDF Response (Cloud URL):", response.data);
 
             if (response.data) {
                 const url = response.data;
-                const fileName = currentForm?.name ? `${currentForm.name}.pdf` : 'document.pdf';
+                const fileName = currentForm?.name ? `${currentForm.name}.pdf` : "document.pdf";
                 await downloadPdf(url, fileName);
             }
         } catch (err) {
-            console.error('Lỗi khi tải file PDF:', err);
+            console.error("Lỗi khi tải file PDF:", err);
         } finally {
             setIsDownloading(false);
         }
@@ -240,10 +234,10 @@ const ProcessProcedure = () => {
 
     return (
         <div className="stepper-container">
-            {(loading) && <Overlay />}
+            {loading && <Overlay />}
             <div className="stepper-header-main">
                 <h1 className="main-title">{procedure?.title}</h1>
-                {viewMode !== 'see_again' && (
+                {viewMode !== "see_again" && (
                     <div className="stepper-header">
                         {tabs.map((tab, index) => (
                             <div
@@ -258,42 +252,41 @@ const ProcessProcedure = () => {
                 )}
             </div>
 
-            <div className={(viewMode !== 'see_again') ? "stepper-body-main1" : "stepper-body-main2"}>
+            <div className={viewMode !== "see_again" ? "stepper-body-main1" : "stepper-body-main2"}>
                 {(activeTab === 0 || activeTab === 1) && (
-                    <ProgressStepper
-                        currentStep={currentFormStep}
-                        isSuccess={true}
-                        steps={formDeclarationSteps}
-                    />
+                    <ProgressStepper currentStep={currentFormStep} isSuccess={true} steps={formDeclarationSteps} />
                 )}
 
                 <div className="stepper-body">{renderTabContent()}</div>
             </div>
 
-            {(activeTab <= 1) && (
+            {activeTab <= 1 && (
                 <div className="stepper-footer custom-footer">
                     {activeTab !== 2 && (
-                        <button className="btn-cancel" onClick={() => {
-                            if (editingFromConfirmation !== null) {
-                                setActiveTab(1);
-                                setCurrentFormStep(editingFromConfirmation);
-                                setEditingFromConfirmation(null);
-                                window.scrollTo(0, 0);
-                                return;
-                            }
-                            if (viewMode === 'see_again' && currentFormStep === 0) {
-                                navigate(-1); // Quay lại trang trước đó
-                            } else if (activeTab === 0 && currentFormStep > 0) {
-                                setCurrentFormStep(prev => prev - 1);
-                            } else if (activeTab === 0 && currentFormStep === 0) {
-                                navigate(`/list-procedures/${procedure.typeCompany}`);
-                            } else if (activeTab === 1 && currentFormStep > 0) {
-                                setCurrentFormStep(prev => prev - 1);
-                            } else {
-                                setActiveTab(0);
-                                setCurrentFormStep(formDeclarationSteps.length - 1); // Trở về form khai báo cuối cùng
-                            }
-                        }}>
+                        <button
+                            className="btn-cancel"
+                            onClick={() => {
+                                if (editingFromConfirmation !== null) {
+                                    setActiveTab(1);
+                                    setCurrentFormStep(editingFromConfirmation);
+                                    setEditingFromConfirmation(null);
+                                    window.scrollTo(0, 0);
+                                    return;
+                                }
+                                if (viewMode === "see_again" && currentFormStep === 0) {
+                                    navigate(-1); // Quay lại trang trước đó
+                                } else if (activeTab === 0 && currentFormStep > 0) {
+                                    setCurrentFormStep((prev) => prev - 1);
+                                } else if (activeTab === 0 && currentFormStep === 0) {
+                                    navigate(`/list-procedures/${procedure.typeCompany}`);
+                                } else if (activeTab === 1 && currentFormStep > 0) {
+                                    setCurrentFormStep((prev) => prev - 1);
+                                } else {
+                                    setActiveTab(0);
+                                    setCurrentFormStep(formDeclarationSteps.length - 1); // Trở về form khai báo cuối cùng
+                                }
+                            }}
+                        >
                             <img src={iconCancel} alt="" />
                             Huỷ
                         </button>
@@ -301,53 +294,123 @@ const ProcessProcedure = () => {
                     {activeTab !== 2 && (
                         <div className="footer-right-actions">
                             {activeTab === 1 ? (
-                                viewMode === 'see_again' ? (
-                                    <button className="btn-action import" onClick={handleDownloadPdf} disabled={isDownloading}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
-                                            <path d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z" fill="#1B154B" />
-                                        </svg> {isDownloading ? 'Đang tải...' : 'Tải file'}
+                                viewMode === "see_again" ? (
+                                    <button
+                                        className="btn-action import"
+                                        onClick={handleDownloadPdf}
+                                        disabled={isDownloading}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="15"
+                                            height="18"
+                                            viewBox="0 0 15 18"
+                                            fill="none"
+                                        >
+                                            <path
+                                                d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z"
+                                                fill="#1B154B"
+                                            />
+                                        </svg>{" "}
+                                        {isDownloading ? "Đang tải..." : "Tải file"}
                                     </button>
                                 ) : (
-                                    <button className="btn-action" onClick={() => {
-                                        setEditingFromConfirmation(currentFormStep);
-                                        setActiveTab(0);
-                                    }}>
+                                    <button
+                                        className="btn-action"
+                                        onClick={() => {
+                                            setEditingFromConfirmation(currentFormStep);
+                                            setActiveTab(0);
+                                        }}
+                                    >
                                         <img src={plusIcon} alt="" /> Sửa thông tin
                                     </button>
                                 )
                             ) : (
                                 <>
-                                    <button className="btn-action export" onClick={() => declarationFormsRef.current?.exportExcel()}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="18" viewBox="0 0 15 18" fill="none">
-                                            <path d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z" fill="#1B154B" />
-                                        </svg> Xuất File Excel
+                                    <button
+                                        className="btn-action export"
+                                        onClick={() => declarationFormsRef.current?.exportExcel()}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="15"
+                                            height="18"
+                                            viewBox="0 0 15 18"
+                                            fill="none"
+                                        >
+                                            <path
+                                                d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z"
+                                                fill="#1B154B"
+                                            />
+                                        </svg>{" "}
+                                        Xuất File Excel
                                     </button>
-                                    <button className="btn-action import" onClick={() => declarationFormsRef.current?.importExcel()}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                                            <path d="M8.0625 7.68647L12 3.75L15.9375 7.68647" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                            <path d="M12 14.2492V3.75195" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                            <path d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25" stroke="#1B154B" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                                        </svg> Import File Excel
+                                    <button
+                                        className="btn-action import"
+                                        onClick={() => declarationFormsRef.current?.importExcel()}
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            width="24"
+                                            height="24"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                        >
+                                            <path
+                                                d="M8.0625 7.68647L12 3.75L15.9375 7.68647"
+                                                stroke="#1B154B"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M12 14.2492V3.75195"
+                                                stroke="#1B154B"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                            <path
+                                                d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25"
+                                                stroke="#1B154B"
+                                                strokeWidth="2"
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>{" "}
+                                        Import File Excel
                                     </button>
                                 </>
                             )}
-                            <button className="btn-next" onClick={handleNext} disabled={activeTab === tabs.length - 1 || activeTab === 2 || isConfirming || isSubmittingForm || loading}>
+                            <button
+                                className="btn-next"
+                                onClick={handleNext}
+                                disabled={
+                                    activeTab === tabs.length - 1 ||
+                                    activeTab === 2 ||
+                                    isConfirming ||
+                                    isSubmittingForm ||
+                                    loading
+                                }
+                            >
                                 <img src={iconCheck} alt="" />
-                                {viewMode === 'see_again' && activeTab === 1 && currentFormStep === formDeclarationSteps.length - 1 ? 'Tạo mới' : 'Tiếp theo'}
+                                {viewMode === "see_again" &&
+                                activeTab === 1 &&
+                                currentFormStep === formDeclarationSteps.length - 1
+                                    ? "Tạo mới"
+                                    : "Tiếp theo"}
 
                                 {(isConfirming || isSubmittingForm) && (
                                     <div className="overlay-loading" title="Đang tải dữ liệu...">
-                                        <div className="spinner-border spinner-border-sm" role="status">
-                                        </div>
+                                        <div className="spinner-border spinner-border-sm" role="status"></div>
                                     </div>
                                 )}
                             </button>
                         </div>
                     )}
                 </div>
-            )
-            }
-        </div >
+            )}
+        </div>
     );
 };
 

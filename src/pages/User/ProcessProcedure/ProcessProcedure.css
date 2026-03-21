@@ -100,7 +100,7 @@
 /* Kiểu cho tab hoàn thành và đang thao tác */
 .step.completed,
 .step.active {
-    background-color: #2B4E9A;
+    background-color: #2b4e9a;
     /* Màu xanh đen */
     color: #ffffff;
 }
@@ -108,7 +108,7 @@
 /* Tam giác của tab đang thao tác/đã hoàn thành */
 .step.completed::after,
 .step.active::after {
-    border-left-color: #2B4E9A;
+    border-left-color: #2b4e9a;
 }
 
 /* Màu viền tam giác của tab đang thao tác/đã hoàn thành (xám 5) */
@@ -140,7 +140,7 @@
 .tab-content li {
     background-color: transparent;
     padding: 10px 0;
-    color: #2B4E9A;
+    color: #2b4e9a;
     font-size: 18px;
     position: relative;
     padding-left: 25px;
@@ -150,7 +150,7 @@
 
 .tab-content li::before {
     content: "•";
-    color: #2B4E9A;
+    color: #2b4e9a;
     font-weight: bold;
     font-size: 24px;
     position: absolute;
@@ -183,19 +183,19 @@
     align-items: center;
     gap: 8px;
     padding: 8px 16px;
-    border: 1px solid #C8C7D4;
+    border: 1px solid #c8c7d4;
     border-radius: 4px;
     font-size: 14px;
     font-weight: 500;
     cursor: pointer;
     background-color: #fff;
-    color: #1B154B;
+    color: #1b154b;
     margin-left: 0;
 }
 
 .stepper-footer.custom-footer button:hover {
     color: #ffffff;
-    background-color: #1B154B;
+    background-color: #1b154b;
 }
 
 .stepper-footer.custom-footer .btn-cancel {

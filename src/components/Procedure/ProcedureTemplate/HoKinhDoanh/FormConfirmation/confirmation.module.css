@@ -89,7 +89,6 @@
     margin-bottom: 6px;
 }
 
-
 /* Table */
 .tableContainer {
     width: 100%;
@@ -150,7 +149,7 @@
 }
 
 .closingItem::before {
-    content: '-';
+    content: "-";
     position: absolute;
     left: 4px;
 }

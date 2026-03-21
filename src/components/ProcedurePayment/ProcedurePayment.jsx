@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import styles from './ProcedurePayment.module.css';
-import { authAxios, publicAxios } from '../../services/axios-instance';
-import usePaymentSocket from '../../services/usePaymentSocket';
-import PaymentQRCard from '../PaymentQRCard/PaymentQRCard';
-import { useAuth } from '../../context/AuthContext';
+import React, { useState, useEffect, useCallback, useRef } from "react";
+import styles from "./ProcedurePayment.module.css";
+import { authAxios, publicAxios } from "../../services/axios-instance";
+import usePaymentSocket from "../../services/usePaymentSocket";
+import PaymentQRCard from "../PaymentQRCard/PaymentQRCard";
+import { useAuth } from "../../context/AuthContext";
 
 export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
     const { user: auth } = useAuth();
@@ -25,19 +25,19 @@ export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
     // TEST: Enter key triggers success popup (for testing payment flow)
     useEffect(() => {
         const handler = (e) => {
-            if (e.key === 'Enter') {
+            if (e.key === "Enter") {
                 qrCardRef.current?.triggerSuccess();
             }
         };
-        window.addEventListener('keydown', handler);
-        return () => window.removeEventListener('keydown', handler);
+        window.addEventListener("keydown", handler);
+        return () => window.removeEventListener("keydown", handler);
     }, []);
 
     // Countdown – starts once transaction is created
     useEffect(() => {
         if (!transactionInfo) return;
         if (timeLeft <= 0) return;
-        const timer = setInterval(() => setTimeLeft(prev => prev - 1), 1000);
+        const timer = setInterval(() => setTimeLeft((prev) => prev - 1), 1000);
         return () => clearInterval(timer);
     }, [transactionInfo, timeLeft]);
 
@@ -47,14 +47,14 @@ export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
             setLoading(true);
             setError(null);
             try {
-                const fullName = auth?.fullname || '';
-                const email = auth?.email || '';
-                const phone = auth?.sdt || auth?.phone || '';
+                const fullName = auth?.fullname || "";
+                const email = auth?.email || "";
+                const phone = auth?.sdt || auth?.phone || "";
 
                 const payload = {
                     transaction: {
                         transferAmount: totalAmount,
-                        code: 'WT' + Date.now(),
+                        code: "WT" + Date.now(),
                         fullName,
                         email,
                         phone,
@@ -62,11 +62,11 @@ export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
                     listItems: [
                         {
                             idProcedure: procedure.procedureId,
-                            typeItem: "PROCEDURE"
-                        }
+                            typeItem: "PROCEDURE",
+                        },
                     ],
                 };
-                const createRes = await authAxios.post('/payment/create', payload);
+                const createRes = await authAxios.post("/payment/create", payload);
                 const txData = createRes.data;
                 if (txData) {
                     setTransactionInfo({
@@ -78,11 +78,11 @@ export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
                         phone,
                     });
                 } else {
-                    setError('Không thể tạo giao dịch. Vui lòng thử lại.');
+                    setError("Không thể tạo giao dịch. Vui lòng thử lại.");
                 }
             } catch (err) {
-                console.error('ProcedurePayment error:', err);
-                setError('Có lỗi xảy ra khi khởi tạo thanh toán.');
+                console.error("ProcedurePayment error:", err);
+                setError("Có lỗi xảy ra khi khởi tạo thanh toán.");
             } finally {
                 setLoading(false);
             }
@@ -97,7 +97,7 @@ export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
         try {
             const res = await publicAxios.get(`/payment/get?idTransaction=${transactionInfo.idTransaction}`);
             console.log(res.data);
-            return res.data?.status === 'SUCCESS';
+            return res.data?.status === "SUCCESS";
         } catch (err) {
             console.error(err);
             return false;

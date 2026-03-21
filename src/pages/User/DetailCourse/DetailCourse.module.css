@@ -43,7 +43,8 @@
     width: 16px;
     height: 16px;
     object-fit: contain;
-    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%) contrast(106%);
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
     /* Attempt gold filter or just use original if colored */
 }
 
@@ -86,7 +87,8 @@
 .course-update img {
     width: 14px;
     height: 14px;
-    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%) contrast(106%);
+    filter: brightness(0) saturate(100%) invert(83%) sepia(35%) saturate(836%) hue-rotate(357deg) brightness(102%)
+        contrast(106%);
 }
 
 .video-container {

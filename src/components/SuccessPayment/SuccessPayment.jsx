@@ -1,9 +1,9 @@
 import React from "react";
 import styles from "./SuccessPayment.module.css";
-import successIcon from '../../assets/success-icon.png'
+import successIcon from "../../assets/success-icon.png";
 
 const SuccessPayment = ({ onClose, txDetails }) => {
-    const formatPrice = (price) => new Intl.NumberFormat('vi-VN').format(price || 0);
+    const formatPrice = (price) => new Intl.NumberFormat("vi-VN").format(price || 0);
 
     return (
         <div className={styles["popup-overlay"]}>
@@ -23,19 +23,19 @@ const SuccessPayment = ({ onClose, txDetails }) => {
                 <div className={styles.info}>
                     <div className={styles["info-row"]}>
                         <span>Họ và Tên</span>
-                        <span>{txDetails?.fullName || ''}</span>
+                        <span>{txDetails?.fullName || ""}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Số điện thoại</span>
-                        <span>{txDetails?.phone || ''}</span>
+                        <span>{txDetails?.phone || ""}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Email</span>
-                        <span>{txDetails?.email || ''}</span>
+                        <span>{txDetails?.email || ""}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Đơn hàng</span>
-                        <span>{txDetails?.code || ''}</span>
+                        <span>{txDetails?.code || ""}</span>
                     </div>
                     <div className={styles["info-row"]}>
                         <span>Số tiền</span>

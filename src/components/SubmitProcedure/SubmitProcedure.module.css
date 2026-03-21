@@ -29,8 +29,8 @@
 
 .greyBox {
     border-radius: 12px;
-    border: 1px solid var(--Gray-2, #F6F6F6);
-    background: var(--Gray-1, #F9F9F9);
+    border: 1px solid var(--Gray-2, #f6f6f6);
+    background: var(--Gray-1, #f9f9f9);
     padding: 24px;
     margin-top: 32px;
     margin-bottom: 32px;
@@ -42,7 +42,7 @@
 
 .greyBoxTitle {
     text-align: center;
-    color: #2F5597;
+    color: #2f5597;
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 24px;
@@ -71,7 +71,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    color: #2F5597;
+    color: #2f5597;
     cursor: pointer;
     transition: all 0.2s;
 }
@@ -91,7 +91,7 @@
     font-weight: 600;
     cursor: pointer;
     text-decoration: none;
-    color: #1B154B;
+    color: #1b154b;
 }
 
 .downloadBtn:hover {
@@ -117,13 +117,13 @@
     cursor: pointer;
     font-weight: 500;
     font-size: 14px;
-    color: #1B154B;
+    color: #1b154b;
     margin: 0 auto;
     transition: all 0.2s;
 }
 
 .btnAction:hover {
-    background: #1B154B;
+    background: #1b154b;
     color: #fff;
 }
 
@@ -174,7 +174,7 @@
 }
 
 .radioLabel input[type="radio"] {
-    accent-color: #10A142;
+    accent-color: #10a142;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -228,14 +228,13 @@
     align-items: center;
     gap: 16px;
     box-shadow: 0 4px 8px 0 rgba(145, 158, 171, 0.16);
-
 }
 
 .serviceCardTitle {
     font-weight: 600;
     font-size: 16px;
     margin-bottom: 16px;
-    color: #0C0C0C;
+    color: #0c0c0c;
 }
 
 .serviceCardBody {
@@ -256,11 +255,11 @@
 }
 
 .feeHighlight {
-    color: #EA4335 !important;
+    color: #ea4335 !important;
 }
 
 .btnSubmitOnline {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: white;
     border: none;
     padding: 10px 16px;
@@ -310,7 +309,7 @@
     justify-content: center;
     align-items: center;
     padding: 40px;
-    color: #2F5597;
+    color: #2f5597;
 }
 
 .successIcon {

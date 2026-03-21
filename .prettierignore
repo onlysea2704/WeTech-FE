@@ -4,3 +4,8 @@ node_modules
 .git
 coverage
 *.log
+.env
+src/App.js
+src/index.js
+src/reportWebVitals.js
+src/setupTests.js

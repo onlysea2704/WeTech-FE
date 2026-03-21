@@ -9,7 +9,7 @@
 }
 
 .sectionTitle {
-    color: #1C1C1B;
+    color: #1c1c1b;
     font-family: Roboto;
     font-weight: 500;
     font-size: 14px;
@@ -231,7 +231,7 @@
 }
 
 .btnPrimary {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -273,7 +273,7 @@
 }
 
 .table th {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: white;
     font-weight: 500;
 }
@@ -328,7 +328,7 @@ table img {
 
 /* ── Buttons ── */
 .btnSave {
-    background-color: #1B154B;
+    background-color: #1b154b;
     color: #fff;
     border: none;
     padding: 4px 10px;
@@ -363,7 +363,7 @@ table img {
 }
 
 .radioInput {
-    accent-color: #10A142;
+    accent-color: #10a142;
     width: 16px;
     height: 16px;
     cursor: pointer;
@@ -378,7 +378,6 @@ table img {
 }
 
 @media (max-width: 900px) {
-
     .colLeft,
     .colRight,
     .colHalf {

@@ -23,10 +23,7 @@ export default function SearchInput() {
         <div
             className={`${styles["search-box"]} ${isAuthenticated ? styles["search-box-logged"] : styles["search-box-not-logged"]}`}
         >
-            <i
-                className={`fas fa-search ${styles["search-icon"]}`}
-                onClick={handleSearchClick}
-            ></i>
+            <i className={`fas fa-search ${styles["search-icon"]}`} onClick={handleSearchClick}></i>
             <input
                 className={styles["search-navbar"]}
                 type="text"

@@ -12,14 +12,14 @@ code {
 :root {
     --primary-font-family: "Roboto Condensed";
     --secondary-font-family: "Roboto";
-    --primary-color: #1B154B;
+    --primary-color: #1b154b;
     --buy-color: #443f6b;
-    --primary-content: #0C0C0C;
+    --primary-content: #0c0c0c;
     --secondary-content: #505050;
-    --danger-color: #FF3B30;
-    --success-color: #10A142;
-    --warning-color: #FF782D;
-    --info-color: #2B4E9A;
+    --danger-color: #ff3b30;
+    --success-color: #10a142;
+    --warning-color: #ff782d;
+    --info-color: #2b4e9a;
 
-    --border-color: #C8C7D4;
+    --border-color: #c8c7d4;
 }
