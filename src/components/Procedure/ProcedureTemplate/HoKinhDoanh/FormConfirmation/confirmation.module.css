@@ -45,6 +45,7 @@
     font-style: italic;
     font-size: 16px;
     margin-bottom: 16px;
+    margin-top: 16px;
 }
 
 /* Sections */
@@ -56,6 +57,10 @@
     font-weight: 700;
     font-size: 20px;
     margin: 0 0 10px;
+}
+
+.heading1 {
+    font-weight: 700;
 }
 
 /* Info Row */
@@ -73,7 +78,6 @@
 }
 
 .infoLabel {
-    /* font-weight: 600; */
     white-space: nowrap;
 }
 

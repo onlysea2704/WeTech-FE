@@ -14,7 +14,7 @@ import {
     SECTION_FIELD_MAP_UYQUYEN
 } from './FormExcelConstants';
 
-const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess }, ref) => {
+const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess, setIsSubmittingForm }, ref) => {
     const [dataJson, setDataJson] = useState(null);
     const [importKey, setImportKey] = useState(0);
     const formRef = useRef(null);
@@ -48,6 +48,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     }, [currentForm?.formId]);
 
     async function handleFormSubmission(data) {
+        if (setIsSubmittingForm) setIsSubmittingForm(true);
         try {
             if (dataJson) {
                 await authAxios.post('/api/form-submission/update', { formId: currentForm.formId, dataJson: data });
@@ -58,6 +59,8 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
             if (onStepSubmitSuccess) onStepSubmitSuccess();
         } catch (err) {
             console.error('Error submitting form:', err);
+        } finally {
+            if (setIsSubmittingForm) setIsSubmittingForm(false);
         }
     }
 
@@ -128,7 +131,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
             rows.push(['Vốn kinh doanh (bằng chữ)', src.vonKinhDoanh_bangChu || '']);
 
             rows.push(['[THÔNG TIN KHÁC]', '']);
-            rows.push(['Kính gửi', src.kinhGui || '']);
+            rows.push(['Kính gửi', `Phòng Kinh tế, Hạ tầng và Đô thị phường ${src.kinhGui}` || '']);
             rows.push(['Địa chỉ thuế - Tỉnh/Thành phố', src.thue_tinh || '']);
             rows.push(['Địa chỉ thuế - Xã/Phường', src.thue_xa || '']);
             rows.push(['Địa chỉ thuế - Số nhà, đường', src.thue_soNha || '']);

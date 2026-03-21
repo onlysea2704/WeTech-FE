@@ -129,8 +129,10 @@
 }
 
 .greyBoxContent .greyText {
-    color: #555;
+    color: #6F6C8E;
     flex-shrink: 0;
+    font-size: 14px;
+    font-weight: 400;
 }
 
 .greyBoxContent .spacer {

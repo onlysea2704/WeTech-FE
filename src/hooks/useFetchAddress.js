@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 
 const PROVINCES_URL = 'https://www.tinhthanhpho.com/api/v1/new-provinces?limit=40';
-const COMMUNES_URL = (code) => `https://www.tinhthanhpho.com/api/v1/new-provinces/${code}/wards?limit=130`;
+const COMMUNES_URL = (code) => `https://www.tinhthanhpho.com/api/v1/new-provinces/${code}/wards?limit=1300`;
 
 // Cache provinces globally to avoid repeated fetches across component instances
 let cachedProvinces = null;

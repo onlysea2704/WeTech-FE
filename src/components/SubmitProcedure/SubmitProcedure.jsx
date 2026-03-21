@@ -12,6 +12,7 @@ import failurePaymentIcon from "../../assets/failure-icon.png";
 import { downloadPdf } from "../../utils/downloadPdf";
 import checkIcon from '../../assets/Check_perspective_matte.png';
 import pdfIcon from '../../assets/pdf-image.png';
+import { useFetchAddress } from '../../hooks/useFetchAddress';
 
 export default function SubmitProcedure({ procedure, setActiveTab }) {
     const { id_procedure } = useParams();
@@ -28,43 +29,12 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     const [submissionStatus, setSubmissionStatus] = useState(null); // 'success' | 'error' | null
 
     // Provinces data
-    const [provinces, setProvinces] = useState([]);
-    const [communes, setCommunes] = useState([]);
     const [provValue, setProvValue] = useState("");
+    const [provCode, setProvCode] = useState("");
     const [wardValue, setWardValue] = useState("");
+    const [wardType, setWardType] = useState("");
 
-    const fetchProvinces = async () => {
-        try {
-            const res = await fetch('https://production.cas.so/address-kit/latest/provinces');
-            const data = await res.json();
-            if (data && data.provinces) setProvinces(data.provinces);
-        } catch (err) {
-            console.error("Error fetching provinces:", err);
-        }
-    };
-
-    const fetchCommunes = async (provCode) => {
-        try {
-            const res = await fetch(`https://production.cas.so/address-kit/latest/provinces/${provCode}/communes`);
-            const data = await res.json();
-            if (data && data.communes) setCommunes(data.communes);
-        } catch (err) {
-            console.error("Error fetching communes:", err);
-        }
-    };
-
-    useEffect(() => {
-        fetchProvinces();
-    }, []);
-
-    useEffect(() => {
-        if (!provValue) {
-            setCommunes([]);
-            return;
-        }
-        const match = provinces.find(p => p.name === provValue || p.code === provValue);
-        if (match) fetchCommunes(match.code);
-    }, [provValue, provinces]);
+    const { provinces, communes } = useFetchAddress(provCode);
 
     useEffect(() => {
         if (submitStep === 1 && id_procedure) {
@@ -110,22 +80,24 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
 
     const handleProvChange = (selectedOption) => {
         setProvValue(selectedOption ? selectedOption.value : "");
+        setProvCode(selectedOption ? selectedOption.code : "");
         setWardValue("");
+        setWardType("");
     };
-
     const handleWardChange = (selectedOption) => {
         setWardValue(selectedOption ? selectedOption.value : "");
+        setWardType(selectedOption ? selectedOption.type : "");
     };
 
     const handleFinalSubmit = async () => {
         try {
 
-            if (agencyType === 'tinh_thanh' && provValue === 'Thành phố Hà Nội') {
+            if (agencyType === 'tinh_thanh' && provValue === 'Hà Nội') {
                 window.open('https://hokinhdoanh.dkkd.gov.vn/auth/Public/HkdLogOn.aspx?ReturnUrl=%2fauth%2fdefault.aspx', '_blank');
             } else {
                 window.open('https://dichvucong.gov.vn/p/home/dvc-trang-chu.html', '_blank');
             }
-            const taxAuth = agencyType === 'tinh_thanh' ? `UBND ${wardValue}` : boNganhValue;
+            const taxAuth = agencyType === 'tinh_thanh' ? `UBND ${wardType ? wardType + ' ' : ''}${wardValue}` : boNganhValue;
             await authAxios.post('/api/procedurer/update-my-procedure', null, {
                 params: {
                     procedureId: id_procedure,
@@ -217,7 +189,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                 </span>
                             </div>
                         )) : (
-                            <div style={{ textAlign: 'center', color: '#666' }}>Không có file PDF nào</div>
+                            <div style={{ textAlign: 'center', color: 'var(--secondary-content)', fontSize: '16px' }}>Không có file PDF nào</div>
                         )}
                     </div>
                 )}
@@ -245,8 +217,8 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     );
 
     const renderStep2 = () => {
-        const provinceOptions = provinces.map(p => ({ value: p.name, label: p.name }));
-        const communeOptions = communes.map(c => ({ value: c.name, label: c.name }));
+        const provinceOptions = provinces.map(p => ({ value: p.name, label: p.name, code: p.code }));
+        const communeOptions = communes.map(c => ({ value: c.name, label: c.name, type: c.type || '' }));
         const boNganhOptions = [
             { value: "bocongthuong", label: "Bộ Công Thương" },
             { value: "bokhdt", label: "Bộ Kế hoạch và Đầu tư" },
@@ -378,7 +350,17 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                         <button className={styles.btnAgree} onClick={() => setSubmitStep(1)}>
                             Quay lại
                         </button>
-                        <button className={styles.btnAgree} onClick={() => setSubmitStep(3)}>Đồng ý</button>
+                        <button className={styles.btnAgree} onClick={() => {
+                            if (agencyType === 'tinh_thanh' && (!provValue || !wardValue)) {
+                                alert("Vui lòng chọn đầy đủ Tỉnh/Thành phố và Xã/Phường.");
+                                return;
+                            }
+                            if (agencyType === 'bo_nganh' && !boNganhValue) {
+                                alert("Vui lòng chọn cơ quan Bộ ngành.");
+                                return;
+                            }
+                            setSubmitStep(3);
+                        }}>Đồng ý</button>
                     </div>
                 </div>
             </div>
@@ -386,8 +368,8 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     };
 
     const renderStep3 = () => {
-        const provinceOptions = provinces.map(p => ({ value: p.name, label: p.name }));
-        const communeOptions = communes.map(c => ({ value: c.name, label: c.name }));
+        const provinceOptions = provinces.map(p => ({ value: p.name, label: p.name, code: p.code }));
+        const communeOptions = communes.map(c => ({ value: c.name, label: c.name, type: c.type || '' }));
         const boNganhOptions = [
             { value: "bocongthuong", label: "Bộ Công Thương" },
             { value: "bokhdt", label: "Bộ Kế hoạch và Đầu tư" },
@@ -419,7 +401,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                                 <span className={styles.feeHighlight} style={{ cursor: 'pointer' }} onClick={() => setShowFeePopup(true)}>Xem Phí/ Lệ phí</span>
                                             </div>
                                             <div className={styles.detailItem}>
-                                                <p>Cơ quan thực hiện: UBND {wardValue}</p>
+                                                <p>Cơ quan thực hiện: UBND {wardType} {wardValue}</p>
                                                 <p>Đối tượng: Công dân Việt Nam</p>
                                             </div>
                                         </div>
@@ -427,21 +409,23 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                     <button className={styles.btnSubmitOnline} onClick={handleFinalSubmit}>Nộp trực tuyến</button>
                                 </div>
 
-                                <div className={styles.serviceCard}>
-                                    <div className={styles.serviceCardBody}>
-                                        <div className={styles.serviceCardTitle}>{procedure?.title}</div>
-                                        <div className={styles.serviceDetails}>
-                                            <div className={styles.detailItem}>
-                                                <div className={styles.feeHighlight} style={{ cursor: 'pointer' }} onClick={() => setShowFeePopup(true)}>Xem Phí/ Lệ phí</div>
-                                            </div>
-                                            <div className={styles.detailItem}>
-                                                <p>Cơ quan thực hiện: Sở Tư pháp</p>
-                                                <p>Đối tượng: Công dân Việt Nam</p>
+                                {provValue === 'Hà Nội' && (
+                                    <div className={styles.serviceCard}>
+                                        <div className={styles.serviceCardBody}>
+                                            <div className={styles.serviceCardTitle}>{procedure?.title}</div>
+                                            <div className={styles.serviceDetails}>
+                                                <div className={styles.detailItem}>
+                                                    <div className={styles.feeHighlight} style={{ cursor: 'pointer' }} onClick={() => setShowFeePopup(true)}>Xem Phí/ Lệ phí</div>
+                                                </div>
+                                                <div className={styles.detailItem}>
+                                                    <p>Cơ quan thực hiện: Sở Tư pháp</p>
+                                                    <p>Đối tượng: Công dân Việt Nam</p>
+                                                </div>
                                             </div>
                                         </div>
+                                        <button className={styles.btnSubmitOnline} onClick={handleFinalSubmit}>Nộp trực tuyến</button>
                                     </div>
-                                    <button className={styles.btnSubmitOnline} onClick={handleFinalSubmit}>Nộp trực tuyến</button>
-                                </div>
+                                )}
                             </div>
                         </>
                     )}

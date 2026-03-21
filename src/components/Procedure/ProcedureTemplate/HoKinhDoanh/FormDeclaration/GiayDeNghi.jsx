@@ -1,10 +1,11 @@
-import { useEffect, useState, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useState, forwardRef, useImperativeHandle, useRef } from 'react';
 import styles from './GiayDeNghi.module.css';
 import UploadCCCD from '../../../../UploadCCCD/UploadCCCD';
 import AddressSelect from '../../../../AddressSelect/AddressSelect';
 import { useFetchAddress } from '../../../../../hooks/useFetchAddress';
 import deleteIcon from '../../../../../assets/delete-icon.png';
 import maNganhNgheData from '../../../../../assets/maNganhNghe.json';
+import numberToVietnameseText from '../../../../../utils/numberToVietnameseText';
 
 const EMPTY_NGANH_NGHE = { tenNganh: '', chiTiet: '', maNganh: '', laNganhChinh: false };
 const EMPTY_THANH_VIEN = { hoTen: '', ngaySinh: '', cccd: '', gioiTinh: '', quocTich: '', danToc: '', thuongTru: '', hienTai: '', chuKy: '' };
@@ -206,7 +207,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Họ và tên <span className={styles.required}>*</span></label>
-                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={dataJson?.nguoiDaiDien_hoTen || ''} required placeholder="NGUYỄN VĂN A" />
+                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={dataJson?.nguoiDaiDien_hoTen || ''} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày sinh <span className={styles.required}>*</span></label>
@@ -289,7 +290,10 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                     <h3 className={styles.sectionTitle}>Tên hộ kinh doanh:</h3>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Tên tiếng Việt <span className={styles.required}>*</span></label>
-                        <input type="text" className={styles.input} name="hkd_tenVN" defaultValue={dataJson?.hkd_tenVN || ''} required placeholder="HỘ KINH DOANH..." />
+                        <div className={styles.inputPrefixWrapper}>
+                            <p>HỘ KINH DOANH</p>
+                            <input type="text" className={styles.inputNoBorder} name="hkd_tenVN" defaultValue={dataJson?.hkd_tenVN || ''} required />
+                        </div>
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Tên tiếng nước ngoài:</label>
@@ -383,7 +387,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 <tr>
                                     <td>{nganhNgheRows.length + 1}</td>
                                     <td>{renderNganhSelects()}</td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Chi tiết" value={editingNganh.chiTiet} onChange={e => setEditingNganh(p => ({ ...p, chiTiet: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingNganh.chiTiet} onChange={e => setEditingNganh(p => ({ ...p, chiTiet: e.target.value }))} /></td>
                                     <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Mã ngành" value={editingNganh.maNganh} readOnly style={{ backgroundColor: '#e9ecef' }} /></td>
                                     <td><input type="checkbox" className={styles.checkbox} checked={editingNganh.laNganhChinh} onChange={e => setEditingNganh(p => ({ ...p, laNganhChinh: e.target.checked }))} /></td>
                                     <td><button type="button" className={styles.btnSave} onClick={handleSaveNganh} disabled={isNganhNgheEmpty(editingNganh)}>Lưu</button></td>
@@ -415,6 +419,11 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                     const diff = formatted.length - oldLen;
                                     e.target.setSelectionRange(pos + diff, pos + diff);
                                 }}
+                                onBlur={(e) => {
+                                    if (e.target.value) {
+                                        setVonBangChu(numberToVietnameseText(e.target.value));
+                                    }
+                                }}
                             />
                             <span className={styles.inputSuffix}>VNĐ</span>
                         </div>
@@ -422,9 +431,12 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Tổng số bằng chữ</label>
                         <input
-                            type="text" className={styles.input} name="vonKinhDoanh_bangChu"
-                            value={vonBangChu} onChange={e => setVonBangChu(e.target.value)}
-                            placeholder="Nhập số tiền bằng chữ..."
+                            type="text"
+                            className={styles.input}
+                            name="vonKinhDoanh_bangChu"
+                            value={vonBangChu}
+                            defaultValue={dataJson?.vonKinhDoanh_bangChu || ''}
+                            readOnly
                         />
                     </div>
                 </div>
@@ -432,7 +444,10 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
 
             <div className={styles.formGroup}>
                 <h3 className={styles.sectionTitle}>Kính gửi:</h3>
-                <input type="text" className={styles.input} name="kinhGui" defaultValue={dataJson?.kinhGui || ''} placeholder="Phòng Kinh tế, Hạ tầng và Đô thị phường..." />
+                <div className={styles.inputWithSuffixKinhGui}>
+                    <p className={styles.inputSuffixKinhGui}>Phòng Kinh tế, Hạ tầng và Đô thị phường </p>
+                    <input type="text" className={styles.inputKinhGui} name="kinhGui" defaultValue={dataJson?.kinhGui || ''} />
+                </div>
             </div>
 
             {/* ── Địa chỉ thuế ── */}
@@ -550,15 +565,15 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             {editingTVIdx === 'new' && (
                                 <tr>
                                     <td>{thanhVienRows.length + 1}</td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Họ tên" value={editingTV.hoTen} onChange={e => setEditingTV(p => ({ ...p, hoTen: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingTV.hoTen} onChange={e => setEditingTV(p => ({ ...p, hoTen: e.target.value }))} /></td>
                                     <td><input type="date" className={`${styles.input} ${styles.tableInput}`} value={editingTV.ngaySinh} onChange={e => setEditingTV(p => ({ ...p, ngaySinh: e.target.value }))} /></td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Số CCCD" value={editingTV.cccd} onChange={e => setEditingTV(p => ({ ...p, cccd: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingTV.cccd} onChange={e => setEditingTV(p => ({ ...p, cccd: e.target.value }))} /></td>
                                     <td><select className={`${styles.select} ${styles.tableInput}`} value={editingTV.gioiTinh} onChange={e => setEditingTV(p => ({ ...p, gioiTinh: e.target.value }))}><option value=""></option><option value="Nam">Nam</option><option value="Nữ">Nữ</option></select></td>
                                     <td><select className={`${styles.select} ${styles.tableInput}`} value={editingTV.quocTich} onChange={e => setEditingTV(p => ({ ...p, quocTich: e.target.value }))}><option value=""></option><option value="Việt Nam">Việt Nam</option></select></td>
                                     <td><select className={`${styles.select} ${styles.tableInput}`} value={editingTV.danToc} onChange={e => setEditingTV(p => ({ ...p, danToc: e.target.value }))}><option value=""></option><option value="Kinh">Kinh</option><option value="Tày">Tày</option><option value="Thái">Thái</option><option value="Mường">Mường</option><option value="Khmer">Khmer</option><option value="Hoa">Hoa</option><option value="Nùng">Nùng</option><option value="H'Mông">H'Mông</option></select></td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Thường trú" value={editingTV.thuongTru || ''} onChange={e => setEditingTV(p => ({ ...p, thuongTru: e.target.value }))} /></td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Hiện tại" value={editingTV.hienTai || ''} onChange={e => setEditingTV(p => ({ ...p, hienTai: e.target.value }))} /></td>
-                                    <td><input className={`${styles.input} ${styles.tableInput}`} placeholder="Chữ ký" value={editingTV.chuKy || ''} onChange={e => setEditingTV(p => ({ ...p, chuKy: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingTV.thuongTru || ''} onChange={e => setEditingTV(p => ({ ...p, thuongTru: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingTV.hienTai || ''} onChange={e => setEditingTV(p => ({ ...p, hienTai: e.target.value }))} /></td>
+                                    <td><input className={`${styles.input} ${styles.tableInput}`} value={editingTV.chuKy || ''} onChange={e => setEditingTV(p => ({ ...p, chuKy: e.target.value }))} /></td>
                                     <td><button type="button" className={styles.btnSave} onClick={handleSaveTV} disabled={isThanhVienEmpty(editingTV)}>Lưu</button></td>
                                 </tr>
                             )}

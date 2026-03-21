@@ -77,14 +77,6 @@ export default function GiayDeNghi({ dataJson }) {
 
     const today = getToday();
 
-    let extractedLocation = '..................';
-    if (kinhGui) {
-        const match = kinhGui.match(/phường\s+(.+)/i);
-        if (match && match[1]) {
-            extractedLocation = match[1].trim();
-        }
-    }
-
     return (
         <div className={styles.page}>
             <div className={styles.header}>
@@ -93,7 +85,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.dateLocation}>
-                <span>{extractedLocation}, ngày {today.day} tháng {today.month} năm {today.year}</span>
+                <span>{kinhGui}, ngày {today.day} tháng {today.month} năm {today.year}</span>
             </div>
 
             <div className={styles.docTitle}>
@@ -101,7 +93,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div style={{ textAlign: 'center', margin: '15px 0', fontSize: '16px' }}>
-                Kính gửi: {kinhGui || '....................................................................................'}
+                Kính gửi: {`Phòng Kinh tế, Hạ tầng và Đô thị phường ${kinhGui}`}
             </div>
 
             <div className={styles.infoLine}>
@@ -183,11 +175,11 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.infoLine}>
-                <span className={styles.infoLabel}>1. Tên hộ kinh doanh:</span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>1. Tên hộ kinh doanh:</span>
             </div>
             <div className={styles.infoLine} style={{ marginLeft: '16px' }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng Việt (ghi bằng chữ in hoa): HỘ KINH DOANH </span>
-                <span className={styles.infoValue} style={{ textTransform: 'uppercase', fontWeight: 'bold' }}>{hkd_tenVN}</span>
+                <span className={styles.infoValue} >{hkd_tenVN}</span>
             </div>
             <div className={styles.infoLine} style={{ marginLeft: '16px' }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng nước ngoài (nếu có): </span>
@@ -199,7 +191,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.infoLine} style={{ marginTop: '10px' }}>
-                <span className={styles.infoLabel}>2. Trụ sở của hộ kinh doanh:</span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>2. Trụ sở của hộ kinh doanh:</span>
             </div>
             <div className={styles.infoLine} style={{ marginLeft: '16px' }}>
                 <span>Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: </span>
@@ -236,8 +228,8 @@ export default function GiayDeNghi({ dataJson }) {
                 <span>Không kinh doanh tại trụ sở (đánh dấu X vào ô này nếu hộ kinh doanh không có địa điểm kinh doanh cố định)</span>
             </div>
 
-            <div className={styles.infoLine} style={{ marginTop: '14px', textAlign: 'center' }}>
-                <span className={styles.infoLabel}>3. Ngành, nghề kinh doanh:</span>
+            <div className={styles.infoLine} style={{ marginTop: '14px' }}>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>3. Ngành, nghề kinh doanh:</span>
             </div>
             <div className={styles.tableContainer}>
                 <table className={styles.table}>
@@ -254,7 +246,7 @@ export default function GiayDeNghi({ dataJson }) {
                             <tr key={idx}>
                                 <td>{idx + 1}</td>
                                 <td>
-                                    <strong>{row.tenNganh}</strong>
+                                    <div>{row.tenNganh}</div>
                                     {row.chiTiet && <div>Chi tiết: {row.chiTiet}</div>}
                                 </td>
                                 <td style={{ textAlign: 'center' }}>{row.maNganh}</td>
@@ -270,7 +262,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.infoLine} style={{ marginTop: '14px' }}>
-                <span className={styles.infoLabel}>4. Vốn kinh doanh:</span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>4. Vốn kinh doanh:</span>
             </div>
             <div className={styles.infoLine}>
                 <span>Tổng số (bằng số): </span>
@@ -284,7 +276,7 @@ export default function GiayDeNghi({ dataJson }) {
             )}
 
             <div className={styles.infoLine} style={{ marginTop: '10px' }}>
-                <span className={styles.infoLabel}>5. Thông tin đăng ký thuế:</span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>5. Thông tin đăng ký thuế:</span>
             </div>
             <div className={styles.infoLine}>
                 <span>5.1. Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở):</span>
@@ -336,7 +328,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.infoLine} style={{ marginTop: '14px' }}>
-                <span className={styles.infoLabel}>6. Chủ thể thành lập hộ kinh doanh: </span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>6. Chủ thể thành lập hộ kinh doanh: </span>
                 <span>(đánh dấu X vào ô thích hợp)</span>
             </div>
             <div className={styles.infoRow} style={{ marginLeft: '16px' }}>
@@ -351,7 +343,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.infoLine} style={{ marginTop: '14px' }}>
-                <span className={styles.infoLabel}>7. Thông tin về các thành viên hộ gia đình đăng ký hộ kinh doanh:</span>
+                <span className={`${styles.infoLabel} ${styles.heading1}`}>7. Thông tin về các thành viên hộ gia đình đăng ký hộ kinh doanh:</span>
             </div>
             <div className={styles.tableContainer}>
                 <table className={styles.table} style={{ fontSize: '12px' }}>

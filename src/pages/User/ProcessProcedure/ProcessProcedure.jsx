@@ -38,6 +38,8 @@ const ProcessProcedure = () => {
     const [loading, setLoading] = useState(true);
     const [isConfirming, setIsConfirming] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
+    const [isSubmittingForm, setIsSubmittingForm] = useState(false);
+    const [editingFromConfirmation, setEditingFromConfirmation] = useState(null);
     const declarationFormsRef = useRef(null);
     const confirmationFormsRef = useRef(null);
 
@@ -93,6 +95,14 @@ const ProcessProcedure = () => {
 
     // Được gọi sau khi form submit thành công
     const handleStepSubmitSuccess = () => {
+        if (editingFromConfirmation !== null) {
+            setActiveTab(1);
+            setCurrentFormStep(editingFromConfirmation);
+            setEditingFromConfirmation(null);
+            window.scrollTo(0, 0);
+            return;
+        }
+
         if (currentFormStep < formDeclarationSteps.length - 1) {
             setCurrentFormStep(prev => prev + 1);
             window.scrollTo(0, 0);
@@ -159,6 +169,7 @@ const ProcessProcedure = () => {
                         forms={forms}
                         currentFormStep={currentFormStep}
                         onStepSubmitSuccess={handleStepSubmitSuccess}
+                        setIsSubmittingForm={setIsSubmittingForm}
                     />
                 );
             case 1:
@@ -263,6 +274,13 @@ const ProcessProcedure = () => {
                 <div className="stepper-footer custom-footer">
                     {activeTab !== 2 && (
                         <button className="btn-cancel" onClick={() => {
+                            if (editingFromConfirmation !== null) {
+                                setActiveTab(1);
+                                setCurrentFormStep(editingFromConfirmation);
+                                setEditingFromConfirmation(null);
+                                window.scrollTo(0, 0);
+                                return;
+                            }
                             if (viewMode === 'see_again' && currentFormStep === 0) {
                                 navigate(-1); // Quay lại trang trước đó
                             } else if (activeTab === 0 && currentFormStep > 0) {
@@ -290,7 +308,10 @@ const ProcessProcedure = () => {
                                         </svg> {isDownloading ? 'Đang tải...' : 'Tải file'}
                                     </button>
                                 ) : (
-                                    <button className="btn-action" onClick={() => setActiveTab(0)}>
+                                    <button className="btn-action" onClick={() => {
+                                        setEditingFromConfirmation(currentFormStep);
+                                        setActiveTab(0);
+                                    }}>
                                         <img src={plusIcon} alt="" /> Sửa thông tin
                                     </button>
                                 )
@@ -310,11 +331,11 @@ const ProcessProcedure = () => {
                                     </button>
                                 </>
                             )}
-                            <button className="btn-next" onClick={handleNext} disabled={activeTab === tabs.length - 1 || activeTab === 2 || isConfirming || loading}>
+                            <button className="btn-next" onClick={handleNext} disabled={activeTab === tabs.length - 1 || activeTab === 2 || isConfirming || isSubmittingForm || loading}>
                                 <img src={iconCheck} alt="" />
                                 {viewMode === 'see_again' && activeTab === 1 && currentFormStep === formDeclarationSteps.length - 1 ? 'Tạo mới' : 'Tiếp theo'}
 
-                                {isConfirming && (
+                                {(isConfirming || isSubmittingForm) && (
                                     <div className="overlay-loading" title="Đang tải dữ liệu...">
                                         <div className="spinner-border spinner-border-sm" role="status">
                                         </div>

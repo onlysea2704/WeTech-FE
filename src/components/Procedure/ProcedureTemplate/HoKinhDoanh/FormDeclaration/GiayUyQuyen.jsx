@@ -52,7 +52,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Họ và tên <span className={styles.required}>*</span></label>
-                            <input type="text" className={styles.input} placeholder="NGUYỄN VIẾT TRƯỜNG" name="uyQuyen_hoTen" defaultValue={dataJson?.uyQuyen_hoTen || ''} required />
+                            <input type="text" className={styles.input} name="uyQuyen_hoTen" defaultValue={dataJson?.uyQuyen_hoTen || ''} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày sinh <span className={styles.required}>*</span></label>
@@ -74,11 +74,11 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
 
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Điện thoại liên hệ <span className={styles.required}>*</span></label>
-                            <input type="tel" className={styles.input} name="uyQuyen_phone" defaultValue={dataJson?.uyQuyen_phone || ''} required pattern="(0|\+84)[0-9]{9,10}" title="VD: 0912345678" placeholder="0912345678" />
+                            <input type="tel" className={styles.input} name="uyQuyen_phone" defaultValue={dataJson?.uyQuyen_phone || ''} required pattern="(0|\+84)[0-9]{9,10}" />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Email:</label>
-                            <input type="email" className={styles.input} name="uyQuyen_email" defaultValue={dataJson?.uyQuyen_email || ''} placeholder="example@email.com" />
+                            <input type="email" className={styles.input} name="uyQuyen_email" defaultValue={dataJson?.uyQuyen_email || ''} />
                         </div>
                     </div>
 
@@ -98,7 +98,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                     {/* The grey text box */}
                     <div className={styles.greyBox}>
                         <div className={styles.greyBoxContent}>
-                            <span className={styles.greyText}>Là chủ hộ kinh doanh đăng ký thành lập HỘ KINH DOANH</span>
+                            <span className={styles.greyText}>Là chủ hộ kinh doanh đăng ký thành lập <b>HỘ KINH DOANH</b></span>
                             <input className={styles.spacer} type='text' name='chuHo_ten' defaultValue={dataJson?.chuHo_ten || ''} />
                             <span className={styles.greyText}>tại Phòng Kinh tế, Hạ tầng và Đô thị Phường</span>
                             <input className={styles.spacer} type='text' name='chuHo_xa_phuong' defaultValue={dataJson?.chuHo_xa_phuong || ''} />

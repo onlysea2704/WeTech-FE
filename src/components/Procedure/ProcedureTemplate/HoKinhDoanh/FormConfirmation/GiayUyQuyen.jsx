@@ -45,6 +45,17 @@ export default function GiayUyQuyen({ dataJson }) {
 
     const today = getToday();
 
+    function getLastName(name) {
+        if (!name) return '';
+        let arr = name.split(/\s+/);
+        return arr[arr.length - 1];
+    }
+
+    function formatWard(ward) {
+        if (!ward) return '';
+        return ward.charAt(0).toUpperCase() + ward.slice(1).toLowerCase();
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.header}>
@@ -62,7 +73,7 @@ export default function GiayUyQuyen({ dataJson }) {
             <div className={styles.infoRow}>
                 <div className={styles.infoItem} style={{ flex: 1.5 }}>
                     <span className={styles.infoLabel}>Họ và tên: </span>
-                    <span className={styles.infoValue} style={{ textTransform: 'uppercase' }}>{uyQuyen_hoTen}</span>
+                    <span className={styles.infoValue}>{uyQuyen_hoTen}</span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Giới tính: </span>
@@ -98,9 +109,9 @@ export default function GiayUyQuyen({ dataJson }) {
 
             <div className={styles.infoLine} style={{ marginTop: '10px', lineHeight: '1.8' }}>
                 <span>Là chủ hộ kinh doanh đăng ký thành lập HỘ KINH DOANH </span>
-                <span style={{ fontWeight: 'bold' }}>{chuHo_ten}</span>
+                <span>{chuHo_ten}</span>
                 <span> tại Phòng Kinh tế, Hạ tầng và Đô thị Phường </span>
-                <span style={{ fontWeight: 'bold' }}>{chuHo_xa_phuong}</span>
+                <span>{formatWard(chuHo_xa_phuong)}</span>
             </div>
 
             <div className={styles.sectionTitle} style={{ textDecoration: 'underline', fontSize: '15px', marginTop: '20px' }}>
@@ -160,7 +171,7 @@ export default function GiayUyQuyen({ dataJson }) {
                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
             </div>
             <div className={styles.infoLine} style={{ lineHeight: '1.8' }}>
-                Nộp hồ sơ và nhận kết quả thủ tục đăng ký thành lập HỘ KINH DOANH <span style={{ fontWeight: 'bold' }}>{chuHo_ten}</span> tại Phòng Kinh tế, Hạ tầng và Đô thị Phường <span style={{ fontWeight: 'bold' }}>{chuHo_xa_phuong}</span>
+                Nộp hồ sơ và nhận kết quả thủ tục đăng ký thành lập HỘ KINH DOANH <span>{chuHo_ten}</span> tại Phòng Kinh tế, Hạ tầng và Đô thị Phường <span>{formatWard(chuHo_xa_phuong)}</span>
             </div>
 
             <div className={styles.sectionTitle} style={{ textDecoration: 'underline', fontSize: '15px', marginTop: '20px' }}>
@@ -172,7 +183,7 @@ export default function GiayUyQuyen({ dataJson }) {
             <div className={styles.infoLine}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
 
             <div className={styles.dateLocation}>
-                <span>{chuHo_xa_phuong}</span>, <span>ngày {today.day} tháng {today.month} năm {today.year}</span>
+                <span>{formatWard(chuHo_xa_phuong)}</span>, <span>ngày {today.day} tháng {today.month} năm {today.year}</span>
             </div>
 
             <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '20px', padding: '0 40px' }}>
@@ -184,7 +195,7 @@ export default function GiayUyQuyen({ dataJson }) {
 
                 <div className={styles.signatureBlock}>
                     <div className={styles.signatureTitle} style={{ textDecoration: 'underline' }}>BÊN ỦY QUYỀN</div>
-                    <div className={styles.signatureName} style={{ fontSize: '15px', textTransform: 'uppercase' }}>{chuHo_ten}</div>
+                    <div className={styles.signatureName} style={{ fontSize: '15px', textTransform: 'uppercase' }}>{getLastName(uyQuyen_hoTen)}</div>
                     <div className={styles.signatureName} style={{ fontSize: '15px', textTransform: 'uppercase' }}>{uyQuyen_hoTen}</div>
                 </div>
             </div>

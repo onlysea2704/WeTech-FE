@@ -60,6 +60,19 @@
     font-weight: 500;
 }
 
+.formGroup .vonKinhDoanhBangChu {
+    margin: 0;
+    font-size: 16px;
+    padding: 8px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    color: #505050;
+    background-color: #fff;
+    min-height: 40px;
+}
+
 .required {
     color: #f5222d;
     margin-left: 3px;
@@ -93,14 +106,26 @@
 
 .inputSuffix {
     position: absolute;
-    right: 14px;
+    right: 10px;
     color: #505050;
     font-weight: 600;
     pointer-events: none;
     font-size: 14px;
 }
 
-.inputWithSuffix input {
+.inputWithSuffixKinhGui {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSuffixKinhGui {
+    color: #505050;
+    pointer-events: none;
+    font-size: 14px;
+}
+
+.inputWithSuffixKinhGui input {
     padding-right: 48px;
 }
 
@@ -112,6 +137,7 @@
     cursor: pointer;
     border-bottom: 1px dashed #1e1b4b;
     color: #333;
+    flex: 1;
 }
 
 .greyBox {
@@ -393,4 +419,40 @@ table img {
     .uploadBox {
         height: 140px;
     }
+}
+
+.inputPrefixWrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #fff;
+    padding: 0 12px;
+    min-height: 40px;
+    transition: all 0.2s;
+}
+
+.inputPrefixWrapper:focus-within {
+    border-color: #40a9ff;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.inputPrefixWrapper p {
+    margin: 0;
+    color: #505050;
+    font-weight: 500;
+    white-space: nowrap;
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.inputNoBorder {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 8px 0;
+    color: #505050;
+    background: transparent;
+    font-size: 14px;
+    font-family: inherit;
 }
