@@ -63,7 +63,7 @@ const ProcedureForm = ({ procedureId }) => {
             const fetchProcedureById = async () => {
                 try {
                     const res = await authAxios.get(`/api/procedurer/find-by-id-and-check-status?id=${procedureId}`);
-                    const procedure = res.data;
+                    const procedure = res.data.result;
                     if (procedure) {
                         setFormData({
                             title: procedure.title || "",

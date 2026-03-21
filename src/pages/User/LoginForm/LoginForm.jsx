@@ -75,11 +75,12 @@ const LoginForm = () => {
                 password,
                 deviceInfoRequest: info,
             });
-            sessionStorage.setItem("authToken", token.data.token);
+            console.log("token", token.data.result.token);
+            sessionStorage.setItem("authToken", token.data.result.token);
             const userInfo = await authAxios.get("/api/auth/get-info");
 
             // Use context login
-            contextLogin(userInfo.data, token.data.token);
+            contextLogin(userInfo.data, token.data.result.token);
 
             localStorage.setItem("userId", userInfo.data.userId);
 
@@ -90,8 +91,7 @@ const LoginForm = () => {
             }
         } catch (error) {
             console.error("Login error:", error);
-            const apiMessage =
-                error.status === 403 ? "Tài khoản hoặc mật khẩu không đúng." : "Tài khoản không được phép đăng nhập.";
+            const apiMessage = error.response.data.message;
             showError(apiMessage);
         } finally {
             setLoading(false);

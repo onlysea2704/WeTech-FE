@@ -98,7 +98,7 @@ const ListProcedure = () => {
 
         try {
             const response = await publicAxios.post(`/api/procedurer/delete?procedureId=${procedure.procedureId}`);
-            if (response.data === true || response.status === 200) {
+            if (response.data === true && response.status === 200) {
                 showSuccess("Xóa thủ tục thành công!");
                 fetchProcedures();
             } else {

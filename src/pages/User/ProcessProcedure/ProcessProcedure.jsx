@@ -52,7 +52,7 @@ const ProcessProcedure = () => {
                         id: id_procedure,
                     },
                 });
-                const procedureResponse = response.data;
+                const procedureResponse = response.data.result;
                 const serviceType = procedureResponse.serviceType;
                 const typeCompany = procedureResponse.typeCompany;
                 const forms = procedureResponse.forms.map((form) => {
