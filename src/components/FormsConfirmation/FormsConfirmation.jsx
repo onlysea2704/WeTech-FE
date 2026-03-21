@@ -51,18 +51,6 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                 // Tạo file từ blob
                 const pdfFile = new File([pdfBlob], opt.filename, { type: 'application/pdf' });
 
-                // --- DEBUGGING ---
-                console.log("=== KIỂM TRA FILE PDF TRƯỚC VÀ SAU KHI TẠO ===");
-                console.log("PDF Blob Type:", pdfBlob.type);
-                console.log("PDF Blob Size:", pdfBlob.size, "bytes");
-                console.log("PDF File Object:", pdfFile);
-
-                // In ra link blob để click vào xem thử PDF vừa sinh ra có xem được không
-                const testUrl = URL.createObjectURL(pdfBlob);
-                console.log("Link xem trước PDF vừa generate trên frontend (Click vào để test):", testUrl);
-                console.log("==================================================");
-                // -----------------
-
                 // Gửi form data 
                 const formData = new FormData();
                 formData.append('formId', currentForm.formId);

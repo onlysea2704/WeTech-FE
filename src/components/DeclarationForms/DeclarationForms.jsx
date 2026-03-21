@@ -16,6 +16,7 @@ import {
 
 const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess, setIsSubmittingForm }, ref) => {
     const [dataJson, setDataJson] = useState(null);
+    const [hasServerData, setHasServerData] = useState(false);
     const [importKey, setImportKey] = useState(0);
     const formRef = useRef(null);
     const componentRef = useRef(null);
@@ -34,13 +35,16 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         async function fetchFormSubmission() {
             if (!currentForm?.formId) return;
             setDataJson(null);
+            setHasServerData(false);
             try {
                 const response = await authAxios.get(`/api/form-submission/get/data-json`, {
                     params: { formId: currentForm.formId }
                 });
                 setDataJson(response.data);
+                setHasServerData(!!response.data);
             } catch (error) {
                 setDataJson(null);
+                setHasServerData(false);
                 console.error('Error fetching form submission:', error);
             }
         }
@@ -50,10 +54,11 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     async function handleFormSubmission(data) {
         if (setIsSubmittingForm) setIsSubmittingForm(true);
         try {
-            if (dataJson) {
+            if (hasServerData) {
                 await authAxios.post('/api/form-submission/update', { formId: currentForm.formId, dataJson: data });
             } else {
                 await authAxios.post('/api/form-submission/create', { formId: currentForm.formId, dataJson: data });
+                setHasServerData(true);
             }
             setDataJson(data);
             if (onStepSubmitSuccess) onStepSubmitSuccess();

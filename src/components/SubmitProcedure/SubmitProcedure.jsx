@@ -95,7 +95,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
             if (agencyType === 'tinh_thanh' && provValue === 'Hà Nội') {
                 window.open('https://hokinhdoanh.dkkd.gov.vn/auth/Public/HkdLogOn.aspx?ReturnUrl=%2fauth%2fdefault.aspx', '_blank');
             } else {
-                window.open('https://dichvucong.gov.vn/p/home/dvc-trang-chu.html', '_blank');
+                window.open('https://xacthuc.dichvucong.gov.vn/authenticationendpoint/login.do?client_id=0vFpdFtniMwmiWOUnWfOFYZcNdAa&commonAuthCallerPath=%2Foauth2%2Fauthorize&forceAuth=false&passiveAuth=false&redirect_uri=https%3A%2F%2Fdichvucong.gov.vn%2Fp%2Fhome%2Fdvc-trang-chu.html&response_type=code&scope=openid&tenantDomain=carbon.super&sessionDataKey=6c56fcab-f71c-48b1-b4ec-3ba62fc7b816&relyingParty=0vFpdFtniMwmiWOUnWfOFYZcNdAa&type=oidc&sp=VneIDDoanhNghiep&isSaaSApp=false&authenticators=OpenIDConnectAuthenticator%3AVnconnect+DVC%3AIDP+BCA%3AVNeID_TC_DN', '_blank');
             }
             const taxAuth = agencyType === 'tinh_thanh' ? `UBND ${wardType ? wardType + ' ' : ''}${wardValue}` : boNganhValue;
             await authAxios.post('/api/procedurer/update-my-procedure', null, {
@@ -514,9 +514,9 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                     <h2 style={{ color: '#28a745', fontWeight: 'bold', fontSize: '24px', marginBottom: '24px' }}>THÀNH CÔNG</h2>
                     <div style={{ borderTop: '2px solid #2F5597', width: '80%', margin: '0 auto 24px' }}></div>
                     <p style={{ fontWeight: '600', marginBottom: '24px' }}>Đăng ký thành công, vui lòng tra cứu và đợi kết quả gửi mail!</p>
-                    <div style={{ display: 'flex', justifyContent: 'center', gap: '50px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
                         <span style={{ fontWeight: '600' }}>Mã hồ sơ</span>
-                        <span style={{ color: '#555' }}>{procedure?.code}</span>
+                        <span style={{ color: '#505050' }}>{procedure?.code}</span>
                     </div>
                     <div style={{ marginTop: '40px' }}>
                         <button className={styles.btnAction} style={{ margin: '0 auto' }} onClick={() => navigate(`/list-procedures/${procedure?.typeCompany}`)}>

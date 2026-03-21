@@ -77,6 +77,12 @@ export default function GiayDeNghi({ dataJson }) {
 
     const today = getToday();
 
+    let kinhGuiTemp = kinhGui;
+    if (kinhGuiTemp.includes('Phòng Kinh tế, Hạ tầng và Đô thị phường')) {
+        kinhGuiTemp = kinhGuiTemp.substring(kinhGuiTemp.indexOf('phường') + 7).trim();
+
+    }
+
     return (
         <div className={styles.page}>
             <div className={styles.header}>
@@ -85,7 +91,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div className={styles.dateLocation}>
-                <span>{kinhGui}, ngày {today.day} tháng {today.month} năm {today.year}</span>
+                <span>{kinhGuiTemp}, ngày {today.day} tháng {today.month} năm {today.year}</span>
             </div>
 
             <div className={styles.docTitle}>
@@ -93,7 +99,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
 
             <div style={{ textAlign: 'center', margin: '15px 0', fontSize: '16px' }}>
-                Kính gửi: {`Phòng Kinh tế, Hạ tầng và Đô thị phường ${kinhGui}`}
+                Kính gửi: {`Phòng Kinh tế, Hạ tầng và Đô thị phường ${kinhGuiTemp}`}
             </div>
 
             <div className={styles.infoLine}>
@@ -242,7 +248,7 @@ export default function GiayDeNghi({ dataJson }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {nganhNgheList.length > 0 ? nganhNgheList.map((row, idx) => (
+                        {nganhNgheList.length > 0 && nganhNgheList.map((row, idx) => (
                             <tr key={idx}>
                                 <td>{idx + 1}</td>
                                 <td>
@@ -252,11 +258,7 @@ export default function GiayDeNghi({ dataJson }) {
                                 <td style={{ textAlign: 'center' }}>{row.maNganh}</td>
                                 <td style={{ textAlign: 'center' }}>{row.laNganhChinh ? 'X' : ''}</td>
                             </tr>
-                        )) : (
-                            <tr>
-                                <td colSpan="4" style={{ textAlign: 'center', padding: '10px' }}>[Không có dữ liệu ngành nghề]</td>
-                            </tr>
-                        )}
+                        ))}
                     </tbody>
                 </table>
             </div>
@@ -306,7 +308,7 @@ export default function GiayDeNghi({ dataJson }) {
 
             <div className={styles.infoLine} style={{ marginTop: '6px' }}>
                 <span>5.2. Ngày bắt đầu hoạt động: </span>
-                <span className={styles.infoValue}>{ngayBatDau}</span>
+                <span className={styles.infoValue}>{formatDate(ngayBatDau)}</span>
             </div>
             <div className={styles.infoLine}>
                 <span>5.3. Tổng số lao động (dự kiến): </span>
