@@ -2,14 +2,15 @@ import React, { useState, useMemo } from 'react';
 import styles from './NganhNgheModal.module.css';
 import maNganhNgheData from '@/assets/maNganhNghe.json';
 
-// Flatten the tree into a list of searchable options
+// Flatten the tree into a list of searchable options (chỉ lấy ngành cấp cuối cùng - leaf nodes)
 const flattenData = (nodes) => {
     let result = [];
     for (const node of nodes) {
-        if (node.maNganh) {
-            result.push({ title: node.title, maNganh: node.maNganh });
-        }
-        if (node.children) {
+        if (!node.children || node.children.length === 0) {
+            if (node.maNganh) {
+                result.push({ title: node.title, maNganh: node.maNganh, level: node.level });
+            }
+        } else {
             result = result.concat(flattenData(node.children));
         }
     }
@@ -26,10 +27,25 @@ export default function NganhNgheModal({ isOpen, onClose, onSelect }) {
         const lowerTerm = searchTerm.toLowerCase();
         return flattenedOptions.filter(
             (o) =>
-                o.title.toLowerCase().includes(lowerTerm) ||
+                (o.title || "").toLowerCase().includes(lowerTerm) ||
                 (o.maNganh && o.maNganh.toLowerCase().includes(lowerTerm))
         );
     }, [searchTerm]);
+
+    const handleSelect = (opt) => {
+        // Lấy mã cấp 4. Nếu dài hơn 4 ký tự thì cắt 4 ký tự đầu, ngắn hơn thì thêm số 0 ở đầu.
+        let maCap4 = String(opt.maNganh);
+        if (maCap4.length >= 4) {
+            maCap4 = maCap4.substring(0, 4);
+        } else {
+            maCap4 = maCap4.padStart(4, "0");
+        }
+
+        onSelect({
+            ...opt,
+            maNganh: maCap4
+        });
+    };
 
     if (!isOpen) return null;
 
@@ -60,7 +76,7 @@ export default function NganhNgheModal({ isOpen, onClose, onSelect }) {
                             <tbody>
                                 {filteredOptions.length > 0 ? (
                                     filteredOptions.map((opt, idx) => (
-                                        <tr key={idx} onClick={() => onSelect(opt)} className={styles.row}>
+                                        <tr key={idx} onClick={() => handleSelect(opt)} className={styles.row}>
                                             <td className={styles.tdCenter}>{opt.maNganh}</td>
                                             <td>{opt.title}</td>
                                         </tr>
