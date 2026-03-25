@@ -38,7 +38,7 @@ export default function NganhNgheModal({ isOpen, onClose, onSelect }) {
         if (maCap4.length >= 4) {
             maCap4 = maCap4.substring(0, 4);
         } else {
-            maCap4 = maCap4.padStart(4, "0");
+            maCap4 = maCap4.padEnd(4, "0");
         }
 
         onSelect({
