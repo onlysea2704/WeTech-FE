@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
 import html2pdf from "html2pdf.js";
-import { authAxios } from "../../services/axios-instance";
-import styles from "../DeclarationForms/DeclarationForms.module.css";
+import { authAxios } from "@/services/axios-instance";
+import styles from "./DeclarationForms.module.css";
 
 const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess }, ref) => {
     const [dataJson, setDataJson] = useState(null);

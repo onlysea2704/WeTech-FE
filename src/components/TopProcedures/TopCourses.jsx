@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import CourseCard from "../CourseCard/CourseCard"; // ✅ đổi sang component hiển thị khóa học
+import CourseCard from "@/components/CourseCard/CourseCard"; // ✅ đổi sang component hiển thị khóa học
 import styles from "./TopCourses.module.css"; // ✅ đổi tên file CSS
-import { publicAxios } from "../../services/axios-instance";
+import { publicAxios } from "@/services/axios-instance";
 
 const ITEMS_PER_PAGE = 8;
 

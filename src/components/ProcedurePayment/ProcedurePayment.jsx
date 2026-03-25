@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./ProcedurePayment.module.css";
-import { authAxios, publicAxios } from "../../services/axios-instance";
-import usePaymentSocket from "../../services/usePaymentSocket";
-import PaymentQRCard from "../PaymentQRCard/PaymentQRCard";
-import { useAuth } from "../../context/AuthContext";
+import { authAxios, publicAxios } from "@/services/axios-instance";
+import usePaymentSocket from "@/services/usePaymentSocket";
+import PaymentQRCard from "@/components/PaymentQRCard/PaymentQRCard";
+import { useAuth } from "@/context/AuthContext";
 
 export default function ProcedurePayment({ procedure, onPaymentSuccess }) {
     const { user: auth } = useAuth();

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./SuccessPayment.module.css";
-import successIcon from "../../assets/success-icon.png";
+import successIcon from "@/assets/success-icon.png";
 
 const SuccessPayment = ({ onClose, txDetails }) => {
     const formatPrice = (price) => new Intl.NumberFormat("vi-VN").format(price || 0);

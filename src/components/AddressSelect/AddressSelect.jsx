@@ -25,6 +25,7 @@ export default function AddressSelect({
     provinces = [], // Được truyền từ component cha (useFetchAddress)
     communes = [], // Được truyền từ component cha
     onProvinceChange, // Callback: (code) => void — báo cha khi province thay đổi
+    onWardChange, // Callback: (value) => void — báo cha khi ward thay đổi
 }) {
     const [provValue, setProvValue] = useState("");
     const [wardValue, setWardValue] = useState("");
@@ -61,7 +62,9 @@ export default function AddressSelect({
     };
 
     const handleWardChange = (selectedOption) => {
-        setWardValue(selectedOption ? selectedOption.value : "");
+        const val = selectedOption ? selectedOption.value : "";
+        setWardValue(val);
+        if (onWardChange) onWardChange(val);
     };
 
     const provinceOptions = provinces.map((p) => ({ value: p.name, label: p.name, code: p.code }));

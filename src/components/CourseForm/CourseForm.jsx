@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CourseForm.module.css";
 import { useParams } from "react-router-dom";
-import { publicAxios } from "../../services/axios-instance";
-import Popup from "../Popup/Popup";
-import { useNotification } from "../../hooks/useNotification";
+import { publicAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
+import { useNotification } from "@/hooks/useNotification";
+import DateInput from "@/components/DateInput/DateInput";
 
 const CourseForm = () => {
     const { courseId } = useParams();
@@ -165,7 +166,7 @@ const CourseForm = () => {
                         </div>
                         <div className={styles["form-group-course-info"]}>
                             <label>Ngày tạo</label>
-                            <input type="date" name="createdAt" value={formData.createdAt} readOnly />
+                            <DateInput name="createdAt" value={formData.createdAt} readOnly />
                         </div>
                     </div>
 

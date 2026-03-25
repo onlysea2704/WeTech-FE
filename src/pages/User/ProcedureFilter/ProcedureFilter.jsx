@@ -1,25 +1,16 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ProcedureFilter.module.css";
-import Navbar from "../../../components/NavBar/NavBar";
-import Footer from "../../../components/Footer/Footer";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import CourseSkeleton from "../../../components/Loading/Skeleton/CourseSkeleton";
-import { publicAxios } from "../../../services/axios-instance";
+import Navbar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import CourseSkeleton from "@/components/Loading/Skeleton/CourseSkeleton";
+import { publicAxios } from "@/services/axios-instance";
 import { useNavigate, useSearchParams } from "react-router-dom";
-
-// ===== Danh mục pháp lý (serviceType => label) =====
-const CATEGORIES = [
-    { label: "Thành lập Công ty", value: "thanh_lap_cong_ty" },
-    { label: "Cập nhật thay đổi", value: "cap_nhat_thay_doi" },
-    { label: "Đăng ký thay đổi", value: "dang_ky_thay_doi" },
-    { label: "Tạm ngừng - tiếp tục KD", value: "tam_ngung_tiep_tuc_kd" },
-    { label: "Giải thể", value: "giai_the" },
-];
+import serviceType from "@/consts/serviceType";
 
 const formatPrice = (price) =>
     new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(price || 0).replace("₫", "đ");
 
-// ===== Procedure Card =====
 function ProcedureCard({ procedure, onClick }) {
     const discount =
         procedure.realPrice > procedure.salePrice
@@ -150,7 +141,7 @@ const ProcedureFilter = () => {
                                     <span>Danh mục pháp lý</span>
                                 </div>
                                 <div className={styles["section-content"]}>
-                                    {CATEGORIES.map((cat) => (
+                                    {serviceType.map((cat) => (
                                         <label key={cat.value} className={styles["filter-option"]}>
                                             <div className={styles["option-left"]}>
                                                 <input

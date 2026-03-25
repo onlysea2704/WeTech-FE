@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./DashBoard.module.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import TableComponent from "../../../components/TableComponent/TableComponent";
-import StatsHeader from "../../../components/StatsHeader/StatsHeader";
-import { publicAxios } from "../../../services/axios-instance";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import TableComponent from "@/components/TableComponent/TableComponent";
+import StatsHeader from "@/components/StatsHeader/StatsHeader";
+import { publicAxios } from "@/services/axios-instance";
 
 const DashBoard = () => {
     // ✅ Cột tương ứng với CourseCategoryStatsDTO

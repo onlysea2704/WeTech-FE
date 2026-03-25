@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./ScanQR.module.css";
-import ProgressStepper from "../../../components/ProgressStepper/ProgressStepper";
+import ProgressStepper from "@/components/ProgressStepper/ProgressStepper";
 import { useParams, useNavigate } from "react-router-dom";
-import { publicAxios } from "../../../services/axios-instance";
-import usePaymentSocket from "../../../services/usePaymentSocket";
-import Footer from "../../../components/Footer/Footer";
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import PaymentQRCard from "../../../components/PaymentQRCard/PaymentQRCard";
+import { publicAxios } from "@/services/axios-instance";
+import usePaymentSocket from "@/services/usePaymentSocket";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavBar/NavBar";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import PaymentQRCard from "@/components/PaymentQRCard/PaymentQRCard";
 
 const ScanQR = () => {
     const { idTransaction } = useParams();

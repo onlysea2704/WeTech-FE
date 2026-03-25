@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ListCourses.module.css";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../../components/NavBar/NavBar";
-import Banner from "../../../components/Banner/Banner";
-import Footer from "../../../components/Footer/Footer";
-import CourseCard from "../../../components/CourseCard/CourseCard";
-import { publicAxios, authAxios } from "../../../services/axios-instance";
-import JoinCourses from "../../../components/JoinCourses/JoinCourses.jsx";
-import CourseSkeleton from "../../../components/Loading/Skeleton/CourseSkeleton";
+import Navbar from "@/components/NavBar/NavBar";
+import Banner from "@/components/Banner/Banner";
+import Footer from "@/components/Footer/Footer";
+import CourseCard from "@/components/CourseCard/CourseCard";
+import { publicAxios, authAxios } from "@/services/axios-instance";
+import JoinCourses from "@/components/JoinCourses/JoinCourses.jsx";
+import CourseSkeleton from "@/components/Loading/Skeleton/CourseSkeleton";
 
 const Courses = ({ title, description, courses, loading }) => {
     const [visibleCount, setVisibleCount] = useState(4);

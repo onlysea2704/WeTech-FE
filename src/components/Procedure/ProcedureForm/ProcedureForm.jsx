@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ProcedureForm.module.css";
-import { authAxios } from "../../../services/axios-instance";
-import { useNotification } from "../../../hooks/useNotification";
+import { authAxios } from "@/services/axios-instance";
+import { useNotification } from "@/hooks/useNotification";
 import { useNavigate } from "react-router-dom";
-import typeCompanyOptions from "../../../consts/typeCompany";
+import typeCompanyOptions from "@/consts/typeCompany";
 
 const ProcedureForm = ({ procedureId }) => {
     const { showSuccess, showError } = useNotification();

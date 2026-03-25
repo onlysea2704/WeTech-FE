@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ListProcedures.module.css";
-import Footer from "../../../components/Footer/Footer";
-import Navbar from "../../../components/NavBar/NavBar";
-import { publicAxios } from "../../../services/axios-instance";
-import Banner from "../../../components/Banner/Banner";
-import typeCompanyOptions from "../../../consts/typeCompany";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavBar/NavBar";
+import { publicAxios } from "@/services/axios-instance";
+import Banner from "@/components/Banner/Banner";
+import typeCompanyOptions from "@/consts/typeCompany";
 import { useNavigate, useParams } from "react-router-dom";
-import ProcedureCard from "../../../components/Procedure/ProcedureCard/ProcedureCard";
+import ProcedureCard from "@/components/Procedure/ProcedureCard/ProcedureCard";
 
 // Tabs chính = từng item trong typeCompanyOptions
 const tabs = typeCompanyOptions;

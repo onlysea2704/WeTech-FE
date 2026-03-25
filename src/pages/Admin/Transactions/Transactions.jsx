@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Transactions.module.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import TableComponent from "../../../components/TableComponent/TableComponent";
-import StatsHeader from "../../../components/StatsHeader/StatsHeader";
-import { publicAxios } from "../../../services/axios-instance";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import TableComponent from "@/components/TableComponent/TableComponent";
+import StatsHeader from "@/components/StatsHeader/StatsHeader";
+import { publicAxios } from "@/services/axios-instance";
 import * as XLSX from "xlsx";
 import { saveAs } from "file-saver";
-import { useNotification } from "../../../hooks/useNotification";
+import { useNotification } from "@/hooks/useNotification";
 
 const Transactions = () => {
     const { showError } = useNotification();

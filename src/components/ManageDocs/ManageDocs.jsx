@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ManageDocs.module.css";
-import { authAxios, publicAxios } from "../../services/axios-instance";
+import { authAxios, publicAxios } from "@/services/axios-instance";
 import { useParams, useNavigate } from "react-router-dom";
-import Popup from "../Popup/Popup";
+import Popup from "@/components/Popup/Popup";
 
 export default function ManageDocs() {
     const { courseId } = useParams();

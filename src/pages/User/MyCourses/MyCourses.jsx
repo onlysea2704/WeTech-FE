@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import styles from "./MyCourses.module.css";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../../../components/NavBar/NavBar";
-import Banner from "../../../components/Banner/Banner";
-import Footer from "../../../components/Footer/Footer";
-import CourseCard from "../../../components/CourseCard/CourseCard";
-import { authAxios } from "../../../services/axios-instance";
+import Navbar from "@/components/NavBar/NavBar";
+import Banner from "@/components/Banner/Banner";
+import Footer from "@/components/Footer/Footer";
+import CourseCard from "@/components/CourseCard/CourseCard";
+import { authAxios } from "@/services/axios-instance";
 
 const Courses = ({ title, description, courses }) => {
     const [visibleCount, setVisibleCount] = useState(4);

@@ -69,6 +69,7 @@
 
 .dropdown-toggle {
     font-family: "Roboto Condensed";
+    user-select: none;
 }
 
 .dropdown-toggle:hover {

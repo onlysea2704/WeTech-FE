@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./NotFoundPage.module.css";
-import notFoundImage from "../../../assets/not-found-page.png";
-import Navbar from "../../../components/NavBar/NavBar";
-import Footer from "../../../components/Footer/Footer";
+import notFoundImage from "@/assets/not-found-page.png";
+import Navbar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
 
 const NotFoundPage = () => {
     return (

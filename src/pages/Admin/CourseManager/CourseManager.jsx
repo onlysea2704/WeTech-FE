@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./CourseManager.module.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import CourseForm from "../../../components/CourseForm/CourseForm";
-import VideoManager from "../../../components/VideoManager/VideoManager";
-import ManageDocs from "../../../components/ManageDocs/ManageDocs";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import CourseForm from "@/components/CourseForm/CourseForm";
+import VideoManager from "@/components/VideoManager/VideoManager";
+import ManageDocs from "@/components/ManageDocs/ManageDocs";
 import { Link } from "react-router-dom";
 
 const CourseManager = () => {

@@ -1,6 +1,6 @@
-import { authAxios } from "../services/axios-instance";
+import { authAxios } from "@/services/axios-instance";
 import { useNavigate } from "react-router-dom";
-import { useNotification } from "../hooks/useNotification";
+import { useNotification } from "@/hooks/useNotification";
 
 export const useBuyCourse = () => {
     const navigate = useNavigate();

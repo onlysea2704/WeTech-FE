@@ -1,11 +1,11 @@
 import React, { useState, useRef, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import { useCart } from "../../context/CartContext";
-import logoImage from "../../assets/logo.png";
-import avatarImage from "../../assets/avatar_user.png";
+import { useCart } from "@/context/CartContext";
+import logoImage from "@/assets/logo.png";
+import avatarImage from "@/assets/avatar_user.png";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../context/AuthContext";
-import SearchInput from "../SearchInput/SearchInput";
+import { useAuth } from "@/context/AuthContext";
+import SearchInput from "@/components/SearchInput/SearchInput";
 
 const Navbar = () => {
     const { cartCount, fetchCartCount } = useCart();

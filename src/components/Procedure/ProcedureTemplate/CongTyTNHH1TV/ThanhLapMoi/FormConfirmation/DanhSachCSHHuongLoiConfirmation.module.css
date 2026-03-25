@@ -1,0 +1,90 @@
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.tableTitle {
+    text-align: center;
+    font-size: 15px;
+    font-weight: 700;
+    color: #1c1c1b;
+    font-family: "Times New Roman", serif;
+    text-decoration: underline;
+    margin: 0 0 8px 0;
+}
+
+.tableScrollWrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
+.table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 1100px;
+    font-size: 13px;
+    font-family: "Times New Roman", sans-serif;
+}
+
+.th {
+    border: 1px solid #bbb;
+    background: #f5f5f5;
+    padding: 8px;
+    text-align: center;
+    font-weight: 600;
+    color: #1c1c1b;
+    vertical-align: middle;
+    line-height: 1.4;
+}
+
+.td {
+    border: 1px solid #bbb;
+    padding: 6px 8px;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.colNumberRow .colNumber {
+    border: 1px solid #bbb;
+    text-align: center;
+    font-weight: 600;
+    font-size: 12px;
+    background: #fafafa;
+    padding: 2px 6px;
+}
+
+.emptyCell {
+    text-align: center;
+    color: #999;
+    padding: 24px;
+    font-style: italic;
+    border: 1px solid #ddd;
+}
+
+.signatureBlock {
+    margin-top: 32px;
+    text-align: right;
+    padding-right: 32px;
+    font-family: "Times New Roman", serif;
+}
+
+.signatureDate {
+    font-style: italic;
+    margin: 0;
+    font-size: 14px;
+}
+
+.signatureTitle {
+    font-weight: 700;
+    margin: 4px 0 0 0;
+    font-size: 14px;
+    color: #1c1c1b;
+}
+
+.signatureSubtitle {
+    font-style: italic;
+    margin: 2px 0 0 0;
+    font-size: 13px;
+    color: #444;
+}

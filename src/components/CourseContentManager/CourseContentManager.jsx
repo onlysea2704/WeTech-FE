@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback } from "react";
 import "./CourseContentManager.css";
 import { useParams } from "react-router-dom";
-import { authAxios, publicAxios } from "../../services/axios-instance";
-import Popup from "../Popup/Popup";
+import { authAxios, publicAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
 
 export default function CourseContentManager() {
     const [sections, setSections] = useState([]);

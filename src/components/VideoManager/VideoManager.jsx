@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import styles from "./VideoManager.module.css";
 import { useParams } from "react-router-dom";
-import { authAxios, publicAxios } from "../../services/axios-instance";
-import Popup from "../Popup/Popup";
-import { useNotification } from "../../hooks/useNotification";
+import { authAxios, publicAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
+import { useNotification } from "@/hooks/useNotification";
 
 export default function VideoManager() {
     const [sections, setSections] = useState([]);

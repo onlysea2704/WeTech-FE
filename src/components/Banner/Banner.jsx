@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Banner.module.css";
-import ketoan from "../../assets/ketoan.svg";
+import ketoan from "@/assets/ketoan.svg";
 
 const Banner = () => {
     return (

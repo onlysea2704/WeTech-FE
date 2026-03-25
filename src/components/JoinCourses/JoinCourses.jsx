@@ -1,4 +1,4 @@
-import aareImage from "../../assets/Aare.png";
+import aareImage from "@/assets/Aare.png";
 import styles from "./JoinCourses.module.css";
 
 export default function JoinCourses() {

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "./ContactUs.module.css";
-import Navbar from "../../../components/NavBar/NavBar";
-import Footer from "../../../components/Footer/Footer";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import map from "../../../assets/map.png";
-import { publicAxios } from "../../../services/axios-instance";
-import Popup from "../../../components/Popup/Popup";
-import { useNotification } from "../../../hooks/useNotification";
+import Navbar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import map from "@/assets/map.png";
+import { publicAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
+import { useNotification } from "@/hooks/useNotification";
 
 const ContactUs = () => {
     const [form, setForm] = useState({

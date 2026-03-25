@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { NotificationContext } from "../../context/NotificationContext";
+import { NotificationContext } from "@/context/NotificationContext";
 import styles from "./Notification.module.css";
 
 const NotificationItem = ({ notification, onRemove }) => {

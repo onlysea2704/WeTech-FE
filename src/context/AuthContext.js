@@ -1,6 +1,6 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import { authAxios } from "../services/axios-instance";
-import avatarImage from "../assets/avatar_user.png";
+import { authAxios } from "@/services/axios-instance";
+import avatarImage from "@/assets/avatar_user.png";
 
 const AuthContext = createContext();
 

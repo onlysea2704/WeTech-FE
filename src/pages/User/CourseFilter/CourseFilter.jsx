@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import styles from "./CourseFilter.module.css";
-import Navbar from "../../../components/NavBar/NavBar";
-import Footer from "../../../components/Footer/Footer";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import FilterCourse from "../../../components/FilterCourse/FilterCourse";
-import CourseCardMini from "../../../components/CourseCardMini/CourseCardMini";
-import CourseSkeleton from "../../../components/Loading/Skeleton/CourseSkeleton";
-import { publicAxios } from "../../../services/axios-instance";
+import Navbar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import FilterCourse from "@/components/FilterCourse/FilterCourse";
+import CourseCardMini from "@/components/CourseCardMini/CourseCardMini";
+import CourseSkeleton from "@/components/Loading/Skeleton/CourseSkeleton";
+import { publicAxios } from "@/services/axios-instance";
 import { useSearchParams, useParams } from "react-router-dom";
 
 const CourseFilter = () => {

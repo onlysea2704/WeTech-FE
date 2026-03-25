@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./confirmation.module.css";
-import { getToday } from "../../../../../utils/dateTimeUtils";
+import { getToday } from "@/utils/dateTimeUtils";
 
 function formatDate(dateStr) {
     if (!dateStr) return "";

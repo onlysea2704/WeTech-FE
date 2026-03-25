@@ -1,0 +1,70 @@
+.sectionGroup {
+    margin-bottom: 24px;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.sectionTitle {
+    color: #1c1c1b;
+    font-family: Roboto, sans-serif;
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 20px;
+}
+
+.formGroup {
+    margin-bottom: 16px;
+}
+
+.label {
+    display: block;
+    margin-bottom: 6px;
+    color: #505050;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.required {
+    color: #f5222d;
+    margin-left: 3px;
+}
+
+.input,
+.select {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: all 0.2s;
+    color: #505050;
+    background-color: #fff;
+    min-height: 40px;
+}
+
+.input:focus,
+.select:focus {
+    border-color: #40a9ff;
+    outline: 0;
+    box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
+}
+
+.tableWrapper {
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 768px) {
+    .grid2 {
+        grid-template-columns: 1fr;
+    }
+}

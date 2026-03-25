@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import styles from "./Sidebar.module.css";
-import imageAdmin from "../../assets/avatar_user.png";
+import imageAdmin from "@/assets/avatar_user.png";
 
 const Sidebar = () => {
     const location = useLocation();

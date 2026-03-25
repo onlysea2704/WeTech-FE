@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styles from "./CourseInfo.module.css";
-import CourseContent from "../CourseContent/CourseContent";
-import CourseIntro from "../CourseIntro/CourseIntro";
-import Faq from "../Faq/Faq";
+import CourseContent from "@/components/CourseContent/CourseContent";
+import CourseIntro from "@/components/CourseIntro/CourseIntro";
+import Faq from "@/components/Faq/Faq";
 
 const CourseInfo = ({ courseDetail, isPurchased }) => {
     const [activeTab, setActiveTab] = useState("intro"); // 'intro' hoặc 'content'

@@ -1,12 +1,34 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./GiayUyQuyen.module.css";
-import AddressSelect from "../../../../AddressSelect/AddressSelect";
-import UploadCCCD from "../../../../UploadCCCD/UploadCCCD";
-import { useFetchAddress } from "../../../../../hooks/useFetchAddress";
+import AddressSelect from "@/components/AddressSelect/AddressSelect";
+import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
+import { useFetchAddress } from "@/hooks/useFetchAddress";
+import { GioiTinhSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
+import DateInput from "@/components/DateInput/DateInput";
 
 const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit, formRef }, componentRef) {
-    // Province codes cho ô địa chỉ
     const [provCode_uyQuyen, setProvCode_uyQuyen] = useState("");
+
+    // Helper: tách prefix và tên từ chuỗi kinhGui đã lưu
+    const parseKinhGui = (kg = "") => {
+        const knownPrefixes = [
+            "Phòng Kinh tế xã ",
+            "Phòng Kinh tế, Hạ tầng và Đô thị phường ",
+            "Phòng Kinh tế, Hạ tầng và Đô thị thị trấn ",
+        ];
+        for (const p of knownPrefixes) {
+            if (kg.toLowerCase().startsWith(p.toLowerCase())) {
+                return { prefix: p.trimEnd(), name: kg.substring(p.length).trim() };
+            }
+        }
+        return { prefix: kg, name: "" };
+    };
+
+    const _initParsed = parseKinhGui(localStorage.getItem("giayDeNghi_kinhGui") || "");
+    const [kinhGuiPrefix, setKinhGuiPrefix] = useState(
+        () => _initParsed.prefix || "Phòng Kinh tế, Hạ tầng và Đô thị phường"
+    );
+    const [kinhGuiName, setKinhGuiName] = useState(() => _initParsed.name);
 
     // useFetchAddress: provinces cache toàn cục
     const { provinces, communes: communes_uyQuyen } = useFetchAddress(provCode_uyQuyen);
@@ -28,7 +50,11 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
             return Object.fromEntries(formData.entries());
         },
         importData: (importedData) => {
-            // GiayUyQuyen has no dynamic tables
+            // Re-read kinhGui from localStorage in case GiayDeNghi just saved it
+            const saved = localStorage.getItem("giayDeNghi_kinhGui") || "";
+            const parsed = parseKinhGui(saved);
+            setKinhGuiPrefix(parsed.prefix || "Ph\u00f2ng Kinh t\u1ebf, H\u1ea1 t\u1ea7ng v\u00e0 \u0110\u00f4 th\u1ecb ph\u01b0\u1eddng");
+            setKinhGuiName(parsed.name);
         },
     }));
 
@@ -40,6 +66,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
             onSubmit(data);
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
@@ -65,8 +92,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                             <label className={styles.label}>
                                 Ngày sinh <span className={styles.required}>*</span>
                             </label>
-                            <input
-                                type="date"
+                            <DateInput
                                 className={styles.input}
                                 name="uyQuyen_ngaySinh"
                                 defaultValue={dataJson?.uyQuyen_ngaySinh || ""}
@@ -74,23 +100,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                             />
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Giới tính <span className={styles.required}>*</span>
-                            </label>
-                            <select
-                                className={styles.select}
-                                name="uyQuyen_gioiTinh"
-                                defaultValue={dataJson?.uyQuyen_gioiTinh || ""}
-                                required
-                            >
-                                <option value="" disabled>
-                                    --Chọn giới tính--
-                                </option>
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
+                        <GioiTinhSelect name="uyQuyen_gioiTinh" defaultValue={dataJson?.uyQuyen_gioiTinh} />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
                                 Số định danh cá nhân <span className={styles.required}>*</span>
@@ -157,12 +167,13 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                                 name="chuHo_ten"
                                 defaultValue={dataJson?.chuHo_ten || ""}
                             />
-                            <span className={styles.greyText}>tại Phòng Kinh tế, Hạ tầng và Đô thị Phường</span>
+                            <span className={styles.greyText}>tại {kinhGuiPrefix}</span>
                             <input
                                 className={styles.spacer}
                                 type="text"
                                 name="chuHo_xa_phuong"
-                                defaultValue={dataJson?.chuHo_xa_phuong || ""}
+                                value={kinhGuiName}
+                                onChange={(e) => setKinhGuiName(e.target.value)}
                             />
                         </div>
                     </div>

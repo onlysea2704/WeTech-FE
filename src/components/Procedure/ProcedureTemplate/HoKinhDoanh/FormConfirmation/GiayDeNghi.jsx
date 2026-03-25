@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./confirmation.module.css";
-import { getToday, formatDate } from "../../../../../utils/dateTimeUtils";
+import { getToday, formatDate } from "@/utils/dateTimeUtils";
 
 function formatNumber(val) {
     if (!val) return "";
@@ -69,8 +69,12 @@ export default function GiayDeNghi({ dataJson }) {
     const today = getToday();
 
     let kinhGuiTemp = kinhGui;
-    if (kinhGuiTemp.toLowerCase().includes("phường")) {
-        kinhGuiTemp = kinhGuiTemp.substring(kinhGuiTemp.toLowerCase().lastIndexOf("phường") + 7).trim();
+    if (kinhGuiTemp.includes("xã")) {
+        kinhGuiTemp = kinhGuiTemp.substring(kinhGuiTemp.lastIndexOf("xã") + 3).trim();
+    } else if (kinhGuiTemp.includes("phường")) {
+        kinhGuiTemp = kinhGuiTemp.substring(kinhGuiTemp.lastIndexOf("phường") + 6).trim();
+    } else if (kinhGuiTemp.includes("thị trấn")) {
+        kinhGuiTemp = kinhGuiTemp.substring(kinhGuiTemp.lastIndexOf("thị trấn") + 7).trim();
     }
 
     return (
@@ -89,7 +93,7 @@ export default function GiayDeNghi({ dataJson }) {
             <div className={styles.docTitle}>GIẤY ĐỀ NGHỊ ĐĂNG KÝ HỘ KINH DOANH</div>
 
             <div style={{ textAlign: "center", margin: "15px 0", fontSize: "16px" }}>
-                Kính gửi: {`Phòng Kinh tế, Hạ tầng và Đô thị phường ${kinhGuiTemp}`}
+                Kính gửi: {kinhGui}
             </div>
 
             <div className={styles.infoLine}>

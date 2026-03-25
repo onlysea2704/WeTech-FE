@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
 import * as XLSX from "xlsx";
 import styles from "./DeclarationForms.module.css";
-import { authAxios } from "../../services/axios-instance";
+import { authAxios } from "@/services/axios-instance";
 
 import {
     NGANH_NGHE_HEADERS,
@@ -13,6 +13,20 @@ import {
     FIELD_LABEL_MAP_UYQUYEN,
     SECTION_FIELD_MAP_UYQUYEN,
 } from "./FormExcelConstants";
+import {
+    FIELD_LABEL_MAP_GIAY_DKDN,
+    SECTION_FIELD_MAP_GIAY_DKDN,
+    buildExportRowsGiayDKDN,
+} from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ExcelConstants/GiayDeNghiDKDN.excelConstants";
+import {
+    buildExportRowsCSHHuongLoi,
+    parseImportRowsCSHHuongLoi,
+} from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ExcelConstants/DanhSachCSHHuongLoi.excelConstants";
+import {
+    buildExportRowsDieuLeCongTy,
+    parseImportRowsDieuLeCongTy,
+} from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ExcelConstants/DieuLeCongTy.excelConstants";
+
 
 const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess, setIsSubmittingForm }, ref) => {
     const [dataJson, setDataJson] = useState(null);
@@ -31,6 +45,17 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     const isUyQuyen =
         currentForm?.name?.toLowerCase().includes("uỷ quyền") || currentForm?.name?.toLowerCase().includes("ủy quyền");
 
+    // Detect form type by component name or title
+    const formComponentName = CurrentFormComponent?.displayName || CurrentFormComponent?.name || "";
+    const isGiayDKDN = formComponentName === "GiayDeNghiDKDNDeclaration" ||
+        currentForm?.name?.toLowerCase().includes("đăng ký doanh nghiệp");
+
+    const isCSHHuongLoi = formComponentName === "DanhSachCSHHuongLoiDeclaration" ||
+        currentForm?.name?.toLowerCase().includes("csh hưởng lợi");
+
+    const isDieuLeCongTy = formComponentName === "DieuLeCongTyDeclaration" ||
+        currentForm?.name?.toLowerCase().includes("điều lệ công ty") || currentForm?.name?.toLowerCase().includes("charter");
+
     useEffect(() => {
         async function fetchFormSubmission() {
             if (!currentForm?.formId) return;
@@ -40,7 +65,25 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                 const response = await authAxios.get(`/api/form-submission/get/data-json`, {
                     params: { formId: currentForm.formId },
                 });
-                setDataJson(response.data);
+                let parsed = response.data;
+                if (typeof parsed === 'string') {
+                    try { parsed = JSON.parse(parsed); } catch(e){}
+                }
+                if (parsed && typeof parsed.dataJson === 'string') {
+                    try { parsed = JSON.parse(parsed.dataJson); } catch(e){}
+                } else if (parsed && typeof parsed.dataJson === 'object') {
+                    parsed = parsed.dataJson;
+                }
+                
+                // Parse arrays if they were stringified individually
+                if (parsed?.nganhNgheList && typeof parsed.nganhNgheList === 'string') {
+                    try { parsed.nganhNgheList = JSON.parse(parsed.nganhNgheList); } catch(e){}
+                }
+                if (parsed?.thanhVienList && typeof parsed.thanhVienList === 'string') {
+                    try { parsed.thanhVienList = JSON.parse(parsed.thanhVienList); } catch(e){}
+                }
+
+                setDataJson(parsed);
                 setHasServerData(!!response.data);
             } catch (error) {
                 setDataJson(null);
@@ -78,10 +121,15 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         }
 
         const src = { ...(dataJson || {}), ...(liveData || {}) };
-        const rows = [];
-        rows.push(["Trường thông tin", "Giá trị"]);
+        let rows = [];
 
-        if (isUyQuyen) {
+        if (isCSHHuongLoi) {
+            rows = buildExportRowsCSHHuongLoi(src);
+        } else if (isDieuLeCongTy) {
+            rows = buildExportRowsDieuLeCongTy(src);
+        } else if (isGiayDKDN) {
+            rows = buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS);
+        } else if (isUyQuyen) {
             rows.push(["[BÊN UỶ QUYỀN]", ""]);
             rows.push(["Họ và tên (*)", src.uyQuyen_hoTen || ""]);
             rows.push(["Ngày sinh (*) (yyyy-mm-dd)", src.uyQuyen_ngaySinh || ""]);
@@ -181,7 +229,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
 
         const ws = XLSX.utils.aoa_to_sheet(rows);
         ws["!cols"] = [
-            { wch: 45 },
+            { wch: 50 },
             { wch: 35 },
             { wch: 30 },
             { wch: 12 },
@@ -210,80 +258,108 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
             const ws = wb.Sheets[wb.SheetNames[0]];
             const allRows = XLSX.utils.sheet_to_json(ws, { header: 1 });
 
-            const importedData = {};
-            let currentSection = "";
-            let mode = "kv"; // 'kv' | 'nganh' | 'tv'
+            let importedData = {};
 
-            const LABEL_MAP = isUyQuyen ? FIELD_LABEL_MAP_UYQUYEN : FIELD_LABEL_MAP_DENGHI;
-            const SECTION_MAP = isUyQuyen ? SECTION_FIELD_MAP_UYQUYEN : SECTION_FIELD_MAP_DENGHI;
+            if (isCSHHuongLoi) {
+                importedData = parseImportRowsCSHHuongLoi(allRows) || {};
+            } else if (isDieuLeCongTy) {
+                importedData = parseImportRowsDieuLeCongTy(allRows) || {};
+            } else {
+                let currentSection = "";
+                let mode = "kv"; // 'kv' | 'nganh' | 'tv'
 
-            for (const row of allRows) {
-                const col0 = row[0] !== undefined ? String(row[0]).trim() : "";
+                const LABEL_MAP = isGiayDKDN
+                    ? FIELD_LABEL_MAP_GIAY_DKDN
+                    : isUyQuyen ? FIELD_LABEL_MAP_UYQUYEN : FIELD_LABEL_MAP_DENGHI;
+                const SECTION_MAP = isGiayDKDN
+                    ? SECTION_FIELD_MAP_GIAY_DKDN
+                    : isUyQuyen ? SECTION_FIELD_MAP_UYQUYEN : SECTION_FIELD_MAP_DENGHI;
 
-                if (!isUyQuyen) {
-                    if (col0 === SENTINEL_NGANH) {
-                        mode = "nganh";
-                        importedData.nganhNgheList = [];
+                for (const row of allRows) {
+                    const col0 = row[0] !== undefined ? String(row[0]).trim() : "";
+
+                    if (!isUyQuyen && !isGiayDKDN) {
+                        if (col0 === SENTINEL_NGANH) {
+                            mode = "nganh";
+                            importedData.nganhNgheList = [];
+                            continue;
+                        }
+                        if (col0 === SENTINEL_TV) {
+                            mode = "tv";
+                            importedData.thanhVienList = [];
+                            continue;
+                        }
+
+                        if (mode === "nganh") {
+                            if (col0 === "STT") continue;
+                            if (!row[1]) continue;
+                            importedData.nganhNgheList.push({
+                                tenNganh: String(row[1] || ""),
+                                chiTiet: String(row[2] || ""),
+                                maNganh: String(row[3] || ""),
+                                laNganhChinh: String(row[4] || "").trim().toLowerCase() === "có",
+                            });
+                            continue;
+                        }
+
+                        if (mode === "tv") {
+                            if (col0 === "STT") continue;
+                            if (!row[1]) continue;
+                            importedData.thanhVienList.push({
+                                hoTen: String(row[1] || ""),
+                                ngaySinh: String(row[2] || ""),
+                                cccd: String(row[3] || ""),
+                                gioiTinh: String(row[4] || ""),
+                                quocTich: String(row[5] || ""),
+                                danToc: String(row[6] || ""),
+                                thuongTru: String(row[7] || ""),
+                                hienTai: String(row[8] || ""),
+                                chuKy: String(row[9] || ""),
+                            });
+                            continue;
+                        }
+                    }
+
+                    // GiayDKDN also has ngành nghề table
+                    if (isGiayDKDN) {
+                        if (col0 === SENTINEL_NGANH) {
+                            mode = "nganh";
+                            importedData.nganhNgheList = [];
+                            continue;
+                        }
+                        if (mode === "nganh") {
+                            if (col0 === "STT") continue;
+                            if (!row[1]) continue;
+                            importedData.nganhNgheList.push({
+                                tenNganh: String(row[1] || ""),
+                                chiTiet: String(row[2] || ""),
+                                maNganh: String(row[3] || ""),
+                                laNganhChinh: String(row[4] || "").trim().toLowerCase() === "có",
+                            });
+                            continue;
+                        }
+                    }
+
+                    if (!col0) continue;
+
+                    // Detect exact section headers like [NƠI THƯỜNG TRÚ]
+                    const sectionMatch = col0.match(/^\[(.+)\]$/);
+                    if (sectionMatch) {
+                        currentSection = sectionMatch[1].trim();
                         continue;
                     }
-                    if (col0 === SENTINEL_TV) {
-                        mode = "tv";
-                        importedData.thanhVienList = [];
+
+                    const value = row[1] !== undefined && row[1] !== null ? String(row[1]) : "";
+
+                    const sMap = SECTION_MAP[currentSection] || {};
+                    if (sMap && sMap[col0]) {
+                        importedData[sMap[col0]] = value;
                         continue;
                     }
 
-                    if (mode === "nganh") {
-                        if (col0 === "STT") continue;
-                        if (!row[1]) continue;
-                        importedData.nganhNgheList.push({
-                            tenNganh: String(row[1] || ""),
-                            chiTiet: String(row[2] || ""),
-                            maNganh: String(row[3] || ""),
-                            laNganhChinh:
-                                String(row[4] || "")
-                                    .trim()
-                                    .toLowerCase() === "có",
-                        });
-                        continue;
-                    }
-
-                    if (mode === "tv") {
-                        if (col0 === "STT") continue;
-                        if (!row[1]) continue;
-                        importedData.thanhVienList.push({
-                            hoTen: String(row[1] || ""),
-                            ngaySinh: String(row[2] || ""),
-                            cccd: String(row[3] || ""),
-                            gioiTinh: String(row[4] || ""),
-                            quocTich: String(row[5] || ""),
-                            danToc: String(row[6] || ""),
-                            thuongTru: String(row[7] || ""),
-                            hienTai: String(row[8] || ""),
-                            chuKy: String(row[9] || ""),
-                        });
-                        continue;
-                    }
+                    const key = LABEL_MAP[col0];
+                    if (key) importedData[key] = value;
                 }
-
-                if (!col0) continue;
-
-                // Detect exact section headers like [NƠI THƯỜNG TRÚ]
-                const sectionMatch = col0.match(/^\[(.+)\]$/);
-                if (sectionMatch) {
-                    currentSection = sectionMatch[1].trim();
-                    continue;
-                }
-
-                const value = row[1] !== undefined && row[1] !== null ? String(row[1]) : "";
-
-                const sMap = SECTION_MAP[currentSection];
-                if (sMap && sMap[col0]) {
-                    importedData[sMap[col0]] = value;
-                    continue;
-                }
-
-                const key = LABEL_MAP[col0];
-                if (key) importedData[key] = value;
             }
 
             if (componentRef.current?.importData) {

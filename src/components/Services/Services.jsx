@@ -1,13 +1,13 @@
 import React from "react";
 import styles from "./Services.module.css";
-import toolMisaProIcon from "../../assets/tool-misa-pro-2024.png";
-import toolMisaIcon from "../../assets/tool-misa-2024.png";
-import taxSoftIcon from "../../assets/taxsoft.png";
-import taxBoxIcon from "../../assets/taxbox.png";
-import customerOne from "../../assets/customer-one.png";
-import customerTwo from "../../assets/customer-two.png";
-import customerThree from "../../assets/customer-three.png";
-import arrowIcon from "../../assets/arrow-icon.png";
+import toolMisaProIcon from "@/assets/tool-misa-pro-2024.png";
+import toolMisaIcon from "@/assets/tool-misa-2024.png";
+import taxSoftIcon from "@/assets/taxsoft.png";
+import taxBoxIcon from "@/assets/taxbox.png";
+import customerOne from "@/assets/customer-one.png";
+import customerTwo from "@/assets/customer-two.png";
+import customerThree from "@/assets/customer-three.png";
+import arrowIcon from "@/assets/arrow-icon.png";
 
 const Services = () => {
     return (

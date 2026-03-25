@@ -1,7 +1,13 @@
-import GiayDeNghi from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayDeNghi";
-import GiayDeNghi2 from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayDeNghi";
-import GiayUyQuyen from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayUyQuyen";
-import GiayUyQuyen2 from "../components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayUyQuyen";
+import DieuLeCongTyDeclaration from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormDeclaration/DieuLeCongTyDeclaration";
+import DieuLeCongTyConfirmation from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/DieuLeCongTyConfirmation";
+import GiayDeNghiDKDNDeclaration from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormDeclaration/GiayDeNghiDKDNDeclaration";
+import GiayDeNghiDKDNConfirmation from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/GiayDeNghiDKDNConfirmation";
+import DanhSachCSHHuongLoiDeclaration from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormDeclaration/DanhSachCSHHuongLoiDeclaration";
+import DanhSachCSHHuongLoiConfirmation from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/DanhSachCSHHuongLoiConfirmation";
+import GiayDeNghi from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayDeNghi";
+import GiayDeNghi2 from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayDeNghi";
+import GiayUyQuyen from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayUyQuyen";
+import GiayUyQuyen2 from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayUyQuyen";
 
 const typeCompanyOptions = [
     {
@@ -17,19 +23,19 @@ const typeCompanyOptions = [
                         value: "thanh_lap_moi",
                         formsType: [
                             {
-                                title: "Danh sách các cổ đông sáng lập",
-                                declaration: "ListShareholderDeclaration",
-                                confirmation: "ListShareholderConfirmation",
+                                title: "Giấy đề nghị đăng ký doanh nghiệp",
+                                declaration: GiayDeNghiDKDNDeclaration,
+                                confirmation: GiayDeNghiDKDNConfirmation,
                             },
                             {
                                 title: "Danh sách CSH hưởng lợi",
-                                declaration: "ListBeneficiaryDeclaration",
-                                confirmation: "ListBeneficiaryConfirmation",
+                                declaration: DanhSachCSHHuongLoiDeclaration,
+                                confirmation: DanhSachCSHHuongLoiConfirmation,
                             },
                             {
                                 title: "Điều lệ công ty",
-                                declaration: "CharterDeclaration",
-                                confirmation: "CharterConfirmation",
+                                declaration: DieuLeCongTyDeclaration,
+                                confirmation: DieuLeCongTyConfirmation,
                             },
                         ],
                     },
@@ -59,15 +65,15 @@ const typeCompanyOptions = [
                             },
                             {
                                 title: "Giấy đề nghị",
-                                declaration: "CharterDeclaration",
-                                confirmation: "CharterConfirmation",
+                                declaration: DieuLeCongTyDeclaration,
+                                confirmation: DieuLeCongTyConfirmation,
                                 type: "TH1. CMND chuyển thành căn cước",
                                 type_code: "th1_cmnd_chuyen_thanh_can_cuoc",
                             },
                             {
                                 title: "Giấy uỷ quyền",
-                                declaration: "CharterDeclaration",
-                                confirmation: "CharterConfirmation",
+                                declaration: DieuLeCongTyDeclaration,
+                                confirmation: DieuLeCongTyConfirmation,
                                 type: "TH1. CMND chuyển thành căn cước",
                                 type_code: "th1_cmnd_chuyen_thanh_can_cuoc",
                             },
@@ -87,15 +93,15 @@ const typeCompanyOptions = [
                             },
                             {
                                 title: "Giấy đề nghị",
-                                declaration: "CharterDeclaration",
-                                confirmation: "CharterConfirmation",
+                                declaration: DieuLeCongTyDeclaration,
+                                confirmation: DieuLeCongTyConfirmation,
                                 type: "TH2. CMND chuyển thành căn cước",
                                 type_code: "th2_cmnd_chuyen_thanh_can_cuoc",
                             },
                             {
                                 title: "Giấy uỷ quyền",
-                                declaration: "CharterDeclaration",
-                                confirmation: "CharterConfirmation",
+                                declaration: DieuLeCongTyDeclaration,
+                                confirmation: DieuLeCongTyConfirmation,
                                 type: "TH2. CMND chuyển thành căn cước",
                                 type_code: "th2_cmnd_chuyen_thanh_can_cuoc",
                             },
@@ -217,7 +223,7 @@ const typeCompanyOptions = [
         services: [
             {
                 title: "Dịch vụ thành lập hộ kinh doanh",
-                value: "thanh_lap_ho_kinh_doanh",
+                value: "thanh_lap_cong_ty",
                 procedures: [
                     {
                         title: "Thành lập mới",

@@ -33,6 +33,7 @@
     transition: border-color 0.2s;
     box-sizing: border-box;
     font-family: inherit;
+    color: var(--secondary-content);
 }
 
 .input:focus,

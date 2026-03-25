@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styles from "./ProcedureManager.module.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import ProcedureForm from "../../../components/Procedure/ProcedureForm/ProcedureForm";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import ProcedureForm from "@/components/Procedure/ProcedureForm/ProcedureForm";
 import { Link, useParams } from "react-router-dom";
 
 const ProcedureManager = () => {

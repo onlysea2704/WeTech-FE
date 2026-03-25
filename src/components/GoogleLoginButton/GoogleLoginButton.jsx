@@ -1,7 +1,7 @@
 import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { authAxios, publicAxios } from "../../services/axios-instance";
+import { authAxios, publicAxios } from "@/services/axios-instance";
 import styles from "./GoogleLoginButton.module.css";
 
 export default function GoogleLoginButton() {

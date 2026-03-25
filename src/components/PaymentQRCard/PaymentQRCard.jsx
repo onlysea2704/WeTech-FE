@@ -1,8 +1,8 @@
 import React, { useState, useImperativeHandle, forwardRef } from "react";
-import styles from "../../pages/User/ScanQR/ScanQR.module.css";
-import Tooltip from "../Tooltip/Tooltip";
-import SuccessPayment from "../SuccessPayment/SuccessPayment";
-import FailurePayment from "../FailurePayment/FailurePayment";
+import styles from "@/pages/User/ScanQR/ScanQR.module.css";
+import Tooltip from "@/components/Tooltip/Tooltip";
+import SuccessPayment from "@/components/SuccessPayment/SuccessPayment";
+import FailurePayment from "@/components/FailurePayment/FailurePayment";
 
 const formatPrice = (price) => new Intl.NumberFormat("vi-VN").format(price || 0);
 

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { showAuthErrorNotification } from "../utils/notificationHelper";
+import { showAuthErrorNotification } from "@/utils/notificationHelper";
 
 const authAxios = axios.create({ baseURL: process.env.REACT_APP_BACKEND_URL });
 

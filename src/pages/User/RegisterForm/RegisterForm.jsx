@@ -1,10 +1,10 @@
 import React, { use, useState } from "react";
 import "./RegisterForm.css";
 import { Link, useNavigate } from "react-router-dom";
-import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import { publicAxios } from "../../../services/axios-instance";
-import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
-import { useNotification } from "../../../hooks/useNotification";
+import LeftLoginRegisterForm from "@/components/LeftLoginRegisterForm/LeftLoginRegisterForm";
+import { publicAxios } from "@/services/axios-instance";
+import GoogleLoginButton from "@/components/GoogleLoginButton/GoogleLoginButton";
+import { useNotification } from "@/hooks/useNotification";
 
 const RegisterForm = () => {
     const [user, setUser] = useState({
@@ -16,7 +16,6 @@ const RegisterForm = () => {
     });
     const [loading, setLoading] = useState(false);
     const [showPassword, setShowPassword] = useState(false);
-    const [backgroundImage, setBackgroundImage] = useState("");
     const navigate = useNavigate();
     const { showError, showSuccess } = useNotification();
 
@@ -69,15 +68,20 @@ const RegisterForm = () => {
         }
     };
 
+    function handleSubmit(e) {
+        e.preventDefault();
+        register();
+    }
+
     return (
         <div className="register-background">
             <div className="register-wrapper">
                 <LeftLoginRegisterForm />
                 <div className="register-right-form">
-                    <div className="register-box">
+                    <form className="register-box" onSubmit={handleSubmit}>
                         <div className="register-header">
                             <h2>Đăng ký</h2>
-                            <button className="close-btn" onClick={handleClose}>
+                            <button type="button" className="close-btn" onClick={handleClose}>
                                 <i className="fas fa-times"></i>
                             </button>
                         </div>
@@ -132,7 +136,7 @@ const RegisterForm = () => {
                                 <i className={showPassword ? "fas fa-eye-slash" : "fas fa-eye"}></i>
                             </button>
                         </div>
-                        <button className="btn-register" onClick={register} disabled={loading}>
+                        <button type="submit" className="btn-register" disabled={loading}>
                             {loading ? <i className="fas fa-spinner fa-spin"></i> : "Tạo tài khoản"}
                         </button>
 
@@ -151,7 +155,7 @@ const RegisterForm = () => {
                                 dụng và Chính sách bảo mật.
                             </label>
                         </p>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

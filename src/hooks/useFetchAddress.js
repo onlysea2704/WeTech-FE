@@ -13,7 +13,10 @@ async function getProvincesOnce() {
         provincesFetchPromise = fetch(PROVINCES_URL)
             .then((r) => r.json())
             .then((data) => {
-                cachedProvinces = data.data || [];
+                cachedProvinces = (data.data || []).map((item) => ({
+                    ...item,
+                    name: `${item.type} ${item.name}`,
+                }));
                 return cachedProvinces;
             });
     }
@@ -61,7 +64,13 @@ export function useFetchAddress(provinceCode = "") {
         setLoadingCommunes(true);
         fetch(COMMUNES_URL(provinceCode))
             .then((r) => r.json())
-            .then((data) => setCommunes(data.data || []))
+            .then((data) => {
+                const combinedCommunes = (data.data || []).map((item) => ({
+                    ...item,
+                    name: `${item.type} ${item.name}`,
+                }));
+                setCommunes(combinedCommunes);
+            })
             .catch((err) => console.error("[useFetchAddress] communes error:", err))
             .finally(() => setLoadingCommunes(false));
     }, [provinceCode]);

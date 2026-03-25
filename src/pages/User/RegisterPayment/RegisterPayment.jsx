@@ -1,14 +1,14 @@
 import { useState, useEffect } from "react";
 import styles from "./RegisterPayment.module.css";
-import ProgressStepper from "../../../components/ProgressStepper/ProgressStepper";
+import ProgressStepper from "@/components/ProgressStepper/ProgressStepper";
 import { useParams, useNavigate } from "react-router-dom";
-import { authAxios, publicAxios } from "../../../services/axios-instance";
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import qrCode from "../../../assets/qr-code.png";
-import CourseListSkeleton from "../../../components/Loading/Skeleton/CourseListSkeleton";
-import { useNotification } from "../../../hooks/useNotification";
-import Footer from "../../../components/Footer/Footer";
+import { authAxios, publicAxios } from "@/services/axios-instance";
+import Navbar from "@/components/NavBar/NavBar";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import qrCode from "@/assets/qr-code.png";
+import CourseListSkeleton from "@/components/Loading/Skeleton/CourseListSkeleton";
+import { useNotification } from "@/hooks/useNotification";
+import Footer from "@/components/Footer/Footer";
 
 const RegisterPayment = () => {
     const { idTransaction } = useParams();

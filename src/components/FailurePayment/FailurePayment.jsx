@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FailurePayment.module.css";
-import failureIcon from "../../assets/failure-icon.png";
+import failureIcon from "@/assets/failure-icon.png";
 
 const FailurePayment = ({ onClose }) => {
     return (

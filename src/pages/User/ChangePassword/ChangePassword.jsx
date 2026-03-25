@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styles from "./ChangePassword.module.css";
-import Footer from "../../../components/Footer/Footer";
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import { authAxios } from "../../../services/axios-instance";
-import Popup from "../../../components/Popup/Popup";
-import { useNotification } from "../../../hooks/useNotification";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavBar/NavBar";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import { authAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
+import { useNotification } from "@/hooks/useNotification";
 
 const ChangePassword = () => {
     // 1. State cho 3 ô mật khẩu

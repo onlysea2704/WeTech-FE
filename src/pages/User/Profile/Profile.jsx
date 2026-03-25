@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from "react"; // 1. Thêm useRef
 import styles from "./Profile.module.css";
-import avatarImage from "../../../assets/avatar_user.png";
-import Footer from "../../../components/Footer/Footer";
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import { authAxios } from "../../../services/axios-instance";
-import Popup from "../../../components/Popup/Popup";
-import { useNotification } from "../../../hooks/useNotification";
-import { useAuth } from "../../../context/AuthContext";
+import avatarImage from "@/assets/avatar_user.png";
+import Footer from "@/components/Footer/Footer";
+import Navbar from "@/components/NavBar/NavBar";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import { authAxios } from "@/services/axios-instance";
+import Popup from "@/components/Popup/Popup";
+import { useNotification } from "@/hooks/useNotification";
+import { useAuth } from "@/context/AuthContext";
 
 const Profile = () => {
     const [avatar, setAvatar] = useState(avatarImage);

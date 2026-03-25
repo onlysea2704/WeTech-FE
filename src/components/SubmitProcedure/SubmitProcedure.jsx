@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styles from "./SubmitProcedure.module.css";
-import { authAxios, publicAxios } from "../../services/axios-instance";
+import { authAxios, publicAxios } from "@/services/axios-instance";
 import Select from "react-select";
 import { useParams, useNavigate } from "react-router-dom";
-import successIcon from "../../assets/success-icon.png";
-import failureIcon from "../../assets/failure-icon.png";
-import loadIcon from "../../assets/Exchange_perspective_matte.png";
-import saveIcon from "../../assets/Save_perspective_matte.png";
-import successPaymentIcon from "../../assets/success-icon.png";
-import failurePaymentIcon from "../../assets/failure-icon.png";
-import { downloadPdf } from "../../utils/downloadPdf";
-import checkIcon from "../../assets/Check_perspective_matte.png";
-import pdfIcon from "../../assets/pdf-image.png";
-import { useFetchAddress } from "../../hooks/useFetchAddress";
+import successIcon from "@/assets/success-icon.png";
+import failureIcon from "@/assets/failure-icon.png";
+import loadIcon from "@/assets/Exchange_perspective_matte.png";
+import saveIcon from "@/assets/Save_perspective_matte.png";
+import successPaymentIcon from "@/assets/success-icon.png";
+import failurePaymentIcon from "@/assets/failure-icon.png";
+import { downloadPdf } from "@/utils/downloadPdf";
+import checkIcon from "@/assets/Check_perspective_matte.png";
+import pdfIcon from "@/assets/pdf-image.png";
+import { useFetchAddress } from "@/hooks/useFetchAddress";
 
 export default function SubmitProcedure({ procedure, setActiveTab }) {
     const { id_procedure } = useParams();
@@ -32,7 +32,6 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     const [provValue, setProvValue] = useState("");
     const [provCode, setProvCode] = useState("");
     const [wardValue, setWardValue] = useState("");
-    const [wardType, setWardType] = useState("");
 
     const { provinces, communes } = useFetchAddress(provCode);
 
@@ -88,11 +87,9 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
         setProvValue(selectedOption ? selectedOption.value : "");
         setProvCode(selectedOption ? selectedOption.code : "");
         setWardValue("");
-        setWardType("");
     };
     const handleWardChange = (selectedOption) => {
         setWardValue(selectedOption ? selectedOption.value : "");
-        setWardType(selectedOption ? selectedOption.type : "");
     };
 
     const handleFinalSubmit = async () => {
@@ -109,7 +106,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                 );
             }
             const taxAuth =
-                agencyType === "tinh_thanh" ? `UBND ${wardType ? wardType + " " : ""}${wardValue}` : boNganhValue;
+                agencyType === "tinh_thanh" ? `UBND ${wardValue}` : boNganhValue;
             await authAxios.post("/api/procedurer/update-my-procedure", null, {
                 params: {
                     procedureId: id_procedure,
@@ -520,7 +517,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                             </div>
                                             <div className={styles.detailItem}>
                                                 <p>
-                                                    Cơ quan thực hiện: UBND {wardType} {wardValue}
+                                                    Cơ quan thực hiện: UBND {wardValue}
                                                 </p>
                                                 <p>Đối tượng: Công dân Việt Nam</p>
                                             </div>
@@ -629,7 +626,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                         <button className={styles.btnAgree} onClick={() => setSubmitStep(2)}>
                             Quay lại
                         </button>
-                        <button className={styles.btnAgree} onClick={() => {}}>
+                        <button className={styles.btnAgree} onClick={() => { }}>
                             Đồng ý
                         </button>
                     </div>

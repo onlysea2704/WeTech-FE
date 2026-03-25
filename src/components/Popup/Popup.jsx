@@ -1,5 +1,5 @@
 import Lottie from "lottie-react";
-import animation from "../../assets/sign-up.json";
+import animation from "@/assets/sign-up.json";
 import styles from "./Popup.module.css";
 
 const Popup = ({ message }) => {

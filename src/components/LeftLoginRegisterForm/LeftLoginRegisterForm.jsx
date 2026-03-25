@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import styles from "./LeftLoginRegisterForm.module.css";
-import backgroundLogin from "../../assets/background_login.png";
-import backgroundRegister from "../../assets/background_register.jpg";
+import backgroundLogin from "@/assets/background_login.png";
+import backgroundRegister from "@/assets/background_register.jpg";
 
 const LeftLoginRegisterForm = () => {
     const [index, setIndex] = useState(0);

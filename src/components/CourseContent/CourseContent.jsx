@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { publicAxios } from "../../services/axios-instance";
+import { publicAxios } from "@/services/axios-instance";
 import styles from "./CourseContent.module.css";
-import CourseContentSkeleton from "../Loading/Skeleton/CourseContentSkeleton";
-import { useBuyCourse } from "../../utils/buyCourseHelper";
-import { useDetailCourse } from "../../context/DetailCourseContext";
+import CourseContentSkeleton from "@/components/Loading/Skeleton/CourseContentSkeleton";
+import { useBuyCourse } from "@/utils/buyCourseHelper";
+import { useDetailCourse } from "@/context/DetailCourseContext";
 
 // --- Component con cho cột trái ---
 // --- Component con cho cột trái ---

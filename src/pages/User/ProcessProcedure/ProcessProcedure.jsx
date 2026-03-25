@@ -1,19 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./ProcessProcedure.css";
-import DeclarationForms from "../../../components/DeclarationForms/DeclarationForms";
-import FormsConfirmation from "../../../components/FormsConfirmation/FormsConfirmation";
-import ProgressStepper from "../../../components/ProgressStepper/ProgressStepper";
+import DeclarationForms from "@/components/Procedure/ParentForm/DeclarationForms";
+import FormsConfirmation from "@/components/Procedure/ParentForm/FormsConfirmation";
+import ProgressStepper from "@/components/ProgressStepper/ProgressStepper";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { authAxios } from "../../../services/axios-instance";
-import Overlay from "../../../components/Loading/Overlay/Overlay";
-import typeCompanyOptions from "../../../consts/typeCompany";
-import ProcedurePayment from "../../../components/ProcedurePayment/ProcedurePayment";
-import SubmitProcedure from "../../../components/SubmitProcedure/SubmitProcedure";
-import { downloadPdf } from "../../../utils/downloadPdf";
-import iconCheck from "../../../assets/Check_perspective_matte.png";
-import iconCancel from "../../../assets/Error_perspective_matte.png";
-import plusIcon from "../../../assets/Plus_perspective_matte.png";
-import { useNotification } from "../../../hooks/useNotification";
+import { authAxios } from "@/services/axios-instance";
+import Overlay from "@/components/Loading/Overlay/Overlay";
+import typeCompanyOptions from "@/consts/typeCompany";
+import ProcedurePayment from "@/components/ProcedurePayment/ProcedurePayment";
+import SubmitProcedure from "@/components/SubmitProcedure/SubmitProcedure";
+import { downloadPdf } from "@/utils/downloadPdf";
+import iconCheck from "@/assets/Check_perspective_matte.png";
+import iconCancel from "@/assets/Error_perspective_matte.png";
+import plusIcon from "@/assets/Plus_perspective_matte.png";
+import { useNotification } from "@/hooks/useNotification";
 
 const tabs = [
     { id: 0, title: "Kê khai Hồ Sơ" },
@@ -395,8 +395,8 @@ const ProcessProcedure = () => {
                             >
                                 <img src={iconCheck} alt="" />
                                 {viewMode === "see_again" &&
-                                activeTab === 1 &&
-                                currentFormStep === formDeclarationSteps.length - 1
+                                    activeTab === 1 &&
+                                    currentFormStep === formDeclarationSteps.length - 1
                                     ? "Tạo mới"
                                     : "Tiếp theo"}
 

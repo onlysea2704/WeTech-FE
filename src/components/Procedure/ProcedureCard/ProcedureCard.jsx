@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./ProcedureCard.module.css";
-import demoProcedure from "../../../assets/demo-procedure.jpg";
+import demoProcedure from "@/assets/demo-procedure.jpg";
 
 const ProcedureCard = ({ procedure, onOpenModal }) => {
     return (

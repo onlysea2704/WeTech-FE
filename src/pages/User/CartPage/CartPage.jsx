@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { useCart } from "../../../context/CartContext";
+import { useCart } from "@/context/CartContext";
 import { useNavigate } from "react-router-dom"; // Import hook chuyển trang
-import Navbar from "../../../components/NavBar/NavBar";
-import Breadcrumb from "../../../components/Breadcrumb/Breadcrumb";
-import { authAxios } from "../../../services/axios-instance";
+import Navbar from "@/components/NavBar/NavBar";
+import Breadcrumb from "@/components/Breadcrumb/Breadcrumb";
+import { authAxios } from "@/services/axios-instance";
 import styles from "./CartPage.module.css";
-import CourseListSkeleton from "../../../components/Loading/Skeleton/CourseListSkeleton";
-import { useNotification } from "../../../hooks/useNotification";
-import Footer from "../../../components/Footer/Footer";
+import CourseListSkeleton from "@/components/Loading/Skeleton/CourseListSkeleton";
+import { useNotification } from "@/hooks/useNotification";
+import Footer from "@/components/Footer/Footer";
 
 const formatCurrency = (amount) => {
     return new Intl.NumberFormat("vi-VN", { style: "currency", currency: "VND" }).format(amount).replace("₫", "đ");

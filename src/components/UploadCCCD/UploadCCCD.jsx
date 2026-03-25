@@ -1,8 +1,8 @@
 import React, { useState, useRef } from "react";
 import styles from "./UploadCCCD.module.css";
-import imageIcon from "../../assets/image-icon.png";
-import uploadIcon from "../../assets/upload-icon.png";
-import plusIcon from "../../assets/Plus_perspective_matte.png";
+import imageIcon from "@/assets/image-icon.png";
+import uploadIcon from "@/assets/upload-icon.png";
+import plusIcon from "@/assets/Plus_perspective_matte.png";
 
 export default function UploadCCCD({ onComplete }) {
     const [isOpen, setIsOpen] = useState(false);

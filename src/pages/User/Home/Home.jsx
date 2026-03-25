@@ -1,15 +1,15 @@
 import React from "react";
 import styles from "./Home.module.css";
 // import { Link, useNavigate } from "react-router-dom";
-// import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import Navbar from "../../../components/NavBar/NavBar";
-import Hero from "../../../components/Hero/Hero";
-import About from "../../../components/About/About";
-import Services from "../../../components/Services/Services";
-import Customers from "../../../components/Customers/Customers";
-import Footer from "../../../components/Footer/Footer";
-import TopCourses from "../../../components/TopProcedures/TopCourses";
-// import imageRegister from "../../../assets/image-register-home.jpg";
+// import LeftLoginRegisterForm from "@/components/LeftLoginRegisterForm/LeftLoginRegisterForm";
+import Navbar from "@/components/NavBar/NavBar";
+import Hero from "@/components/Hero/Hero";
+import About from "@/components/About/About";
+import Services from "@/components/Services/Services";
+import Customers from "@/components/Customers/Customers";
+import Footer from "@/components/Footer/Footer";
+import TopCourses from "@/components/TopProcedures/TopCourses";
+// import imageRegister from "@/assets/image-register-home.jpg";
 
 const Home = () => {
     // const navigate = useNavigate();

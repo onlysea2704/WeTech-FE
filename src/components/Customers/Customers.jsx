@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import custom1 from "../../assets/customer1.jpg";
-import custom2 from "../../assets/customer2.jpg";
-import custom3 from "../../assets/customer3.png";
-import custom4 from "../../assets/customer4.png";
-import custom5 from "../../assets/customer5.jpg";
-import starIcon from "../../assets/star-icon.png";
+import custom1 from "@/assets/customer1.jpg";
+import custom2 from "@/assets/customer2.jpg";
+import custom3 from "@/assets/customer3.png";
+import custom4 from "@/assets/customer4.png";
+import custom5 from "@/assets/customer5.jpg";
+import starIcon from "@/assets/star-icon.png";
 import styles from "./Customers.module.css";
 
 const testimonials = [

@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "../../../components/NavBar/NavBar";
-import Footer from "../../../components/Footer/Footer";
+import Navbar from "@/components/NavBar/NavBar";
+import Footer from "@/components/Footer/Footer";
 import styles from "./SearchProcedure.module.css";
 import { useNavigate } from "react-router-dom";
-import { publicAxios, authAxios } from "../../../services/axios-instance";
-import typeCompanyOptions from "../../../consts/typeCompany";
-import { downloadPdf } from "../../../utils/downloadPdf";
+import { publicAxios, authAxios } from "@/services/axios-instance";
+import typeCompanyOptions from "@/consts/typeCompany";
+import { downloadPdf } from "@/utils/downloadPdf";
+import DateInput from "@/components/DateInput/DateInput";
 
 export default function SearchProcedure() {
     const navigate = useNavigate();
@@ -211,8 +212,8 @@ export default function SearchProcedure() {
                                 onChange={(e) => setServiceType(e.target.value)}
                             >
                                 <option value="">Tất cả</option>
-                                <option value="dich_vu_thanh_lap_cong_ty">Thành lập Công ty</option>
-                                <option value="dich_vu_cap_nhat_thay_doi">Cập nhật thay đổi</option>
+                                <option value="thanh_lap_cong_ty">Thành lập Công ty</option>
+                                <option value="cap_nhat_thay_doi">Cập nhật thay đổi</option>
                                 <option value="dang_ky_thay_doi">Đăng ký thay đổi</option>
                                 <option value="tam_ngung_tiep_tuc_kd">Tạm ngừng - tiếp tục KD</option>
                                 <option value="giai_the">Giải thể</option>
@@ -221,20 +222,16 @@ export default function SearchProcedure() {
 
                         <div className={styles.formGroup}>
                             <label>Từ ngày</label>
-                            <input
-                                type="date"
+                            <DateInput
                                 className={styles.inputControl}
-                                placeholder="dd/mm/yyyy"
                                 value={startDate}
                                 onChange={(e) => setStartDate(e.target.value)}
                             />
                         </div>
                         <div className={styles.formGroup}>
                             <label>Đến ngày</label>
-                            <input
-                                type="date"
+                            <DateInput
                                 className={styles.inputControl}
-                                placeholder="dd/mm/yyyy"
                                 value={endDate}
                                 onChange={(e) => setEndDate(e.target.value)}
                             />
@@ -306,7 +303,7 @@ export default function SearchProcedure() {
                                 <th>Tên Thủ tục pháp lý</th>
                                 <th>Lần đăng ký</th>
                                 <th>Cơ quan thuế tiếp nhận</th>
-                                <th>Ngày nộp</th>
+                                <th>{activeTab === 0 ? "Ngày nộp" : "Ngày thực hiện"}</th>
                                 <th>Trạng thái</th>
                                 <th>{activeTab === 0 ? "Tải xuống" : "Thực hiện tiếp"}</th>
                             </tr>

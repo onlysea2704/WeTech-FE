@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import styles from "./LoginForm.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import { authAxios } from "../../../services/axios-instance";
-import { publicAxios } from "../../../services/axios-instance";
-import GoogleLoginButton from "../../../components/GoogleLoginButton/GoogleLoginButton";
-import { useNotification } from "../../../hooks/useNotification";
-import { useAuth } from "../../../context/AuthContext";
+import LeftLoginRegisterForm from "@/components/LeftLoginRegisterForm/LeftLoginRegisterForm";
+import { authAxios } from "@/services/axios-instance";
+import { publicAxios } from "@/services/axios-instance";
+import GoogleLoginButton from "@/components/GoogleLoginButton/GoogleLoginButton";
+import { useNotification } from "@/hooks/useNotification";
+import { useAuth } from "@/context/AuthContext";
 
 const LoginForm = () => {
     const [loading, setLoading] = useState(false);
@@ -75,7 +75,6 @@ const LoginForm = () => {
                 password,
                 deviceInfoRequest: info,
             });
-            console.log("token", token.data.result.token);
             sessionStorage.setItem("authToken", token.data.result.token);
             const userInfo = await authAxios.get("/api/auth/get-info");
 

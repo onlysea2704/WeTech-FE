@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./About.module.css";
-import imageAbout from "../../assets/about.jpg";
+import imageAbout from "@/assets/about.jpg";
 import { Link } from "react-router-dom";
 
 const About = () => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import styles from "./CoursePlaylist.module.css";
-import doubleCheckIcon from "../../assets/double-check.png";
+import doubleCheckIcon from "@/assets/double-check.png";
 
 const CoursePlaylist = ({ sections = [], onSelectVideo, currentVideo }) => {
     // State to track expanded sections

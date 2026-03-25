@@ -1,14 +1,14 @@
 import styles from "./Footer.module.css";
-import imageLogoFooter from "../../assets/logo-footer.png";
-import iconLogoZalo from "../../assets/icon-zalo.png";
-import iconLogoYoutube from "../../assets/logo-youtube.png";
-import iconLogoFacebook from "../../assets/logo-facebook.png";
+import imageLogoFooter from "@/assets/logo-footer.png";
+import iconLogoZalo from "@/assets/icon-zalo.png";
+import iconLogoYoutube from "@/assets/logo-youtube.png";
+import iconLogoFacebook from "@/assets/logo-facebook.png";
 // 1. Import Link từ react-router-dom
 import { Link } from "react-router-dom";
-import locationIcon from "../../assets/location-icon.png";
-import emailIcon from "../../assets/email-icon.png";
-import phoneIcon from "../../assets/phone-icon.png";
-import Tooltip from "../Tooltip/Tooltip";
+import locationIcon from "@/assets/location-icon.png";
+import emailIcon from "@/assets/email-icon.png";
+import phoneIcon from "@/assets/phone-icon.png";
+import Tooltip from "@/components/Tooltip/Tooltip";
 
 const Footer = () => {
     const scrollToTop = () => {

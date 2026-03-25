@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./Hero.module.css";
-import previousIcon from "../../assets/previous-icon.png";
-import nextIcon from "../../assets/next-icon.png";
-import heroImage from "../../assets/hero.jpg";
+import previousIcon from "@/assets/previous-icon.png";
+import nextIcon from "@/assets/next-icon.png";
+import heroImage from "@/assets/hero.jpg";
 
 const heroImages = [heroImage, heroImage, heroImage];
 

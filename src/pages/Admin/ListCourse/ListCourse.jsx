@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import styles from "./ListCourse.module.css";
-import Sidebar from "../../../components/Sidebar/Sidebar";
-import TableComponent from "../../../components/TableComponent/TableComponent";
-import { authAxios, publicAxios } from "../../../services/axios-instance";
+import Sidebar from "@/components/Sidebar/Sidebar";
+import TableComponent from "@/components/TableComponent/TableComponent";
+import { authAxios, publicAxios } from "@/services/axios-instance";
 import { useNavigate } from "react-router-dom";
-import { useNotification } from "../../../hooks/useNotification";
+import { useNotification } from "@/hooks/useNotification";
 
 const ListCourse = () => {
     const navigate = useNavigate();

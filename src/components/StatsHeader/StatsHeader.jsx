@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styles from "./StatsHeader.module.css";
-import StatsCard from "../../components/StatsCard/StatsCard";
-import { publicAxios } from "../../services/axios-instance";
+import StatsCard from "@/components/StatsCard/StatsCard";
+import { publicAxios } from "@/services/axios-instance";
 
 const StatsHeader = ({ api_url }) => {
     const [stats, setStats] = useState([]);

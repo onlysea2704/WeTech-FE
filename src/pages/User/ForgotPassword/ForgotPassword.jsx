@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styles from "./ForgotPassword.module.css";
 import { Link, useNavigate } from "react-router-dom";
-import LeftLoginRegisterForm from "../../../components/LeftLoginRegisterForm/LeftLoginRegisterForm";
-import { publicAxios } from "../../../services/axios-instance";
-import { useNotification } from "../../../hooks/useNotification";
+import LeftLoginRegisterForm from "@/components/LeftLoginRegisterForm/LeftLoginRegisterForm";
+import { publicAxios } from "@/services/axios-instance";
+import { useNotification } from "@/hooks/useNotification";
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
