@@ -2,16 +2,6 @@ import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import styles from "./AddressSelect.module.css";
 
-/**
- * AddressSelect - Dumb component nhận provinces/communes từ props (đã fetch ở component cha).
- * Không tự gọi API để tránh gọi thừa.
- *
- * Props:
- *   provinces      - Mảng { name, code } tỉnh/thành (do cha truyền từ useFetchAddress)
- *   communes       - Mảng { name, code } xã/phường (do cha truyền, tự động load khi province thay đổi)
- *   onProvinceChange(code) - Callback báo cha khi user chọn tỉnh (cha dùng để trigger fetch communes)
- *   isRequired, hasHouseNumber - các options
- */
 export default function AddressSelect({
     className,
     isRequired = true,
@@ -22,19 +12,17 @@ export default function AddressSelect({
     provinceDefault = "",
     wardDefault = "",
     houseNumberDefault = "",
-    provinces = [], // Được truyền từ component cha (useFetchAddress)
-    communes = [], // Được truyền từ component cha
-    onProvinceChange, // Callback: (code) => void — báo cha khi province thay đổi
-    onWardChange, // Callback: (value) => void — báo cha khi ward thay đổi
+    provinces = [],
+    communes = [],
+    onProvinceChange,
+    onWardChange,
 }) {
     const [provValue, setProvValue] = useState("");
     const [wardValue, setWardValue] = useState("");
 
-    // Sync với default khi mount hoặc dataJson thay đổi
     useEffect(() => {
         if (provinceDefault) {
             setProvValue(provinceDefault);
-            // Kích hoạt callback cho parent (useFetchAddress) để lấy communes
             const matched = provinces.find(
                 (p) =>
                     p.name.trim().toLowerCase() === provinceDefault.trim().toLowerCase() ||
@@ -58,7 +46,7 @@ export default function AddressSelect({
         const code = selectedOption ? selectedOption.code : "";
         setProvValue(name);
         setWardValue("");
-        if (onProvinceChange) onProvinceChange(code); // báo cha fetch communes
+        if (onProvinceChange) onProvinceChange(code);
     };
 
     const handleWardChange = (selectedOption) => {

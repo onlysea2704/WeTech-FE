@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./confirmation.module.css";
 import { getToday } from "@/utils/dateTimeUtils";
+import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 
 function formatDate(dateStr) {
     if (!dateStr) return "";
@@ -197,10 +198,7 @@ export default function GiayUyQuyen({ dataJson }) {
             <div className={styles.infoLine}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
 
             <div className={styles.dateLocation}>
-                <span>{formatWard(chuHo_xa_phuong)}</span>,{" "}
-                <span>
-                    ngày {today.day} tháng {today.month} năm {today.year}
-                </span>
+                <CurrentDate prefix={formatWard(chuHo_xa_phuong)} />
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>

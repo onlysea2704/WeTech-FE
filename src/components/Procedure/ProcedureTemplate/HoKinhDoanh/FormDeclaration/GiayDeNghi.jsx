@@ -6,23 +6,17 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import numberToVietnameseText from "@/utils/numberToVietnameseText";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
 import ThanhVienTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/ThanhVienTable/ThanhVienTable";
+import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
+import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 
 // Extracted logic to SharedFormComponents
-
-function formatNumber(val) {
-    const raw = String(val).replace(/[^0-9]/g, "");
-    if (!raw) return "";
-    return Number(raw).toLocaleString("vi-VN");
-}
 
 const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, formRef }, componentRef) {
     // ── State ────────────────────────────────────────────────────────────────
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [thanhVienRows, setThanhVienRows] = useState([]);
-
-    const [vonBangChu, setVonBangChu] = useState("");
 
     // Province codes cho từng ô địa chỉ (dùng để trigger fetch communes)
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
@@ -43,7 +37,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
         if (dataJson) {
             setNganhNgheRows(dataJson.nganhNgheList || []);
             setThanhVienRows(dataJson.thanhVienList || []);
-            setVonBangChu(dataJson.vonKinhDoanh_bangChu || "");
             setTruSoXaValue(dataJson.truSo_xa || "");
             // Khởi tạo kinhGuiInputValue từ kinhGui đã lưu (bỏ prefix)
             const kg = dataJson.kinhGui || "";
@@ -63,7 +56,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
         } else {
             setNganhNgheRows([]);
             setThanhVienRows([]);
-            setVonBangChu("");
             setTruSoXaValue("");
             setKinhGuiInputValue("");
         }
@@ -91,7 +83,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
             data.thanhVienList = thanhVienRows;
-            data.vonKinhDoanh_bangChu = vonBangChu;
             data.kinhGui = currentKinhGuiPrefix + kinhGuiInputValue;
             localStorage.setItem("giayDeNghi_kinhGui", data.kinhGui);
             return data;
@@ -106,7 +97,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
             data.thanhVienList = thanhVienRows;
-            data.vonKinhDoanh_bangChu = vonBangChu;
             data.kinhGui = currentKinhGuiPrefix + kinhGuiInputValue;
             localStorage.setItem("giayDeNghi_kinhGui", data.kinhGui);
             return data;
@@ -115,7 +105,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             if (!importedData) return;
             setNganhNgheRows(importedData.nganhNgheList || []);
             setThanhVienRows(importedData.thanhVienList || []);
-            setVonBangChu(importedData.vonKinhDoanh_bangChu || "");
             setTruSoXaValue(importedData.truSo_xa || "");
         },
     }));
@@ -127,7 +116,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
         const data = Object.fromEntries(formData.entries());
         data.nganhNgheList = nganhNgheRows;
         data.thanhVienList = thanhVienRows;
-        data.vonKinhDoanh_bangChu = vonBangChu;
         data.kinhGui = currentKinhGuiPrefix + kinhGuiInputValue;
         localStorage.setItem("giayDeNghi_kinhGui", data.kinhGui);
         if (onSubmit) onSubmit(data);
@@ -348,52 +336,16 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} disabled={false} />
 
             {/* ── Vốn kinh doanh ── */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Vốn kinh doanh:</h3>
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>
-                            Tổng số (VNĐ) <span className={styles.required}>*</span>
-                        </label>
-                        <div className={styles.inputWithSuffix}>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                style={{ textAlign: "right", paddingRight: "48px" }}
-                                name="vonKinhDoanh"
-                                required
-                                defaultValue={dataJson?.vonKinhDoanh ? formatNumber(String(dataJson.vonKinhDoanh)) : ""}
-                                placeholder="0"
-                                onInput={(e) => {
-                                    const pos = e.target.selectionStart;
-                                    const oldLen = e.target.value.length;
-                                    const formatted = formatNumber(e.target.value);
-                                    e.target.value = formatted;
-                                    const diff = formatted.length - oldLen;
-                                    e.target.setSelectionRange(pos + diff, pos + diff);
-                                }}
-                                onBlur={(e) => {
-                                    if (e.target.value) {
-                                        setVonBangChu(numberToVietnameseText(e.target.value));
-                                    }
-                                }}
-                            />
-                            <span className={styles.inputSuffix}>VNĐ</span>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Tổng số bằng chữ</label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="vonKinhDoanh_bangChu"
-                            value={vonBangChu}
-                            defaultValue={dataJson?.vonKinhDoanh_bangChu || ""}
-                            readOnly
-                        />
-                    </div>
-                </div>
-            </div>
+            <CapitalInput
+                title="Vốn kinh doanh"
+                labelNumber="Tổng số (VNĐ)"
+                labelText="Tổng số bằng chữ"
+                nameNumber="vonKinhDoanh"
+                nameText="vonKinhDoanh_bangChu"
+                defaultNumber={dataJson?.vonKinhDoanh}
+                defaultText={dataJson?.vonKinhDoanh_bangChu}
+                required={true}
+            />
 
             <div className={styles.formGroup}>
                 <h3 className={styles.sectionTitle}>Kính gửi:</h3>
@@ -526,35 +478,10 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             <ThanhVienTable rows={thanhVienRows} onChangeRows={setThanhVienRows} disabled={false} />
 
             {/* ── Chủ hộ ── */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Chủ hộ kinh doanh:</h3>
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>
-                            Tên <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="chuHo_ten"
-                            defaultValue={dataJson?.chuHo_ten || ""}
-                            required
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>
-                            Họ và Tên <span className={styles.required}>*</span>
-                        </label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="chuHo_hoTen"
-                            defaultValue={dataJson?.chuHo_hoTen || ""}
-                            required
-                        />
-                    </div>
-                </div>
-            </div>
+            <Signature
+                subject="Chủ hộ kinh doanh"
+                dataJson={dataJson}
+            />
         </form>
     );
 });

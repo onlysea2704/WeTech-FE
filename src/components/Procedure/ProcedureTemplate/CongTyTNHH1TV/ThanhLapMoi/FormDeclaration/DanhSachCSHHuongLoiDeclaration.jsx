@@ -6,6 +6,8 @@ import {
     QuocTichSelect,
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
+import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
+import deleteIcon from "@/assets/delete-icon.png";
 
 const EMPTY_ROW = {
     hoTen: "",
@@ -26,9 +28,6 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
     componentRef,
 ) {
     const [rows, setRows] = useState([]);
-    const [editingIdx, setEditingIdx] = useState(null);
-    const [editingRow, setEditingRow] = useState(null);
-    const [nguoiDaiDienKy, setNguoiDaiDienKy] = useState("");
 
     useEffect(() => {
         if (dataJson?.cshHuongLoiList?.length) {
@@ -36,27 +35,34 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
         } else {
             setRows([]);
         }
-        if (dataJson?.nguoiDaiDienKy) {
-            setNguoiDaiDienKy(dataJson.nguoiDaiDienKy);
-        }
     }, [dataJson]);
 
     useImperativeHandle(componentRef, () => ({
-        getDraftData: () => ({ cshHuongLoiList: rows, nguoiDaiDienKy }),
+        getDraftData: () => {
+            if (!formRef?.current) return null;
+            const formData = new FormData(formRef.current);
+            return {
+                cshHuongLoiList: rows,
+                chuKy_ten: formData.get("chuKy_ten") || "",
+                chuKy_hoTen: formData.get("chuKy_hoTen") || ""
+            };
+        },
         getExportData: () => {
-            if (editingIdx !== null) {
-                alert("Vui lòng lưu dòng đang sửa trước khi tiếp tục.");
-                return null;
-            }
             if (rows.length === 0) {
                 alert("Vui lòng nhập ít nhất một chủ sở hữu hưởng lợi.");
                 return null;
             }
-            if (!nguoiDaiDienKy?.trim()) {
-                alert("Vui lòng nhập tên Người đại diện theo pháp luật.");
+            if (!formRef?.current) return null;
+            if (!formRef.current.checkValidity()) {
+                formRef.current.reportValidity();
                 return null;
             }
-            return { cshHuongLoiList: rows, nguoiDaiDienKy };
+            const formData = new FormData(formRef.current);
+            return {
+                cshHuongLoiList: rows,
+                chuKy_ten: formData.get("chuKy_ten") || "",
+                chuKy_hoTen: formData.get("chuKy_hoTen") || ""
+            };
         },
         importData: (imported) => {
             if (imported?.cshHuongLoiList?.length) setRows(imported.cshHuongLoiList);
@@ -65,46 +71,27 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (editingIdx !== null) {
-            alert("Vui lòng lưu dòng đang sửa trước khi tiếp tục.");
-            return;
-        }
-        if (onSubmit) onSubmit({ cshHuongLoiList: rows, nguoiDaiDienKy });
+        const formData = new FormData(e.target);
+        if (onSubmit) onSubmit({
+            cshHuongLoiList: rows,
+            chuKy_ten: formData.get("chuKy_ten") || "",
+            chuKy_hoTen: formData.get("chuKy_hoTen") || ""
+        });
     };
 
     const handleAdd = () => {
-        setEditingIdx("new");
-        setEditingRow({ ...EMPTY_ROW });
-    };
-
-    const handleEdit = (idx) => {
-        setEditingIdx(idx);
-        setEditingRow({ ...rows[idx] });
-    };
-
-    const handleSave = () => {
-        if (editingIdx === "new") {
-            setRows([...rows, editingRow]);
-        } else {
-            setRows(rows.map((r, i) => (i === editingIdx ? editingRow : r)));
-        }
-        setEditingIdx(null);
-        setEditingRow(null);
-    };
-
-    const handleCancel = () => {
-        setEditingIdx(null);
-        setEditingRow(null);
+        setRows([...rows, { ...EMPTY_ROW }]);
     };
 
     const handleDelete = (idx) => {
         setRows(rows.filter((_, i) => i !== idx));
     };
 
-    // Helper for onChange from components that wrap native selects or inputs
-    const handleEditingRowChange = (e) => {
+    const handleRowChange = (idx, e) => {
         const { name, value } = e.target;
-        setEditingRow((prev) => ({ ...prev, [name]: value }));
+        const newRows = [...rows];
+        newRows[idx] = { ...newRows[idx], [name]: value };
+        setRows(newRows);
     };
 
     return (
@@ -113,11 +100,10 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                 <div className={styles.actionRow}>
                     <button
                         type="button"
-                        className={styles.addBtn}
+                        className={styles.btnPrimary}
                         onClick={handleAdd}
-                        disabled={editingIdx !== null}
                     >
-                        + Thêm dòng
+                        Thêm dòng
                     </button>
                 </div>
 
@@ -126,23 +112,23 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                         <thead>
                             <tr>
                                 <th rowSpan={2} className={styles.th}>STT</th>
-                                <th rowSpan={2} className={styles.th}>Họ và tên</th>
-                                <th rowSpan={2} className={styles.th}>Ngày, tháng, năm sinh</th>
-                                <th rowSpan={2} className={styles.th}>Giới tính</th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>
-                                    Số, ngày cấp, CQ cấp Giấy tờ PL
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 180 }}>Họ và tên</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Ngày, tháng, năm sinh</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 60 }}>Giới tính</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 200 }}>
+                                    Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
                                 </th>
-                                <th rowSpan={2} className={styles.th}>Quốc tịch</th>
-                                <th rowSpan={2} className={styles.th}>Dân tộc</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
-                                <th colSpan={3} className={styles.th}>Chủ sở hữu hưởng lợi của DN</th>
-                                <th rowSpan={2} className={styles.th}>Ghi chú</th>
-                                <th rowSpan={2} className={styles.th}>Thao tác</th>
+                                <th colSpan={3} className={styles.th}>Chủ sở hữu hưởng lợi của doanh nghiệp</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Ghi chú</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Thao tác</th>
                             </tr>
                             <tr>
-                                <th className={styles.th}>Tỷ lệ sở hữu VĐL (%)</th>
-                                <th className={styles.th}>Tỷ lệ sở hữu quyền BQ (%)</th>
-                                <th className={styles.th}>Quyền chi phối</th>
+                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu vốn điều lệ (%)</th>
+                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu quyền biểu quyết (%)</th>
+                                <th className={styles.th} style={{ minWidth: 100 }}>Quyền chi phối</th>
                             </tr>
                             <tr className={styles.colNumberRow}>
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ""].map((n, i) => (
@@ -151,183 +137,111 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                             </tr>
                         </thead>
                         <tbody>
-                            {rows.length === 0 && editingIdx === null && (
+                            {rows.length === 0 && (
                                 <tr>
                                     <td colSpan={13} className={styles.emptyRow}>
-                                        Chưa có thành viên nào. Nhấn "+ Thêm dòng" để bắt đầu.
+                                        Chưa có chủ sở hữu hưởng lợi. Nhấn "Thêm dòng" để bắt đầu.
                                     </td>
                                 </tr>
                             )}
-                            {rows.map((row, idx) =>
-                                editingIdx === idx ? (
-                                    <tr key={idx} className={styles.trEdit}>
-                                        <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
-                                        <td className={styles.td}>
-                                            <input
-                                                className={styles.cellInput}
-                                                name="hoTen"
-                                                value={editingRow.hoTen}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <DateInput
-                                                className={styles.cellInput}
-                                                name="ngaySinh"
-                                                value={editingRow.ngaySinh}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                            <GioiTinhSelect name="gioiTinh" defaultValue={editingRow.gioiTinh} />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <textarea
-                                                className={styles.cellInput}
-                                                rows={3}
-                                                name="giaTo"
-                                                value={editingRow.giaTo}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                            <QuocTichSelect name="quocTich" defaultValue={editingRow.quocTich} />
-                                        </td>
-                                        <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                            <DanTocSelect name="danToc" defaultValue={editingRow.danToc} />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <textarea
-                                                className={styles.cellInput}
-                                                rows={3}
-                                                name="diaChiLienLac"
-                                                value={editingRow.diaChiLienLac}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <input
-                                                className={styles.cellInput}
-                                                name="tyLeSoHuuVon"
-                                                value={editingRow.tyLeSoHuuVon}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <input
-                                                className={styles.cellInput}
-                                                name="tyLeSoHuuBieuQuyet"
-                                                value={editingRow.tyLeSoHuuBieuQuyet}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <input
-                                                className={styles.cellInput}
-                                                name="quyenChiPhoi"
-                                                value={editingRow.quyenChiPhoi}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <input
-                                                className={styles.cellInput}
-                                                name="ghiChu"
-                                                value={editingRow.ghiChu}
-                                                onChange={handleEditingRowChange}
-                                            />
-                                        </td>
-                                        <td className={styles.tdAction}>
-                                            <button type="button" className={styles.saveBtn} onClick={handleSave}>Lưu</button>
-                                            <button type="button" className={styles.cancelBtn} onClick={handleCancel}>Huỷ</button>
-                                        </td>
-                                    </tr>
-                                ) : (
-                                    <tr key={idx} className={styles.trView}>
-                                        <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
-                                        <td className={styles.td}>{row.hoTen}</td>
-                                        <td className={styles.td}>{row.ngaySinh}</td>
-                                        <td className={styles.td}>{row.gioiTinh}</td>
-                                        <td className={styles.td}>{row.giaTo}</td>
-                                        <td className={styles.td}>{row.quocTich}</td>
-                                        <td className={styles.td}>{row.danToc}</td>
-                                        <td className={styles.td}>{row.diaChiLienLac}</td>
-                                        <td className={styles.td}>{row.tyLeSoHuuVon}</td>
-                                        <td className={styles.td}>{row.tyLeSoHuuBieuQuyet}</td>
-                                        <td className={styles.td}>{row.quyenChiPhoi}</td>
-                                        <td className={styles.td}>{row.ghiChu}</td>
-                                        <td className={styles.tdAction}>
-                                            <button type="button" className={styles.editBtn} onClick={() => handleEdit(idx)} disabled={editingIdx !== null}>Sửa</button>
-                                            <button type="button" className={styles.delBtn} onClick={() => handleDelete(idx)} disabled={editingIdx !== null}>Xóa</button>
-                                        </td>
-                                    </tr>
-                                )
-                            )}
-
-                            {/* Render New Row if Adding */}
-                            {editingIdx === "new" && (
-                                <tr className={styles.trEdit}>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{rows.length + 1}</td>
+                            {rows.map((row, idx) => (
+                                <tr key={idx} className={styles.trEdit}>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="hoTen" value={editingRow.hoTen} onChange={handleEditingRowChange} />
+                                        <input
+                                            className={styles.cellInput}
+                                            name="hoTen"
+                                            value={row.hoTen}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
                                     <td className={styles.td}>
-                                        <DateInput className={styles.cellInput} name="ngaySinh" value={editingRow.ngaySinh} onChange={handleEditingRowChange} />
+                                        <DateInput
+                                            className={styles.cellInput}
+                                            name="ngaySinh"
+                                            value={row.ngaySinh}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
-                                    <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                        <GioiTinhSelect name="gioiTinh" defaultValue={editingRow.gioiTinh} />
-                                    </td>
-                                    <td className={styles.td}>
-                                        <textarea className={styles.cellInput} rows={3} name="giaTo" value={editingRow.giaTo} onChange={handleEditingRowChange} />
-                                    </td>
-                                    <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                        <QuocTichSelect name="quocTich" defaultValue={editingRow.quocTich} />
-                                    </td>
-                                    <td className={styles.tdWrapper} onChange={handleEditingRowChange}>
-                                        <DanTocSelect name="danToc" defaultValue={editingRow.danToc} />
+                                    <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
+                                        <GioiTinhSelect name="gioiTinh" defaultValue={row.gioiTinh} />
                                     </td>
                                     <td className={styles.td}>
-                                        <textarea className={styles.cellInput} rows={3} name="diaChiLienLac" value={editingRow.diaChiLienLac} onChange={handleEditingRowChange} />
+                                        <input
+                                            type="text"
+                                            className={styles.cellInput}
+                                            name="giaTo"
+                                            value={row.giaTo}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
+                                    </td>
+                                    <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
+                                        <QuocTichSelect name="quocTich" defaultValue={row.quocTich} />
+                                    </td>
+                                    <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
+                                        <DanTocSelect name="danToc" defaultValue={row.danToc} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="tyLeSoHuuVon" value={editingRow.tyLeSoHuuVon} onChange={handleEditingRowChange} />
+                                        <input
+                                            type="text"
+                                            className={styles.cellInput}
+                                            name="diaChiLienLac"
+                                            value={row.diaChiLienLac}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="tyLeSoHuuBieuQuyet" value={editingRow.tyLeSoHuuBieuQuyet} onChange={handleEditingRowChange} />
+                                        <input
+                                            className={styles.cellInput}
+                                            name="tyLeSoHuuVon"
+                                            value={row.tyLeSoHuuVon}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="quyenChiPhoi" value={editingRow.quyenChiPhoi} onChange={handleEditingRowChange} />
+                                        <input
+                                            className={styles.cellInput}
+                                            name="tyLeSoHuuBieuQuyet"
+                                            value={row.tyLeSoHuuBieuQuyet}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="ghiChu" value={editingRow.ghiChu} onChange={handleEditingRowChange} />
+                                        <input
+                                            className={styles.cellInput}
+                                            name="quyenChiPhoi"
+                                            value={row.quyenChiPhoi}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
+                                    </td>
+                                    <td className={styles.td}>
+                                        <input
+                                            className={styles.cellInput}
+                                            name="ghiChu"
+                                            value={row.ghiChu}
+                                            onChange={(e) => handleRowChange(idx, e)}
+                                        />
                                     </td>
                                     <td className={styles.tdAction}>
-                                        <button type="button" className={styles.saveBtn} onClick={handleSave}>Lưu</button>
-                                        <button type="button" className={styles.cancelBtn} onClick={handleCancel}>Huỷ</button>
+                                        <img
+                                            src={deleteIcon}
+                                            alt="xóa"
+                                            onClick={() => handleDelete(idx)}
+                                            width="18"
+                                            height="18"
+                                            style={{ cursor: "pointer", display: "block", margin: "0 auto" }}
+                                        />
                                     </td>
                                 </tr>
-                            )}
+                            ))}
                         </tbody>
                     </table>
                 </div>
 
-                <div className={styles.signatureBlockFull}>
-                    <div className={styles.signatureInputWrapper}>
-                        <label className={styles.signatureLabel}>
-                            NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT<br />
-                            QUẢN TRỊ CỦA CÔNG TY
-                        </label>
-                        <input
-                            type="text"
-                            className={styles.signatureInput}
-                            name="nguoiDaiDienKy"
-                            value={nguoiDaiDienKy}
-                            onChange={(e) => setNguoiDaiDienKy(e.target.value)}
-                            placeholder="Nhập họ tên người đại diện"
-                            required
-                        />
-                    </div>
-                </div>
+                <Signature
+                    subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT"
+                    dataJson={dataJson}
+                />
             </div>
         </form>
     );

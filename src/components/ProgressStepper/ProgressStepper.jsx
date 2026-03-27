@@ -23,7 +23,7 @@ const ProgressStepper = ({ currentStep = 3, isSuccess = false, steps = [] }) => 
                                     <span>{step.id + 1}</span>
                                 )}
                             </div>
-                            <span className={styles["step-label"]}>{step.label}</span>
+                            <div className={styles["step-label"]}>{step.label}</div>
                             {index < steps.length - 1 && <div className={styles["step-line"]}></div>}
                         </div>
                     );

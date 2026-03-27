@@ -1,24 +1,19 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
-import styles from "./GiayDeNghiDKDNDeclaration.module.css";
+import styles from "./SharedDeclaration.module.css";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import numberToVietnameseText from "@/utils/numberToVietnameseText";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
-
-function formatNumber(val) {
-    const raw = String(val).replace(/[^0-9]/g, "");
-    if (!raw) return "";
-    return Number(raw).toLocaleString("vi-VN");
-}
+import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
+import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 
 const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
     { formId, dataJson, onSubmit, formRef },
     componentRef,
 ) {
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
-    const [vonBangChu, setVonBangChu] = useState("");
 
     // Province codes for each address block
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
@@ -41,10 +36,8 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
     useEffect(() => {
         if (dataJson) {
             setNganhNgheRows(dataJson.nganhNgheList || []);
-            setVonBangChu(dataJson.vonDieuLe_bangChu || "");
         } else {
             setNganhNgheRows([]);
-            setVonBangChu("");
         }
     }, [dataJson]);
 
@@ -55,7 +48,6 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             const formData = new FormData(formRef.current);
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
-            data.vonDieuLe_bangChu = vonBangChu;
             return data;
         },
         getExportData: () => {
@@ -67,22 +59,51 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             const formData = new FormData(formRef.current);
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
-            data.vonDieuLe_bangChu = vonBangChu;
             return data;
         },
         importData: (importedData) => {
             if (!importedData) return;
             setNganhNgheRows(importedData.nganhNgheList || []);
-            setVonBangChu(importedData.vonDieuLe_bangChu || "");
         },
     }));
+
+    const handleNguonVonChange = () => {
+        if (!formRef?.current) return;
+        const form = formRef.current;
+        const prefixes = ["nguonVon_nganSach", "nguonVon_tuNhan", "nguonVon_nuocNgoai", "nguonVon_khac"];
+        let totalSoTien = 0;
+        let totalTyLe = 0;
+        prefixes.forEach(p => {
+            const st = parseFloat(form[`${p}_soTien`]?.value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            const tl = parseFloat(form[`${p}_tyLe`]?.value.replace(/,/g, '.')) || 0;
+            totalSoTien += st;
+            totalTyLe += tl;
+        });
+        if (form["nguonVon_tongCong_soTien"]) form["nguonVon_tongCong_soTien"].value = totalSoTien ? totalSoTien.toLocaleString('vi-VN') : "";
+        if (form["nguonVon_tongCong_tyLe"]) form["nguonVon_tongCong_tyLe"].value = totalTyLe ? totalTyLe : "";
+    };
+
+    const handleTaiSanChange = () => {
+        if (!formRef?.current) return;
+        const form = formRef.current;
+        const prefixes = ["taiSan_dongVN", "taiSan_ngoaiTe", "taiSan_vang", "taiSan_qsdDat", "taiSan_shtt", "taiSan_khac"];
+        let totalGiaTri = 0;
+        let totalTyLe = 0;
+        prefixes.forEach(p => {
+            const gt = parseFloat(form[`${p}_giaTri`]?.value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            const tl = parseFloat(form[`${p}_tyLe`]?.value.replace(/,/g, '.')) || 0;
+            totalGiaTri += gt;
+            totalTyLe += tl;
+        });
+        if (form["taiSan_tongSo_giaTri"]) form["taiSan_tongSo_giaTri"].value = totalGiaTri ? totalGiaTri.toLocaleString('vi-VN') : "";
+        if (form["taiSan_tongSo_tyLe"]) form["taiSan_tongSo_tyLe"].value = totalTyLe ? totalTyLe : "";
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
         data.nganhNgheList = nganhNgheRows;
-        data.vonDieuLe_bangChu = vonBangChu;
         if (onSubmit) onSubmit(data);
     };
 
@@ -92,9 +113,9 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             {/* KÍNH GỬI + NGƯỜI NỘP HỒ SƠ */}
             <div className={styles.sectionGroup}>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>
+                    <h3 className={`${styles.sectionTitle}`}>
                         Kính gửi: <span className={styles.required}>*</span>
-                    </label>
+                    </h3>
                     <input
                         type="text"
                         className={styles.input}
@@ -103,6 +124,8 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                         required
                     />
                 </div>
+
+                <h3 className={styles.sectionTitle}>Thông tin người đại diện:</h3>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>
@@ -181,14 +204,14 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                     </div>
                 </div>
 
-                {/* THONG TIN CA NHAN KHA C (ẢNH 1) - NGƯỜI NỘP HỒ SƠ */}
+                <h3 className={styles.sectionTitle}>Thông tin cá nhân khác:</h3>
                 <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                 <div className={styles.grid2} style={{ marginTop: "8px" }}>
-                    <DanTocSelect name="nguoiNop_danToc" defaultValue={dataJson?.nguoiNop_danToc} />
-                    <QuocTichSelect name="nguoiNop_quocTich" defaultValue={dataJson?.nguoiNop_quocTich} />
+                    <DanTocSelect name="nguoiNop_danToc" defaultValue={dataJson?.nguoiNop_danToc} required={false} />
+                    <QuocTichSelect name="nguoiNop_quocTich" defaultValue={dataJson?.nguoiNop_quocTich} required={false} />
                 </div>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Số hộ chiếu (đối với cá nhân VN không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
+                    <label className={styles.label}>Số hộ chiếu (đối với cá nhân Việt Nam không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
                     <input type="text" className={styles.input} name="nguoiNop_soHoChieu" defaultValue={dataJson?.nguoiNop_soHoChieu || ""} />
                 </div>
                 <div className={styles.grid2}>
@@ -203,6 +226,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 </div>
                 <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Nơi thường trú:</h3>
                 <AddressSelect
+                    isRequired={false}
                     provinces={provinces}
                     communes={communes_nguoiNopThuongTru}
                     onProvinceChange={setProvCode_nguoiNopThuongTru}
@@ -215,7 +239,38 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 />
                 <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                     <label className={styles.label}>Quốc gia:</label>
-                    <input type="text" className={styles.input} name="nguoiNop_thuongTru_quocGia" defaultValue={dataJson?.nguoiNop_thuongTru_quocGia || "Việt Nam"} />
+                    <input type="text" className={styles.input} name="nguoiNop_thuongTru_quocGia" defaultValue={dataJson?.nguoiNop_thuongTru_quocGia || ""} />
+                </div>
+            </div>
+
+            {/* TÌNH TRẠNG THÀNH LẬP */}
+            <div className={styles.sectionGroup}>
+                <h3 className={styles.sectionTitle}>Tình trạng thành lập:</h3>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Tình trạng thành lập (đánh dấu X vào ô thích hợp): <span className={styles.required}>*</span></label>
+                    <div className={styles.radioGroup} style={{ flexDirection: "column", gap: "8px", alignItems: "flex-start" }}>
+                        {[
+                            { value: "moi", label: "Thành lập mới" },
+                            { value: "tach", label: "Thành lập trên cơ sở tách doanh nghiệp" },
+                            { value: "chia", label: "Thành lập trên cơ sở chia doanh nghiệp" },
+                            { value: "hop_nhat", label: "Thành lập trên cơ sở hợp nhất doanh nghiệp" },
+                            { value: "chuyen_doi_loai_hinh", label: "Thành lập trên cơ sở chuyển đổi loại hình doanh nghiệp" },
+                            { value: "chuyen_doi_hkd", label: "Thành lập trên cơ sở chuyển đổi từ hộ kinh doanh" },
+                            { value: "chuyen_doi_quy", label: "Thành lập trên cơ sở chuyển đổi từ cơ sở bảo trợ xã hội/quỹ xã hội/quỹ từ thiện" }
+                        ].map((option) => (
+                            <label key={option.value} className={styles.radioLabel} style={{ marginBottom: "0", cursor: "pointer" }}>
+                                <input
+                                    type="radio"
+                                    name="tinhTrangThanhLap"
+                                    value={option.value}
+                                    className={styles.radioInput}
+                                    defaultChecked={(dataJson?.tinhTrangThanhLap || "moi") === option.value}
+                                    required
+                                />
+                                {" "}{option.label}
+                            </label>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -313,21 +368,12 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
 
             {/* NGÀNH NGHỀ KINH DOANH */}
             <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>
-                    Ngành, nghề kinh doanh{" "}
-                    <em style={{ fontSize: "13px", fontWeight: 400, color: "#777" }}>
-                        (ghi tên và mã theo ngành cấp 4 trong Hệ thống ngành kinh tế của Việt Nam)
-                    </em>
-                    : <span className={styles.required}>*</span>
-                </h3>
                 <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} />
             </div>
 
             {/* CHỦ SỞ HỮU */}
             <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Chủ sở hữu:</h3>
-                <p className={styles.subLabel}>a) Đối với chủ sở hữu là cá nhân:</p>
-                <p className={styles.subLabel} style={{ fontStyle: "normal" }}>- Thông tin về chủ sở hữu:</p>
+                <h3 className={styles.sectionTitle}>Thông tin về chủ sở hữu:</h3>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>
@@ -403,14 +449,14 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                     </div>
                 </div>
 
-                {/* THONG TIN CA NHAN KHA C (ẢNH 1) - CHỦ SỞ HỮU */}
+                <h3 className={styles.sectionTitle}>Thông tin cá nhân khác của chủ sở hữu:</h3>
                 <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                 <div className={styles.grid2} style={{ marginTop: "8px" }}>
-                    <DanTocSelect name="chuSoHuu_danToc" defaultValue={dataJson?.chuSoHuu_danToc} />
-                    <QuocTichSelect name="chuSoHuu_quocTich" defaultValue={dataJson?.chuSoHuu_quocTich} />
+                    <DanTocSelect name="chuSoHuu_danToc" defaultValue={dataJson?.chuSoHuu_danToc} required={false} />
+                    <QuocTichSelect name="chuSoHuu_quocTich" defaultValue={dataJson?.chuSoHuu_quocTich} required={false} />
                 </div>
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Số hộ chiếu (đối với cá nhân VN không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
+                    <label className={styles.label}>Số hộ chiếu (đối với cá nhân Việt Năm không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
                     <input type="text" className={styles.input} name="chuSoHuu_soHoChieu" defaultValue={dataJson?.chuSoHuu_soHoChieu || ""} />
                 </div>
                 <div className={styles.grid2}>
@@ -425,6 +471,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 </div>
                 <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Nơi thường trú:</h3>
                 <AddressSelect
+                    isRequired={false}
                     provinces={provinces}
                     communes={communes_chuSoHuuThuongTru}
                     onProvinceChange={setProvCode_chuSoHuuThuongTru}
@@ -437,10 +484,10 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 />
                 <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                     <label className={styles.label}>Quốc gia:</label>
-                    <input type="text" className={styles.input} name="chuSoHuu_thuongTru_quocGia" defaultValue={dataJson?.chuSoHuu_thuongTru_quocGia || "Việt Nam"} />
+                    <input type="text" className={styles.input} name="chuSoHuu_thuongTru_quocGia" defaultValue={dataJson?.chuSoHuu_thuongTru_quocGia || ""} />
                 </div>
 
-                <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Thông tin về Giấy chứng nhận đăng ký đầu tư (chỉ kê khai nếu chủ sở hữu là nhà đầu tư nước ngoài):</p>
+                <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin về Giấy chứng nhận đăng ký đầu tư <span style={{ fontWeight: "normal", fontStyle: "italic" }}>(chỉ kê khai nếu chủ sở hữu là nhà đầu tư nước ngoài)</span>:</h3>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Mã số dự án:</label>
                     <input type="text" className={styles.input} name="chuSoHuu_maSoDuAn" defaultValue={dataJson?.chuSoHuu_maSoDuAn || ""} />
@@ -458,88 +505,67 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             </div>
 
             {/* VỐN ĐIỀU LỆ */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Vốn điều lệ:</h3>
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>
-                            Vốn điều lệ (bằng số; VNĐ): <span className={styles.required}>*</span>
-                        </label>
-                        <div className={styles.inputWithSuffix}>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                style={{ textAlign: "right", paddingRight: "48px" }}
-                                name="vonDieuLe"
-                                required
-                                defaultValue={dataJson?.vonDieuLe ? formatNumber(String(dataJson.vonDieuLe)) : ""}
-                                placeholder="0"
-                                onInput={(e) => {
-                                    const pos = e.target.selectionStart;
-                                    const oldLen = e.target.value.length;
-                                    const formatted = formatNumber(e.target.value);
-                                    e.target.value = formatted;
-                                    const diff = formatted.length - oldLen;
-                                    e.target.setSelectionRange(pos + diff, pos + diff);
-                                }}
-                                onBlur={(e) => {
-                                    if (e.target.value) {
-                                        setVonBangChu(numberToVietnameseText(e.target.value));
-                                    }
-                                }}
-                            />
-                            <span className={styles.inputSuffix}>VNĐ</span>
-                        </div>
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Vốn điều lệ (bằng chữ; VNĐ):</label>
+            <CapitalInput
+                title="Vốn điều lệ"
+                labelNumber="Vốn điều lệ (bằng số; VNĐ)"
+                labelText="Vốn điều lệ (bằng chữ; VNĐ)"
+                nameNumber="vonDieuLe"
+                nameText="vonDieuLe_bangChu"
+                defaultNumber={dataJson?.vonDieuLe}
+                defaultText={dataJson?.vonDieuLe_bangChu}
+                required={true}
+            />
+            <div className={styles.grid2} style={{ marginTop: "-30px" }}>
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có; bằng số, loại ngoại tệ):</label>
+                    <div style={{ display: "flex", gap: "10px" }}>
                         <input
                             type="text"
                             className={styles.input}
-                            name="vonDieuLe_bangChu"
-                            value={vonBangChu}
-                            readOnly
+                            style={{ width: "70%" }}
+                            name="vonDieuLe_ngoaiTeBangSo"
+                            defaultValue={dataJson?.vonDieuLe_ngoaiTeBangSo || ""}
+                            placeholder="Tiền bằng số"
                         />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có; bằng số, loại ngoại tệ):</label>
                         <input
                             type="text"
                             className={styles.input}
-                            name="vonDieuLe_ngoaiTe"
-                            defaultValue={dataJson?.vonDieuLe_ngoaiTe || ""}
+                            style={{ width: "30%" }}
+                            name="vonDieuLe_ngoaiTeDonVi"
+                            defaultValue={dataJson?.vonDieuLe_ngoaiTeDonVi || ""}
+                            placeholder="Loại ngoại tệ"
                         />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Có hiển thị thông tin giá trị tương đương theo đơn vị tiền tệ nước ngoài trên GCNĐKDN?</label>
-                        <div className={styles.radioGroup}>
-                            <label className={styles.radioLabel}>
-                                <input
-                                    type="radio"
-                                    name="hienThiNgoaiTe"
-                                    value="co"
-                                    className={styles.radioInput}
-                                    defaultChecked={dataJson?.hienThiNgoaiTe === "co"}
-                                />
-                                {" "}Có
-                            </label>
-                            <label className={styles.radioLabel}>
-                                <input
-                                    type="radio"
-                                    name="hienThiNgoaiTe"
-                                    value="khong"
-                                    className={styles.radioInput}
-                                    defaultChecked={!dataJson?.hienThiNgoaiTe || dataJson?.hienThiNgoaiTe === "khong"}
-                                />
-                                {" "}Không
-                            </label>
-                        </div>
                     </div>
                 </div>
-
-                {/* NGUỒN VỐN ĐIỀU LỆ */}
+                <div className={styles.formGroup}>
+                    <label className={styles.label}>Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không?</label>
+                    <div className={styles.radioGroup}>
+                        <label className={styles.radioLabel}>
+                            <input
+                                type="radio"
+                                name="hienThiNgoaiTe"
+                                value="co"
+                                className={styles.radioInput}
+                                defaultChecked={dataJson?.hienThiNgoaiTe === "co"}
+                            />
+                            {" "}Có
+                        </label>
+                        <label className={styles.radioLabel}>
+                            <input
+                                type="radio"
+                                name="hienThiNgoaiTe"
+                                value="khong"
+                                className={styles.radioInput}
+                                defaultChecked={!dataJson?.hienThiNgoaiTe || dataJson?.hienThiNgoaiTe === "khong"}
+                            />
+                            {" "}Không
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div className={styles.sectionGroup}>
                 <h3 className={styles.sectionTitle} style={{ marginTop: "12px" }}>Nguồn vốn điều lệ:</h3>
-                <table className={styles.table}>
+                <table className={styles.table} onChange={handleNguonVonChange}>
                     <thead>
                         <tr>
                             <th>Loại nguồn vốn</th>
@@ -583,115 +609,12 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 </table>
             </div>
 
-            {/* THÔNG TIN ĐĂNG KÝ THUẾ */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Thông tin đăng ký thuế:</h3>
-                <table className={styles.table}>
-                    <thead>
-                        <tr>
-                            <th style={{ width: "80px" }}>STT</th>
-                            <th>Các chỉ tiêu thông tin đăng ký thuế</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td style={{ textAlign: "center" }}>10.1</td>
-                            <td>
-                                <p style={{ fontStyle: "italic", marginBottom: "10px" }}>Thông tin về Giám đốc/Tổng giám đốc (nếu có):</p>
-                                <div className={styles.grid2}>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc:</label>
-                                        <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || ""} style={{ textTransform: "uppercase" }} />
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Ngày, tháng, năm sinh:</label>
-                                        <DateInput className={styles.input} name="giamDoc_ngaySinh" defaultValue={dataJson?.giamDoc_ngaySinh || ""} />
-                                    </div>
-                                    <GioiTinhSelect name="giamDoc_gioiTinh" defaultValue={dataJson?.giamDoc_gioiTinh} />
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Số định danh cá nhân:</label>
-                                        <input type="text" className={styles.input} name="giamDoc_cccd" defaultValue={dataJson?.giamDoc_cccd || ""} pattern="[0-9]{9,12}" />
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Điện thoại:</label>
-                                        <input type="tel" className={styles.input} name="giamDoc_phone" defaultValue={dataJson?.giamDoc_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={{ textAlign: "center" }}>10.2</td>
-                            <td>
-                                <p style={{ fontStyle: "italic", marginBottom: "10px" }}>Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):</p>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
-                                    <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={dataJson?.keToan_hoTen || ""} style={{ textTransform: "uppercase" }} />
-                                </div>
-                                <div className={styles.grid2}>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Ngày, tháng, năm sinh:</label>
-                                        <DateInput className={styles.input} name="keToan_ngaySinh" defaultValue={dataJson?.keToan_ngaySinh || ""} />
-                                    </div>
-                                    <GioiTinhSelect name="keToan_gioiTinh" defaultValue={dataJson?.keToan_gioiTinh} />
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Số định danh cá nhân:</label>
-                                        <input type="text" className={styles.input} name="keToan_cccd" defaultValue={dataJson?.keToan_cccd || ""} pattern="[0-9]{9,12}" />
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Điện thoại:</label>
-                                        <input type="tel" className={styles.input} name="keToan_phone" defaultValue={dataJson?.keToan_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={{ textAlign: "center", verticalAlign: "top", paddingTop: "10px" }}>10.3</td>
-                            <td>
-                                <p style={{ fontStyle: "italic", marginBottom: "10px" }}>Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính):</p>
-                                <AddressSelect
-                                    provinces={provinces}
-                                    communes={communes_thongBaoThue}
-                                    onProvinceChange={setProvCode_thongBaoThue}
-                                    provinceName="thongBaoThue_tinh"
-                                    wardName="thongBaoThue_xa"
-                                    houseNumberName="thongBaoThue_soNha"
-                                    provinceDefault={dataJson?.thongBaoThue_tinh || ""}
-                                    wardDefault={dataJson?.thongBaoThue_xa || ""}
-                                    houseNumberDefault={dataJson?.thongBaoThue_soNha || ""}
-                                />
-                                <div className={styles.grid2} style={{ marginTop: "16px" }}>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Điện thoại (nếu có):</label>
-                                        <input type="tel" className={styles.input} name="thongBaoThue_phone" defaultValue={dataJson?.thongBaoThue_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
-                                    </div>
-                                    <div className={styles.formGroup}>
-                                        <label className={styles.label}>Số fax (nếu có):</label>
-                                        <input type="text" className={styles.input} name="thongBaoThue_fax" defaultValue={dataJson?.thongBaoThue_fax || ""} />
-                                    </div>
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>Thư điện tử (nếu có):</label>
-                                    <input type="email" className={styles.input} name="thongBaoThue_email" defaultValue={dataJson?.thongBaoThue_email || ""} />
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td style={{ textAlign: "center" }}>10.4</td>
-                            <td>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label} style={{ fontStyle: "italic", fontWeight: 500 }}>Ngày bắt đầu hoạt động (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):</label>
-                                    <DateInput name="ngayBatDauHoatDong" className={styles.input} defaultValue={dataJson?.ngayBatDauHoatDong || ""} />
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+
 
             {/* TÀI SẢN GÓP VỐN */}
             <div className={styles.sectionGroup}>
                 <h3 className={styles.sectionTitle}>Tài sản góp vốn:</h3>
-                <table className={styles.table}>
+                <table className={styles.table} onChange={handleTaiSanChange}>
                     <thead>
                         <tr>
                             <th style={{ width: "50px" }}>STT</th>
@@ -711,7 +634,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                         ].map(({ stt, label, namePrefix }) => (
                             <tr key={namePrefix}>
                                 <td style={{ textAlign: "center", verticalAlign: "top", paddingTop: "10px" }}>{stt}</td>
-                                <td style={{ fontStyle: label.length > 40 ? "italic" : "normal", fontSize: "13px" }}>{label}</td>
+                                <td>{label}</td>
                                 <td>
                                     <input type="text" className={styles.tableInput} name={`${namePrefix}_giaTri`} defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""} />
                                 </td>
@@ -748,7 +671,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Chức danh: <span className={styles.required}>*</span></label>
-                        <input type="text" className={styles.input} name="nguoiDaiDien_chucDanh" defaultValue={dataJson?.nguoiDaiDien_chucDanh || "Giám đốc"} required />
+                        <input type="text" className={styles.input} name="nguoiDaiDien_chucDanh" defaultValue={dataJson?.nguoiDaiDien_chucDanh || ""} required />
                     </div>
                 </div>
                 <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Địa chỉ liên lạc của người đại diện:</h3>
@@ -764,11 +687,11 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                     houseNumberDefault={dataJson?.nguoiDaiDien_soNha || ""}
                 />
 
-                {/* THONG TIN CA NHAN KHA C (ẢNH 1) - NGƯỜI ĐẠI DIỆN */}
+                <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin cá nhân khác của người đại diện theo pháp luật:</h3>
                 <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                 <div className={styles.grid2} style={{ marginTop: "8px" }}>
-                    <DanTocSelect name="nguoiDaiDien_danToc" defaultValue={dataJson?.nguoiDaiDien_danToc} />
-                    <QuocTichSelect name="nguoiDaiDien_quocTich" defaultValue={dataJson?.nguoiDaiDien_quocTich} />
+                    <DanTocSelect name="nguoiDaiDien_danToc" defaultValue={dataJson?.nguoiDaiDien_danToc} required={false} />
+                    <QuocTichSelect name="nguoiDaiDien_quocTich" defaultValue={dataJson?.nguoiDaiDien_quocTich} required={false} />
                 </div>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Số hộ chiếu (đối với cá nhân VN không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
@@ -786,6 +709,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 </div>
                 <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Nơi thường trú:</h3>
                 <AddressSelect
+                    isRequired={false}
                     provinces={provinces}
                     communes={communes_nguoiDaiDienThuongTru}
                     onProvinceChange={setProvCode_nguoiDaiDienThuongTru}
@@ -802,6 +726,198 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 </div>
             </div>
 
+            {/* THÔNG TIN ĐĂNG KÝ THUẾ */}
+            <div className={styles.sectionGroup}>
+                <h3 className={styles.sectionTitle}>Thông tin đăng ký thuế:</h3>
+                <table className={styles.table}>
+                    <thead>
+                        <tr>
+                            <th style={{ width: "80px" }}>STT</th>
+                            <th>Các chỉ tiêu thông tin đăng ký thuế</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.1</td>
+                            <td>
+                                <p className={styles.sectionTitle}>Thông tin về Giám đốc/Tổng giám đốc (nếu có):</p>
+                                <div className={styles.grid2}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: <span className={styles.required}>*</span></label>
+                                        <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
+                                        <DateInput className={styles.input} name="giamDoc_ngaySinh" defaultValue={dataJson?.giamDoc_ngaySinh || ""} required />
+                                    </div>
+                                    <GioiTinhSelect name="giamDoc_gioiTinh" defaultValue={dataJson?.giamDoc_gioiTinh} required />
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Số định danh cá nhân: <span className={styles.required}>*</span></label>
+                                        <input type="text" className={styles.input} name="giamDoc_cccd" defaultValue={dataJson?.giamDoc_cccd || ""} pattern="[0-9]{9,12}" required />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Điện thoại: <span className={styles.required}>*</span></label>
+                                        <input type="tel" className={styles.input} name="giamDoc_phone" defaultValue={dataJson?.giamDoc_phone || ""} pattern="(0|\+84)[0-9]{9,10}" required />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.2</td>
+                            <td>
+                                <p className={styles.sectionTitle}>Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):</p>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
+                                    <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={dataJson?.keToan_hoTen || ""} style={{ textTransform: "uppercase" }} />
+                                </div>
+                                <div className={styles.grid2}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Ngày, tháng, năm sinh:</label>
+                                        <DateInput className={styles.input} name="keToan_ngaySinh" defaultValue={dataJson?.keToan_ngaySinh || ""} />
+                                    </div>
+                                    <GioiTinhSelect name="keToan_gioiTinh" defaultValue={dataJson?.keToan_gioiTinh} />
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Số định danh cá nhân:</label>
+                                        <input type="text" className={styles.input} name="keToan_cccd" defaultValue={dataJson?.keToan_cccd || ""} pattern="[0-9]{9,12}" />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Điện thoại:</label>
+                                        <input type="tel" className={styles.input} name="keToan_phone" defaultValue={dataJson?.keToan_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.3</td>
+                            <td>
+                                <p className={styles.sectionTitle}>Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính):</p>
+                                <AddressSelect
+                                    isRequired={false}
+                                    provinces={provinces}
+                                    communes={communes_thongBaoThue}
+                                    onProvinceChange={setProvCode_thongBaoThue}
+                                    provinceName="thongBaoThue_tinh"
+                                    wardName="thongBaoThue_xa"
+                                    houseNumberName="thongBaoThue_soNha"
+                                    provinceDefault={dataJson?.thongBaoThue_tinh || ""}
+                                    wardDefault={dataJson?.thongBaoThue_xa || ""}
+                                    houseNumberDefault={dataJson?.thongBaoThue_soNha || ""}
+                                />
+                                <div className={styles.grid2} style={{ marginTop: "16px" }}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Điện thoại (nếu có):</label>
+                                        <input type="tel" className={styles.input} name="thongBaoThue_phone" defaultValue={dataJson?.thongBaoThue_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Số fax (nếu có):</label>
+                                        <input type="text" className={styles.input} name="thongBaoThue_fax" defaultValue={dataJson?.thongBaoThue_fax || ""} />
+                                    </div>
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Thư điện tử (nếu có):</label>
+                                    <input type="email" className={styles.input} name="thongBaoThue_email" defaultValue={dataJson?.thongBaoThue_email || ""} />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.4</td>
+                            <td>
+                                <div className={styles.formGroup}>
+                                    <div className={styles.label}>Ngày bắt đầu hoạt động <span style={{ fontStyle: "italic", fontWeight: 400 }}>
+                                        (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):</span>
+                                    </div>
+                                    <DateInput name="ngayBatDauHoatDong" className={styles.input} defaultValue={dataJson?.ngayBatDauHoatDong || ""} />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.5</td>
+                            <td>
+                                <p className={styles.label}>
+                                    Hình thức hạch toán
+                                    <span style={{ fontStyle: "italic", fontWeight: 400 }}>(Đánh dấu X vào một trong hai ô "Hạch toán độc lập" hoặc "Hạch toán phụ thuộc". Trường hợp chọn ô "Hạch toán độc lập" mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô "Có báo cáo tài chính hợp nhất")</span>:
+                                </p>
+                                <div style={{ display: "flex", flexWrap: "wrap", rowGap: "8px", columnGap: "40px", maxWidth: "600px" }}>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "200px" }}>
+                                        <span>Hạch toán độc lập</span>
+                                        <input type="radio" name="hinhThucHachToan" value="doc_lap" className={styles.radioInput} defaultChecked={!dataJson || dataJson.hinhThucHachToan !== "phu_thuoc"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "250px" }}>
+                                        <span>Có báo cáo tài chính hợp nhất</span>
+                                        <input type="checkbox" name="baoCaoTaiChinhHopNhat" value="co" className={styles.radioInput} defaultChecked={dataJson?.baoCaoTaiChinhHopNhat === "co"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "200px" }}>
+                                        <span>Hạch toán phụ thuộc</span>
+                                        <input type="radio" name="hinhThucHachToan" value="phu_thuoc" className={styles.radioInput} defaultChecked={dataJson?.hinhThucHachToan === "phu_thuoc"} />
+                                    </label>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.6</td>
+                            <td>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <div className={styles.label}>Năm tài chính:</div>
+                                    <p style={{ marginTop: "4px" }}>Áp dụng từ ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_tuNgay" defaultValue={dataJson?.namTaiChinh_tuNgay || "01/01"} /> đến ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_denNgay" defaultValue={dataJson?.namTaiChinh_denNgay || "31/12"} /></p>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.7</td>
+                            <td>
+                                <div className={styles.formGroup} style={{ marginBottom: 0, display: "flex", alignItems: "center", gap: "10px" }}>
+                                    <div className={styles.label} style={{ marginBottom: 0 }}>Tổng số lao động <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(dự kiến)</span>:</div>
+                                    <input type="number" className={styles.input} style={{ width: "100px", minHeight: "30px", padding: "4px 8px" }} name="tongSoLaoDong" defaultValue={dataJson?.tongSoLaoDong || "01"} />
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.8</td>
+                            <td>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <div className={styles.label}>Hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M:</div>
+                                    <div className={styles.radioGroup} style={{ padding: "4px 0 0 0" }}>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "center", width: "70px", gap: "10px" }}>
+                                            <span>Có</span>
+                                            <input type="radio" name="hoatDongDuAn" value="co" className={styles.radioInput} defaultChecked={dataJson?.hoatDongDuAn === "co"} />
+                                        </label>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "center", width: "70px", gap: "10px" }}>
+                                            <span>Không</span>
+                                            <input type="radio" name="hoatDongDuAn" value="khong" className={styles.radioInput} defaultChecked={!dataJson || dataJson.hoatDongDuAn !== "co"} />
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style={{ textAlign: "center" }}>10.9</td>
+                            <td>
+                                <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                    <div className={styles.label}>Phương pháp tính thuế GTGT <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(chọn 1 trong 4 phương pháp)</span>:</div>
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "400px" }}>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                            <span>Khấu trừ</span>
+                                            <input type="radio" name="phuongPhapTinhThueGTGT" value="khau_tru" className={styles.radioInput} defaultChecked={!dataJson || dataJson.phuongPhapTinhThueGTGT !== "truc_tiep_gtgt" && dataJson.phuongPhapTinhThueGTGT !== "truc_tiep_doanh_so" && dataJson.phuongPhapTinhThueGTGT !== "khong_nop"} />
+                                        </label>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                            <span>Trực tiếp trên GTGT</span>
+                                            <input type="radio" name="phuongPhapTinhThueGTGT" value="truc_tiep_gtgt" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "truc_tiep_gtgt"} />
+                                        </label>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                            <span>Trực tiếp trên doanh số</span>
+                                            <input type="radio" name="phuongPhapTinhThueGTGT" value="truc_tiep_doanh_so" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "truc_tiep_doanh_so"} />
+                                        </label>
+                                        <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                            <span>Không phải nộp thuế GTGT</span>
+                                            <input type="radio" name="phuongPhapTinhThueGTGT" value="khong_nop" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "khong_nop"} />
+                                        </label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </form>
     );
 });

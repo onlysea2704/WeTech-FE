@@ -1,19 +1,14 @@
 .sectionGroup {
-    margin-bottom: 24px;
+    margin-bottom: 30px;
     background: #fff;
-    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
 .sectionTitle {
     color: #1c1c1b;
-    font-family: Roboto, sans-serif;
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 16px;
-    padding-bottom: 8px;
-    border-bottom: 1px solid #eee;
+    font-family: Roboto;
+    font-weight: 500;
+    font-size: 14px;
 }
 
 .grid2 {
@@ -39,8 +34,7 @@
     margin-left: 3px;
 }
 
-.input,
-.select {
+.input {
     width: 100%;
     padding: 8px 12px;
     border: 1px solid #d9d9d9;
@@ -50,17 +44,28 @@
     color: #505050;
     background-color: #fff;
     min-height: 40px;
+    font-size: 14px;
 }
 
-.input:focus,
-.select:focus {
+.input:focus {
     border-color: #40a9ff;
     outline: 0;
     box-shadow: 0 0 0 2px rgba(24, 144, 255, 0.2);
 }
 
-.tableWrapper {
-    margin-top: 10px;
+.inputWithSuffix {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSuffix {
+    position: absolute;
+    right: 12px;
+    color: var(--secondary-content);
+    font-size: 14px;
+    font-weight: 600;
+    pointer-events: none;
 }
 
 @media screen and (max-width: 768px) {

@@ -1,8 +1,13 @@
 import React from "react";
 import styles from "./DanhSachCSHHuongLoiConfirmation.module.css";
+import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 
 function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
     const rows = dataJson?.cshHuongLoiList || [];
+    const {
+        chuKy_ten = "",
+        chuKy_hoTen = "",
+    } = dataJson || {};
 
     return (
         <div className={styles.wrapper}>
@@ -33,7 +38,7 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                             <th className={styles.th}>Quyền chi phối</th>
                         </tr>
                         <tr className={styles.colNumberRow}>
-                            {[1,2,3,4,5,6,7,8,9,10,11,12].map((n) => (
+                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((n) => (
                                 <td key={n} className={styles.colNumber}>{n}</td>
                             ))}
                         </tr>
@@ -50,12 +55,12 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                                 <tr key={idx}>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>{row.hoTen}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.ngaySinh}</td>
+                                    <td className={styles.td} style={{ textAlign: "center", whiteSpace: "nowrap" }}>{row.ngaySinh}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.gioiTinh}</td>
                                     <td className={styles.td}>{row.giaTo}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quocTich}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.danToc}</td>
-                                    <td className={styles.td}>{row.diaChiLienLac}</td>
+                                    <td className={styles.td} style={{ minWidth: 250 }}>{row.diaChiLienLac}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuVon}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuBieuQuyet}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quyenChiPhoi}</td>
@@ -68,10 +73,12 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
             </div>
 
             <div className={styles.signatureBlock}>
-                <p className={styles.signatureDate}>……, ngày……tháng……năm……</p>
-                <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT</p>
-                <p className={styles.signatureTitle}>QUẢN TRỊ CỦA CÔNG TY</p>
-                <p className={styles.signatureSubtitle}>(Ký và ghi họ tên)</p>
+                <p className={styles.signatureDate}><CurrentDate prefix="……" /></p>
+                <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT /<br />QUẢN TRỊ CỦA CÔNG TY</p>
+                <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
+
+                <p style={{ marginTop: "20px" }}><strong>{chuKy_ten}</strong></p>
+                <p style={{ marginTop: "20px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
             </div>
         </div>
     );

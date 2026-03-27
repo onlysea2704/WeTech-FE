@@ -1,10 +1,11 @@
 import React, { forwardRef, useState, useEffect, useImperativeHandle } from "react";
-import styles from "./DieuLeCongTyDeclaration.module.css";
+import styles from "./SharedDeclaration.module.css";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import DateInput from "@/components/DateInput/DateInput";
+import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 
 const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ formId, dataJson, onSubmit, formRef }, componentRef) {
     const [nganhNgheRows, setNganhNgheRows] = useState(dataJson?.nganhNgheList || []);
@@ -148,13 +149,16 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
             </div>
 
             {/* VỐN ĐIỀU LỆ */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Vốn điều lệ</h3>
-                <div className={styles.formGroup}>
-                    <label className={styles.label}>Vốn bằng tiền mặt (VNĐ) <span className={styles.required}>*</span></label>
-                    <input type="text" name="vonTienMat" className={styles.input} defaultValue={dataJson?.vonTienMat || ""} required />
-                </div>
-            </div>
+            <CapitalInput
+                title="Vốn điều lệ"
+                labelNumber="Vốn bằng tiền mặt (VNĐ)"
+                labelText="Vốn bằng chữ (VNĐ)"
+                nameNumber="vonTienMat"
+                nameText="vonTienMat_bangChu"
+                defaultNumber={dataJson?.vonTienMat}
+                defaultText={dataJson?.vonTienMat_bangChu}
+                required={true}
+            />
 
             {/* NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT */}
             <div className={styles.sectionGroup}>

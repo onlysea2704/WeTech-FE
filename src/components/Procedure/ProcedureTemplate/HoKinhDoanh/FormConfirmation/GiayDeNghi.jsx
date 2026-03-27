@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./confirmation.module.css";
 import { getToday, formatDate } from "@/utils/dateTimeUtils";
+import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 
 function formatNumber(val) {
     if (!val) return "";
@@ -13,8 +14,8 @@ export default function GiayDeNghi({ dataJson }) {
     if (!dataJson) return null;
 
     const {
-        chuHo_ten = "",
-        chuHo_hoTen = "",
+        chuKy_ten = "",
+        chuKy_hoTen = "",
         nguoiDaiDien_hoTen = "",
         nguoiDaiDien_ngaySinh = "",
         nguoiDaiDien_gioiTinh = "",
@@ -86,7 +87,7 @@ export default function GiayDeNghi({ dataJson }) {
 
             <div className={styles.dateLocation}>
                 <span>
-                    {kinhGuiTemp}, ngày {today.day} tháng {today.month} năm {today.year}
+                    <CurrentDate prefix={kinhGuiTemp} />
                 </span>
             </div>
 
@@ -453,8 +454,8 @@ export default function GiayDeNghi({ dataJson }) {
                 <div className={styles.signatureBlock}>
                     <div className={styles.signatureTitle}>CHỦ HỘ KINH DOANH</div>
                     <div className={styles.signatureNote}>(Ký và ghi họ tên)</div>
-                    <div className={styles.signatureName}>{chuHo_ten}</div>
-                    <div className={styles.signatureName}>{chuHo_hoTen}</div>
+                    <div className={styles.signatureName}>{chuKy_ten}</div>
+                    <div className={styles.signatureName}>{chuKy_hoTen}</div>
                 </div>
             </div>
         </div>
