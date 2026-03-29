@@ -1,0 +1,29 @@
+.inputWithSuffixKinhGui {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.inputSuffixKinhGui {
+    color: #505050;
+    pointer-events: none;
+    font-size: 14px;
+    margin: 0;
+}
+
+.inputWithSuffixKinhGui input {
+    padding-right: 48px;
+}
+
+.inputKinhGui {
+    padding: 0;
+    margin-left: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-bottom: 1px dashed #1e1b4b;
+    color: #333;
+    flex: 1;
+    font-size: 14px;
+    background: transparent;
+}

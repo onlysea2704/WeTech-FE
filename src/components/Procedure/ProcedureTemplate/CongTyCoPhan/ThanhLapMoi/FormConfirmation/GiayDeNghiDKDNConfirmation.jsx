@@ -12,7 +12,8 @@ const Checkbox = ({ checked }) => (
 );
 
 function GiayDeNghiDKDNConfirmation({ dataJson }) {
-    const thanhVienList = useGetFormDataJsonFromName("Danh sách thành viên")?.thanhVienList || [];
+    // get from "Danh sách cổ đông sáng lập" form if available
+    const coDongList = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập")?.thanhVienList || [];
 
     if (!dataJson) return null;
 
@@ -55,6 +56,10 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         vonDieuLe = "",
         vonDieuLe_bangChu = "",
         vonDieuLe_ngoaiTe = "",
+        tongSoCoPhan = "",
+        menhGiaCoPhan = "10.000",
+        coPhanPhoThong = "",
+        coPhanUuDai = "",
 
         nguonVon_nganSach_soTien = "",
         nguonVon_nganSach_tyLe = "",
@@ -153,7 +158,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 GIẤY ĐỀ NGHỊ ĐĂNG KÝ DOANH NGHIỆP
             </h2>
             <h3 className={styles.docTitle}>
-                CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN
+                CÔNG TY CỔ PHẦN
             </h3>
 
             <div className={styles.content}>
@@ -187,7 +192,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 </table>
 
                 <p style={{ marginTop: "16px" }}>
-                    <strong>Đăng ký công ty trách nhiệm hữu hạn hai thành viên trở lên do tôi là người đại diện theo pháp luật với các nội dung sau:</strong>
+                    <strong>Đăng ký công ty cổ phần do tôi là người đại diện theo pháp luật với các nội dung sau:</strong>
                 </p>
 
                 <p><strong>1. Tình trạng thành lập </strong>(<em>đánh dấu X vào ô thích hợp</em>):</p>
@@ -292,11 +297,17 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     </tbody>
                 </table>
 
-                <p style={{ marginTop: "16px" }}><strong>5. Vốn điều lệ:</strong></p>
+                <p style={{ marginTop: "16px" }}><strong>5. Vốn điều lệ và Cổ phần:</strong></p>
                 <p>Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe}</p>
                 <p>Vốn điều lệ (<em>bằng chữ; VNĐ</em>): {vonDieuLe_bangChu}</p>
                 <p>Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>): {vonDieuLe_ngoaiTe}</p>
                 <p>Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không? Có <Checkbox checked={false} /> Không <Checkbox checked={true} /></p>
+                <br />
+                <p>Tổng số cổ phần: {tongSoCoPhan}</p>
+                <p>Mệnh giá cổ phần: {menhGiaCoPhan}</p>
+                <p>Số lượng cổ phần từng loại:</p>
+                <p>- Cổ phần phổ thông: {coPhanPhoThong}</p>
+                <p>- Cổ phần ưu đãi: {coPhanUuDai}</p>
 
                 <p style={{ marginTop: "16px" }}><strong>6. Nguồn vốn điều lệ:</strong></p>
                 <table className={styles.borderTable} style={{ width: "100%", marginTop: "8px" }}>
@@ -336,25 +347,25 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     </tbody>
                 </table>
 
-                <p style={{ marginTop: "16px" }}><strong>7. Danh sách thành viên:</strong></p>
+                <p style={{ marginTop: "16px" }}><strong>7. Danh sách cổ đông sáng lập:</strong></p>
                 <table className={styles.borderTable} style={{ width: "100%", marginTop: "8px", fontSize: "13px" }}>
                     <thead>
                         <tr>
                             <th style={{ textAlign: "center", width: "40px" }}>STT</th>
-                            <th style={{ textAlign: "center" }}>Tên thành viên</th>
+                            <th style={{ textAlign: "center" }}>Tên cổ đông</th>
                             <th style={{ textAlign: "center", width: "110px" }}>Ngày sinh</th>
                             <th style={{ textAlign: "center", width: "70px" }}>Giới tính</th>
                             <th style={{ textAlign: "center" }}>Giấy tờ pháp lý</th>
                             <th style={{ textAlign: "center", width: "90px" }}>Quốc tịch</th>
                             <th style={{ textAlign: "center" }}>Địa chỉ liên lạc</th>
-                            <th style={{ textAlign: "center", width: "110px" }}>Phần vốn góp</th>
+                            <th style={{ textAlign: "center", width: "110px" }}>Số lượng cổ phần</th>
                             <th style={{ textAlign: "center", width: "60px" }}>Tỷ lệ (%)</th>
                             <th style={{ textAlign: "center", width: "100px" }}>Thời hạn góp vốn</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {thanhVienList.length > 0 ? (
-                            thanhVienList.map((tv, idx) => (
+                        {coDongList.length > 0 ? (
+                            coDongList.map((tv, idx) => (
                                 <tr key={idx}>
                                     <td style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td>{tv.hoTen}</td>
@@ -370,7 +381,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             ))
                         ) : (
                             <tr>
-                                <td colSpan="10" style={{ textAlign: "center" }}><i>Chưa có dữ liệu thành viên</i></td>
+                                <td colSpan="10" style={{ textAlign: "center" }}><i>Chưa có dữ liệu cổ đông sáng lập, gửi kèm danh sách cổ đông sáng lập</i></td>
                             </tr>
                         )}
                     </tbody>

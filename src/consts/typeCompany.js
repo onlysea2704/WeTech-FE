@@ -28,6 +28,9 @@ import DanhSachCoDongSangLapConfirmation_CP from "@/components/Procedure/Procedu
 import DanhSachCSHHuongLoiConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/DanhSachCSHHuongLoiConfirmation";
 import GiayUyQuyenConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/GiayUyQuyenConfirmation";
 
+import GiayDeNghiDKDNDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/GiayDeNghiDKDNDeclaration";
+import GiayDeNghiDKDNConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/GiayDeNghiDKDNConfirmation";
+
 const typeCompanyOptions = [
     {
         title: "Công ty TNHH 1 thành viên",
@@ -220,8 +223,8 @@ const typeCompanyOptions = [
                         formsType: [
                             {
                                 title: "Giấy đề nghị đăng ký doanh nghiệp",
-                                declaration: "GiayDeNghiDKDNDeclaration",
-                                confirmation: "GiayDeNghiDKDNConfirmation",
+                                declaration: GiayDeNghiDKDNDeclaration_CP,
+                                confirmation: GiayDeNghiDKDNConfirmation_CP,
                             },
                             {
                                 title: "Danh sách CSH hưởng lợi",

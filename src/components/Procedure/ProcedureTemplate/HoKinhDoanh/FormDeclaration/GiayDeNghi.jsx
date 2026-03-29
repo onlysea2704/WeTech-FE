@@ -131,25 +131,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     };
     const currentKinhGuiPrefix = getKinhGuiPrefix(truSoXaValue);
 
-    const defaultKinhGuiInput = (() => {
-        if (!dataJson?.kinhGui) return "";
-        let val = dataJson.kinhGui;
-        const prefixes = [
-            "Phòng Kinh tế xã ",
-            "Phòng Kinh tế, Hạ tầng và Đô thị phường ",
-            "Phòng Kinh tế, Hạ tầng và Đô thị thị trấn "
-        ];
-        for (const p of prefixes) {
-            if (val.toLowerCase().startsWith(p.toLowerCase())) {
-                return val.substring(p.length).trim();
-            }
-        }
-        if (val.toLowerCase().includes("phường")) {
-            return val.substring(val.toLowerCase().lastIndexOf("phường") + 7).trim();
-        }
-        return val;
-    })();
-
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             {/* ── Người đại diện & CCCD ── */}

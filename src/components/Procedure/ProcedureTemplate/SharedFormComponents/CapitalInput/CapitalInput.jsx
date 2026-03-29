@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "./CapitalInput.module.css";
 import numberToVietnameseText from "@/utils/numberToVietnameseText";
 
@@ -18,11 +18,57 @@ export default function CapitalInput({
     defaultText = "",
     required = true,
 }) {
-    const [vonBangChu, setVonBangChu] = useState(defaultText || "");
+    const [vonSo, setVonSo] = useState(() => defaultNumber ? formatNumber(String(defaultNumber)) : "");
+    const [vonBangChu, setVonBangChu] = useState(() => {
+        if (defaultText) return defaultText;
+        if (defaultNumber) return numberToVietnameseText(defaultNumber);
+        return "";
+    });
 
+    const inputRef = useRef(null);
+    const [cursor, setCursor] = useState(null);
+
+    // Sync from props (useful when importing Excel)
     useEffect(() => {
-        setVonBangChu(defaultText || "");
-    }, [defaultText]);
+        const parsedVonSo = defaultNumber ? formatNumber(String(defaultNumber)) : "";
+        setVonSo(parsedVonSo);
+        
+        if (defaultText) {
+            setVonBangChu(defaultText);
+        } else if (parsedVonSo) {
+            setVonBangChu(numberToVietnameseText(parsedVonSo));
+        } else {
+            setVonBangChu("");
+        }
+    }, [defaultNumber, defaultText]);
+
+    // Restore cursor position after render
+    useEffect(() => {
+        if (cursor !== null && inputRef.current) {
+            inputRef.current.setSelectionRange(cursor, cursor);
+            setCursor(null);
+        }
+    }, [vonSo, cursor]);
+
+    const handleChange = (e) => {
+        const input = e.target;
+        const val = input.value;
+        const pos = input.selectionStart;
+        const oldLen = val.length;
+
+        const formatted = formatNumber(val);
+        setVonSo(formatted);
+
+        if (formatted) {
+            setVonBangChu(numberToVietnameseText(formatted));
+        } else {
+            setVonBangChu("");
+        }
+
+        // Calculate new cursor position
+        const diff = formatted.length - oldLen;
+        setCursor(pos + diff);
+    };
 
     return (
         <div className={styles.sectionGroup}>
@@ -34,28 +80,15 @@ export default function CapitalInput({
                     </label>
                     <div className={styles.inputWithSuffix}>
                         <input
+                            ref={inputRef}
                             type="text"
                             className={styles.input}
                             style={{ textAlign: "right", paddingRight: "48px" }}
                             name={nameNumber}
                             required={required}
-                            defaultValue={defaultNumber ? formatNumber(String(defaultNumber)) : ""}
+                            value={vonSo}
                             placeholder="0"
-                            onInput={(e) => {
-                                const pos = e.target.selectionStart;
-                                const oldLen = e.target.value.length;
-                                const formatted = formatNumber(e.target.value);
-                                e.target.value = formatted;
-                                const diff = formatted.length - oldLen;
-                                e.target.setSelectionRange(pos + diff, pos + diff);
-                            }}
-                            onBlur={(e) => {
-                                if (e.target.value) {
-                                    setVonBangChu(numberToVietnameseText(e.target.value));
-                                } else {
-                                    setVonBangChu("");
-                                }
-                            }}
+                            onChange={handleChange}
                         />
                         <span className={styles.inputSuffix}>VNĐ</span>
                     </div>
