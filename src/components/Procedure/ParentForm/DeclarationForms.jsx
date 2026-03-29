@@ -67,20 +67,20 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                 });
                 let parsed = response.data;
                 if (typeof parsed === 'string') {
-                    try { parsed = JSON.parse(parsed); } catch(e){}
+                    try { parsed = JSON.parse(parsed); } catch (e) { }
                 }
                 if (parsed && typeof parsed.dataJson === 'string') {
-                    try { parsed = JSON.parse(parsed.dataJson); } catch(e){}
+                    try { parsed = JSON.parse(parsed.dataJson); } catch (e) { }
                 } else if (parsed && typeof parsed.dataJson === 'object') {
                     parsed = parsed.dataJson;
                 }
-                
+
                 // Parse arrays if they were stringified individually
                 if (parsed?.nganhNgheList && typeof parsed.nganhNgheList === 'string') {
-                    try { parsed.nganhNgheList = JSON.parse(parsed.nganhNgheList); } catch(e){}
+                    try { parsed.nganhNgheList = JSON.parse(parsed.nganhNgheList); } catch (e) { }
                 }
                 if (parsed?.thanhVienList && typeof parsed.thanhVienList === 'string') {
-                    try { parsed.thanhVienList = JSON.parse(parsed.thanhVienList); } catch(e){}
+                    try { parsed.thanhVienList = JSON.parse(parsed.thanhVienList); } catch (e) { }
                 }
 
                 setDataJson(parsed);

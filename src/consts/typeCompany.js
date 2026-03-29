@@ -9,6 +9,25 @@ import GiayDeNghi2 from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/Fo
 import GiayUyQuyen from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayUyQuyen";
 import GiayUyQuyen2 from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/GiayUyQuyen";
 
+import GiayDeNghiDKDNDeclaration2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormDeclaration/GiayDeNghiDKDNDeclaration";
+import GiayDeNghiDKDNConfirmation2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormConfirmation/GiayDeNghiDKDNConfirmation";
+import GiayDeNghiDKHGDNDeclaration2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormDeclaration/GiayDeNghiDKHGDNDeclaration";
+import GiayDeNghiDKHGDNConfirmation2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormConfirmation/GiayDeNghiDKHGDNConfirmation";
+import GiayUyQuyenDeclaration2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormDeclaration/GiayUyQuyenDeclaration";
+import GiayUyQuyenConfirmation2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormConfirmation/GiayUyQuyenConfirmation";
+import DanhSachThanhVienDeclaration from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormDeclaration/DanhSachThanhVienDeclaration";
+import DanhSachThanhVienConfirmation from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormConfirmation/DanhSachThanhVienConfirmation";
+import DieuLeCongTyDeclaration2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormDeclaration/DieuLeCongTyDeclaration";
+import DieuLeCongTyConfirmation2TV from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ThanhLapMoi/FormConfirmation/DieuLeCongTyConfirmation";
+
+import DanhSachCoDongSangLapDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/DanhSachCoDongSangLapDeclaration";
+import DanhSachCSHHuongLoiDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/DanhSachCSHHuongLoiDeclaration";
+import GiayUyQuyenDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/GiayUyQuyenDeclaration";
+
+import DanhSachCoDongSangLapConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/DanhSachCoDongSangLapConfirmation";
+import DanhSachCSHHuongLoiConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/DanhSachCSHHuongLoiConfirmation";
+import GiayUyQuyenConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/GiayUyQuyenConfirmation";
+
 const typeCompanyOptions = [
     {
         title: "Công ty TNHH 1 thành viên",
@@ -130,6 +149,44 @@ const typeCompanyOptions = [
             {
                 title: "Dịch vụ thành lập công ty",
                 value: "thanh_lap_cong_ty",
+                procedures: [
+                    {
+                        title: "Thành lập mới",
+                        value: "thanh_lap_moi",
+                        formsType: [
+                            {
+                                title: "Giấy đề nghị đăng ký doanh nghiệp",
+                                declaration: GiayDeNghiDKDNDeclaration2TV,
+                                confirmation: GiayDeNghiDKDNConfirmation2TV,
+                            },
+                            {
+                                title: "Danh sách CSH hưởng lợi",
+                                declaration: DanhSachCSHHuongLoiDeclaration,
+                                confirmation: DanhSachCSHHuongLoiConfirmation,
+                            },
+                            {
+                                title: "Danh sách thành viên",
+                                declaration: DanhSachThanhVienDeclaration,
+                                confirmation: DanhSachThanhVienConfirmation,
+                            },
+                            {
+                                title: "Điều lệ công ty",
+                                declaration: DieuLeCongTyDeclaration2TV,
+                                confirmation: DieuLeCongTyConfirmation2TV,
+                            },
+                            {
+                                title: "Giấy đề nghị đăng ký hộ kinh doanh",
+                                declaration: GiayDeNghiDKHGDNDeclaration2TV,
+                                confirmation: GiayDeNghiDKHGDNConfirmation2TV,
+                            },
+                            {
+                                title: "Giấy uỷ quyền",
+                                declaration: GiayUyQuyenDeclaration2TV,
+                                confirmation: GiayUyQuyenConfirmation2TV,
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",
@@ -156,6 +213,39 @@ const typeCompanyOptions = [
             {
                 title: "Dịch vụ thành lập công ty",
                 value: "thanh_lap_cong_ty",
+                procedures: [
+                    {
+                        title: "Thành lập mới",
+                        value: "thanh_lap_moi",
+                        formsType: [
+                            {
+                                title: "Giấy đề nghị đăng ký doanh nghiệp",
+                                declaration: "GiayDeNghiDKDNDeclaration",
+                                confirmation: "GiayDeNghiDKDNConfirmation",
+                            },
+                            {
+                                title: "Danh sách CSH hưởng lợi",
+                                declaration: DanhSachCSHHuongLoiDeclaration_CP,
+                                confirmation: DanhSachCSHHuongLoiConfirmation_CP,
+                            },
+                            {
+                                title: "Danh sách cổ đông sáng lập",
+                                declaration: DanhSachCoDongSangLapDeclaration_CP,
+                                confirmation: DanhSachCoDongSangLapConfirmation_CP,
+                            },
+                            {
+                                title: "Điều lệ công ty",
+                                declaration: "DieuLeCongTyDeclaration",
+                                confirmation: "DieuLeCongTyConfirmation",
+                            },
+                            {
+                                title: "Giấy uỷ quyền",
+                                declaration: GiayUyQuyenDeclaration_CP,
+                                confirmation: GiayUyQuyenConfirmation_CP,
+                            },
+                        ],
+                    },
+                ],
             },
             {
                 title: "Dịch vụ cập nhật thay đổi",

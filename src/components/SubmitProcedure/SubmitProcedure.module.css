@@ -34,7 +34,7 @@
     padding: 24px;
     margin-top: 32px;
     margin-bottom: 32px;
-    max-width: 600px;
+    max-width: 700px;
     margin-left: auto;
     margin-right: auto;
     box-shadow: -2px 2px 15px -1px rgba(113, 113, 113, 0.12);
@@ -49,10 +49,10 @@
 }
 
 .pdfList {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     justify-content: center;
     gap: 30px;
-    flex-wrap: wrap;
 }
 
 .pdfItem {

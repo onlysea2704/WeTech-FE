@@ -1,6 +1,9 @@
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayDeNghi.module.css";
 
-export default function Signature({ subject, dataJson }) {
+export default function Signature({ subject, dataJson, namePrefix = "chuKy" }) {
+    const tenKey = `${namePrefix}_ten`;
+    const hoTenKey = `${namePrefix}_hoTen`;
+
     return (
         <div className={styles.sectionGroup}>
             <h3 className={styles.sectionTitle}>{subject}:</h3>
@@ -12,8 +15,8 @@ export default function Signature({ subject, dataJson }) {
                     <input
                         type="text"
                         className={styles.input}
-                        name="chuKy_ten"
-                        defaultValue={dataJson?.chuKy_ten || ""}
+                        name={tenKey}
+                        defaultValue={dataJson?.[tenKey] || ""}
                         required
                     />
                 </div>
@@ -24,8 +27,8 @@ export default function Signature({ subject, dataJson }) {
                     <input
                         type="text"
                         className={styles.input}
-                        name="chuKy_hoTen"
-                        defaultValue={dataJson?.chuKy_hoTen || ""}
+                        name={hoTenKey}
+                        defaultValue={dataJson?.[hoTenKey] || ""}
                         required
                     />
                 </div>

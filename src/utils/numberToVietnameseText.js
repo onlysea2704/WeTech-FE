@@ -17,7 +17,7 @@ function numberToVietnameseText(number) {
 
         if (hundred > 0) {
             result += units[hundred] + " trăm";
-            if (ten === 0 && unit > 0) result += " lẻ";
+            if (ten === 0 && unit > 0) result += " linh";
         }
 
         if (ten > 1) {

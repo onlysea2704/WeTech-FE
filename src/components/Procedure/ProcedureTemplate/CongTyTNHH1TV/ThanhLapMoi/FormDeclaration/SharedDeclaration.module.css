@@ -149,6 +149,13 @@
     border-radius: 4px;
 }
 
+.note {
+    font-style: italic;
+    color: var(--secondary-content);
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
 @media screen and (max-width: 768px) {
     .grid2 {
         grid-template-columns: 1fr;

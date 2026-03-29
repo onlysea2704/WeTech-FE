@@ -1,17 +1,15 @@
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
-import styles from "./SharedDeclaration.module.css";
+// Reusing styles from 1TV as they are identical
+import styles from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormDeclaration/SharedDeclaration.module.css";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
-import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
 
 import KinhGuiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/KinhGuiSection";
 import ThongTinNguoiNopSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinNguoiNopSection";
 import TinhTrangThanhLapSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/TinhTrangThanhLapSection";
 import TenCongTySection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/TenCongTySection";
 import DiaChiTruSoSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/DiaChiTruSoSection";
-import ThongTinChuSoHuuSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinChuSoHuuSection";
 import VonDieuLeSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/VonDieuLeSection";
 import NguonVonDieuLeSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/NguonVonDieuLeSection";
-import TaiSanGopVonSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/TaiSanGopVonSection";
 import NguoiDaiDienPhapLuatSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/NguoiDaiDienPhapLuatSection";
 import ThongTinDangKyThueSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinDangKyThueSection";
 import BaoHiemXaHoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/BaoHiemXaHoiSection";
@@ -66,6 +64,14 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
         if (onSubmit) onSubmit(data);
     };
 
+    const baoHiemNote = (
+        <>
+            Lưu ý:<br />
+            - Doanh nghiệp đăng ký ngành, nghề kinh doanh chính là nông nghiệp, lâm nghiệp, ngư nghiệp, diêm nghiệp và trả lương theo sản phẩm, theo khoán: có thể lựa chọn 1 trong 3 phương thức đóng bảo hiểm xã hội: hàng tháng, 03 tháng một lần, 06 tháng một lần.<br />
+            - Doanh nghiệp đăng ký ngành, nghề kinh doanh chính khác: đánh dấu vào phương thức đóng bảo hiểm xã hội hàng tháng.
+        </>
+    );
+
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
 
@@ -89,17 +95,11 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
                 <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} />
             </div>
 
-            {/* CHỦ SỞ HỮU */}
-            <ThongTinChuSoHuuSection dataJson={dataJson} styles={styles} />
-
             {/* VỐN ĐIỀU LỆ */}
             <VonDieuLeSection dataJson={dataJson} styles={styles} />
 
             {/* NGUỒN VỐN ĐIỀU LỆ */}
             <NguonVonDieuLeSection dataJson={dataJson} styles={styles} />
-
-            {/* TÀI SẢN GÓP VỐN */}
-            <TaiSanGopVonSection dataJson={dataJson} styles={styles} />
 
             {/* NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT */}
             <NguoiDaiDienPhapLuatSection dataJson={dataJson} styles={styles} />
@@ -108,12 +108,13 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             <ThongTinDangKyThueSection dataJson={dataJson} styles={styles} />
 
             {/* THÔNG TIN VỀ VIỆC ĐÓNG BẢO HIỂM XÃ HỘI */}
-            <BaoHiemXaHoiSection dataJson={dataJson} styles={styles} />
+            <BaoHiemXaHoiSection dataJson={dataJson} styles={styles} note={baoHiemNote} />
 
             {/* THÔNG TIN VỀ CHỦ SỞ HỮU HƯỞNG LỢI */}
             <ChuSoHuuHuongLoiSection dataJson={dataJson} styles={styles} />
         </form>
     );
 });
+
 
 export default GiayDeNghiDKDNDeclaration;

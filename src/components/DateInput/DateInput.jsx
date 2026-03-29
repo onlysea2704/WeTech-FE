@@ -94,7 +94,8 @@ const DateInput = ({ value, defaultValue, onChange, className, readOnly, disable
             setDisplayValue("");
         }
         if (onChange) {
-            onChange(e);
+            // Tạo synthetic event với đúng name để handleRowChange destructure đúng key
+            onChange({ target: { name, value: newDate } });
         }
     };
 

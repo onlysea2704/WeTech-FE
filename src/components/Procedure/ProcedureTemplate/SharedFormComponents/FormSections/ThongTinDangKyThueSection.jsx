@@ -1,0 +1,204 @@
+import { useState } from "react";
+import AddressSelect from "@/components/AddressSelect/AddressSelect";
+import { useFetchAddress } from "@/hooks/useFetchAddress";
+import { GioiTinhSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
+import DateInput from "@/components/DateInput/DateInput";
+
+export default function ThongTinDangKyThueSection({ dataJson, styles }) {
+    const [provCode_thongBaoThue, setProvCode_thongBaoThue] = useState("");
+    const { provinces, communes: communes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
+
+    return (
+        <div className={styles.sectionGroup}>
+            <h3 className={styles.sectionTitle}>Thông tin đăng ký thuế:</h3>
+            <table className={styles.table}>
+                <thead>
+                    <tr>
+                        <th style={{ width: "80px" }}>STT</th>
+                        <th>Các chỉ tiêu thông tin đăng ký thuế</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.1</td>
+                        <td>
+                            <p className={styles.sectionTitle}>Thông tin về Giám đốc/Tổng giám đốc (nếu có):</p>
+                            <div className={styles.grid2}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: <span className={styles.required}>*</span></label>
+                                    <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
+                                    <DateInput className={styles.input} name="giamDoc_ngaySinh" defaultValue={dataJson?.giamDoc_ngaySinh || ""} required />
+                                </div>
+                                <GioiTinhSelect name="giamDoc_gioiTinh" defaultValue={dataJson?.giamDoc_gioiTinh} required />
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Số định danh cá nhân: <span className={styles.required}>*</span></label>
+                                    <input type="text" className={styles.input} name="giamDoc_cccd" defaultValue={dataJson?.giamDoc_cccd || ""} pattern="[0-9]{9,12}" required />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Điện thoại: <span className={styles.required}>*</span></label>
+                                    <input type="tel" className={styles.input} name="giamDoc_phone" defaultValue={dataJson?.giamDoc_phone || ""} pattern="(0|\+84)[0-9]{9,10}" required />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.2</td>
+                        <td>
+                            <p className={styles.sectionTitle}>Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):</p>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
+                                <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={dataJson?.keToan_hoTen || ""} style={{ textTransform: "uppercase" }} />
+                            </div>
+                            <div className={styles.grid2}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Ngày, tháng, năm sinh:</label>
+                                    <DateInput className={styles.input} name="keToan_ngaySinh" defaultValue={dataJson?.keToan_ngaySinh || ""} />
+                                </div>
+                                <GioiTinhSelect name="keToan_gioiTinh" defaultValue={dataJson?.keToan_gioiTinh} required={false} />
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Số định danh cá nhân:</label>
+                                    <input type="text" className={styles.input} name="keToan_cccd" defaultValue={dataJson?.keToan_cccd || ""} pattern="[0-9]{9,12}" />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Điện thoại:</label>
+                                    <input type="tel" className={styles.input} name="keToan_phone" defaultValue={dataJson?.keToan_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.3</td>
+                        <td>
+                            <p className={styles.sectionTitle}>Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính):</p>
+                            <AddressSelect
+                                isRequired={false}
+                                provinces={provinces}
+                                communes={communes_thongBaoThue}
+                                onProvinceChange={setProvCode_thongBaoThue}
+                                provinceName="thongBaoThue_tinh"
+                                wardName="thongBaoThue_xa"
+                                houseNumberName="thongBaoThue_soNha"
+                                provinceDefault={dataJson?.thongBaoThue_tinh || ""}
+                                wardDefault={dataJson?.thongBaoThue_xa || ""}
+                                houseNumberDefault={dataJson?.thongBaoThue_soNha || ""}
+                            />
+                            <div className={styles.grid2} style={{ marginTop: "16px" }}>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Điện thoại (nếu có):</label>
+                                    <input type="tel" className={styles.input} name="thongBaoThue_phone" defaultValue={dataJson?.thongBaoThue_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                                </div>
+                                <div className={styles.formGroup}>
+                                    <label className={styles.label}>Số fax (nếu có):</label>
+                                    <input type="text" className={styles.input} name="thongBaoThue_fax" defaultValue={dataJson?.thongBaoThue_fax || ""} />
+                                </div>
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Thư điện tử (nếu có):</label>
+                                <input type="email" className={styles.input} name="thongBaoThue_email" defaultValue={dataJson?.thongBaoThue_email || ""} />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.4</td>
+                        <td>
+                            <div className={styles.formGroup}>
+                                <div className={styles.label}>Ngày bắt đầu hoạt động <span style={{ fontStyle: "italic", fontWeight: 400 }}>
+                                    (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):</span>
+                                </div>
+                                <DateInput name="ngayBatDauHoatDong" className={styles.input} defaultValue={dataJson?.ngayBatDauHoatDong || ""} />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.5</td>
+                        <td>
+                            <p className={styles.label}>
+                                Hình thức hạch toán
+                                <span style={{ fontStyle: "italic", fontWeight: 400 }}>(Đánh dấu X vào một trong hai ô "Hạch toán độc lập" hoặc "Hạch toán phụ thuộc". Trường hợp chọn ô "Hạch toán độc lập" mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô "Có báo cáo tài chính hợp nhất")</span>:
+                            </p>
+                            <div style={{ display: "flex", flexWrap: "wrap", rowGap: "8px", columnGap: "40px", maxWidth: "600px" }}>
+                                <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "200px" }}>
+                                    <span>Hạch toán độc lập</span>
+                                    <input type="radio" name="hinhThucHachToan" value="doc_lap" className={styles.radioInput} defaultChecked={!dataJson || dataJson.hinhThucHachToan !== "phu_thuoc"} />
+                                </label>
+                                <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "250px" }}>
+                                    <span>Có báo cáo tài chính hợp nhất</span>
+                                    <input type="checkbox" name="baoCaoTaiChinhHopNhat" value="co" className={styles.radioInput} defaultChecked={dataJson?.baoCaoTaiChinhHopNhat === "co"} />
+                                </label>
+                                <label className={styles.radioLabel} style={{ justifyContent: "space-between", width: "200px" }}>
+                                    <span>Hạch toán phụ thuộc</span>
+                                    <input type="radio" name="hinhThucHachToan" value="phu_thuoc" className={styles.radioInput} defaultChecked={dataJson?.hinhThucHachToan === "phu_thuoc"} />
+                                </label>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.6</td>
+                        <td>
+                            <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                <div className={styles.label}>Năm tài chính:</div>
+                                <p style={{ marginTop: "4px" }}>Áp dụng từ ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_tuNgay" defaultValue={dataJson?.namTaiChinh_tuNgay || "01/01"} /> đến ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_denNgay" defaultValue={dataJson?.namTaiChinh_denNgay || "31/12"} /></p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.7</td>
+                        <td>
+                            <div className={styles.formGroup} style={{ marginBottom: 0, display: "flex", alignItems: "center", gap: "10px" }}>
+                                <div className={styles.label} style={{ marginBottom: 0 }}>Tổng số lao động <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(dự kiến)</span>:</div>
+                                <input type="number" className={styles.input} style={{ width: "100px", minHeight: "30px", padding: "4px 8px" }} name="tongSoLaoDong" defaultValue={dataJson?.tongSoLaoDong || "01"} />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.8</td>
+                        <td>
+                            <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                <div className={styles.label}>Hoạt động theo dự án BOT/BTO/BT/BOO, BLT, BTL, O&M:</div>
+                                <div className={styles.radioGroup} style={{ padding: "4px 0 0 0" }}>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "center", width: "70px", gap: "10px" }}>
+                                        <span>Có</span>
+                                        <input type="radio" name="hoatDongDuAn" value="co" className={styles.radioInput} defaultChecked={dataJson?.hoatDongDuAn === "co"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "center", width: "70px", gap: "10px" }}>
+                                        <span>Không</span>
+                                        <input type="radio" name="hoatDongDuAn" value="khong" className={styles.radioInput} defaultChecked={!dataJson || dataJson.hoatDongDuAn !== "co"} />
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style={{ textAlign: "center" }}>10.9</td>
+                        <td>
+                            <div className={styles.formGroup} style={{ marginBottom: 0 }}>
+                                <div className={styles.label}>Phương pháp tính thuế GTGT <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(chọn 1 trong 4 phương pháp)</span>:</div>
+                                <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "400px" }}>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                        <span>Khấu trừ</span>
+                                        <input type="radio" name="phuongPhapTinhThueGTGT" value="khau_tru" className={styles.radioInput} defaultChecked={!dataJson || dataJson.phuongPhapTinhThueGTGT !== "truc_tiep_gtgt" && dataJson.phuongPhapTinhThueGTGT !== "truc_tiep_doanh_so" && dataJson.phuongPhapTinhThueGTGT !== "khong_nop"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                        <span>Trực tiếp trên GTGT</span>
+                                        <input type="radio" name="phuongPhapTinhThueGTGT" value="truc_tiep_gtgt" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "truc_tiep_gtgt"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                        <span>Trực tiếp trên doanh số</span>
+                                        <input type="radio" name="phuongPhapTinhThueGTGT" value="truc_tiep_doanh_so" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "truc_tiep_doanh_so"} />
+                                    </label>
+                                    <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
+                                        <span>Không phải nộp thuế GTGT</span>
+                                        <input type="radio" name="phuongPhapTinhThueGTGT" value="khong_nop" className={styles.radioInput} defaultChecked={dataJson?.phuongPhapTinhThueGTGT === "khong_nop"} />
+                                    </label>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    );
+}
