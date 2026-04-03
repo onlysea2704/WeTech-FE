@@ -88,7 +88,7 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
 
             <div className={styles.dateLocation}>
                 <span>
-                    <CurrentDate prefix={kinhGuiTemp} />
+                    <CurrentDate />
                 </span>
             </div>
 

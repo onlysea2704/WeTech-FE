@@ -6,6 +6,7 @@ import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormC
 import KinhGuiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/KinhGuiSection";
 import ThongTinNguoiNopSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinNguoiNopSection";
 import TinhTrangThanhLapSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/TinhTrangThanhLapSection";
+import ThongTinChuyenDoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinChuyenDoiSection";
 import TenCongTySection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/TenCongTySection";
 import DiaChiTruSoSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/DiaChiTruSoSection";
 import VonDieuLeSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/VonDieuLeSection";
@@ -14,7 +15,8 @@ import NguoiDaiDienPhapLuatSection from "@/components/Procedure/ProcedureTemplat
 import ThongTinDangKyThueSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinDangKyThueSection";
 import BaoHiemXaHoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/BaoHiemXaHoiSection";
 import ChuSoHuuHuongLoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ChuSoHuuHuongLoiSection";
-
+import ThongTinCoPhanSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinCoPhanSection";
+import CoDongNhaDauTuNuocNgoaiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/CoDongNhaDauTuNuocNgoaiSection";
 const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
     { formId, dataJson, onSubmit, formRef },
     componentRef,
@@ -76,10 +78,11 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             <div className={styles.sectionGroup}>
                 <KinhGuiSection dataJson={dataJson} styles={styles} />
-                <ThongTinNguoiNopSection dataJson={dataJson} styles={styles} />
+                <ThongTinNguoiNopSection dataJson={dataJson} styles={styles} isNote={true} />
             </div>
 
-            <TinhTrangThanhLapSection dataJson={dataJson} styles={styles} />
+            <TinhTrangThanhLapSection dataJson={dataJson} styles={styles} isNote={true} />
+            <ThongTinChuyenDoiSection dataJson={dataJson} styles={styles} />
             <TenCongTySection dataJson={dataJson} styles={styles} />
             <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
 
@@ -88,59 +91,20 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             </div>
 
             <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Vốn điều lệ và Cổ phần:</h3>
+                <h3 className={styles.sectionTitle}>Vốn điều lệ:</h3>
                 <VonDieuLeSection dataJson={dataJson} styles={styles} />
-                
-                <h4 className={styles.subTitle} style={{ marginTop: "16px", marginBottom: "8px", fontWeight: "bold" }}>Cổ phần:</h4>
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Tổng số cổ phần:</label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="tongSoCoPhan"
-                            defaultValue={dataJson?.tongSoCoPhan || ""}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Mệnh giá cổ phần (VNĐ):</label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="menhGiaCoPhan"
-                            defaultValue={dataJson?.menhGiaCoPhan || "10.000"}
-                        />
-                    </div>
-                </div>
-                
-                <p style={{ marginTop: "8px", fontWeight: "bold" }}>Số lượng cổ phần từng loại:</p>
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>- Cổ phần phổ thông:</label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="coPhanPhoThong"
-                            defaultValue={dataJson?.coPhanPhoThong || ""}
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>- Cổ phần ưu đãi (nếu có):</label>
-                        <input
-                            type="text"
-                            className={styles.input}
-                            name="coPhanUuDai"
-                            defaultValue={dataJson?.coPhanUuDai || ""}
-                        />
-                    </div>
-                </div>
             </div>
 
-            <NguonVonDieuLeSection dataJson={dataJson} styles={styles} />
-            <NguoiDaiDienPhapLuatSection dataJson={dataJson} styles={styles} />
-            <ThongTinDangKyThueSection dataJson={dataJson} styles={styles} />
+            <NguonVonDieuLeSection dataJson={dataJson} styles={styles} isNote={true} />
+
+            <ThongTinCoPhanSection dataJson={dataJson} styles={styles} />
+
+            <CoDongNhaDauTuNuocNgoaiSection dataJson={dataJson} styles={styles} />
+
+            <NguoiDaiDienPhapLuatSection dataJson={dataJson} styles={styles} isNote={true} />
+            <ThongTinDangKyThueSection dataJson={dataJson} styles={styles} isNote={true} />
             <BaoHiemXaHoiSection dataJson={dataJson} styles={styles} note={baoHiemNote} />
-            <ChuSoHuuHuongLoiSection dataJson={dataJson} styles={styles} />
+            <ChuSoHuuHuongLoiSection dataJson={dataJson} styles={styles} isNote={true} />
         </form>
     );
 });

@@ -3,12 +3,15 @@ import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 
-export default function ThongTinNguoiNopSection({ dataJson, styles }) {
+export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
     const { provinces, communes: communes_lienLac } = useFetchAddress(provCode_lienLac);
     const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
+
+    const tooltipToiLa = "Trường hợp Tòa án hoặc Trọng tài chỉ định người thực hiện thủ tục đăng ký doanh nghiệp thì người được chỉ định kê khai thông tin vào phần này. Trường hợp đăng ký chuyển đổi loại hình doanh nghiệp đồng thời đăng ký thay đổi người đại diện theo pháp luật thì Chủ tịch Hội đồng quản trị của công ty sau chuyển đổi kê khai thông tin vào phần này.";
 
     return (
         <>
@@ -16,7 +19,9 @@ export default function ThongTinNguoiNopSection({ dataJson, styles }) {
             <div className={styles.grid2}>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>
-                        Tôi là (ghi họ tên bằng chữ IN HOA): <span className={styles.required}>*</span>
+                        Tôi là (ghi họ tên bằng chữ IN HOA): 
+                        {isNote && <InfoTooltip content={tooltipToiLa} />}
+                        <span className={styles.required}>*</span>
                     </label>
                     <input
                         type="text"

@@ -2,6 +2,7 @@ import React from "react";
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/confirmation.module.css";
 import { getToday } from "@/utils/dateTimeUtils";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
+import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
 
 function formatDate(dateStr) {
     if (!dateStr) return "";
@@ -42,11 +43,7 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
         email: "huuhoanspkt@gmail.com",
     };
 
-    function getLastName(name) {
-        if (!name) return "";
-        let arr = name.split(/\s+/);
-        return arr[arr.length - 1];
-    }
+
 
     return (
         <div className={styles.page}>
@@ -156,56 +153,45 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
 
             <div
                 className={styles.sectionTitle}
-                style={{ textDecoration: "underline", fontSize: "15px", marginTop: "20px" }}
+                style={{ textDecoration: "underline", fontSize: "15px", marginTop: "20px", textAlign: "left" }}
             >
                 NỘI DUNG ỦY QUYỀN:
             </div>
-            <div className={styles.infoLine} style={{ marginBottom: "10px" }}>
+            <div className={styles.infoLine} style={{ marginBottom: "10px", textAlign: "left" }}>
                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
             </div>
-            <div className={styles.infoLine} style={{ lineHeight: "1.8" }}>
+            <div className={styles.infoLine} style={{ lineHeight: "1.8", textAlign: "left" }}>
                 <span style={{ fontWeight: "bold" }}>Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới doanh nghiệp tại Phòng {phongThucHien}</span>
             </div>
 
             <div
                 className={styles.sectionTitle}
-                style={{ textDecoration: "underline", fontSize: "15px", marginTop: "20px" }}
+                style={{ textDecoration: "underline", fontSize: "15px", marginTop: "20px", textAlign: "left" }}
             >
                 THỜI HẠN UỶ QUYỀN:
             </div>
-            <div className={styles.infoLine}>Từ ngày ký đến khi hoàn tất công việc.</div>
-            <div className={styles.infoLine}>Thù lao ủy quyền: ủy quyền này không có thù lao</div>
-            <div className={styles.infoLine}>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>Từ ngày ký đến khi hoàn tất công việc.</div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>Thù lao ủy quyền: ủy quyền này không có thù lao</div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>
                 Chúng tôi cam kết chịu trách nhiệm trước pháp luật về nội dung ủy quyền này.
             </div>
-            <div className={styles.infoLine}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
 
             <div className={styles.dateLocation}>
-                <CurrentDate prefix="……" />
+                <CurrentDate />
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN NHẬN ỦY QUYỀN
-                    </div>
-
-                    <div className={styles.signatureName} style={{ marginTop: "80px", fontSize: "15px" }}>
-                        {benB.hoTen}
-                    </div>
-                </div>
-
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN ỦY QUYỀN
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {getLastName(uyQuyen_hoTen)}
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {uyQuyen_hoTen}
-                    </div>
-                </div>
+                <SignatureBlock
+                    title="BÊN NHẬN ỦY QUYỀN"
+                    fullName={benB.hoTen}
+                    styles={styles}
+                />
+                <SignatureBlock
+                    title="BÊN ỦY QUYỀN"
+                    fullName={uyQuyen_hoTen}
+                    styles={styles}
+                />
             </div>
         </div>
     );

@@ -7,6 +7,7 @@ import {
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import deleteIcon from "@/assets/delete-icon.png";
 
 const EMPTY_ROW = {
@@ -111,12 +112,8 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             <div className={styles.wrapper}>
-                <div style={{ textAlign: "center", marginBottom: "20px", fontWeight: "bold", fontSize: "16px", textTransform: "uppercase" }}>
+                <div style={{ textAlign: "center", marginTop: "10px", fontWeight: "bold", fontSize: "16px", textTransform: "uppercase" }}>
                     DANH SÁCH CỔ ĐÔNG SÁNG LẬP CÔNG TY CỔ PHẦN
-                </div>
-                
-                <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
-                    I. Cổ đông sáng lập là cá nhân
                 </div>
 
                 <div className={styles.actionRow}>
@@ -143,9 +140,15 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
-                                <th colSpan={8} className={styles.th}>Vốn góp²</th>
-                                <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Thời hạn góp vốn⁴</th>
-                                <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Chữ ký của cổ đông sáng lập⁵</th>
+                                <th colSpan={8} className={styles.th}>
+                                    Vốn góp
+                                    <InfoTooltip color="#fff" content="Ghi giá trị vốn cổ phần của từng cổ đông sáng lập. Tài sản hình thành giá trị vốn cổ phần cần được liệt kê cụ thể" />
+                                </th>
+                                <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>
+                                    Thời hạn góp vốn
+                                    <InfoTooltip color="#fff" content="Khi đăng ký thành lập doanh nghiệp, thời hạn góp vốn là thời hạn cổ đông dự kiến hoàn thành góp vốn" />
+                                </th>
+                                <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Chữ ký của cổ đông sáng lập</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Ghi chú (nếu có)</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 60 }}>Thao tác</th>
                             </tr>
@@ -153,20 +156,28 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                 <th colSpan={2} className={styles.th}>Tổng số cổ phần</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 60 }}>Tỷ lệ (%)</th>
                                 <th colSpan={4} className={styles.th}>Loại cổ phần</th>
-                                <th rowSpan={3} className={styles.th} style={{ minWidth: 160 }}>Loại tài sản, số lượng, giá trị tài sản góp vốn³</th>
+                                <th rowSpan={3} className={styles.th} style={{ minWidth: 160 }}>
+                                    Loại tài sản, số lượng, giá trị tài sản góp vốn
+                                    <InfoTooltip color="#fff" content="Loại tài sản góp vốn bao gồm: Đồng Việt Nam; Ngoại tệ tự do chuyển đổi; Vàng; Quyền sử dụng đất; Quyền sở hữu trí tuệ; Công nghệ; Bí quyết kỹ thuật; Tài sản khác" />
+                                </th>
                             </tr>
                             <tr>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
                                 <th colSpan={2} className={styles.th}>Phổ thông</th>
                                 <th colSpan={2} className={styles.th} style={{ padding: "4px" }}>
-                                    <input 
-                                        type="text" 
-                                        className={styles.cellInput} 
-                                        placeholder="Nhập loại CP khác..." 
+                                    <input
+                                        type="text"
+                                        className={styles.input}
+                                        placeholder="Nhập loại cổ phần khác..."
                                         value={loaiCoPhanKhacTen}
                                         onChange={(e) => setLoaiCoPhanKhacTen(e.target.value)}
-                                        style={{ textAlign: "center", borderBottom: "1px dashed #333", backgroundColor: "transparent", fontWeight: "bold" }}
+                                        style={{
+                                            color: "#fff",
+                                            textAlign: "center", backgroundColor: "transparent",
+                                            border: "none",
+                                            outline: "none"
+                                        }}
                                     />
                                 </th>
                             </tr>
@@ -195,7 +206,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="hoTen"
                                             value={row.hoTen}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -203,7 +214,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     </td>
                                     <td className={styles.td}>
                                         <DateInput
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="ngaySinh"
                                             value={row.ngaySinh}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -215,7 +226,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="giaTo"
                                             value={row.giaTo}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -230,7 +241,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="diaChiLienLac"
                                             value={row.diaChiLienLac}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -239,39 +250,39 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
 
                                     {/* 9 - 16: Vốn góp */}
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="tongSoCoPhan_soLuong" value={row.tongSoCoPhan_soLuong} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="tongSoCoPhan_soLuong" value={row.tongSoCoPhan_soLuong} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="tongSoCoPhan_giaTri" value={row.tongSoCoPhan_giaTri} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="tongSoCoPhan_giaTri" value={row.tongSoCoPhan_giaTri} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="tyLe" value={row.tyLe} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="tyLe" value={row.tyLe} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="loaiCoPhan_phoThong_soLuong" value={row.loaiCoPhan_phoThong_soLuong} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="loaiCoPhan_phoThong_soLuong" value={row.loaiCoPhan_phoThong_soLuong} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="loaiCoPhan_phoThong_giaTri" value={row.loaiCoPhan_phoThong_giaTri} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="loaiCoPhan_phoThong_giaTri" value={row.loaiCoPhan_phoThong_giaTri} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="loaiCoPhan_khac_soLuong" value={row.loaiCoPhan_khac_soLuong} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="loaiCoPhan_khac_soLuong" value={row.loaiCoPhan_khac_soLuong} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="loaiCoPhan_khac_giaTri" value={row.loaiCoPhan_khac_giaTri} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="loaiCoPhan_khac_giaTri" value={row.loaiCoPhan_khac_giaTri} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="loaiTaiSanGopVon" value={row.loaiTaiSanGopVon} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="loaiTaiSanGopVon" value={row.loaiTaiSanGopVon} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
 
                                     {/* 17 - 19 */}
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="thoiHanGopVon" value={row.thoiHanGopVon} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="thoiHanGopVon" value={row.thoiHanGopVon} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
                                     <td className={styles.td} style={{ backgroundColor: "#f0f0f0" }}>
                                         {/* Blank cell for physical signature */}
                                     </td>
                                     <td className={styles.td}>
-                                        <input className={styles.cellInput} name="ghiChu" value={row.ghiChu} onChange={(e) => handleRowChange(idx, e)} />
+                                        <input className={styles.input} name="ghiChu" value={row.ghiChu} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
 
                                     {/* Actions */}
@@ -289,12 +300,6 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                             ))}
                         </tbody>
                     </table>
-                </div>
-
-                <div style={{ marginTop: "20px", fontSize: "12px", lineHeight: "1.6" }}>
-                    <p>² Ghi giá trị vốn cổ phần của từng cổ đông sáng lập. Tài sản hình thành giá trị vốn cổ phần cần được liệt kê cụ thể...</p>
-                    <p>³ Loại tài sản góp vốn bao gồm: Đồng Việt Nam; Ngoại tệ tự do chuyển đổi...</p>
-                    <p>⁴ Khi đăng ký thành lập doanh nghiệp, thời hạn góp vốn là thời hạn cổ đông dự kiến hoàn thành góp vốn.</p>
                 </div>
 
                 <Signature

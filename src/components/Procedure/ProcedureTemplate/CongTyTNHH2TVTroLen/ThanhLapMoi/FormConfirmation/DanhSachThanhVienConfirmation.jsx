@@ -12,11 +12,7 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
 
     return (
         <div className={styles.wrapper}>
-            <h2 className={styles.tableTitle} style={{ textAlign: "center", marginBottom: "20px" }}>DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN</h2>
-
-            <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
-                I. Thành viên là cá nhân
-            </div>
+            <h2 className={styles.tableTitle} style={{ textAlign: "center", marginTop: "12px", marginBottom: "6px" }}>DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN</h2>
 
             <div className={styles.tableScrollWrapper}>
                 <table className={styles.table}>
@@ -68,11 +64,11 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quocTich}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.danToc}</td>
                                     <td className={styles.td} style={{ minWidth: 250 }}>{row.diaChiLienLac}</td>
-                                    
+
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.phanVonGop}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiTaiSan}</td>
-                                    
+
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.thoiHan}</td>
                                     <td className={styles.td}>{row.chuKy}</td>
                                     <td className={styles.td}>{row.ghiChu}</td>
@@ -84,11 +80,11 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
             </div>
 
             <div className={styles.signatureBlock}>
-                <p className={styles.signatureDate}><CurrentDate prefix="……" /></p>
+                <p className={styles.signatureDate}><CurrentDate /></p>
                 <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT<br />CỦA CÔNG TY</p>
                 <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
 
-                <p style={{ marginTop: "40px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
+                <p style={{ marginTop: "20px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
                 <p style={{ marginTop: "10px" }}><strong>{chuKy_ten}</strong></p>
             </div>
         </div>

@@ -96,7 +96,7 @@ export default function NganhNgheTable({ rows, data, onChangeRows, disabled = fa
                                 <td>{idx + 1}</td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         title={row.tenNganh || ""}
                                         value={row.tenNganh || ""}
                                         placeholder="Click để chọn mã ngành"
@@ -111,7 +111,7 @@ export default function NganhNgheTable({ rows, data, onChangeRows, disabled = fa
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.chiTiet || ""}
                                         onChange={(e) => updateRow(idx, "chiTiet", e.target.value)}
                                         readOnly={disabled || readOnly}
@@ -119,7 +119,7 @@ export default function NganhNgheTable({ rows, data, onChangeRows, disabled = fa
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.maNganh || ""}
                                         readOnly
                                         style={{ backgroundColor: "#e9ecef" }}

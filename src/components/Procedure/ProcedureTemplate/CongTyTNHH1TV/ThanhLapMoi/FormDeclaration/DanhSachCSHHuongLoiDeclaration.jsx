@@ -149,7 +149,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="hoTen"
                                             value={row.hoTen}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -157,7 +157,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <DateInput
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="ngaySinh"
                                             value={row.ngaySinh}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -169,7 +169,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="giaTo"
                                             value={row.giaTo}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -184,7 +184,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="diaChiLienLac"
                                             value={row.diaChiLienLac}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -192,7 +192,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="tyLeSoHuuVon"
                                             value={row.tyLeSoHuuVon}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -200,7 +200,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="tyLeSoHuuBieuQuyet"
                                             value={row.tyLeSoHuuBieuQuyet}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -208,7 +208,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="quyenChiPhoi"
                                             value={row.quyenChiPhoi}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -216,7 +216,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="ghiChu"
                                             value={row.ghiChu}
                                             onChange={(e) => handleRowChange(idx, e)}

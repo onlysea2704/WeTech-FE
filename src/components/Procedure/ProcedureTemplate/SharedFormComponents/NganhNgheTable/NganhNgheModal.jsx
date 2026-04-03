@@ -2,22 +2,7 @@ import React, { useState, useMemo } from 'react';
 import styles from './NganhNgheModal.module.css';
 import maNganhNgheData from '@/assets/maNganhNghe.json';
 
-// Flatten the tree into a list of searchable options (chỉ lấy ngành cấp cuối cùng - leaf nodes)
-const flattenData = (nodes) => {
-    let result = [];
-    for (const node of nodes) {
-        if (!node.children || node.children.length === 0) {
-            if (node.maNganh) {
-                result.push({ title: node.title, maNganh: node.maNganh, level: node.level });
-            }
-        } else {
-            result = result.concat(flattenData(node.children));
-        }
-    }
-    return result;
-};
-
-const flattenedOptions = flattenData(maNganhNgheData);
+const flattenedOptions = maNganhNgheData;
 
 export default function NganhNgheModal({ isOpen, onClose, onSelect }) {
     const [searchTerm, setSearchTerm] = useState("");

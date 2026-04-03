@@ -145,7 +145,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 </h2>
                 <h3 className={styles.headerSubtitle}>Độc lập - Tự do - Hạnh phúc</h3>
                 <p className={styles.dateRight} style={{ fontStyle: "italic" }}>
-                    <CurrentDate prefix={extractAfterTinh(kinhGui)} />
+                    <CurrentDate prefix={lienLac_tinh} />
                 </p>
             </div>
 

@@ -308,7 +308,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p>Điều lệ này có thể được sửa đổi, bổ sung theo quyết định của chủ sở hữu công ty. </p>
 
             <p className={styles.articleTitle}>Điều 28: Hiệu lực </p>
-            <p>Điều lệ này gồm 05 (năm) chương, 28 (hai tám) điều và đã được công ty thông qua ngày <CurrentDate prefix="" />. Điều lệ này có hiệu lực kể từ ngày được Chủ sở hữu công ty thông qua.</p>
+            <p>Điều lệ này gồm 05 (năm) chương, 28 (hai tám) điều và đã được công ty thông qua ngày {dataJson.ngayThongQua ? formatDate(dataJson.ngayThongQua) : "....................."}. Điều lệ này có hiệu lực kể từ ngày được Chủ sở hữu công ty thông qua.</p>
 
             <div className={styles.signatures}>
                 <div className={styles.signatureBox}>

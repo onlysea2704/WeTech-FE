@@ -3,16 +3,22 @@ import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 
-export default function NguoiDaiDienPhapLuatSection({ dataJson, styles }) {
+export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
     const { provinces, communes: communes_lienLac } = useFetchAddress(provCode_lienLac);
     const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
+    const tooltipNguoiDaiDien = "Ghi thông tin của tất cả người đại diện theo pháp luật trong trường hợp công ty có nhiều hơn 01 người đại diện theo pháp luật.";
+
     return (
         <div className={styles.sectionGroup}>
-            <h3 className={styles.sectionTitle}>Người đại diện theo pháp luật:</h3>
+            <h3 className={styles.sectionTitle}>
+                Người đại diện theo pháp luật:
+                {isNote && <InfoTooltip content={tooltipNguoiDaiDien} />}
+            </h3>
             <div className={styles.grid2}>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Họ, chữ đệm và tên (ghi bằng chữ in hoa): <span className={styles.required}>*</span></label>

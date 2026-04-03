@@ -96,11 +96,6 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
-
-            <div style={{ textAlign: "center", marginBottom: "30px", fontWeight: "bold", fontSize: "18px" }}>
-                ĐIỀU LỆ CÔNG TY
-            </div>
-
             {/* 1. TÊN CÔNG TY */}
             <TenCongTySection dataJson={dataJson} styles={styles} />
 
@@ -174,7 +169,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="hoTen"
                                                 value={row.hoTen}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}
@@ -183,7 +178,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="phanVonGop"
                                                 value={row.phanVonGop}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}
@@ -192,7 +187,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="tyLe"
                                                 value={row.tyLe}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}
@@ -201,7 +196,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="loaiTaiSan"
                                                 value={row.loaiTaiSan}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}
@@ -210,7 +205,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="thoiHan"
                                                 value={row.thoiHan}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}
@@ -219,7 +214,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input
                                                 type="text"
-                                                className={styles.tableInput}
+                                                className={styles.input}
                                                 name="ghiChu"
                                                 value={row.ghiChu}
                                                 onChange={(e) => handleMemberRowChange(idx, e)}

@@ -15,7 +15,7 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
             <div style={{ textAlign: "center", marginBottom: "20px", fontWeight: "bold", fontSize: "16px" }}>
                 DANH SÁCH CỔ ĐÔNG SÁNG LẬP CÔNG TY CỔ PHẦN
             </div>
-            
+
             <div style={{ marginBottom: "10px", fontWeight: "bold" }}>
                 I. Cổ đông sáng lập là cá nhân
             </div>
@@ -111,7 +111,7 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
             </div>
 
             <div className={styles.signatureBlock}>
-                <p className={styles.signatureDate}><CurrentDate prefix="……" /></p>
+                <p className={styles.signatureDate}><CurrentDate /></p>
                 <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT<br />CỦA CÔNG TY</p>
                 <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
 

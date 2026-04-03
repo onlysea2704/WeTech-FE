@@ -26,6 +26,14 @@ import {
     buildExportRowsDieuLeCongTy,
     parseImportRowsDieuLeCongTy,
 } from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ExcelConstants/DieuLeCongTy.excelConstants";
+import {
+    buildExportRowsDanhSachThanhVien,
+    parseImportRowsDanhSachThanhVien,
+} from "@/components/Procedure/ProcedureTemplate/CongTyTNHH2TVTroLen/ExcelConstants/DanhSachThanhVien.excelConstants";
+import {
+    buildExportRowsDanhSachCoDongSangLap,
+    parseImportRowsDanhSachCoDongSangLap,
+} from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ExcelConstants/DanhSachCoDongSangLap.excelConstants";
 
 
 const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess, setIsSubmittingForm }, ref) => {
@@ -55,6 +63,12 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
 
     const isDieuLeCongTy = formComponentName === "DieuLeCongTyDeclaration" ||
         currentForm?.name?.toLowerCase().includes("điều lệ công ty") || currentForm?.name?.toLowerCase().includes("charter");
+
+    const isDanhSachThanhVien = formComponentName === "DanhSachThanhVienDeclaration" ||
+        currentForm?.name?.toLowerCase().includes("danh sách thành viên");
+
+    const isDanhSachCoDongSangLap = formComponentName === "DanhSachCoDongSangLapDeclaration" ||
+        currentForm?.name?.toLowerCase().includes("cổ đông sáng lập");
 
     useEffect(() => {
         async function fetchFormSubmission() {
@@ -125,6 +139,10 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
 
         if (isCSHHuongLoi) {
             rows = buildExportRowsCSHHuongLoi(src);
+        } else if (isDanhSachThanhVien) {
+            rows = buildExportRowsDanhSachThanhVien(src);
+        } else if (isDanhSachCoDongSangLap) {
+            rows = buildExportRowsDanhSachCoDongSangLap(src);
         } else if (isDieuLeCongTy) {
             rows = buildExportRowsDieuLeCongTy(src);
         } else if (isGiayDKDN) {
@@ -146,6 +164,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
             rows.push(["[THÔNG TIN KHÁC]", ""]);
             rows.push(["Tên chủ hộ", src.chuHo_ten || ""]);
             rows.push(["Phường/Xã chủ hộ", src.chuHo_xa_phuong || ""]);
+            rows.push(["Phòng thực hiện", src.phongThucHien || ""]);
         } else {
             rows.push(["[THÔNG TIN NGƯỜI ĐẠI DIỆN]", ""]);
             rows.push(["Họ và tên (*)", src.nguoiDaiDien_hoTen || ""]);
@@ -262,6 +281,10 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
 
             if (isCSHHuongLoi) {
                 importedData = parseImportRowsCSHHuongLoi(allRows) || {};
+            } else if (isDanhSachThanhVien) {
+                importedData = parseImportRowsDanhSachThanhVien(allRows) || {};
+            } else if (isDanhSachCoDongSangLap) {
+                importedData = parseImportRowsDanhSachCoDongSangLap(allRows) || {};
             } else if (isDieuLeCongTy) {
                 importedData = parseImportRowsDieuLeCongTy(allRows) || {};
             } else {

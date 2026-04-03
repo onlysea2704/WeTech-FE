@@ -2,6 +2,7 @@ import React from "react";
 import styles from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/DieuLeCongTyConfirmation.module.css";
 import { formatDate } from "@/utils/dateTimeUtils";
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 
 export default function DieuLeCongTyConfirmation({ dataJson }) {
     const thanhVienList = useGetFormDataJsonFromName("Danh sách thành viên")?.thanhVienList || [];
@@ -76,25 +77,25 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
 
             <p className={styles.chapterTitle} style={{ textAlign: "center", marginTop: "16px", marginBottom: "6px", fontWeight: "bold" }}>Chương I</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>ĐIỀU KHOẢN CHUNG</p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 1. Tư cách pháp nhân, phạm vi trách nhiệm, thời hạn hoạt động</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 1. Tư cách pháp nhân, phạm vi trách nhiệm, thời hạn hoạt động</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Công ty là một pháp nhân độc lập và có tư cách pháp nhân theo Luật pháp Việt Nam. Tất cả hoạt động của Công ty được điều chỉnh bởi Luật pháp Việt Nam và theo các quy định tại Giấy chứng nhận đăng ký doanh nghiệp, Điều lệ này và bất kỳ giấy phép hoặc cấp phép của Cơ quan Nhà nước, cần thiết cho hoạt động kinh doanh của Công ty. </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Mỗi thành viên trong Công ty chỉ chịu trách nhiệm về các khoản nợ và các nghĩa vụ tài sản khác của Công ty trong phạm vi số vốn đã cam kết góp vào Công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Thời hạn hoạt động của công ty là: 50 năm kể từ ngày được cơ quan đăng ký kinh doanh cấp Giấy chứng nhận đăng ký kinh doanh. Công ty có thể chấm dứt hoạt động trước thời hạn hoặc kéo dài thêm thời gian hoạt động theo quyết định của Hội đồng thành viên hoặc theo quy định của pháp luật.</p>
             <br />
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 2. Tên Doanh nghiệp</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 2. Tên Doanh nghiệp</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): {dataJson.tenCongTyVN?.toUpperCase() || "................................................"}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Tên công ty viết bằng tiếng nước ngoài (<em>nếu có</em>): {dataJson.tenCongTyEN || "................................................"}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Tên công ty viết tắt (<em>nếu có</em>): {dataJson.tenCongTyVietTat || "................................................"}</p>
 
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 3. Trụ sở chính và địa chỉ chi nhánh, văn phòng đại diện</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 3. Trụ sở chính và địa chỉ chi nhánh, văn phòng đại diện</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}><strong>Địa chỉ trụ sở chính:</strong> {addressToString(dataJson.truSo_soNha, dataJson.truSo_xa, dataJson.truSo_tinh) || "........................................................................"}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Điện thoại: {dataJson.truSo_phone || "..................."} Số fax (<em>nếu có</em>): {dataJson.truSo_fax || "..................."}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Thư điện tử (<em>nếu có</em>): {dataJson.truSo_email || "..................."} Website (<em>nếu có</em>): {dataJson.truSo_website || "..................."}</p>
 
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 4. Ngành, nghề kinh doanh</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 4. Ngành, nghề kinh doanh</p>
             <table className={styles.table}>
                 <thead>
                     <tr>
@@ -123,7 +124,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             </table>
 
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 5. Người đại diện theo pháp luật</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 5. Người đại diện theo pháp luật</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Số lượng người đại diện theo pháp luật: Công ty có 01 người là người đại diện theo pháp luật, chức danh: {dataJson.nguoiDaiDien_chucDanh || "Giám đốc"}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Họ và tên người đại diện theo pháp luật: {dataJson.nguoiDaiDien_hoTen || "........................................."}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Giới tính: {dataJson.nguoiDaiDien_gioiTinh || ".........."}</p>
@@ -136,7 +137,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>VỐN ĐIỀU LỆ, QUYỀN VÀ NGHĨA VỤ CỦA THÀNH VIÊN</p>
             <br />
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 6. Vốn điều lệ, phần vốn góp của thành viên công ty</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 6. Vốn điều lệ, phần vốn góp của thành viên công ty</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Vốn điều lệ của công ty là: {dataJson.vonDieuLe || "........................."} VNĐ (<em>{dataJson.vonDieuLe_bangChu || "........................................................."}</em>), trong đó bao gồm:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", paddingLeft: "20px" }}>- Đồng Việt Nam: {dataJson.vonDieuLe || "........................."} VNĐ (<em>{dataJson.vonDieuLe_bangChu || "........................................................."}</em>)</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", paddingLeft: "20px" }}>- Ngoại tệ tự do chuyển đổi: {dataJson.vonDieuLe_ngoaiTe || "Không"}</p>
@@ -195,7 +196,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 </tbody>
             </table>
 
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 7. Góp vốn thành lập công ty và cấp giấy chứng nhận phần vốn góp</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 7. Góp vốn thành lập công ty và cấp giấy chứng nhận phần vốn góp</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Vốn điều lệ của công ty trách nhiệm hữu hạn hai thành viên trở lên khi đăng ký thành lập doanh nghiệp là tổng giá trị phần vốn góp của các thành viên cam kết góp và ghi trong Điều lệ công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Thành viên phải góp vốn cho công ty đủ và đúng loại tài sản đã cam kết khi đăng ký thành lập doanh nghiệp trong thời hạn 90 ngày kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp, không kể thời gian vận chuyển, nhập khẩu tài sản góp vốn, thực hiện thủ tục hành chính để chuyển quyền sở hữu tài sản. Trong thời hạn này, thành viên có các quyền và nghĩa vụ tương ứng với tỷ lệ phần vốn góp đã cam kết. Thành viên công ty chỉ được góp vốn cho công ty bằng loại tài sản khác với tài sản đã cam kết nếu được sự tán thành của trên 50% số thành viên còn lại.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Sau thời hạn quy định tại khoản 2 Điều này mà vẫn có thành viên chưa góp vốn hoặc chưa góp đủ phần vốn góp đã cam kết thì được xử lý như sau:</p>
@@ -205,7 +206,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>4. Trường hợp có thành viên chưa góp vốn hoặc chưa góp đủ số vốn đã cam kết, công ty phải đăng ký thay đổi vốn điều lệ, tỷ lệ phần vốn góp của các thành viên bằng số vốn đã góp trong thời hạn 30 ngày kể từ ngày cuối cùng phải góp đủ phần vốn góp theo quy định tại khoản 2 Điều này. Các thành viên chưa góp vốn hoặc chưa góp đủ số vốn đã cam kết phải chịu trách nhiệm tương ứng với tỷ lệ phần vốn góp đã cam kết đối với các nghĩa vụ tài chính của công ty phát sinh trong thời gian trước ngày công ty đăng ký thay đổi vốn điều lệ và tỷ lệ phần vốn góp của thành viên.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>5. Trừ trường hợp quy định tại khoản 2 Điều này, người góp vốn trở thành thành viên của công ty kể từ thời điểm đã thanh toán phần vốn góp và những thông tin về người góp vốn quy định tại các điểm b, c và đ khoản 2 Điều 48 của Luật Doanh nghiệp được ghi đầy đủ vào sổ đăng ký thành viên. Tại thời điểm góp đủ phần vốn góp, công ty phải cấp giấy chứng nhận phần vốn góp cho thành viên tương ứng với giá trị phần vốn đã góp.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 8. Quyền và nghĩa vụ của thành viên công ty</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 8. Quyền và nghĩa vụ của thành viên công ty</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>8.1 Quyền của thành viên công ty</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Thành viên công ty có các quyền sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Tham dự họp Hội đồng thành viên, thảo luận, kiến nghị, biểu quyết các vấn đề thuộc thẩm quyền của Hội đồng thành viên;</p>
@@ -233,7 +234,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>c) Thanh toán khoản nợ chưa đến hạn trước nguy cơ tài chính có thể xảy ra đối với công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>6. Nghĩa vụ khác theo quy định của Luật Doanh nghiệp.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 9. Mua lại phần vốn góp</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 9. Mua lại phần vốn góp</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Thành viên có quyền yêu cầu công ty mua lại phần vốn góp của mình nếu thành viên đó đã bỏ phiếu không tán thành đối với nghị quyết, quyết định của Hội đồng thành viên về vấn đề sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Sửa đổi, bổ sung các nội dung trong Điều lệ công ty liên quan đến quyền và nghĩa vụ của thành viên, Hội đồng thành viên;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>b) Tổ chức lại công ty;</p>
@@ -241,7 +242,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Trong thời hạn 15 ngày kể từ ngày nhận được yêu cầu của thành viên quy định tại khoản 1 Điều này thì công ty phải mua lại phần vốn góp của thành viên đó theo giá thị trường hoặc giá được xác định do hai bên thỏa thuận được về giá. Việc thanh toán chỉ được thực hiện nếu sau khi thanh toán đủ phần vốn góp được mua lại, công ty vẫn thanh toán đủ các khoản nợ và nghĩa vụ tài sản khác.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>4. Trường hợp công ty không thanh toán được phần vốn góp được yêu cầu mua lại theo quy định tại khoản 3 Điều này thì thành viên đó có quyền tự do chuyển nhượng phần vốn góp của mình cho thành viên khác hoặc người không phải là thành viên công ty.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 10. Chuyển nhượng phần vốn góp</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 10. Chuyển nhượng phần vốn góp</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Trừ trường hợp quy định tại khoản 4 Điều 51, khoản 6 và khoản 7 Điều 53 của Luật Doanh nghiệp, thành viên công ty trách nhiệm hữu hạn hai thành viên trở lên có quyền chuyển nhượng một phần hoặc toàn bộ phần vốn góp của mình cho người khác theo quy định sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Chào bán phần vốn góp đó cho các thành viên còn lại theo tỷ lệ tương ứng với phần vốn góp của họ trong công ty với cùng điều kiện chào bán;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>b) Chuyển nhượng với cùng điều kiện chào bán đối với các thành viên còn lại quy định tại điểm a khoản này cho người không phải là thành viên nếu các thành viên còn lại của công ty không mua hoặc không mua hết trong thời hạn 30 ngày kể từ ngày chào bán.</p>
@@ -252,13 +253,13 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>CƠ CẤU TỔ CHỨC QUẢN LÝ, NGUYÊN TẮC </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>HOẠT ĐỘNG CỦA CÔNG TY</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 11. Cơ cấu tổ chức quản lý       </p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 11. Cơ cấu tổ chức quản lý</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Cơ cấu tổ chức của Công ty gồm có:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Hội đồng thành viên;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Chủ tịch Hội đồng thành viên;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Giám đốc .</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 12. Hội đồng thành viên</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 12. Hội đồng thành viên</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Hội đồng thành viên là cơ quan quyết định cao nhất của công ty, bao gồm tất cả thành viên công ty là cá nhân và người đại diện theo ủy quyền của thành viên công ty là tổ chức. Hội đồng thành viên phải họp 2 lần mỗi năm </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Hội đồng thành viên có quyền và nghĩa vụ sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Quyết định chiến lược phát triển và kế hoạch kinh doanh hằng năm của công ty;</p>
@@ -275,7 +276,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>m) Quyết định giải thể hoặc yêu cầu phá sản công ty;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>n) Quyền và nghĩa vụ khác theo quy định của Luật Doanh nghiệp và Điều lệ công ty.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 13. Chủ tịch Hội đồng thành viên</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 13. Chủ tịch Hội đồng thành viên</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Hội đồng thành viên bầu một thành viên làm Chủ tịch. Chủ tịch Hội đồng thành viên có thể kiêm Giám đốc công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Chủ tịch Hội đồng thành viên có quyền và nghĩa vụ sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Chuẩn bị chương trình, kế hoạch hoạt động của Hội đồng thành viên;</p>
@@ -287,7 +288,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Nhiệm kỳ của Chủ tịch Hội đồng thành viên không quá 05 năm và có thể được bầu lại với số nhiệm kỳ không hạn chế.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>4. Trường hợp Chủ tịch Hội đồng thành viên vắng mặt hoặc không thể thực hiện các quyền và nghĩa vụ của mình thì phải ủy quyền bằng văn bản cho một thành viên thực hiện các quyền và nghĩa vụ của Chủ tịch Hội đồng thành viên. Trường hợp không có thành viên được ủy quyền hoặc Chủ tịch Hội đồng thành viên chết, mất tích, bị tạm giam, đang chấp hành hình phạt tù, đang chấp hành biện pháp xử lý hành chính tại cơ sở cai nghiện bắt buộc, cơ sở giáo dục bắt buộc, trốn khỏi nơi cư trú, bị hạn chế hoặc mất năng lực hành vi dân sự, có khó khăn trong nhận thức, làm chủ hành vi, bị Tòa án cấm đảm nhiệm chức vụ, cấm hành nghề hoặc làm công việc nhất định thì một trong số các thành viên Hội đồng thành viên triệu tập họp các thành viên còn lại bầu một người trong số các thành viên tạm thời làm Chủ tịch Hội đồng thành viên theo nguyên tắc đa số thành viên còn lại tán thành cho đến khi có quyết định mới của Hội đồng thành viên.</p>
             <br />
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 14. Giám đốc </p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 14. Giám đốc</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Giám đốc là người điều hành hoạt động kinh doanh hằng ngày của công ty, chịu trách nhiệm trước Hội đồng thành viên về việc thực hiện quyền và nghĩa vụ của mình.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Giám đốc có quyền và nghĩa vụ sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Tổ chức thực hiện nghị quyết, quyết định của Hội đồng thành viên;</p>
@@ -302,7 +303,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>k) Tuyển dụng lao động;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>l) Quyền và nghĩa vụ khác được quy định tại Điều lệ công ty, nghị quyết, quyết định của Hội đồng thành viên, hợp đồng lao động.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 15. Điều kiện và thể thức tiến hành họp Hội đồng thành viên</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 15. Điều kiện và thể thức tiến hành họp Hội đồng thành viên</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Cuộc họp Hội đồng thành viên được tiến hành khi có số thành viên dự họp sở hữu từ 65% vốn điều lệ trở lên.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Trường hợp cuộc họp Hội đồng thành viên lần thứ nhất không đủ điều kiện tiến hành theo quy định tại khoản 1 Điều này thì việc triệu tập họp Hội đồng thành viên được thực hiện như sau:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Thông báo mời họp lần thứ hai phải được gửi trong thời hạn 15 ngày kể từ ngày dự định họp lần thứ nhất. Cuộc họp Hội đồng thành viên lần thứ hai được tiến hành khi có số thành viên dự họp sở hữu từ 50% vốn điều lệ trở lên;</p>
@@ -310,7 +311,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Thành viên, người đại diện theo ủy quyền của thành viên phải tham dự và biểu quyết tại cuộc họp Hội đồng thành viên. Thể thức tiến hành họp Hội đồng thành viên, hình thức biểu quyết do Điều lệ công ty quy định.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>4. Trường hợp cuộc họp đủ điều kiện quy định tại Điều này không hoàn thành chuông trình họp trong thời hạn dự kiến thì có thể kéo dài nhưng không được quá 30 ngày kể từ ngày khai mạc cuộc họp đó.</p>
             <br />
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 16. Nghị quyết, quyết định của Hội đồng thành viên</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 16. Nghị quyết, quyết định của Hội đồng thành viên</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Hội đồng thành viên thông qua nghị quyết, quyết định thuộc thẩm quyền bằng biểu quyết tại cuộc họp, lấy ý kiến bằng văn bản.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Nghị quyết, quyết định về các vấn đề sau đây phải được thông qua bằng biểu quyết tại cuộc họp Hội đồng thành viên:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Sửa đổi, bổ sung nội dung Điều lệ công ty;</p>
@@ -328,7 +329,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>d) Gửi phiếu biểu quyết đến cuộc họp thông qua thư, fax, thư điện tử.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>5. Nghị quyết, quyết định của Hội đồng thành viên được thông qua dưới hình thức lấy ý kiến bằng văn bản khi được số thành viên sở hữu từ 65% vốn điều lệ trở lên tán thành.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 17. Thủ tục thông qua nghị quyết, quyết định của Hội đồng thành viên theo hình thức lấy ý kiến bằng văn bản</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 17. Thủ tục thông qua nghị quyết, quyết định của Hội đồng thành viên theo hình thức lấy ý kiến bằng văn bản</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Thẩm quyền và thể thức lấy ý kiến thành viên bằng văn bản để thông qua nghị quyết, quyết định được thực hiện theo quy định sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Chủ tịch Hội đồng thành viên quyết định việc lấy ý kiến thành viên Hội đồng thành viên bằng văn bản để thông qua nghị quyết, quyết định các vấn đề thuộc thẩm quyền;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Chủ tịch Hội đồng thành viên có trách nhiệm tổ chức việc soạn thảo, gửi các báo cáo, tờ trình về nội dung cần quyết định, dự thảo nghị quyết, quyết định và phiếu lấy ý kiến đến các thành viên Hội đồng thành viên;</p>
@@ -346,30 +347,30 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>đ) Nghị quyết, quyết định được thông qua và tỷ lệ phiếu biểu quyết tương ứng;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>e) Họ, tên, chữ ký của người kiểm phiếu và Chủ tịch Hội đồng thành viên. Người kiểm phiếu và Chủ tịch Hội đồng thành viên chịu trách nhiệm liên đới về tính đầy đủ, chính xác, trung thực của nội dung báo cáo kết quả kiểm phiếu.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 18. Hiệu lực nghị quyết, quyết định của Hội đồng thành viên</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 18. Hiệu lực nghị quyết, quyết định của Hội đồng thành viên</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Nghị quyết, quyết định của Hội đồng thành viên có hiệu lực thi hành kể từ ngày được thông qua hoặc từ ngày có hiệu lực được ghi tại nghị quyết, quyết định đó.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Nghị quyết, quyết định của Hội đồng thành viên được thông qua bằng 100% tổng số vốn điều lệ là hợp pháp và có hiệu lực ngay cả trong trường hợp trình tự và thủ tục thông qua nghị quyết, quyết định đó không được thực hiện đúng quy định.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Trường hợp thành viên, nhóm thành viên yêu cầu Tòa án hoặc Trọng tài hủy bỏ nghị quyết, quyết định đã được thông qua thì nghị quyết, quyết định đó vẫn có hiệu lực thi hành theo quy định tại khoản 1 Điều này cho đến khi có quyết định hủy bỏ của Tòa án hoặc Trọng tài có hiệu lực pháp luật, trừ trường hợp áp dụng biện pháp khẩn cấp tạm thời theo quyết định của cơ quan có thẩm quyền.</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 19: Thể thức thông qua quyết định của công ty</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 19: Thể thức thông qua quyết định của công ty</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>     1. Quyết định Công ty ban hành bằng văn bản phải căn cứ vào quyền, nghĩa vụ và trách nhiệm của người đại diện pháp luật, giám đốc, phó giám đốc và người quản lý khác của Công ty được phân công hoặc quy định trong các hợp đồng lao động đã được ký kết của Hội đồng thành viên với người được thuê quản lý công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>     2. Quyết định ban hành phải tuân theo, không được trái với Nghị quyết Hội đồng thành viên, Điều lệ Công ty và Luật doanh nghiệp 2020 và pháp luật liên quan.</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 20. Tiền lương, thù lao, thưởng và lợi ích khác của thành viên Hội đồng thành viên,  Giám đốc </p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 20. Tiền lương, thù lao, thưởng và lợi ích khác của thành viên Hội đồng thành viên,  Giám đốc</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Công ty có quyền trả thù lao, thưởng cho thành viên Hội đồng thành viên, trả lương, thường cho Giám đốc và người quản lý khác theo kết quả và hiệu quả kinh doanh.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Tiền lương, thù lao, thưởng và lợi ích khác của thành viên Hội đồng thành viên, Giám đốc được trả theo quy định sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Thành viên Hội đồng thành viên được hưởng thù lao công việc và thưởng.Thù lao công việc được tính theo số ngày công cần thiết hoàn thành nhiệm vụ của thành viên Hội đồng thành viên và mức thù lao mỗi ngày. Hội đồng thành viên dự tính mức thù lao cho từng thành viên theo nguyên tắc nhất trí. Tổng mức thù lao và thưởng của Hội đồng thành viên do Hội đồng thành viên quyết định tại cuộc họp thường niên;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>b) Thành viên Hội đồng thành viên được thanh toán chi phí ăn, ở, đi lại và chi phí hợp lý khác khi thực hiện nhiệm vụ được giao;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>c) Giám đốc được trả lương và thưởng. Tiền lương và thưởng của Giám đốc do Hội đồng thành viên quyết định.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Thù lao của từng thành viên Hội đồng thành viên, tiền lương của Giám đốc và người quản lý khác được tính vào chi phí kinh doanh của công ty theo quy định của pháp luật về thuế thu nhập doanh nghiệp, được thể hiện thành mục riêng trong báo cáo tài chính hằng năm của công ty và phải báo cáo Hội đồng thành viên tại cuộc họp thường niên.</p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 21. Nguyên tắc giải quyết tranh chấp nội bộ </p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 21. Nguyên tắc giải quyết tranh chấp nội bộ</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Các tranh chấp nội bộ giữa Công ty với thành viên của Công ty, giữa các thành viên Công ty với nhau liên quan đến thành lập, hoạt động, giải thể Công ty trước hết phải được giải quyết thông qua thương lượng, hoà giải. </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Trường hợp giải quyết tranh chấp nội bộ theo phương thức thương lượng, hòa giải không đạt được kết quả thì bất kỳ bên nào cũng có quyền đưa tranh chấp ra Tòa án có thẩm quyền để giải quyết.</p>
             <p className={styles.chapterTitle} style={{ textAlign: "center", marginTop: "16px", marginBottom: "6px", fontWeight: "bold" }}>Chương IV</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>NĂM TÀI CHÍNH PHÂN PHỐI LỢI NHUẬN</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 22. Năm tài chính</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 22. Năm tài chính</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Công ty phải thực hiện chế độ thống kê, kế toán theo quy định của pháp lệnh kế toán thống kê. Theo định kỳ Công ty thực hiện quyết toán hoạt động kinh doanh để báo cáo với Hội đồng thành viên. Báo cáo quyết toán phải gửi lên Sở Tài chính, cơ quan Thuế theo quy định tại Luật doanh nghiệp.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Năm tài chính của Công ty tính từ ngày 01/01 đến ngày 31/12 mỗi năm. </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Riêng năm đầu tiên, năm tài chính bắt đầu từ ngày đi vào hoạt động sau khi đăng ký kinh doanh và kết thúc vào ngày 31/12 cùng năm.</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 23. Điều kiện để chia lợi nhuận, phân phối lợi nhuận, lập quỹ và nguyên tắc xử lý lỗ trong kinh doanh</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 23. Điều kiện để chia lợi nhuận, phân phối lợi nhuận, lập quỹ và nguyên tắc xử lý lỗ trong kinh doanh</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Công ty chỉ được chia lợi nhuận cho các thành viên khi kinh doanh có lãi, đã hoàn thành nghĩa vụ thuế và các nghĩa vụ tài chính khác theo quy định của pháp luật và bảo đảm thanh toán đủ các khoản nợ và nghĩa vụ tài sản đến hạn trả khác sau khi chia lợi nhuận.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>  2. Lợi nhuận thu được sau khi hoàn thành nghĩa vụ nộp thuế, trả lãi tiền vay, nộp phạt (nếu có) được trích lập các quỹ và phân chia cho các thành viên. Giám đốc dự kiến phương án phân phối thu nhập của Công ty, phương án này phải đưa ra Hội đồng thành viên bàn bạc quyết định các loại quỹ của Công ty.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>- Quỹ tích luỹ để mở rộng sản xuất kinh doanh: 5 % </p>
@@ -380,23 +381,23 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>4. Nguyên tắc xử lý lỗ trong kinh doanh: Trường hợp quyết toán năm tài chính bị lỗ, Hội đồng thành viên công ty được quyết định theo các hướng sau:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Trích quỹ dự trữ để bù.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>b) Chuyển sang năm sau để trừ vào lợi nhuận của năm tài chính sau trước khi phân phối lợi nhuận.</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 24. Thu hồi phần vốn góp đã hoàn trả hoặc lợi nhuận đã chia </p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 24. Thu hồi phần vốn góp đã hoàn trả hoặc lợi nhuận đã chia</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Trường hợp hoàn trả một phần vốn góp do giảm vốn điều lệ trái với quy định tại khoản 3 Điều 68 của Luật Doanh nghiệp hoặc chia lợi nhuận cho thành viên trái với quy định tại Điều 69 của Luật Doanh nghiệp thì các thành viên công ty phải hoàn trả cho công ty số tiền, tài sản khác đã nhận; phải cùng liên đới chịu trách nhiệm về các khoản nợ và nghĩa vụ tài sản khác của công ty tương ứng với số tiền, tài sản chưa hoàn trả đủ cho đến khi hoàn trả đủ số tiền, tài sản khác đã nhận.</p>
             <p className={styles.chapterTitle} style={{ textAlign: "center", marginTop: "16px", marginBottom: "6px", fontWeight: "bold" }}>Chương V</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>THÀNH LẬP, TỔ CHỨC LẠI, GIẢI THỂ</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 25. Thành lập, tổ chức lại</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 25. Thành lập, tổ chức lại</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Công ty được thành lập sau khi được cơ quan đăng ký kinh doanh cấp giấy chứng nhận đăng ký doanh nghiệp.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Mọi phí tổn liên hệ đến việc thành lập Công ty đều được ghi vào mục chi phí của Công ty và được tính hoàn giảm vào chi phí của năm tài chính đầu tiên.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Việc tổ chức lại doanh nghiệp (chia, tách, hợp nhất, sáp nhập hoặc chuyển đổi loại hình doanh nghiệp) công ty thực hiện quy định của Luật Doanh nghiệp.</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 26. Các trường hợp và điều kiện giải thể doanh nghiệp</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 26. Các trường hợp và điều kiện giải thể doanh nghiệp</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Công ty bị giải thể trong các trường hợp sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>a) Theo nghị quyết, quyết định của Hội đồng thành viên;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>b) Công ty không còn đủ số lượng thành viên tối thiểu theo quy định của Luật doanh nghiệp trong thời hạn 06 tháng liên tục mà không làm thủ tục chuyển đổi loại hình doanh nghiệp;</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>c) Bị thu hồi Giấy chứng nhận đăng ký doanh nghiệp, trừ trường hợp Luật Quản lý thuế có quy định khác.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Công ty chỉ được giải thể khi bảo đảm thanh toán hết các khoản nợ và nghĩa vụ tài sản khác và doanh nghiệp không trong quá trình giải quyết tranh chấp tại Tòa án hoặc cơ quan trọng tài. Người quản lý có liên quan và doanh nghiệp quy định tại điểm d khoản 1 Điều này cùng liên đới chịu trách nhiệm về các khoản nợ của doanh nghiệp.</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 27. Trình tự, thủ tục giải thể doanh nghiệp và thanh lý tài sản</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 27. Trình tự, thủ tục giải thể doanh nghiệp và thanh lý tài sản</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>     A. Thủ tục giải thế</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Việc giải thể doanh nghiệp trong các trường hợp quy định tại các điểm a, b và c khoản 1 Điều 25 của Điều lệ này được thực hiện theo quy định sau đây:</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Thông qua nghị quyết, quyết định giải thể doanh nghiệp. Nghị quyết, quyết định giải thể doanh nghiệp phải bao gồm các nội dung chủ yếu sau đây:</p>
@@ -448,24 +449,24 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Phiếu xuất kho</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Chứng từ kế toán</p>
             <br />
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 28: Phá sản</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 28: Phá sản</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Việc phá sản Công ty được thực hiện theo thủ tục của pháp luật về phá sản.</p>
             <br />
             <p className={styles.chapterTitle} style={{ textAlign: "center", marginTop: "16px", marginBottom: "6px", fontWeight: "bold" }}>Chương VI</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px", fontWeight: "bold", textAlign: "center" }}>ĐIỀU KHOẢN THI HÀNH</p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 29. Hiệu lực của Điều lệ</p>
-            <p className={styles.chapterTitle} style={{ textAlign: "justify", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều lệ này có hiệu lực kể từ ngày được cơ quan đăng ký kinh doanh cấp giấy chứng nhận đăng ký doanh nghiệp.</p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 30. Thể thức sửa đổi bổ sung các điều khoản của Điều lệ</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 29. Hiệu lực của Điều lệ</p>
+            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Điều lệ này có hiệu lực kể từ ngày được cơ quan đăng ký kinh doanh cấp giấy chứng nhận đăng ký doanh nghiệp.</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 30. Thể thức sửa đổi bổ sung các điều khoản của Điều lệ</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>1. Những vấn đề liên quan đến hoạt động của Công ty không được nêu trong Bản điều lệ này sẽ do Luật doanh nghiệp và các văn bản pháp luật liên quan khác điều chỉnh.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>2. Trong trường hợp Điều lệ này có điều khoản trái luật pháp hoặc dẫn đến việc thi hành trái luật pháp, thì điều khoản đó không được thi hành và sẽ được xem xét sửa đổi ngay trong kỳ họp gần nhất của Hội đồng thành viên.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>3. Khi muốn bổ sung, sửa đổi nội dung Điều lệ này, Hội đồng thành viên sẽ họp để thông qua quyết định nội dung thay đổi. Thể thức họp thông qua nội dung sửa đổi theo quy định của Luật Doanh nghiệp.</p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}> Điều 31. Điều khoản cuối cùng</p>
+            <p className={styles.articleTitle} style={{ textAlign: "left", marginTop: "12px", marginBottom: "6px", fontWeight: "bold" }}>Điều 31. Điều khoản cuối cùng</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Bản điều lệ này đã được tập thể thành viên xem xét từng chương từng điều và cùng ký tên chấp thuận.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Bản điều lệ này gồm 6 chương 31 điều, được lập thành 3 bản có giá trị như nhau: 01 bản lưu trữ tại trụ sở công ty và scan thành file PDF nộp trực tuyến cho cơ quan đăng ký kinh doanh, 01 bản cho mỗi thành viên.</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>Mọi sự sao chép phải được ký xác nhận của Chủ tịch Hội đồng thành viên hoặc của Giám đốc công ty.</p>
             <br />
 
-            <p style={{ textAlign: "right", marginTop: "20px", marginBottom: "6px", fontStyle: "italic", paddingRight: "50px" }}>............., ngày {new Date().getDate().toString().padStart(2, '0')} tháng {(new Date().getMonth() + 1).toString().padStart(2, '0')} năm {new Date().getFullYear()}</p>
+            <p style={{ textAlign: "right", marginTop: "20px", marginBottom: "6px", fontStyle: "italic" }}><CurrentDate /></p>
             <div style={{ display: "flex", justifyContent: "space-between", gap: "50px", marginTop: "20px" }}>
                 <div style={{ textAlign: "center", display: "flex", flexDirection: "column", alignItems: "center", minWidth: "50%" }}>
                     <p style={{ textAlign: "center", marginBottom: "6px", marginTop: "10px", fontWeight: "bold" }}>HỌ TÊN, CHỮ KÝ CỦA CÁC THÀNH VIÊN CÔNG TY</p>

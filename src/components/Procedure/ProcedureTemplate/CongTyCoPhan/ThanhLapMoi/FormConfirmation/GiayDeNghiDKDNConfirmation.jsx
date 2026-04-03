@@ -119,7 +119,43 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         phuongPhapTinhThueGTGT = "khau_tru",
         phuongThucDongBHXH = "hang_thang",
         doanhNghiepCoCSHHuongLoi = "co",
-        tinhTrangThanhLap = "moi"
+        tinhTrangThanhLap = "moi",
+
+        lyDoChuyenDoi = "",
+        dnChuyenDoi_ten = "",
+        dnChuyenDoi_maSo = "",
+        hkdChuyenDoi_ten = "",
+        hkdChuyenDoi_soGiayChungNhan = "",
+        hkdChuyenDoi_ngayCap = "",
+        hkdChuyenDoi_noiCap = "",
+        hkdChuyenDoi_maSoThue = "",
+        hkdChuyenDoi_diaChi = "",
+        hkdChuyenDoi_tenChuHo = "",
+        hkdChuyenDoi_loaiGiayTo = "",
+        hkdChuyenDoi_loaiGiayToKhac = "",
+        hkdChuyenDoi_soGiayTo = "",
+        hkdChuyenDoi_ngayCapGiayTo = "",
+        hkdChuyenDoi_noiCapGiayTo = "",
+        hkdChuyenDoi_ngayHetHanGiayTo = "",
+        csqChuyenDoi_ten = "",
+        csqChuyenDoi_soGiayChungNhan = "",
+        csqChuyenDoi_ngayCap = "",
+        csqChuyenDoi_noiCap = "",
+        csqChuyenDoi_maSoThue = "",
+        csqChuyenDoi_diaChi = "",
+        csqChuyenDoi_tenNguoiDaiDien = "",
+        csqChuyenDoi_loaiGiayTo = "",
+        csqChuyenDoi_loaiGiayToKhac = "",
+        csqChuyenDoi_soGiayTo = "",
+        csqChuyenDoi_ngayCapGiayTo = "",
+        csqChuyenDoi_noiCapGiayTo = "",
+        csqChuyenDoi_ngayHetHanGiayTo = "",
+
+        duAnDauTuDacBiet = "",
+        doanhNghiepXaHoi = "",
+        congTyChungKhoan = "",
+        congTyChungKhoan_soGiayPhep = "",
+        congTyChungKhoan_ngayCap = ""
     } = dataJson;
 
 
@@ -141,6 +177,13 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
             return kg.substring(index + 5).trim() || "……";
         }
         return "……";
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "";
+        const [year, month, day] = dateString.split("-");
+        if (year && month && day) return `${day}/${month}/${year}`;
+        return dateString;
     };
 
     return (
@@ -165,7 +208,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 <p>Kính gửi: {kinhGui}</p>
 
                 <p>Tôi là (<em>ghi họ tên bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{nguoiNop_hoTen}</span></p>
-                <p>Ngày, tháng, năm sinh: {nguoiNop_ngaySinh}</p>
+                <p>Ngày, tháng, năm sinh: {formatDate(nguoiNop_ngaySinh)}</p>
                 <p>Giới tính: {nguoiNop_gioiTinh}</p>
                 <p>Số định danh cá nhân: {nguoiNop_cccd}</p>
                 <p>Địa chỉ liên lạc: {addressToString(lienLac_soNha, lienLac_xa, lienLac_tinh)}</p>
@@ -180,7 +223,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td>
                                 <p>Dân tộc: {nguoiNop_danToc} &nbsp; &nbsp; Quốc tịch: {nguoiNop_quocTich}</p>
                                 <p>Số Hộ chiếu (<em>đối với cá nhân Việt Nam không có số định danh cá nhân</em>)/Số Hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế hộ chiếu nước ngoài (<em>đối với cá nhân là người nước ngoài</em>): {nguoiNop_soHoChieu}</p>
-                                <p>Ngày cấp: {nguoiNop_ngayCapHoChieu} &nbsp; &nbsp; Nơi cấp: {nguoiNop_noiCapHoChieu}</p>
+                                <p>Ngày cấp: {formatDate(nguoiNop_ngayCapHoChieu)} &nbsp; &nbsp; Nơi cấp: {nguoiNop_noiCapHoChieu}</p>
                                 <p>Nơi thường trú:</p>
                                 <p>Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {nguoiNop_thuongTru_soNha}</p>
                                 <p>Xã/Phường/Đặc khu: {nguoiNop_thuongTru_xa}</p>
@@ -228,6 +271,53 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         </tr>
                     </tbody>
                 </table>
+
+                {tinhTrangThanhLap !== "moi" && (
+                    <div style={{ marginLeft: "20px", marginTop: "8px" }}>
+                        <p>- Lý do chuyển đổi loại hình doanh nghiệp: {lyDoChuyenDoi}</p>
+                        
+                        <p style={{ marginTop: "8px" }}><strong>- Thông tin về các doanh nghiệp bị chia, bị tách, bị hợp nhất, được chuyển đổi:</strong></p>
+                        <p>Tên doanh nghiệp (ghi bằng chữ in hoa): <span style={{ textTransform: "uppercase" }}>{dnChuyenDoi_ten}</span></p>
+                        <p>Mã số doanh nghiệp/Mã số thuế: {dnChuyenDoi_maSo}</p>
+                        
+                        <p style={{ marginTop: "8px" }}><strong>- Thông tin về hộ kinh doanh được chuyển đổi:</strong></p>
+                        <p>Tên hộ kinh doanh (ghi bằng chữ in hoa): <span style={{ textTransform: "uppercase" }}>{hkdChuyenDoi_ten}</span></p>
+                        <p>Số Giấy chứng nhận đăng ký hộ kinh doanh (nếu có): {hkdChuyenDoi_soGiayChungNhan}</p>
+                        <p>Ngày cấp: {formatDate(hkdChuyenDoi_ngayCap)} &nbsp;&nbsp; Nơi cấp: {hkdChuyenDoi_noiCap}</p>
+                        <p>Mã số thuế của hộ kinh doanh: {hkdChuyenDoi_maSoThue}</p>
+                        <p>Địa chỉ trụ sở hộ kinh doanh: {hkdChuyenDoi_diaChi}</p>
+                        <p>Tên chủ hộ kinh doanh: {hkdChuyenDoi_tenChuHo}</p>
+                        <p>Loại giấy tờ pháp lý của cá nhân: {hkdChuyenDoi_loaiGiayTo === "khac" ? hkdChuyenDoi_loaiGiayToKhac : (hkdChuyenDoi_loaiGiayTo === "cmnd" ? "Chứng minh nhân dân" : (hkdChuyenDoi_loaiGiayTo === "cccd" ? "Căn cước công dân" : (hkdChuyenDoi_loaiGiayTo === "ho_chieu" ? "Hộ chiếu" : "")))}</p>
+                        <p>Số giấy tờ pháp lý của cá nhân: {hkdChuyenDoi_soGiayTo}</p>
+                        <p>Ngày cấp: {formatDate(hkdChuyenDoi_ngayCapGiayTo)} &nbsp;&nbsp; Nơi cấp: {hkdChuyenDoi_noiCapGiayTo} &nbsp;&nbsp; Ngày hết hạn: {formatDate(hkdChuyenDoi_ngayHetHanGiayTo)}</p>
+
+                        <p style={{ marginTop: "8px" }}><strong>- Thông tin về cơ sở bảo trợ xã hội/quỹ xã hội/quỹ từ thiện được chuyển đổi:</strong></p>
+                        <p>Tên cơ sở (ghi bằng chữ in hoa): <span style={{ textTransform: "uppercase" }}>{csqChuyenDoi_ten}</span></p>
+                        <p>Số Giấy chứng nhận: {csqChuyenDoi_soGiayChungNhan}</p>
+                        <p>Ngày cấp: {formatDate(csqChuyenDoi_ngayCap)} &nbsp;&nbsp; Nơi cấp: {csqChuyenDoi_noiCap}</p>
+                        <p>Mã số thuế: {csqChuyenDoi_maSoThue}</p>
+                        <p>Địa chỉ trụ sở chính: {csqChuyenDoi_diaChi}</p>
+                        <p>Tên người đại diện: {csqChuyenDoi_tenNguoiDaiDien}</p>
+                        <p>Loại giấy tờ pháp lý: {csqChuyenDoi_loaiGiayTo === "khac" ? csqChuyenDoi_loaiGiayToKhac : (csqChuyenDoi_loaiGiayTo === "cmnd" ? "Chứng minh nhân dân" : (csqChuyenDoi_loaiGiayTo === "cccd" ? "Căn cước công dân" : (csqChuyenDoi_loaiGiayTo === "ho_chieu" ? "Hộ chiếu" : "")))}</p>
+                        <p>Số giấy tờ pháp lý: {csqChuyenDoi_soGiayTo}</p>
+                        <p>Ngày cấp: {formatDate(csqChuyenDoi_ngayCapGiayTo)} &nbsp;&nbsp; Nơi cấp: {csqChuyenDoi_noiCapGiayTo} &nbsp;&nbsp; Ngày hết hạn: {formatDate(csqChuyenDoi_ngayHetHanGiayTo)}</p>
+                    </div>
+                )}
+
+                <p style={{ marginTop: "8px" }}>
+                    - Doanh nghiệp thực hiện dự án đầu tư được đăng ký đầu tư theo thủ tục đầu tư đặc biệt: <Checkbox checked={duAnDauTuDacBiet === "co"} />
+                </p>
+                <p style={{ marginTop: "4px" }}>
+                    - Doanh nghiệp xã hội: <Checkbox checked={doanhNghiepXaHoi === "co"} />
+                </p>
+                <p style={{ marginTop: "4px" }}>
+                    - Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán: <Checkbox checked={congTyChungKhoan === "co"} />
+                </p>
+                {congTyChungKhoan === "co" && (
+                    <p style={{ marginLeft: "20px" }}>
+                        Giấy phép thành lập và hoạt động số: {congTyChungKhoan_soGiayPhep} do Uỷ ban Chứng khoán Nhà nước cấp ngày: {formatDate(congTyChungKhoan_ngayCap)}
+                    </p>
+                )}
 
                 <p style={{ marginTop: "16px" }}><strong>2. Tên công ty:</strong></p>
                 <p>Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{tenCongTyVN}</span></p>
@@ -389,7 +479,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
 
                 <p style={{ marginTop: "16px" }}><strong>8. Người đại diện theo pháp luật:</strong></p>
                 <p>Họ, chữ đệm và tên (<em>ghi bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{nguoiDaiDien_hoTen}</span></p>
-                <p>Ngày, tháng, năm sinh: {nguoiDaiDien_ngaySinh}</p>
+                <p>Ngày, tháng, năm sinh: {formatDate(nguoiDaiDien_ngaySinh)}</p>
                 <p>Giới tính: {nguoiDaiDien_gioiTinh}</p>
                 <p>Số định danh cá nhân: {nguoiDaiDien_cccd}</p>
                 <p>Chức danh: {nguoiDaiDien_chucDanh}</p>
@@ -404,7 +494,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td>
                                 <p>Dân tộc: {nguoiDaiDien_danToc} &nbsp; &nbsp; Quốc tịch: {nguoiDaiDien_quocTich}</p>
                                 <p>Số Hộ chiếu (<em>đối với cá nhân Việt Nam không có số định danh cá nhân</em>)/Số Hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế hộ chiếu nước ngoài (<em>đối với cá nhân là người nước ngoài</em>): {nguoiDaiDien_soHoChieu}</p>
-                                <p>Ngày cấp: {nguoiDaiDien_ngayCapHoChieu} &nbsp; &nbsp; Nơi cấp: {nguoiDaiDien_noiCapHoChieu}</p>
+                                <p>Ngày cấp: {formatDate(nguoiDaiDien_ngayCapHoChieu)} &nbsp; &nbsp; Nơi cấp: {nguoiDaiDien_noiCapHoChieu}</p>
                                 <p>Nơi thường trú:</p>
                                 <p>Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {nguoiDaiDien_thuongTru_soNha}</p>
                                 <p>Xã/Phường/Đặc khu: {nguoiDaiDien_thuongTru_xa}</p>
@@ -429,7 +519,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td colSpan="2">
                                 <p>Thông tin về Giám đốc/Tổng giám đốc <em>(nếu có)</em>:</p>
                                 <p>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: {giamDoc_hoTen}</p>
-                                <p>Ngày, tháng, năm sinh: {giamDoc_ngaySinh}</p>
+                                <p>Ngày, tháng, năm sinh: {formatDate(giamDoc_ngaySinh)}</p>
                                 <p>Giới tính: {giamDoc_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {giamDoc_cccd}</p>
                                 <p>Điện thoại: {giamDoc_phone}</p>
@@ -440,7 +530,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td colSpan="2">
                                 <p>Thông tin về Kế toán trưởng/Phụ trách kế toán <em>(nếu có)</em>:</p>
                                 <p>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: {keToan_hoTen}</p>
-                                <p>Ngày, tháng, năm sinh: {keToan_ngaySinh}</p>
+                                <p>Ngày, tháng, năm sinh: {formatDate(keToan_ngaySinh)}</p>
                                 <p>Giới tính: {keToan_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {keToan_cccd}</p>
                                 <p>Điện thoại: {keToan_phone}</p>
@@ -460,7 +550,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td style={{ textAlign: "center", verticalAlign: "top" }}>9.4</td>
                             <td colSpan="2">
-                                <p>Ngày bắt đầu hoạt động (<em>trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này</em>): {ngayBatDauHoatDong}</p>
+                                <p>Ngày bắt đầu hoạt động (<em>trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này</em>): {formatDate(ngayBatDauHoatDong)}</p>
                             </td>
                         </tr>
                         <tr>

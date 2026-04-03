@@ -1,7 +1,9 @@
 import { useRef } from "react";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 
-export default function NguonVonDieuLeSection({ dataJson, styles }) {
+export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false }) {
     const tableRef = useRef(null);
+    const tooltipVonNuocNgoai = "Kê khai trong trường hợp có nhà đầu tư nước ngoài góp vốn, mua cổ phần, phần vốn góp vào doanh nghiệp dẫn đến thay đổi nội dung đăng ký doanh nghiệp.";
 
     const handleChange = () => {
         if (!tableRef.current) return;
@@ -43,11 +45,14 @@ export default function NguonVonDieuLeSection({ dataJson, styles }) {
                         { label: "Tổng cộng", namePrefix: "nguonVon_tongCong", readOnly: true },
                     ].map(({ label, namePrefix, readOnly }) => (
                         <tr key={namePrefix}>
-                            <td>{label}</td>
+                            <td>
+                                {label}
+                                {namePrefix === "nguonVon_nuocNgoai" && isNote && <InfoTooltip content={tooltipVonNuocNgoai} />}
+                            </td>
                             <td>
                                 <input
                                     type="text"
-                                    className={styles.tableInput}
+                                    className={styles.input}
                                     name={`${namePrefix}_soTien`}
                                     defaultValue={dataJson?.[`${namePrefix}_soTien`] || ""}
                                     readOnly={readOnly}
@@ -57,7 +62,7 @@ export default function NguonVonDieuLeSection({ dataJson, styles }) {
                             <td>
                                 <input
                                     type="text"
-                                    className={styles.tableInput}
+                                    className={styles.input}
                                     name={`${namePrefix}_tyLe`}
                                     defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""}
                                     readOnly={readOnly}

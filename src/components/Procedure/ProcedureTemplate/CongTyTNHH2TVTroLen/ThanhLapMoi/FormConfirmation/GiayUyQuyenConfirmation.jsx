@@ -201,7 +201,7 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             <div className={styles.infoLine}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
 
             <div className={styles.dateLocation}>
-                <CurrentDate prefix={formatWard(chuHo_xa_phuong)} />
+                <CurrentDate />
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>

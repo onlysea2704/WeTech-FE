@@ -36,6 +36,28 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Vốn điều lệ (bằng chữ)": "vonDieuLe_bangChu",
     "Giá trị tương đương ngoại tệ": "vonDieuLe_ngoaiTe",
     "Hiển thị ngoại tệ trên GCNĐKDN (co/khong)": "hienThiNgoaiTe",
+    // Thông tin cổ phần
+    "Mệnh giá cổ phần (VNĐ)": "menhGiaCoPhan",
+    "Cổ phần phổ thông - Số lượng": "cp_cptt_soLuong",
+    "Cổ phần phổ thông - Tổng giá trị": "cp_cptt_giaTri",
+    "Cổ phần phổ thông - Tỷ lệ (%)": "cp_cptt_tiLe",
+    "Cổ phần ưu đãi biểu quyết - Số lượng": "cp_cpudbq_soLuong",
+    "Cổ phần ưu đãi biểu quyết - Tổng giá trị": "cp_cpudbq_giaTri",
+    "Cổ phần ưu đãi biểu quyết - Tỷ lệ (%)": "cp_cpudbq_tiLe",
+    "Cổ phần ưu đãi cổ tức - Số lượng": "cp_cpudct_soLuong",
+    "Cổ phần ưu đãi cổ tức - Tổng giá trị": "cp_cpudct_giaTri",
+    "Cổ phần ưu đãi cổ tức - Tỷ lệ (%)": "cp_cpudct_tiLe",
+    "Cổ phần ưu đãi hoàn lại - Số lượng": "cp_cpudhl_soLuong",
+    "Cổ phần ưu đãi hoàn lại - Tổng giá trị": "cp_cpudhl_giaTri",
+    "Cổ phần ưu đãi hoàn lại - Tỷ lệ (%)": "cp_cpudhl_tiLe",
+    "Cổ phần ưu đãi khác - Tên": "cp_cpudk_ten",
+    "Cổ phần ưu đãi khác - Số lượng": "cp_cpudk_soLuong",
+    "Cổ phần ưu đãi khác - Tổng giá trị": "cp_cpudk_giaTri",
+    "Cổ phần ưu đãi khác - Tỷ lệ (%)": "cp_cpudk_tiLe",
+    // Nhà đầu tư nước ngoài
+    "Mã số dự án đầu tư": "maSoDuAn",
+    "Ngày cấp dự án (yyyy-mm-dd)": "ngayCapDuAn",
+    "Cơ quan cấp dự án": "coQuanCapDuAn",
     // Nguồn vốn
     "Vốn ngân sách nhà nước - Số tiền": "nguonVon_nganSach_soTien",
     "Vốn ngân sách nhà nước - Tỷ lệ (%)": "nguonVon_nganSach_tyLe",
@@ -152,6 +174,25 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["Giá trị tương đương ngoại tệ", src.vonDieuLe_ngoaiTe || ""]);
     rows.push(["Hiển thị ngoại tệ trên GCNĐKDN (co/khong)", src.hienThiNgoaiTe || "khong"]);
 
+    rows.push(["[THÔNG TIN CỔ PHẦN (Công ty Cổ phần)]", ""]);
+    rows.push(["Mệnh giá cổ phần (VNĐ)", src.menhGiaCoPhan || ""]);
+    rows.push(["Cổ phần phổ thông - Số lượng", src.cp_cptt_soLuong || ""]);
+    rows.push(["Cổ phần phổ thông - Tổng giá trị", src.cp_cptt_giaTri || ""]);
+    rows.push(["Cổ phần phổ thông - Tỷ lệ (%)", src.cp_cptt_tiLe || ""]);
+    rows.push(["Cổ phần ưu đãi biểu quyết - Số lượng", src.cp_cpudbq_soLuong || ""]);
+    rows.push(["Cổ phần ưu đãi biểu quyết - Tổng giá trị", src.cp_cpudbq_giaTri || ""]);
+    rows.push(["Cổ phần ưu đãi biểu quyết - Tỷ lệ (%)", src.cp_cpudbq_tiLe || ""]);
+    rows.push(["Cổ phần ưu đãi cổ tức - Số lượng", src.cp_cpudct_soLuong || ""]);
+    rows.push(["Cổ phần ưu đãi cổ tức - Tổng giá trị", src.cp_cpudct_giaTri || ""]);
+    rows.push(["Cổ phần ưu đãi cổ tức - Tỷ lệ (%)", src.cp_cpudct_tiLe || ""]);
+    rows.push(["Cổ phần ưu đãi hoàn lại - Số lượng", src.cp_cpudhl_soLuong || ""]);
+    rows.push(["Cổ phần ưu đãi hoàn lại - Tổng giá trị", src.cp_cpudhl_giaTri || ""]);
+    rows.push(["Cổ phần ưu đãi hoàn lại - Tỷ lệ (%)", src.cp_cpudhl_tiLe || ""]);
+    rows.push(["Cổ phần ưu đãi khác - Tên", src.cp_cpudk_ten || ""]);
+    rows.push(["Cổ phần ưu đãi khác - Số lượng", src.cp_cpudk_soLuong || ""]);
+    rows.push(["Cổ phần ưu đãi khác - Tổng giá trị", src.cp_cpudk_giaTri || ""]);
+    rows.push(["Cổ phần ưu đãi khác - Tỷ lệ (%)", src.cp_cpudk_tiLe || ""]);
+
     rows.push(["[NGUỒN VỐN ĐIỀU LỆ]", ""]);
     rows.push(["Vốn ngân sách nhà nước - Số tiền", src.nguonVon_nganSach_soTien || ""]);
     rows.push(["Vốn ngân sách nhà nước - Tỷ lệ (%)", src.nguonVon_nganSach_tyLe || ""]);
@@ -186,6 +227,11 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["Tài sản khác - Tỷ lệ (%)", src.taiSan_khac_tyLe || ""]);
     rows.push(["Tổng tài sản góp vốn - Giá trị", src.taiSan_tongSo_giaTri || ""]);
     rows.push(["Tổng tài sản góp vốn - Tỷ lệ (%)", src.taiSan_tongSo_tyLe || ""]);
+
+    rows.push(["[NHÀ ĐẦU TƯ / CỔ ĐÔNG NƯỚC NGOÀI]", ""]);
+    rows.push(["Mã số dự án đầu tư", src.maSoDuAn || ""]);
+    rows.push(["Ngày cấp dự án (yyyy-mm-dd)", src.ngayCapDuAn || ""]);
+    rows.push(["Cơ quan cấp dự án", src.coQuanCapDuAn || ""]);
 
     rows.push(["[NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT]", ""]);
     rows.push(["Họ tên người đại diện (*) (chữ in hoa)", src.nguoiDaiDien_hoTen || ""]);

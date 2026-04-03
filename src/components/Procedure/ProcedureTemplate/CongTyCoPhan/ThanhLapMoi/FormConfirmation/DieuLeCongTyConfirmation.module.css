@@ -52,17 +52,18 @@
     text-align: center !important;
 }
 
-.chapterTitle {
+.documentContainer p.chapterTitle {
     font-weight: bold;
-    text-align: center !important;
+    text-align: center;
     margin-top: 20px;
-    margin-bottom: 10px !important;
+    margin-bottom: 10px;
 }
 
-.articleTitle {
+.documentContainer p.articleTitle {
     font-weight: bold;
+    text-align: left;
     margin-top: 15px;
-    margin-bottom: 8px !important;
+    margin-bottom: 8px;
 }
 
 .flexRow {
@@ -119,6 +120,7 @@
     font-weight: bold;
     margin-top: 10px;
 }
+
 
 .input,
 .select {

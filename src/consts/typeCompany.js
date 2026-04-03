@@ -31,6 +31,9 @@ import GiayUyQuyenConfirmation_CP from "@/components/Procedure/ProcedureTemplate
 import GiayDeNghiDKDNDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/GiayDeNghiDKDNDeclaration";
 import GiayDeNghiDKDNConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/GiayDeNghiDKDNConfirmation";
 
+import DieuLeCongTyDeclaration_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormDeclaration/DieuLeCongTyDeclaration";
+import DieuLeCongTyConfirmation_CP from "@/components/Procedure/ProcedureTemplate/CongTyCoPhan/ThanhLapMoi/FormConfirmation/DieuLeCongTyConfirmation";
+
 const typeCompanyOptions = [
     {
         title: "Công ty TNHH 1 thành viên",
@@ -238,8 +241,8 @@ const typeCompanyOptions = [
                             },
                             {
                                 title: "Điều lệ công ty",
-                                declaration: "DieuLeCongTyDeclaration",
-                                confirmation: "DieuLeCongTyConfirmation",
+                                declaration: DieuLeCongTyDeclaration_CP,
+                                confirmation: DieuLeCongTyConfirmation_CP,
                             },
                             {
                                 title: "Giấy uỷ quyền",

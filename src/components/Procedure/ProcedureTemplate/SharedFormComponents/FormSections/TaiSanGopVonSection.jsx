@@ -48,17 +48,17 @@ export default function TaiSanGopVonSection({ dataJson, styles }) {
                             <td style={{ textAlign: "center", verticalAlign: "top", paddingTop: "10px" }}>{stt}</td>
                             <td>{label}</td>
                             <td>
-                                <input type="text" className={styles.tableInput} name={`${namePrefix}_giaTri`} defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""} />
+                                <input type="text" className={styles.input} name={`${namePrefix}_giaTri`} defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""} />
                             </td>
                             <td>
-                                <input type="text" className={styles.tableInput} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""} />
+                                <input type="text" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""} />
                             </td>
                         </tr>
                     ))}
                     <tr>
                         <td colSpan={2} style={{ textAlign: "center", fontWeight: 600 }}>Tổng số</td>
-                        <td><input type="text" className={styles.tableInput} name="taiSan_tongSo_giaTri" defaultValue={dataJson?.taiSan_tongSo_giaTri || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
-                        <td><input type="text" className={styles.tableInput} name="taiSan_tongSo_tyLe" defaultValue={dataJson?.taiSan_tongSo_tyLe || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
+                        <td><input type="text" className={styles.input} name="taiSan_tongSo_giaTri" defaultValue={dataJson?.taiSan_tongSo_giaTri || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
+                        <td><input type="text" className={styles.input} name="taiSan_tongSo_tyLe" defaultValue={dataJson?.taiSan_tongSo_tyLe || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
                     </tr>
                 </tbody>
             </table>

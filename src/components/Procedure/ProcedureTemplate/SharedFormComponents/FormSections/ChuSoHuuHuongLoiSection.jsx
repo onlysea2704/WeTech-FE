@@ -1,10 +1,16 @@
-export default function ChuSoHuuHuongLoiSection({ dataJson, styles }) {
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
+
+export default function ChuSoHuuHuongLoiSection({ dataJson, styles, isNote = false }) {
+    const tooltipCSH = "Trường hợp doanh nghiệp có thông tin về chủ sở hữu hưởng lợi của doanh nghiệp quy định tại khoản 1, khoản 2 Điều 18 Nghị định số 168/2025/NĐ-CP thì kê khai theo Mẫu số 10 Phụ lục I ban hành kèm theo Thông tư này.";
+
     return (
         <div className={styles.sectionGroup}>
             <h3 className={styles.sectionTitle}>Thông tin về chủ sở hữu hưởng lợi của doanh nghiệp:</h3>
             <div className={styles.formGroup}>
                 <label className={styles.label}>
-                    Doanh nghiệp có chủ sở hữu hưởng lợi không? <span className={styles.required}>*</span>
+                    Doanh nghiệp có chủ sở hữu hưởng lợi không?
+                    {isNote && <InfoTooltip content={tooltipCSH} />}
+                    <span className={styles.required}>*</span>
                 </label>
                 <div className={styles.radioGroup}>
                     <label className={styles.radioLabel}>

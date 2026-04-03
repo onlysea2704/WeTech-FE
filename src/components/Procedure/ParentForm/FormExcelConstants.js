@@ -74,6 +74,7 @@ export const FIELD_LABEL_MAP_UYQUYEN = {
     Email: "uyQuyen_email",
     "Tên chủ hộ": "chuHo_ten",
     "Phường/Xã chủ hộ": "chuHo_xa_phuong",
+    "Phòng thực hiện": "phongThucHien",
 };
 
 export const SECTION_FIELD_MAP_UYQUYEN = {

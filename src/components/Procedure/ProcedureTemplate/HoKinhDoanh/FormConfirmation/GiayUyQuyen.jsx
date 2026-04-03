@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./confirmation.module.css";
 import { getToday } from "@/utils/dateTimeUtils";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
+import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
 
 function formatDate(dateStr) {
     if (!dateStr) return "";
@@ -46,11 +47,7 @@ export default function GiayUyQuyen({ dataJson }) {
 
     const today = getToday();
 
-    function getLastName(name) {
-        if (!name) return "";
-        let arr = name.split(/\s+/);
-        return arr[arr.length - 1];
-    }
+
 
     function formatWard(ward) {
         if (!ward) return "";
@@ -202,27 +199,16 @@ export default function GiayUyQuyen({ dataJson }) {
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN NHẬN ỦY QUYỀN
-                    </div>
-
-                    <div className={styles.signatureName} style={{ marginTop: "80px", fontSize: "15px" }}>
-                        {benB.hoTen}
-                    </div>
-                </div>
-
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN ỦY QUYỀN
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {getLastName(uyQuyen_hoTen)}
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {uyQuyen_hoTen}
-                    </div>
-                </div>
+                <SignatureBlock
+                    title="BÊN NHẬN ỦY QUYỀN"
+                    fullName={benB.hoTen}
+                    styles={styles}
+                />
+                <SignatureBlock
+                    title="BÊN ỦY QUYỀN"
+                    fullName={uyQuyen_hoTen}
+                    styles={styles}
+                />
             </div>
         </div>
     );

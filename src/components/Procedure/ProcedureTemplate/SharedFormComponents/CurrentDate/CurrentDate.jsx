@@ -1,6 +1,25 @@
 import React from 'react';
 
-export default function CurrentDate({ prefix = "………", style, className }) {
+import { useGetFormDataJsonFromName } from '@/pages/User/ProcessProcedure/ProcessProcedure';
+
+const processProvince = (province) => {
+    if (!province || typeof province !== "string") return "";
+    let p = province.trim();
+    if (p.toLowerCase().startsWith("tỉnh ")) {
+        return p.substring(5).trim();
+    }
+    if (p.toLowerCase().startsWith("thành phố ")) {
+        return p.substring(10).trim();
+    }
+    return p;
+};
+
+export default function CurrentDate({ prefix, style, className }) {
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    const defaultProvince = giayDeNghiData?.lienLac_tinh || "";
+
+    const displayPrefix = prefix !== undefined ? processProvince(prefix) : (processProvince(defaultProvince) || "………");
+
     const today = new Date();
     const day = String(today.getDate()).padStart(2, '0');
     const month = String(today.getMonth() + 1).padStart(2, '0');
@@ -8,7 +27,7 @@ export default function CurrentDate({ prefix = "………", style, className }) 
 
     return (
         <span style={style} className={className}>
-            {prefix}, ngày {day} tháng {month} năm {year}
+            {displayPrefix}{displayPrefix ? ", ngày " : "Ngày "}{day} tháng {month} năm {year}
         </span>
     );
 }

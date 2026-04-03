@@ -3,10 +3,16 @@ import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 
-export default function ThongTinDangKyThueSection({ dataJson, styles }) {
+export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = false }) {
     const [provCode_thongBaoThue, setProvCode_thongBaoThue] = useState("");
     const { provinces, communes: communes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
+
+    const tooltipNgayBatDau = "Trường hợp doanh nghiệp được cấp Giấy chứng nhận đăng ký doanh nghiệp sau ngày bắt đầu hoạt động đã kê khai thì ngày bắt đầu hoạt động là ngày doanh nghiệp được cấp Giấy chứng nhận đăng ký doanh nghiệp.";
+    const tooltipNamTaiChinh = "- Trường hợp niên độ kế toán theo năm dương lịch thì ghi từ ngày 01/01 đến ngày 31/12.\n- Trường hợp niên độ kế toán theo năm tài chính khác năm dương lịch thì ghi ngày, tháng bắt đầu niên độ kế toán là ngày đầu tiên của quý; ngày, tháng kết thúc niên độ kế toán là ngày cuối cùng của quý.";
+    const tooltipTongSoLaoDong = "Không kê khai trong trường hợp thành lập doanh nghiệp trên cơ sở chuyển đổi loại hình doanh nghiệp.";
+    const tooltipPPThue = "Chỉ kê khai trong trường hợp thành lập mới. Doanh nghiệp căn cứ vào quy định của pháp luật về thuế giá trị gia tăng và dự kiến hoạt động kinh doanh của doanh nghiệp để xác định 01 trong 04 phương pháp tính thuế giá trị gia tăng tại chỉ tiêu này, trừ trường hợp doanh nghiệp mua bán, chế tác vàng, bạc, đá quý có thể chọn thêm phương pháp trực tiếp trên GTGT ngoài các phương pháp khác (nếu có).";
 
     return (
         <div className={styles.sectionGroup}>
@@ -105,7 +111,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles }) {
                         <td style={{ textAlign: "center" }}>10.4</td>
                         <td>
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Ngày bắt đầu hoạt động <span style={{ fontStyle: "italic", fontWeight: 400 }}>
+                                <div className={styles.label}>Ngày bắt đầu hoạt động {isNote && <InfoTooltip content={tooltipNgayBatDau} />}<span style={{ fontStyle: "italic", fontWeight: 400 }}>
                                     (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):</span>
                                 </div>
                                 <DateInput name="ngayBatDauHoatDong" className={styles.input} defaultValue={dataJson?.ngayBatDauHoatDong || ""} />
@@ -139,7 +145,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles }) {
                         <td style={{ textAlign: "center" }}>10.6</td>
                         <td>
                             <div className={styles.formGroup} style={{ marginBottom: 0 }}>
-                                <div className={styles.label}>Năm tài chính:</div>
+                                <div className={styles.label}>Năm tài chính: {isNote && <InfoTooltip content={tooltipNamTaiChinh} />}</div>
                                 <p style={{ marginTop: "4px" }}>Áp dụng từ ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_tuNgay" defaultValue={dataJson?.namTaiChinh_tuNgay || "01/01"} /> đến ngày <input type="text" className={styles.input} style={{ width: "60px", display: "inline-block", padding: "4px", minHeight: "30px", textAlign: "center" }} name="namTaiChinh_denNgay" defaultValue={dataJson?.namTaiChinh_denNgay || "31/12"} /></p>
                             </div>
                         </td>
@@ -148,7 +154,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles }) {
                         <td style={{ textAlign: "center" }}>10.7</td>
                         <td>
                             <div className={styles.formGroup} style={{ marginBottom: 0, display: "flex", alignItems: "center", gap: "10px" }}>
-                                <div className={styles.label} style={{ marginBottom: 0 }}>Tổng số lao động <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(dự kiến)</span>:</div>
+                                <div className={styles.label} style={{ marginBottom: 0 }}>Tổng số lao động {isNote && <InfoTooltip content={tooltipTongSoLaoDong} />} <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(dự kiến)</span>:</div>
                                 <input type="number" className={styles.input} style={{ width: "100px", minHeight: "30px", padding: "4px 8px" }} name="tongSoLaoDong" defaultValue={dataJson?.tongSoLaoDong || "01"} />
                             </div>
                         </td>
@@ -175,7 +181,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles }) {
                         <td style={{ textAlign: "center" }}>10.9</td>
                         <td>
                             <div className={styles.formGroup} style={{ marginBottom: 0 }}>
-                                <div className={styles.label}>Phương pháp tính thuế GTGT <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(chọn 1 trong 4 phương pháp)</span>:</div>
+                                <div className={styles.label}>Phương pháp tính thuế GTGT {isNote && <InfoTooltip content={tooltipPPThue} />} <span style={{ fontStyle: "italic", fontWeight: "normal" }}>(chọn 1 trong 4 phương pháp)</span>:</div>
                                 <div style={{ display: "flex", flexDirection: "column", gap: "8px", maxWidth: "400px" }}>
                                     <label className={styles.radioLabel} style={{ justifyContent: "space-between" }}>
                                         <span>Khấu trừ</span>

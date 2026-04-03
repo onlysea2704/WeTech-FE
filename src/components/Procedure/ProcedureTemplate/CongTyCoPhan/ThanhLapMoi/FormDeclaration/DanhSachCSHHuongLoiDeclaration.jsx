@@ -7,6 +7,7 @@ import {
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
+import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import deleteIcon from "@/assets/delete-icon.png";
 
 const EMPTY_ROW = {
@@ -118,17 +119,36 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 200 }}>
                                     Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
                                 </th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>
+                                    Quốc tịch
+                                    <span style={{ display: "block", fontSize: "12px", fontStyle: "italic", fontWeight: "normal", marginTop: "4px" }}>
+                                        (Nếu đã khai Số định danh cá nhân thì không phải kê khai)
+                                    </span>
+                                </th>
+                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>
+                                    Dân tộc
+                                    <span style={{ display: "block", fontSize: "12px", fontStyle: "italic", fontWeight: "normal", marginTop: "4px" }}>
+                                        (Nếu đã khai Số định danh cá nhân thì không phải kê khai)
+                                    </span>
+                                </th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
                                 <th colSpan={3} className={styles.th}>Chủ sở hữu hưởng lợi của doanh nghiệp</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Ghi chú</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Thao tác</th>
                             </tr>
                             <tr>
-                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu vốn điều lệ (%)</th>
-                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu quyền biểu quyết (%)</th>
-                                <th className={styles.th} style={{ minWidth: 100 }}>Quyền chi phối</th>
+                                <th className={styles.th} style={{ minWidth: 50 }}>
+                                    Tỷ lệ sở hữu vốn điều lệ (%)
+                                    <InfoTooltip color="#fff" content={`Trường hợp thông qua sở hữu vốn điều lệ/cổ phần:\n- Cá nhân là cổ đông sở hữu từ 25% tổng số cổ phần có quyền biểu quyết trở lên;\n- Cá nhân là thành viên sở hữu từ 25% vốn điều lệ trở lên đối với công ty TNHH 2TV trở lên;\n- Cá nhân là chủ sở hữu công ty TNHH 1TV;\n- Cá nhân là thành viên hợp danh.`} />
+                                </th>
+                                <th className={styles.th} style={{ minWidth: 50 }}>
+                                    Tỷ lệ sở hữu quyền biểu quyết (%)
+                                    <InfoTooltip color="#fff" content="(= Số cổ phần có quyền biểu quyết của chủ sở hữu hưởng lợi / tổng số cổ phần có quyền biểu quyết của công ty)" />
+                                </th>
+                                <th className={styles.th} style={{ minWidth: 100 }}>
+                                    Quyền chi phối
+                                    <InfoTooltip color="#fff" content="Ghi rõ một trong các quyền chi phối sau: bổ nhiệm, miễn nhiệm/bãi nhiệm đa số/tất cả thành viên HĐQT, Chủ tịch HĐQT, Chủ tịch HĐTV; Người ĐDPL, GĐ/TGĐ; sửa đổi, bổ sung điều lệ; thay đổi cơ cấu tổ chức quản lý; tổ chức lại, giải thể công ty." />
+                                </th>
                             </tr>
                             <tr className={styles.colNumberRow}>
                                 {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ""].map((n, i) => (
@@ -149,7 +169,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="hoTen"
                                             value={row.hoTen}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -157,7 +177,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <DateInput
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="ngaySinh"
                                             value={row.ngaySinh}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -169,7 +189,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="giaTo"
                                             value={row.giaTo}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -184,7 +204,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <td className={styles.td}>
                                         <input
                                             type="text"
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="diaChiLienLac"
                                             value={row.diaChiLienLac}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -192,7 +212,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="tyLeSoHuuVon"
                                             value={row.tyLeSoHuuVon}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -200,7 +220,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="tyLeSoHuuBieuQuyet"
                                             value={row.tyLeSoHuuBieuQuyet}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -208,7 +228,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="quyenChiPhoi"
                                             value={row.quyenChiPhoi}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -216,7 +236,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     </td>
                                     <td className={styles.td}>
                                         <input
-                                            className={styles.cellInput}
+                                            className={styles.input}
                                             name="ghiChu"
                                             value={row.ghiChu}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -238,18 +258,6 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                     </table>
                 </div>
 
-                <div style={{ marginTop: "20px", fontSize: "14px", lineHeight: "1.6", fontStyle: "italic", background: "#f9f9f9", padding: "15px", borderRadius: "5px", border: "1px dashed #ccc" }}>
-                    <p>Nếu cột số 5 kê khai Số định danh cá nhân thì không phải kê khai các cột số 6, 7.</p>
-                    <p>Trường hợp CSHHL thông qua sở hữu vốn điều lệ hoặc tổng số cổ phần có quyền biểu quyết được xác định như sau:</p>
-                    <ul>
-                        <li>Cá nhân là cổ đông sở hữu từ 25% tổng số cổ phần có quyền biểu quyết trở lên;</li>
-                        <li>Cá nhân là thành viên sở hữu từ 25% vốn điều lệ trở lên của công ty trách nhiệm hữu hạn hai thành viên trở lên;</li>
-                        <li>Cá nhân là chủ sở hữu công ty trách nhiệm hữu hạn một thành viên;</li>
-                        <li>Cá nhân là thành viên hợp danh công ty hợp danh.</li>
-                    </ul>
-                    <p>Tỷ lệ sở hữu cổ phần có quyền biểu quyết = Số cổ phần có quyền biểu quyết của chủ sở hữu hưởng lợi / tổng số cổ phần có quyền biểu quyết của công ty cổ phần.</p>
-                    <p>Nếu doanh nghiệp xác định được chủ sở hữu hưởng lợi của doanh nghiệp theo quy định tại điểm b khoản 1 Điều 17 Nghị định số 168/2025/NĐ-CP thông qua quyền chi phối, doanh nghiệp ghi rõ một trong các quyền chi phối sau: bổ nhiệm, miễn nhiệm hoặc bãi nhiệm đa số hoặc tất cả thành viên hội đồng quản trị, chủ tịch hội đồng quản trị, chủ tịch hội đồng thành viên; người đại diện theo pháp luật, giám đốc hoặc tổng giám đốc của doanh nghiệp; sửa đổi, bổ sung điều lệ của doanh nghiệp; thay đổi cơ cấu tổ chức quản lý công ty; tổ chức lại, giải thể công ty.</p>
-                </div>
 
                 <Signature
                     subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT"

@@ -91,7 +91,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 <td>{idx + 1}</td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.hoTen}
                                         onChange={(e) => updateRow(idx, "hoTen", e.target.value)}
                                         readOnly={disabled}
@@ -99,7 +99,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <DateInput
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.ngaySinh}
                                         onChange={(e) => updateRow(idx, "ngaySinh", e.target.value)}
                                         readOnly={disabled}
@@ -107,7 +107,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.cccd}
                                         onChange={(e) => updateRow(idx, "cccd", e.target.value)}
                                         readOnly={disabled}
@@ -115,7 +115,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <select
-                                        className={`${styles.select} ${styles.tableInput}`}
+                                        className={`${styles.select} ${styles.input}`}
                                         value={row.gioiTinh}
                                         onChange={(e) => updateRow(idx, "gioiTinh", e.target.value)}
                                         disabled={disabled}
@@ -127,7 +127,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <select
-                                        className={`${styles.select} ${styles.tableInput}`}
+                                        className={`${styles.select} ${styles.input}`}
                                         value={row.quocTich}
                                         onChange={(e) => updateRow(idx, "quocTich", e.target.value)}
                                         disabled={disabled}
@@ -138,7 +138,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <select
-                                        className={`${styles.select} ${styles.tableInput}`}
+                                        className={`${styles.select} ${styles.input}`}
                                         value={row.danToc}
                                         onChange={(e) => updateRow(idx, "danToc", e.target.value)}
                                         disabled={disabled}
@@ -156,7 +156,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.thuongTru || ""}
                                         onChange={(e) => updateRow(idx, "thuongTru", e.target.value)}
                                         readOnly={disabled}
@@ -164,7 +164,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.hienTai || ""}
                                         onChange={(e) => updateRow(idx, "hienTai", e.target.value)}
                                         readOnly={disabled}
@@ -172,7 +172,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                 </td>
                                 <td>
                                     <input
-                                        className={`${styles.input} ${styles.tableInput}`}
+                                        className={`${styles.input} ${styles.input}`}
                                         value={row.chuKy || ""}
                                         onChange={(e) => updateRow(idx, "chuKy", e.target.value)}
                                         readOnly={disabled}

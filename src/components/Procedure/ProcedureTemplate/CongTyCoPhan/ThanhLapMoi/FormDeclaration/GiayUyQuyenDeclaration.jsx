@@ -27,6 +27,9 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration({ form
             return Object.fromEntries(formData.entries());
         },
         importData: (importedData) => {
+            if (!importedData) return;
+            // Cập nhật province code để AddressSelect load commune đúng
+            // Province sẽ được truyền qua defaultValue khi form re-render với key mới
         },
     }));
 
