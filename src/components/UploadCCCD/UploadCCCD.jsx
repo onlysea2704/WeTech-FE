@@ -177,30 +177,81 @@ export default function UploadCCCD({ onComplete }) {
                         </div>
                         <div className={styles.modalBody}>
                             {step < 3 ? (
-                                currentPreview ? (
-                                    <div className={styles.popupPreviewContainer}>
-                                        <div
-                                            className={styles.dottedBox}
-                                            style={{
-                                                border: "none",
-                                                background: "none",
-                                                height: "auto",
-                                                marginBottom: 0,
-                                            }}
-                                        >
+                                <>
+                                    <div className={styles.dottedBox}>
+                                        {currentPreview ? (
                                             <img
                                                 src={currentPreview}
                                                 alt="Preview"
                                                 className={styles.popupPreviewImg}
+                                                style={{ width: "100%", maxHeight: "200px", objectFit: "contain", borderRadius: "8px" }}
                                             />
-                                        </div>
-                                        <div className={styles.actionRow}>
+                                        ) : (
+                                            <>
+                                                <img
+                                                    src={imageIcon}
+                                                    alt=""
+                                                    style={{ width: 24, height: 24, objectFit: "contain", marginBottom: "8px" }}
+                                                />
+                                                <span className={styles.boxText}>
+                                                    {step === 1 ? "Mặt trước" : "Mặt sau"}
+                                                </span>
+                                            </>
+                                        )}
+                                    </div>
+                                    {!currentPreview ? (
+                                        <>
+                                            <h3 className={styles.blueHeading}>Tải lên ảnh CCCD (Vneid) ở đây!</h3>
+                                            <p className={styles.mutedText}>Vui lòng tải ảnh rõ nét từ Vneid</p>
+                                            <p className={styles.mutedTextSmall}>
+                                                Kích thước tối đa của một tập tin là{" "}
+                                                <span className={styles.boldText}>5 MB</span>
+                                            </p>
                                             <button
                                                 type="button"
                                                 className={styles.actionButton}
                                                 onClick={triggerFileInput}
                                             >
-                                                Tải lại
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="24"
+                                                    height="24"
+                                                    viewBox="0 0 24 24"
+                                                    fill="none"
+                                                >
+                                                    <path
+                                                        d="M8.0625 7.68647L12 3.75L15.9375 7.68647"
+                                                        stroke="#1B154B"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                    <path
+                                                        d="M12 14.2492V3.75195"
+                                                        stroke="#1B154B"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                    <path
+                                                        d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25"
+                                                        stroke="#1B154B"
+                                                        strokeWidth="2"
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>{" "}
+                                                Photo CCCD
+                                            </button>
+                                        </>
+                                    ) : (
+                                        <div className={styles.actionRow} style={{ marginTop: "20px", width: "320px", display: "flex", gap: "10px", justifyContent: "center" }}>
+                                            <button
+                                                type="button"
+                                                className={styles.actionButton}
+                                                onClick={triggerFileInput}
+                                            >
+                                                Thử lại
                                             </button>
                                             <button
                                                 type="button"
@@ -210,63 +261,8 @@ export default function UploadCCCD({ onComplete }) {
                                                 Xác nhận
                                             </button>
                                         </div>
-                                    </div>
-                                ) : (
-                                    <>
-                                        <div className={styles.dottedBox}>
-                                            <img
-                                                src={imageIcon}
-                                                alt=""
-                                                style={{ width: 24, height: 24, objectFit: "contain" }}
-                                            />
-                                            <span className={styles.boxText}>
-                                                {step === 1 ? "Mặt trước" : "Mặt sau"}
-                                            </span>
-                                        </div>
-                                        <h3 className={styles.blueHeading}>Tải lên ảnh CCCD (Vneid) ở đây!</h3>
-                                        <p className={styles.mutedText}>Vui lòng tải ảnh rõ nét từ Vneid</p>
-                                        <p className={styles.mutedTextSmall}>
-                                            Kích thước tối đa của một tập tin là{" "}
-                                            <span className={styles.boldText}>5 MB</span>
-                                        </p>
-                                        <button
-                                            type="button"
-                                            className={styles.actionButton}
-                                            onClick={triggerFileInput}
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="24"
-                                                height="24"
-                                                viewBox="0 0 24 24"
-                                                fill="none"
-                                            >
-                                                <path
-                                                    d="M8.0625 7.68647L12 3.75L15.9375 7.68647"
-                                                    stroke="#1B154B"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                                <path
-                                                    d="M12 14.2492V3.75195"
-                                                    stroke="#1B154B"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                                <path
-                                                    d="M20.25 14.25V19.5C20.25 19.6989 20.171 19.8897 20.0303 20.0303C19.8897 20.171 19.6989 20.25 19.5 20.25H4.5C4.30109 20.25 4.11032 20.171 3.96967 20.0303C3.82902 19.8897 3.75 19.6989 3.75 19.5V14.25"
-                                                    stroke="#1B154B"
-                                                    strokeWidth="2"
-                                                    strokeLinecap="round"
-                                                    strokeLinejoin="round"
-                                                />
-                                            </svg>{" "}
-                                            Photo CCCD
-                                        </button>
-                                    </>
-                                )
+                                    )}
+                                </>
                             ) : (
                                 <div className={styles.reviewContainer}>
                                     <div className={styles.reviewImages}>

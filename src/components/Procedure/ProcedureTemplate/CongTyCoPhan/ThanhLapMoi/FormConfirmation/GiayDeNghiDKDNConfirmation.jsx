@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { formatDate } from "@/utils/dateTimeUtils";
 // Reuse styles
 import styles from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/GiayDeNghiDKDNConfirmation.module.css";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
@@ -177,13 +178,6 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
             return kg.substring(index + 5).trim() || "……";
         }
         return "……";
-    };
-
-    const formatDate = (dateString) => {
-        if (!dateString) return "";
-        const [year, month, day] = dateString.split("-");
-        if (year && month && day) return `${day}/${month}/${year}`;
-        return dateString;
     };
 
     return (
@@ -459,7 +453,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                                 <tr key={idx}>
                                     <td style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td>{tv.hoTen}</td>
-                                    <td style={{ textAlign: "center" }}>{tv.ngaySinh}</td>
+                                    <td style={{ textAlign: "center" }}>{formatDate(tv.ngaySinh)}</td>
                                     <td style={{ textAlign: "center" }}>{tv.gioiTinh}</td>
                                     <td>{tv.giaTo}</td>
                                     <td style={{ textAlign: "center" }}>{tv.quocTich}</td>

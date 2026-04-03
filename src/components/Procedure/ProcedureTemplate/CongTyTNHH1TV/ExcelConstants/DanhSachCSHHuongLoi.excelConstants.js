@@ -2,12 +2,13 @@
 // Excel constants cho Danh sách chủ sở hữu hưởng lợi (CongTyTNHH1TV)
 // ──────────────────────────────────────────────────────────────────────────────
 
+import { formatDateExcel, parseDateExcel } from "@/components/Procedure/ParentForm/FormExcelConstants";
 export const SENTINEL_CSH = "##DANH_SACH_CSH_HUONG_LOI##";
 
 export const CSH_HUONG_LOI_HEADERS = [
     "STT",
     "Họ và tên",
-    "Ngày, tháng, năm sinh (yyyy-mm-dd)",
+    "Ngày, tháng, năm sinh (dd/mm/yyyy)",
     "Giới tính (Nam/Nữ)",
     "Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý",
     "Quốc tịch",
@@ -32,7 +33,7 @@ export function buildExportRowsCSHHuongLoi(src) {
         rows.push([
             i + 1,
             r.hoTen || "",
-            r.ngaySinh || "",
+            formatDateExcel(r.ngaySinh),
             r.gioiTinh || "",
             r.giaTo || "",
             r.quocTich || "",
@@ -66,7 +67,7 @@ export function parseImportRowsCSHHuongLoi(allRows) {
 
         importedData.cshHuongLoiList.push({
             hoTen: String(row[1] || ""),
-            ngaySinh: String(row[2] || ""),
+            ngaySinh: parseDateExcel(String(row[2] || "")),
             gioiTinh: String(row[3] || ""),
             giaTo: String(row[4] || ""),
             quocTich: String(row[5] || ""),

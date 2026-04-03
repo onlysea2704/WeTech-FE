@@ -2,7 +2,7 @@
 // Excel constants cho Giấy đề nghị đăng ký doanh nghiệp (Công ty TNHH 1TV)
 // ──────────────────────────────────────────────────────────────────────────────
 
-// Tái sử dụng NGANH_NGHE_HEADERS từ constants chung
+import { formatDateExcel } from "@/components/Procedure/ParentForm/FormExcelConstants";
 export { NGANH_NGHE_HEADERS, SENTINEL_NGANH } from "@/components/Procedure/ParentForm/FormExcelConstants";
 
 // ── Field label → key map ────────────────────────────────────────────────────
@@ -10,7 +10,7 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Kính gửi": "kinhGui",
     // Người nộp hồ sơ
     "Họ và tên người nộp (*) (chữ in hoa)": "nguoiNop_hoTen",
-    "Ngày sinh người nộp (*) (yyyy-mm-dd)": "nguoiNop_ngaySinh",
+    "Ngày sinh người nộp (*) (dd/mm/yyyy)": "nguoiNop_ngaySinh",
     "Giới tính người nộp (*) (Nam/Nữ)": "nguoiNop_gioiTinh",
     "CCCD người nộp (*)": "nguoiNop_cccd",
     "Điện thoại người nộp": "nguoiNop_phone",
@@ -26,7 +26,7 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Website": "truSo_website",
     // Chủ sở hữu
     "Họ tên chủ sở hữu (*) (chữ in hoa)": "chuSoHuu_hoTen",
-    "Ngày sinh chủ sở hữu (*) (yyyy-mm-dd)": "chuSoHuu_ngaySinh",
+    "Ngày sinh chủ sở hữu (*) (dd/mm/yyyy)": "chuSoHuu_ngaySinh",
     "Giới tính chủ sở hữu (*) (Nam/Nữ)": "chuSoHuu_gioiTinh",
     "CCCD chủ sở hữu (*)": "chuSoHuu_cccd",
     "Điện thoại chủ sở hữu": "chuSoHuu_phone",
@@ -71,7 +71,7 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Tổng cộng vốn - Tỷ lệ (%)": "nguonVon_tongCong_tyLe",
     // Thông tin đăng ký thuế - Giám đốc
     "Họ tên Giám đốc/TGĐ (nếu có)": "giamDoc_hoTen",
-    "Ngày sinh Giám đốc (yyyy-mm-dd)": "giamDoc_ngaySinh",
+    "Ngày sinh Giám đốc (dd/mm/yyyy)": "giamDoc_ngaySinh",
     "Giới tính Giám đốc (Nam/Nữ)": "giamDoc_gioiTinh",
     "CCCD Giám đốc": "giamDoc_cccd",
     "Điện thoại Giám đốc": "giamDoc_phone",
@@ -92,7 +92,7 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Tổng tài sản góp vốn - Tỷ lệ (%)": "taiSan_tongSo_tyLe",
     // Người đại diện
     "Họ tên người đại diện (*) (chữ in hoa)": "nguoiDaiDien_hoTen",
-    "Ngày sinh người đại diện (*) (yyyy-mm-dd)": "nguoiDaiDien_ngaySinh",
+    "Ngày sinh người đại diện (*) (dd/mm/yyyy)": "nguoiDaiDien_ngaySinh",
     "Giới tính người đại diện (*) (Nam/Nữ)": "nguoiDaiDien_gioiTinh",
     "CCCD người đại diện (*)": "nguoiDaiDien_cccd",
     "Chức danh người đại diện (*)": "nguoiDaiDien_chucDanh",
@@ -130,7 +130,7 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["[THÔNG TIN NGƯỜI NỘP HỒ SƠ]", ""]);
     rows.push(["Kính gửi", src.kinhGui || ""]);
     rows.push(["Họ và tên người nộp (*) (chữ in hoa)", src.nguoiNop_hoTen || ""]);
-    rows.push(["Ngày sinh người nộp (*) (yyyy-mm-dd)", src.nguoiNop_ngaySinh || ""]);
+    rows.push(["Ngày sinh người nộp (*) (dd/mm/yyyy)", formatDateExcel(src.nguoiNop_ngaySinh)]);
     rows.push(["Giới tính người nộp (*) (Nam/Nữ)", src.nguoiNop_gioiTinh || ""]);
     rows.push(["CCCD người nộp (*)", src.nguoiNop_cccd || ""]);
     rows.push(["Điện thoại người nộp", src.nguoiNop_phone || ""]);
@@ -157,7 +157,7 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
 
     rows.push(["[CHỦ SỞ HỮU]", ""]);
     rows.push(["Họ tên chủ sở hữu (*) (chữ in hoa)", src.chuSoHuu_hoTen || ""]);
-    rows.push(["Ngày sinh chủ sở hữu (*) (yyyy-mm-dd)", src.chuSoHuu_ngaySinh || ""]);
+    rows.push(["Ngày sinh chủ sở hữu (*) (dd/mm/yyyy)", formatDateExcel(src.chuSoHuu_ngaySinh)]);
     rows.push(["Giới tính chủ sở hữu (*) (Nam/Nữ)", src.chuSoHuu_gioiTinh || ""]);
     rows.push(["CCCD chủ sở hữu (*)", src.chuSoHuu_cccd || ""]);
     rows.push(["Điện thoại chủ sở hữu", src.chuSoHuu_phone || ""]);
@@ -207,7 +207,7 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
 
     rows.push(["[THÔNG TIN ĐĂNG KÝ THUẾ - GIÁM ĐỐC]", ""]);
     rows.push(["Họ tên Giám đốc/TGĐ (nếu có)", src.giamDoc_hoTen || ""]);
-    rows.push(["Ngày sinh Giám đốc (yyyy-mm-dd)", src.giamDoc_ngaySinh || ""]);
+    rows.push(["Ngày sinh Giám đốc (dd/mm/yyyy)", formatDateExcel(src.giamDoc_ngaySinh)]);
     rows.push(["Giới tính Giám đốc (Nam/Nữ)", src.giamDoc_gioiTinh || ""]);
     rows.push(["CCCD Giám đốc", src.giamDoc_cccd || ""]);
     rows.push(["Điện thoại Giám đốc", src.giamDoc_phone || ""]);
@@ -235,7 +235,7 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
 
     rows.push(["[NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT]", ""]);
     rows.push(["Họ tên người đại diện (*) (chữ in hoa)", src.nguoiDaiDien_hoTen || ""]);
-    rows.push(["Ngày sinh người đại diện (*) (yyyy-mm-dd)", src.nguoiDaiDien_ngaySinh || ""]);
+    rows.push(["Ngày sinh người đại diện (*) (dd/mm/yyyy)", formatDateExcel(src.nguoiDaiDien_ngaySinh)]);
     rows.push(["Giới tính người đại diện (*) (Nam/Nữ)", src.nguoiDaiDien_gioiTinh || ""]);
     rows.push(["CCCD người đại diện (*)", src.nguoiDaiDien_cccd || ""]);
     rows.push(["Chức danh người đại diện (*)", src.nguoiDaiDien_chucDanh || ""]);

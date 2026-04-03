@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./GiayDeNghiDKDNConfirmation.module.css";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
+import { formatDate } from "@/utils/dateTimeUtils";
 
 const Checkbox = ({ checked }) => (
     <div className={styles.checkbox}>
@@ -195,7 +196,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 <p>Kính gửi: {kinhGui}</p>
 
                 <p>Tôi là (<em>ghi họ tên bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{nguoiNop_hoTen}</span></p>
-                <p>Ngày, tháng, năm sinh: {nguoiNop_ngaySinh}</p>
+                <p>Ngày, tháng, năm sinh: {formatDate(nguoiNop_ngaySinh)}</p>
                 <p>Giới tính: {nguoiNop_gioiTinh}</p>
                 <p>Số định danh cá nhân: {nguoiNop_cccd}</p>
                 <p>Địa chỉ liên lạc: {addressToString(lienLac_soNha, lienLac_xa, lienLac_tinh)}</p>
@@ -331,7 +332,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 <p style={{ fontStyle: "italic" }}><strong>a) Đối với chủ sở hữu là cá nhân:</strong></p>
                 <p>- Thông tin về chủ sở hữu:</p>
                 <p>Họ, chữ đệm và tên (<em>ghi bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{chuSoHuu_hoTen}</span></p>
-                <p>Ngày, tháng, năm sinh: {chuSoHuu_ngaySinh}</p>
+                <p>Ngày, tháng, năm sinh: {formatDate(chuSoHuu_ngaySinh)}</p>
                 <p>Giới tính: {chuSoHuu_gioiTinh}</p>
                 <p>Số định danh cá nhân: {chuSoHuu_cccd}</p>
                 <p>Địa chỉ liên lạc: {addressToString(chuSoHuu_soNha, chuSoHuu_xa, chuSoHuu_tinh)}</p>
@@ -432,7 +433,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
 
                 <p style={{ marginTop: "16px" }}><strong>9. Người đại diện theo pháp luật:</strong></p>
                 <p>Họ, chữ đệm và tên (<em>ghi bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{nguoiDaiDien_hoTen}</span></p>
-                <p>Ngày, tháng, năm sinh: {nguoiDaiDien_ngaySinh}</p>
+                <p>Ngày, tháng, năm sinh: {formatDate(nguoiDaiDien_ngaySinh)}</p>
                 <p>Giới tính: {nguoiDaiDien_gioiTinh}</p>
                 <p>Số định danh cá nhân: {nguoiDaiDien_cccd}</p>
                 <p>Chức danh: {nguoiDaiDien_chucDanh}</p>
@@ -472,7 +473,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td colSpan="2">
                                 <p>Thông tin về Giám đốc/Tổng giám đốc <em>(nếu có)</em>:</p>
                                 <p>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: {giamDoc_hoTen}</p>
-                                <p>Ngày, tháng, năm sinh: {giamDoc_ngaySinh}</p>
+                                <p>Ngày, tháng, năm sinh: {formatDate(giamDoc_ngaySinh)}</p>
                                 <p>Giới tính: {giamDoc_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {giamDoc_cccd}</p>
                                 <p>Điện thoại: {giamDoc_phone}</p>
@@ -483,7 +484,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td colSpan="2">
                                 <p>Thông tin về Kế toán trưởng/Phụ trách kế toán <em>(nếu có)</em>:</p>
                                 <p>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: {keToan_hoTen}</p>
-                                <p>Ngày, tháng, năm sinh: {keToan_ngaySinh}</p>
+                                <p>Ngày, tháng, năm sinh: {formatDate(keToan_ngaySinh)}</p>
                                 <p>Giới tính: {keToan_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {keToan_cccd}</p>
                                 <p>Điện thoại: {keToan_phone}</p>

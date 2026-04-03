@@ -4,7 +4,7 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import Select from "react-select";
 
 export default function KinhGuiSection({ dataJson, styles }) {
-    const prefix = "Cơ quan đăng ký kinh doanh cấp tỉnh ";
+    const prefix = "Cơ quan đăng ký kinh doanh cấp ";
     const [userPart, setUserPart] = useState("");
     const { provinces } = useFetchAddress();
 
@@ -12,8 +12,8 @@ export default function KinhGuiSection({ dataJson, styles }) {
         const full = dataJson?.kinhGui || "";
         if (full.startsWith(prefix)) {
             setUserPart(full.substring(prefix.length));
-        } else if (full.startsWith("Cơ quan đăng ký kinh doanh cấp tỉnh")) {
-            setUserPart(full.substring("Cơ quan đăng ký kinh doanh cấp tỉnh".length).trim());
+        } else if (full.startsWith("Cơ quan đăng ký kinh doanh cấp")) {
+            setUserPart(full.substring("Cơ quan đăng ký kinh doanh cấp".length).trim());
         } else {
             setUserPart(full);
         }

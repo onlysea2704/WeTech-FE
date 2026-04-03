@@ -1,4 +1,5 @@
 import React from "react";
+import { formatDate } from "@/utils/dateTimeUtils";
 // Import styles from CongTyTNHH1TV
 import styles from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormConfirmation/DanhSachCSHHuongLoiConfirmation.module.css";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
@@ -58,7 +59,7 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
                                 <tr key={idx}>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{idx + 1}</td>
                                     <td className={styles.td}>{row.hoTen}</td>
-                                    <td className={styles.td} style={{ textAlign: "center", whiteSpace: "nowrap" }}>{row.ngaySinh}</td>
+                                    <td className={styles.td} style={{ textAlign: "center", whiteSpace: "nowrap" }}>{formatDate(row.ngaySinh)}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.gioiTinh}</td>
                                     <td className={styles.td}>{row.giaTo}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quocTich}</td>

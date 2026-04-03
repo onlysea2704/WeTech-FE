@@ -12,6 +12,8 @@ import {
     SECTION_FIELD_MAP_DENGHI,
     FIELD_LABEL_MAP_UYQUYEN,
     SECTION_FIELD_MAP_UYQUYEN,
+    formatDateExcel,
+    parseDateExcel,
 } from "./FormExcelConstants";
 import {
     FIELD_LABEL_MAP_GIAY_DKDN,
@@ -150,7 +152,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         } else if (isUyQuyen) {
             rows.push(["[BÊN UỶ QUYỀN]", ""]);
             rows.push(["Họ và tên (*)", src.uyQuyen_hoTen || ""]);
-            rows.push(["Ngày sinh (*) (yyyy-mm-dd)", src.uyQuyen_ngaySinh || ""]);
+            rows.push(["Ngày sinh (*) (dd/mm/yyyy)", formatDateExcel(src.uyQuyen_ngaySinh)]);
             rows.push(["Giới tính (*) (Nam/Nữ)", src.uyQuyen_gioiTinh || ""]);
             rows.push(["Số định danh cá nhân (*)", src.uyQuyen_cccd || ""]);
             rows.push(["Điện thoại liên hệ (*)", src.uyQuyen_phone || ""]);
@@ -168,7 +170,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         } else {
             rows.push(["[THÔNG TIN NGƯỜI ĐẠI DIỆN]", ""]);
             rows.push(["Họ và tên (*)", src.nguoiDaiDien_hoTen || ""]);
-            rows.push(["Ngày sinh (*) (yyyy-mm-dd)", src.nguoiDaiDien_ngaySinh || ""]);
+            rows.push(["Ngày sinh (*) (dd/mm/yyyy)", formatDateExcel(src.nguoiDaiDien_ngaySinh)]);
             rows.push(["Giới tính (*) (Nam/Nữ)", src.nguoiDaiDien_gioiTinh || ""]);
             rows.push(["Số định danh cá nhân (*)", src.nguoiDaiDien_cccd || ""]);
             rows.push(["Dân tộc (*)", src.nguoiDaiDien_danToc || ""]);
@@ -234,7 +236,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                 rows.push([
                     i + 1,
                     r.hoTen || "",
-                    r.ngaySinh || "",
+                    formatDateExcel(r.ngaySinh),
                     r.cccd || "",
                     r.gioiTinh || "",
                     r.quocTich || "",
@@ -330,7 +332,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                             if (!row[1]) continue;
                             importedData.thanhVienList.push({
                                 hoTen: String(row[1] || ""),
-                                ngaySinh: String(row[2] || ""),
+                                ngaySinh: parseDateExcel(String(row[2] || "")),
                                 cccd: String(row[3] || ""),
                                 gioiTinh: String(row[4] || ""),
                                 quocTich: String(row[5] || ""),
@@ -381,7 +383,13 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                     }
 
                     const key = LABEL_MAP[col0];
-                    if (key) importedData[key] = value;
+                    if (key) {
+                        let finalValue = value;
+                        if (key.toLowerCase().includes("ngaysinh") || key === "ngayBatDau" || key === "ngayCapDuAn") {
+                            finalValue = parseDateExcel(finalValue);
+                        }
+                        importedData[key] = finalValue;
+                    }
                 }
             }
 

@@ -23,7 +23,7 @@ export const SENTINEL_TV = "##DANH_SACH_THANH_VIEN##";
 // ──────────────────────────────────────────────────────────────────────────────
 export const FIELD_LABEL_MAP_DENGHI = {
     "Họ và tên (*)": "nguoiDaiDien_hoTen",
-    "Ngày sinh (*) (yyyy-mm-dd)": "nguoiDaiDien_ngaySinh",
+    "Ngày sinh (*) (dd/mm/yyyy)": "nguoiDaiDien_ngaySinh",
     "Giới tính (*) (Nam/Nữ)": "nguoiDaiDien_gioiTinh",
     "Số định danh cá nhân (*)": "nguoiDaiDien_cccd",
     "Dân tộc (*)": "nguoiDaiDien_danToc",
@@ -67,7 +67,7 @@ export const SECTION_FIELD_MAP_DENGHI = {
 // ──────────────────────────────────────────────────────────────────────────────
 export const FIELD_LABEL_MAP_UYQUYEN = {
     "Họ và tên (*)": "uyQuyen_hoTen",
-    "Ngày sinh (*) (yyyy-mm-dd)": "uyQuyen_ngaySinh",
+    "Ngày sinh (*) (dd/mm/yyyy)": "uyQuyen_ngaySinh",
     "Giới tính (*) (Nam/Nữ)": "uyQuyen_gioiTinh",
     "Số định danh cá nhân (*)": "uyQuyen_cccd",
     "Điện thoại liên hệ (*)": "uyQuyen_phone",
@@ -83,4 +83,27 @@ export const SECTION_FIELD_MAP_UYQUYEN = {
         "Xã/Phường": "uyQuyen_xa",
         "Số nhà, đường": "uyQuyen_soNha",
     },
+};
+
+export const formatDateExcel = (dateStr) => {
+    if (!dateStr) return "";
+    if (typeof dateStr === "string" && dateStr.includes("-")) {
+        const parts = dateStr.split("-");
+        if (parts.length === 3) {
+            return `${parts[2]}/${parts[1]}/${parts[0]}`;
+        }
+    }
+    return dateStr;
+};
+
+export const parseDateExcel = (dateStr) => {
+    if (!dateStr) return "";
+    let temp = String(dateStr).trim();
+    if (temp.includes("/")) {
+        const parts = temp.split("/");
+        if (parts.length === 3) {
+            return `${parts[2].split(" ")[0]}-${parts[1]}-${parts[0]}`;
+        }
+    }
+    return temp;
 };

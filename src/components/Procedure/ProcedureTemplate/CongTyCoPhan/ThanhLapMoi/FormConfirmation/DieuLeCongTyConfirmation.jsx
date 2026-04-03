@@ -53,7 +53,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                             <tr key={idx}>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{idx + 1}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.hoTen}</td>
-                                <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{row.ngaySinh}</td>
+                                <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{formatDate(row.ngaySinh)}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{row.gioiTinh}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{row.quocTich}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.diaChiLienLac}</td>

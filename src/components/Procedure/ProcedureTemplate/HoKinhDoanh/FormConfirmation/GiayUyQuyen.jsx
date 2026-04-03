@@ -1,17 +1,8 @@
 import React from "react";
 import styles from "./confirmation.module.css";
-import { getToday } from "@/utils/dateTimeUtils";
+import { getToday, formatDate } from "@/utils/dateTimeUtils";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
-
-function formatDate(dateStr) {
-    if (!dateStr) return "";
-    const parts = dateStr.split("-");
-    if (parts.length === 3) {
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
-    }
-    return dateStr;
-}
 
 export default function GiayUyQuyen({ dataJson }) {
     if (!dataJson) return null;

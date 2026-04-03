@@ -1,17 +1,8 @@
 import React from "react";
+import { formatDate, getToday } from "@/utils/dateTimeUtils";
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/confirmation.module.css";
-import { getToday } from "@/utils/dateTimeUtils";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
-
-function formatDate(dateStr) {
-    if (!dateStr) return "";
-    const parts = dateStr.split("-");
-    if (parts.length === 3) {
-        return `${parts[2]}/${parts[1]}/${parts[0]}`;
-    }
-    return dateStr;
-}
 
 export default function GiayUyQuyenConfirmation({ dataJson }) {
     if (!dataJson) return null;
@@ -117,7 +108,7 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             <div className={styles.infoRow}>
                 <div className={styles.infoItem} style={{ flex: 1.5 }}>
                     <span className={styles.infoLabel}>Sinh ngày: </span>
-                    <span className={styles.infoValue}>{benB.ngaySinh}</span>
+                    <span className={styles.infoValue}>{formatDate(benB.ngaySinh)}</span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Dân tộc: </span>
