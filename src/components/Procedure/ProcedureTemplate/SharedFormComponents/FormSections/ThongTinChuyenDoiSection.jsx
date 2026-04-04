@@ -38,13 +38,13 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
                     <option value="khác">Khác</option>
                 </select>
                 {lyDoSelect === "khác" && (
-                    <input 
-                        type="text" 
-                        className={styles.input} 
-                        name="lyDoChuyenDoi" 
-                        defaultValue={(!LY_DO_OPTIONS.includes(dataJson?.lyDoChuyenDoi) && dataJson?.lyDoChuyenDoi) ? dataJson.lyDoChuyenDoi : ""} 
-                        placeholder="Nhập lý do chuyển đổi..." 
-                        style={{ marginTop: "8px" }} 
+                    <input
+                        type="text"
+                        className={styles.input}
+                        name="lyDoChuyenDoi"
+                        defaultValue={(!LY_DO_OPTIONS.includes(dataJson?.lyDoChuyenDoi) && dataJson?.lyDoChuyenDoi) ? dataJson.lyDoChuyenDoi : ""}
+                        placeholder="Nhập lý do chuyển đổi..."
+                        style={{ marginTop: "8px" }}
                     />
                 )}
             </div>
@@ -213,7 +213,7 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
             <div className={styles.formGroup} style={{ marginTop: "16px" }}>
                 <label className={styles.radioLabel} style={{ fontSize: "14px", fontWeight: "bold", alignItems: "center", marginBottom: "8px" }}>
                     <input type="checkbox" name="duAnDauTuDacBiet" value="co" defaultChecked={dataJson?.duAnDauTuDacBiet === "co"} className={styles.radioInput} />
-                    - Doanh nghiệp thực hiện dự án đầu tư được đăng ký đầu tư theo thủ tục đầu tư đặc biệt
+                    Doanh nghiệp thực hiện dự án đầu tư được đăng ký đầu tư theo thủ tục đầu tư đặc biệt
                 </label>
                 <label className={styles.radioLabel} style={{ fontSize: "14px", fontWeight: "bold", alignItems: "center", marginBottom: "8px" }}>
                     <input type="checkbox" name="doanhNghiepXaHoi" value="co" defaultChecked={dataJson?.doanhNghiepXaHoi === "co"} className={styles.radioInput} />
@@ -222,12 +222,12 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
                     </span>
                 </label>
                 <label className={styles.radioLabel} style={{ fontSize: "14px", fontWeight: "bold", alignItems: "center", marginBottom: "8px" }}>
-                    <input type="checkbox" name="congTyChungKhoan" value="co" defaultChecked={dataJson?.congTyChungKhoan === "co"} className={styles.radioInput} style={{ width: "16px" }} />
+                    <input type="checkbox" name="congTyChungKhoan" value="co" defaultChecked={dataJson?.congTyChungKhoan === "co"} className={styles.radioInput} />
                     <span style={{ fontWeight: "normal" }}>
                         <strong>Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán:</strong> <span style={{ fontStyle: "italic" }}>(Đánh dấu X nếu là Công ty chứng khoán/Công ty quản lý quỹ đầu tư chứng khoán/Công ty đầu tư chứng khoán và kê khai thêm các thông tin sau đây)</span>
                     </span>
                 </label>
-                <div style={{ marginLeft: "24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px", fontSize: "14px" }}>
+                <div style={{ marginLeft: "24px", display: "flex", flexWrap: "wrap", alignItems: "center", gap: "8px", fontSize: "14px", color: "var(--secondary-content)" }}>
                     Giấy phép thành lập và hoạt động số:
                     <input type="text" className={styles.input} name="congTyChungKhoan_soGiayPhep" defaultValue={dataJson?.congTyChungKhoan_soGiayPhep || ""} style={{ width: "150px", padding: "4px" }} />
                     do Uỷ ban Chứng khoán Nhà nước cấp ngày:

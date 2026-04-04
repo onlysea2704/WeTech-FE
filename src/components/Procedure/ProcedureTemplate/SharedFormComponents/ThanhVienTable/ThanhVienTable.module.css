@@ -359,7 +359,8 @@ table img {
     align-items: center;
     gap: 8px;
     cursor: pointer;
-    color: #333;
+    color: var(--secondary-content);
+    font-size: 14px;
 }
 
 .radioInput {
@@ -378,6 +379,7 @@ table img {
 }
 
 @media (max-width: 900px) {
+
     .colLeft,
     .colRight,
     .colHalf {

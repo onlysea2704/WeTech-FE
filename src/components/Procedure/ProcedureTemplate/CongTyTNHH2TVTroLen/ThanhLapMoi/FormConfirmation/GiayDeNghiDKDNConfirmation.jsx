@@ -129,16 +129,6 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return nameParts[nameParts.length - 1];
     };
 
-    const extractAfterTinh = (kg) => {
-        if (!kg) return "……";
-        const kgLower = kg.toLowerCase();
-        const index = kgLower.lastIndexOf("tỉnh ");
-        if (index !== -1) {
-            return kg.substring(index + 5).trim() || "……";
-        }
-        return "……";
-    };
-
     return (
         <div className={styles.container}>
             <div className={styles.header}>

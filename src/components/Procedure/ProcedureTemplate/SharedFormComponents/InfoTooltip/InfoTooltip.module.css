@@ -65,6 +65,41 @@
     opacity: 1;
 }
 
+/* Portal Tooltip Styles */
+.tooltipTextPortal {
+    width: max-content;
+    max-width: 300px;
+    background-color: #333;
+    color: #fff;
+    text-align: left;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.15s ease-in-out;
+    pointer-events: none;
+}
+
+.tooltipTextPortal::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: #333 transparent transparent transparent;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .input,
 .select {
     width: 100%;

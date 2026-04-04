@@ -11,6 +11,7 @@ import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormCompon
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
+import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
 
 const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclaration({ formId, dataJson, onSubmit, formRef }, componentRef) {
     // ── State ────────────────────────────────────────────────────────────────
@@ -24,6 +25,39 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
     const [provCode_thue, setProvCode_thue] = useState("");
     const [truSoXaValue, setTruSoXaValue] = useState("");
     const [kinhGuiInputValue, setKinhGuiInputValue] = useState("");
+
+    const [thueAddressState, setThueAddressState] = useState({
+        tinh: dataJson?.thue_tinh || "",
+        xa: dataJson?.thue_xa || "",
+        soNha: dataJson?.thue_soNha || "",
+        phone: dataJson?.thue_phone || "",
+        email: dataJson?.thue_email || ""
+    });
+    const [thueKey, setThueKey] = useState(0);
+
+    const handleCopyTruSoToThue = (isChecked, e) => {
+        if (isChecked) {
+            if (!formRef?.current) return;
+            const fd = new FormData(formRef.current);
+            setThueAddressState({
+                tinh: fd.get("truSo_tinh") || "",
+                xa: fd.get("truSo_xa") || "",
+                soNha: fd.get("truSo_soNha") || "",
+                phone: fd.get("truSo_phone") || "",
+                email: fd.get("truSo_email") || ""
+            });
+            setThueKey(prev => prev + 1);
+        } else {
+            setThueAddressState({
+                tinh: dataJson?.thue_tinh || "",
+                xa: dataJson?.thue_xa || "",
+                soNha: dataJson?.thue_soNha || "",
+                phone: dataJson?.thue_phone || "",
+                email: dataJson?.thue_email || ""
+            });
+            setThueKey(prev => prev + 1);
+        }
+    };
 
     // ── useFetchAddress: provinces cache toàn cục → 1 lần fetch ─────────────
     const { provinces, communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
@@ -52,11 +86,27 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                 }
             }
             setKinhGuiInputValue(stripped);
+            setThueAddressState({
+                tinh: dataJson.thue_tinh || "",
+                xa: dataJson.thue_xa || "",
+                soNha: dataJson.thue_soNha || "",
+                phone: dataJson.thue_phone || "",
+                email: dataJson.thue_email || ""
+            });
+            setThueKey(prev => prev + 1);
         } else {
             setNganhNgheRows([]);
             setThanhVienRows([]);
             setTruSoXaValue("");
             setKinhGuiInputValue("");
+            setThueAddressState({
+                tinh: "",
+                xa: "",
+                soNha: "",
+                phone: "",
+                email: ""
+            });
+            setThueKey(prev => prev + 1);
         }
     }, [dataJson]);
 
@@ -346,37 +396,40 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                 <h3 className={styles.sectionTitle}>
                     Địa chỉ nhận thông báo thuế (chỉ kê khai nếu khác địa chỉ trụ sở):
                 </h3>
-                <AddressSelect
-                    isRequired={false}
-                    provinces={provinces}
-                    communes={communes_thue}
-                    onProvinceChange={setProvCode_thue}
-                    provinceName="thue_tinh"
-                    wardName="thue_xa"
-                    houseNumberName="thue_soNha"
-                    provinceDefault={dataJson?.thue_tinh || ""}
-                    wardDefault={dataJson?.thue_xa || ""}
-                    houseNumberDefault={dataJson?.thue_soNha || ""}
-                />
-                <div className={styles.grid2}>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Điện thoại</label>
-                        <input
-                            type="tel"
-                            className={styles.input}
-                            name="thue_phone"
-                            defaultValue={dataJson?.thue_phone || ""}
-                            pattern="(0|\+84)[0-9]{9,10}"
-                        />
-                    </div>
-                    <div className={styles.formGroup}>
-                        <label className={styles.label}>Email:</label>
-                        <input
-                            type="email"
-                            className={styles.input}
-                            name="thue_email"
-                            defaultValue={dataJson?.thue_email || ""}
-                        />
+                <CopyAddressCheckbox onChange={handleCopyTruSoToThue} />
+                <div key={`thue-group-${thueKey}`}>
+                    <AddressSelect
+                        isRequired={false}
+                        provinces={provinces}
+                        communes={communes_thue}
+                        onProvinceChange={setProvCode_thue}
+                        provinceName="thue_tinh"
+                        wardName="thue_xa"
+                        houseNumberName="thue_soNha"
+                        provinceDefault={thueAddressState.tinh}
+                        wardDefault={thueAddressState.xa}
+                        houseNumberDefault={thueAddressState.soNha}
+                    />
+                    <div className={styles.grid2}>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Điện thoại</label>
+                            <input
+                                type="tel"
+                                className={styles.input}
+                                name="thue_phone"
+                                defaultValue={thueAddressState.phone}
+                                pattern="(0|\+84)[0-9]{9,10}"
+                            />
+                        </div>
+                        <div className={styles.formGroup}>
+                            <label className={styles.label}>Email:</label>
+                            <input
+                                type="email"
+                                className={styles.input}
+                                name="thue_email"
+                                defaultValue={thueAddressState.email}
+                            />
+                        </div>
                     </div>
                 </div>
             </div>

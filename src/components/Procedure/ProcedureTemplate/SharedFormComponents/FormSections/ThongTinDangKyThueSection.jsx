@@ -1,13 +1,76 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
+import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
 
 export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = false }) {
     const [provCode_thongBaoThue, setProvCode_thongBaoThue] = useState("");
     const { provinces, communes: communes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
+
+    const [thueAddressState, setThueAddressState] = useState({
+        tinh: dataJson?.thongBaoThue_tinh || "",
+        xa: dataJson?.thongBaoThue_xa || "",
+        soNha: dataJson?.thongBaoThue_soNha || "",
+        phone: dataJson?.thongBaoThue_phone || "",
+        fax: dataJson?.thongBaoThue_fax || "",
+        email: dataJson?.thongBaoThue_email || ""
+    });
+    const [thueKey, setThueKey] = useState(0);
+
+    const handleCopyTruSoToThue = (isChecked, e) => {
+        if (isChecked) {
+            const form = e.target.closest('form');
+            if (form) {
+                const fd = new FormData(form);
+                setThueAddressState({
+                    tinh: fd.get("truSo_tinh") || "",
+                    xa: fd.get("truSo_xa") || "",
+                    soNha: fd.get("truSo_soNha") || "",
+                    phone: fd.get("truSo_phone") || "",
+                    fax: fd.get("truSo_fax") || "",
+                    email: fd.get("truSo_email") || ""
+                });
+                setThueKey(prev => prev + 1);
+            }
+        } else {
+            setThueAddressState({
+                tinh: dataJson?.thongBaoThue_tinh || "",
+                xa: dataJson?.thongBaoThue_xa || "",
+                soNha: dataJson?.thongBaoThue_soNha || "",
+                phone: dataJson?.thongBaoThue_phone || "",
+                fax: dataJson?.thongBaoThue_fax || "",
+                email: dataJson?.thongBaoThue_email || ""
+            });
+            setThueKey(prev => prev + 1);
+        }
+    };
+
+    useEffect(() => {
+        if (dataJson) {
+            setThueAddressState({
+                tinh: dataJson.thongBaoThue_tinh || "",
+                xa: dataJson.thongBaoThue_xa || "",
+                soNha: dataJson.thongBaoThue_soNha || "",
+                phone: dataJson.thongBaoThue_phone || "",
+                fax: dataJson.thongBaoThue_fax || "",
+                email: dataJson.thongBaoThue_email || ""
+            });
+            setThueKey(prev => prev + 1);
+        } else {
+            setThueAddressState({
+                tinh: "",
+                xa: "",
+                soNha: "",
+                phone: "",
+                fax: "",
+                email: ""
+            });
+            setThueKey(prev => prev + 1);
+        }
+    }, [dataJson]);
 
     const tooltipNgayBatDau = "Trường hợp doanh nghiệp được cấp Giấy chứng nhận đăng ký doanh nghiệp sau ngày bắt đầu hoạt động đã kê khai thì ngày bắt đầu hoạt động là ngày doanh nghiệp được cấp Giấy chứng nhận đăng ký doanh nghiệp.";
     const tooltipNamTaiChinh = "- Trường hợp niên độ kế toán theo năm dương lịch thì ghi từ ngày 01/01 đến ngày 31/12.\n- Trường hợp niên độ kế toán theo năm tài chính khác năm dương lịch thì ghi ngày, tháng bắt đầu niên độ kế toán là ngày đầu tiên của quý; ngày, tháng kết thúc niên độ kế toán là ngày cuối cùng của quý.";
@@ -79,31 +142,34 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.3</td>
                         <td>
                             <p className={styles.sectionTitle}>Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính):</p>
-                            <AddressSelect
-                                isRequired={false}
-                                provinces={provinces}
-                                communes={communes_thongBaoThue}
-                                onProvinceChange={setProvCode_thongBaoThue}
-                                provinceName="thongBaoThue_tinh"
-                                wardName="thongBaoThue_xa"
-                                houseNumberName="thongBaoThue_soNha"
-                                provinceDefault={dataJson?.thongBaoThue_tinh || ""}
-                                wardDefault={dataJson?.thongBaoThue_xa || ""}
-                                houseNumberDefault={dataJson?.thongBaoThue_soNha || ""}
-                            />
-                            <div className={styles.grid2} style={{ marginTop: "16px" }}>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>Điện thoại (nếu có):</label>
-                                    <input type="tel" className={styles.input} name="thongBaoThue_phone" defaultValue={dataJson?.thongBaoThue_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                            <CopyAddressCheckbox onChange={handleCopyTruSoToThue} />
+                            <div key={`thue-group-${thueKey}`}>
+                                <AddressSelect
+                                    isRequired={false}
+                                    provinces={provinces}
+                                    communes={communes_thongBaoThue}
+                                    onProvinceChange={setProvCode_thongBaoThue}
+                                    provinceName="thongBaoThue_tinh"
+                                    wardName="thongBaoThue_xa"
+                                    houseNumberName="thongBaoThue_soNha"
+                                    provinceDefault={thueAddressState.tinh}
+                                    wardDefault={thueAddressState.xa}
+                                    houseNumberDefault={thueAddressState.soNha}
+                                />
+                                <div className={styles.grid2} style={{ marginTop: "16px" }}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Điện thoại (nếu có):</label>
+                                        <input type="tel" className={styles.input} name="thongBaoThue_phone" defaultValue={thueAddressState.phone} pattern="(0|\+84)[0-9]{9,10}" />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Số fax (nếu có):</label>
+                                        <input type="text" className={styles.input} name="thongBaoThue_fax" defaultValue={thueAddressState.fax} />
+                                    </div>
                                 </div>
                                 <div className={styles.formGroup}>
-                                    <label className={styles.label}>Số fax (nếu có):</label>
-                                    <input type="text" className={styles.input} name="thongBaoThue_fax" defaultValue={dataJson?.thongBaoThue_fax || ""} />
+                                    <label className={styles.label}>Thư điện tử (nếu có):</label>
+                                    <input type="email" className={styles.input} name="thongBaoThue_email" defaultValue={thueAddressState.email} />
                                 </div>
-                            </div>
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Thư điện tử (nếu có):</label>
-                                <input type="email" className={styles.input} name="thongBaoThue_email" defaultValue={dataJson?.thongBaoThue_email || ""} />
                             </div>
                         </td>
                     </tr>
@@ -111,8 +177,12 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.4</td>
                         <td>
                             <div className={styles.formGroup}>
-                                <div className={styles.label}>Ngày bắt đầu hoạt động {isNote && <InfoTooltip content={tooltipNgayBatDau} />}<span style={{ fontStyle: "italic", fontWeight: 400 }}>
-                                    (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):</span>
+                                <div className={styles.label}>
+                                    <p style={{ whiteSpace: "nowrap" }}>Ngày bắt đầu hoạt động</p>
+                                    {isNote && <InfoTooltip content={tooltipNgayBatDau} />}
+                                    <span style={{ fontStyle: "italic", fontWeight: 400 }}>
+                                        (trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này):
+                                    </span>
                                 </div>
                                 <DateInput name="ngayBatDauHoatDong" className={styles.input} defaultValue={dataJson?.ngayBatDauHoatDong || ""} />
                             </div>
@@ -122,7 +192,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.5</td>
                         <td>
                             <p className={styles.label}>
-                                Hình thức hạch toán
+                                <p style={{ whiteSpace: "nowrap" }}>Hình thức hạch toán</p>
                                 <span style={{ fontStyle: "italic", fontWeight: 400 }}>(Đánh dấu X vào một trong hai ô "Hạch toán độc lập" hoặc "Hạch toán phụ thuộc". Trường hợp chọn ô "Hạch toán độc lập" mà thuộc đối tượng phải lập và gửi báo cáo tài chính hợp nhất cho cơ quan có thẩm quyền theo quy định thì chọn thêm ô "Có báo cáo tài chính hợp nhất")</span>:
                             </p>
                             <div style={{ display: "flex", flexWrap: "wrap", rowGap: "8px", columnGap: "40px", maxWidth: "600px" }}>

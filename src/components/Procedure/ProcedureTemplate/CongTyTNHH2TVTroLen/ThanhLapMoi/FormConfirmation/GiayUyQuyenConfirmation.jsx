@@ -3,6 +3,7 @@ import { formatDate, getToday } from "@/utils/dateTimeUtils";
 // Reuse styles
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/confirmation.module.css";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
+import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
 
 export default function GiayUyQuyenConfirmation({ dataJson }) {
     if (!dataJson) return null;
@@ -196,27 +197,16 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN NHẬN ỦY QUYỀN
-                    </div>
-
-                    <div className={styles.signatureName} style={{ marginTop: "80px", fontSize: "15px" }}>
-                        {benB.hoTen}
-                    </div>
-                </div>
-
-                <div className={styles.signatureBlock}>
-                    <div className={styles.signatureTitle} style={{ textDecoration: "underline" }}>
-                        BÊN ỦY QUYỀN
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {getLastName(uyQuyen_hoTen)}
-                    </div>
-                    <div className={styles.signatureName} style={{ fontSize: "15px", textTransform: "uppercase" }}>
-                        {uyQuyen_hoTen}
-                    </div>
-                </div>
+                <SignatureBlock
+                    title="BÊN NHẬN ỦY QUYỀN"
+                    fullName={benB.hoTen}
+                    styles={styles}
+                />
+                <SignatureBlock
+                    title="BÊN ỦY QUYỀN"
+                    fullName={uyQuyen_hoTen}
+                    styles={styles}
+                />
             </div>
         </div>
     );

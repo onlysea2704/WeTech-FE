@@ -152,7 +152,7 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
             </div>
             <div className={styles.infoLine} style={{ lineHeight: "1.8", textAlign: "left" }}>
-                <span style={{ fontWeight: "bold" }}>Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới doanh nghiệp tại Phòng {phongThucHien}</span>
+                <span>Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới doanh nghiệp tại Phòng {phongThucHien}</span>
             </div>
 
             <div

@@ -1,29 +1,37 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
+import FormattedNumberInput, { formatNumber } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormattedNumberInput/FormattedNumberInput";
 
 export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false }) {
     const tableRef = useRef(null);
     const tooltipVonNuocNgoai = "Kê khai trong trường hợp có nhà đầu tư nước ngoài góp vốn, mua cổ phần, phần vốn góp vào doanh nghiệp dẫn đến thay đổi nội dung đăng ký doanh nghiệp.";
 
-    const handleChange = () => {
+    const handleChange = (e) => {
         if (!tableRef.current) return;
         const table = tableRef.current;
+
         const prefixes = ["nguonVon_nganSach", "nguonVon_tuNhan", "nguonVon_nuocNgoai", "nguonVon_khac"];
         let totalSoTien = 0;
         let totalTyLe = 0;
         prefixes.forEach(p => {
             const stInput = table.querySelector(`[name="${p}_soTien"]`);
             const tlInput = table.querySelector(`[name="${p}_tyLe"]`);
-            const st = parseFloat(stInput?.value.replace(/\./g, '').replace(/,/g, '.')) || 0;
+            const st = parseFloat(stInput?.value.replace(/\./g, '')) || 0;
             const tl = parseFloat(tlInput?.value.replace(/,/g, '.')) || 0;
             totalSoTien += st;
             totalTyLe += tl;
         });
         const tongSoTienInput = table.querySelector('[name="nguonVon_tongCong_soTien"]');
         const tongTyLeInput = table.querySelector('[name="nguonVon_tongCong_tyLe"]');
-        if (tongSoTienInput) tongSoTienInput.value = totalSoTien ? totalSoTien.toLocaleString('vi-VN') : "";
-        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe : "";
+        if (tongSoTienInput) tongSoTienInput.value = totalSoTien ? formatNumber(totalSoTien) : "";
+        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe.toFixed(1).replace('.0', '').replace('.', ',') : "";
     };
+
+    // Calculate on initial render if data exists
+    useEffect(() => {
+        handleChange({ target: {} }); // Dummy event to trigger calculation
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     return (
         <div className={styles.sectionGroup}>
@@ -50,14 +58,28 @@ export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false
                                 {namePrefix === "nguonVon_nuocNgoai" && isNote && <InfoTooltip content={tooltipVonNuocNgoai} />}
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    className={styles.input}
-                                    name={`${namePrefix}_soTien`}
-                                    defaultValue={dataJson?.[`${namePrefix}_soTien`] || ""}
-                                    readOnly={readOnly}
-                                    style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
-                                />
+                                <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                    <div>
+                                        <label style={{ fontSize: "12px", color: "#555", marginBottom: "4px", display: "block" }}>Giá trị VNĐ:</label>
+                                        <FormattedNumberInput
+                                            className={styles.input}
+                                            name={`${namePrefix}_soTien`}
+                                            defaultValue={dataJson?.[`${namePrefix}_soTien`] || ""}
+                                            readOnly={readOnly}
+                                            style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
+                                        />
+                                    </div>
+                                    {namePrefix !== "nguonVon_tongCong" && (
+                                        <div>
+                                            <label style={{ fontSize: "12px", color: "#555", marginBottom: "4px", display: "block" }}>Ngoại tệ (nếu có):</label>
+                                            <FormattedNumberInput
+                                                className={styles.input}
+                                                name={`${namePrefix}_ngoaiTe`}
+                                                defaultValue={dataJson?.[`${namePrefix}_ngoaiTe`] || ""}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </td>
                             <td>
                                 <input

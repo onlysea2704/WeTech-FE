@@ -10,7 +10,7 @@ const getLastName = (fullName) => {
 };
 
 export default function DieuLeCongTyConfirmation({ dataJson }) {
-    if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Không có dữ liệu!</div>;
+    if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Đang tải dữ liệu...</div>;
 
     return (
         <div className={styles.documentContainer}>

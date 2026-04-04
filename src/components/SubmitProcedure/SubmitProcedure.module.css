@@ -171,6 +171,8 @@
     justify-content: center;
     gap: 8px;
     cursor: pointer;
+    color: var(--secondary-content);
+    font-size: 14px;
 }
 
 .radioLabel input[type="radio"] {

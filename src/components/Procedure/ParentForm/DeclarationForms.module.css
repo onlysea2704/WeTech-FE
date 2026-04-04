@@ -286,7 +286,7 @@
     gap: 8px;
     font-size: 13px;
     cursor: pointer;
-    color: #333;
+    color: var(--secondary-content);
 }
 
 .radioInput {
@@ -314,6 +314,7 @@
 }
 
 @media (max-width: 900px) {
+
     .colLeft,
     .colRight,
     .colHalf {

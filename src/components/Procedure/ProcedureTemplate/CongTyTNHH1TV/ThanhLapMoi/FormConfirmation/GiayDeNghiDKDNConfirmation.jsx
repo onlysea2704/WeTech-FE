@@ -164,16 +164,6 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return nameParts[nameParts.length - 1];
     };
 
-    const extractAfterTinh = (kg) => {
-        if (!kg) return "……";
-        const kgLower = kg.toLowerCase();
-        const index = kgLower.lastIndexOf("tỉnh ");
-        if (index !== -1) {
-            return kg.substring(index + 5).trim() || "……";
-        }
-        return "……";
-    };
-
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -181,7 +171,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 </h2>
                 <h3 className={styles.headerSubtitle}>Độc lập - Tự do - Hạnh phúc</h3>
                 <p className={styles.dateRight} style={{ fontStyle: "italic" }}>
-                    <CurrentDate prefix={extractAfterTinh(lienLac_tinh)} />
+                    <CurrentDate prefix={lienLac_tinh} />
                 </p>
             </div>
 

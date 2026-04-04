@@ -41,11 +41,6 @@
     font-weight: 700;
 }
 
-.header p {
-    margin: 0;
-    font-weight: bold;
-}
-
 .header p.dateRight {
     text-align: right;
     margin-top: 10px;

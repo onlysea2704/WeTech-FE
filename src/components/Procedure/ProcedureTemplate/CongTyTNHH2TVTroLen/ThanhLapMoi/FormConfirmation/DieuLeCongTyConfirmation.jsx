@@ -7,7 +7,7 @@ import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComp
 export default function DieuLeCongTyConfirmation({ dataJson }) {
     const thanhVienList = useGetFormDataJsonFromName("Danh sách thành viên")?.thanhVienList || [];
 
-    if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Không có dữ liệu!</div>;
+    if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Đang tải dữ liệu...</div>;
 
     const thanhVienRows = thanhVienList;
 
@@ -15,6 +15,11 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
         return [soNha, xa, tinh].filter(Boolean).join(", ");
     };
 
+    const extractId = (str) => {
+        if (!str) return "";
+        const match = str.match(/\d{9,12}/);
+        return match ? match[0] : str;
+    };
     return (
         <div className={styles.documentContainer}>
             <div className={styles.header}>
@@ -66,7 +71,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{row.gioiTinh}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>{row.quocTich}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.diaChiLienLac}</td>
-                                <td style={{ border: "1px solid #000", padding: "5px" }}>{row.giaTo}</td>
+                                <td style={{ border: "1px solid #000", padding: "5px" }}>{extractId(row.giaTo)}</td>
                             </tr>
                         ))
                     )}
