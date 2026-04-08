@@ -66,7 +66,10 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.danToc}</td>
                                     <td className={styles.td} style={{ minWidth: 250 }}>{row.diaChiLienLac}</td>
 
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.phanVonGop}</td>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>
+                                        {row.phanVonGop ? `${row.phanVonGop} VNĐ` : ""}
+                                        {row.phanVonGopNgoaiTe_GiaTri ? <><br/>({row.phanVonGopNgoaiTe_GiaTri} {row.phanVonGopNgoaiTe_Loai})</> : ""}
+                                    </td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiTaiSan}</td>
 

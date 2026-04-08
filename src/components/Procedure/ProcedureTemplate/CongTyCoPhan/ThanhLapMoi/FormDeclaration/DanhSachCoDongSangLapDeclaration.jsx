@@ -148,7 +148,6 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     Thời hạn góp vốn
                                     <InfoTooltip color="#fff" content="Khi đăng ký thành lập doanh nghiệp, thời hạn góp vốn là thời hạn cổ đông dự kiến hoàn thành góp vốn" />
                                 </th>
-                                <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Chữ ký của cổ đông sáng lập</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Ghi chú (nếu có)</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 60 }}>Thao tác</th>
                             </tr>
@@ -188,7 +187,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                 <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
                             </tr>
                             <tr className={styles.colNumberRow}>
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, ""].map((n, i) => (
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ""].map((n, i) => (
                                     <td key={i} className={styles.colNumber}>{n}</td>
                                 ))}
                             </tr>
@@ -278,9 +277,6 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     <td className={styles.td}>
                                         <input className={styles.input} name="thoiHanGopVon" value={row.thoiHanGopVon} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
-                                    <td className={styles.td} style={{ backgroundColor: "#f0f0f0" }}>
-                                        {/* Blank cell for physical signature */}
-                                    </td>
                                     <td className={styles.td}>
                                         <input className={styles.input} name="ghiChu" value={row.ghiChu} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
@@ -301,11 +297,6 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                         </tbody>
                     </table>
                 </div>
-
-                <Signature
-                    subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT"
-                    dataJson={dataJson}
-                />
             </div>
         </form>
     );

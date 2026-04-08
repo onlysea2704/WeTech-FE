@@ -9,6 +9,57 @@ import DateInput from "@/components/DateInput/DateInput";
 import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import deleteIcon from "@/assets/delete-icon.png";
+import Select from "react-select";
+
+const quyenChiPhoiOptions = [
+    { value: "", label: "Chọn quyền chi phối..." },
+    { value: "Bổ nhiệm, miễn nhiệm hoặc bãi nhiệm đa số hoặc tất cả thành viên hội đồng quản trị, chủ tịch hội đồng quản trị, chủ tịch hội đồng thành viên; người đại diện theo pháp luật, giám đốc hoặc tổng giám đốc của doanh nghiệp;", label: "Bổ nhiệm, miễn nhiệm hoặc bãi nhiệm đa số hoặc tất cả thành viên hội đồng quản trị, chủ tịch hội đồng quản trị, chủ tịch hội đồng thành viên; người đại diện theo pháp luật, giám đốc hoặc tổng giám đốc của doanh nghiệp;" },
+    { value: "Sửa đổi, bổ sung điều lệ của doanh nghiệp;", label: "Sửa đổi, bổ sung điều lệ của doanh nghiệp;" },
+    { value: "Thay đổi cơ cấu tổ chức quản lý công ty;", label: "Thay đổi cơ cấu tổ chức quản lý công ty;" },
+    { value: "Tổ chức lại, giải thể công ty.", label: "Tổ chức lại, giải thể công ty." }
+];
+
+const selectStyles = {
+    control: (base) => ({
+        ...base,
+        border: "none",
+        borderBottom: "1px solid transparent",
+        boxShadow: "none",
+        backgroundColor: "transparent",
+        minHeight: "40px",
+        fontSize: "14px",
+        "&:hover": { borderColor: "transparent" }
+    }),
+    valueContainer: (base) => ({
+        ...base,
+        padding: "0 8px",
+        justifyContent: "center"
+    }),
+    singleValue: (base) => ({
+        ...base,
+        textAlign: "center"
+    }),
+    placeholder: (base) => ({
+        ...base,
+        textAlign: "center",
+        color: "#505050"
+    }),
+    menu: (base) => ({
+        ...base,
+        width: "max-content",
+        maxWidth: "400px",
+        left: "50%",
+        transform: "translateX(-50%)"
+    }),
+    option: (provided, state) => ({
+        ...provided,
+        fontSize: "14px",
+        backgroundColor: state.isSelected ? "#1d126eff" : state.isFocused ? "#f0f0ff" : "#fff",
+        color: state.isSelected ? "#fff" : "#333",
+        cursor: "pointer",
+    }),
+    menuPortal: base => ({ ...base, zIndex: 9999 })
+};
 
 const EMPTY_ROW = {
     hoTen: "",
@@ -226,12 +277,19 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                             onChange={(e) => handleRowChange(idx, e)}
                                         />
                                     </td>
-                                    <td className={styles.td}>
-                                        <input
-                                            className={styles.input}
-                                            name="quyenChiPhoi"
-                                            value={row.quyenChiPhoi}
-                                            onChange={(e) => handleRowChange(idx, e)}
+                                    <td className={styles.tdWrapper}>
+                                        <Select
+                                            options={quyenChiPhoiOptions}
+                                            styles={selectStyles}
+                                            value={quyenChiPhoiOptions.find(opt => opt.value === row.quyenChiPhoi) || quyenChiPhoiOptions[0]}
+                                            onChange={(selectedOption) => {
+                                                handleRowChange(idx, {
+                                                    target: { name: "quyenChiPhoi", value: selectedOption ? selectedOption.value : "" }
+                                                });
+                                            }}
+                                            placeholder="Chọn quyền chi phối..."
+                                            menuPortalTarget={document.body}
+                                            menuPosition="fixed"
                                         />
                                     </td>
                                     <td className={styles.td}>
@@ -257,12 +315,6 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                         </tbody>
                     </table>
                 </div>
-
-
-                <Signature
-                    subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT"
-                    dataJson={dataJson}
-                />
             </div>
         </form>
     );

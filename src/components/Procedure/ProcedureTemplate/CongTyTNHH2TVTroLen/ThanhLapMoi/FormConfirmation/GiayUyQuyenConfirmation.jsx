@@ -21,20 +21,34 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
 
         chuHo_ten = "",
         chuHo_xa_phuong = "",
+
+        nhanUyQuyen_hoTen = "",
+        nhanUyQuyen_ngaySinh = "",
+        nhanUyQuyen_gioiTinh = "",
+        nhanUyQuyen_cccd = "",
+        nhanUyQuyen_phone = "",
+        nhanUyQuyen_email = "",
+        nhanUyQuyen_danToc = "",
+        nhanUyQuyen_quocTich = "",
+        nhanUyQuyen_thuongTru_soNha = "",
+        nhanUyQuyen_thuongTru_xa = "",
+        nhanUyQuyen_thuongTru_tinh = "",
+        nhanUyQuyen_lienLac_soNha = "",
+        nhanUyQuyen_lienLac_xa = "",
+        nhanUyQuyen_lienLac_tinh = "",
     } = dataJson;
 
-    // Fixed Ben B Info based on the image provided
     const benB = {
-        hoTen: "NGUYỄN HỮU HOÀN",
-        gioiTinh: "Nam",
-        ngaySinh: "25/03/1991",
-        danToc: "Kinh",
-        quocTich: "Việt Nam",
-        cccd: "040091028384",
-        thuongTru: "Thửa đất số 84-3, 84-4, TBĐS 37, Tổ 3, Phường Hà Đông, Thành phố Hà Nội",
-        lienLac: "BT6-7 Khu đô thị Văn Khê, Phường Hà Đông, Thành phố Hà Nội",
-        phone: "0933785838",
-        email: "huuhoanspkt@gmail.com",
+        hoTen: nhanUyQuyen_hoTen || "",
+        gioiTinh: nhanUyQuyen_gioiTinh || "",
+        ngaySinh: nhanUyQuyen_ngaySinh || "",
+        danToc: nhanUyQuyen_danToc || "",
+        quocTich: nhanUyQuyen_quocTich || "",
+        cccd: nhanUyQuyen_cccd || "",
+        thuongTru: [nhanUyQuyen_thuongTru_soNha, nhanUyQuyen_thuongTru_xa, nhanUyQuyen_thuongTru_tinh].filter(Boolean).join(", "),
+        lienLac: [nhanUyQuyen_lienLac_soNha, nhanUyQuyen_lienLac_xa, nhanUyQuyen_lienLac_tinh].filter(Boolean).join(", "),
+        phone: nhanUyQuyen_phone || "",
+        email: nhanUyQuyen_email || "",
     };
 
     const today = getToday();
@@ -197,16 +211,16 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <SignatureBlock
-                    title="BÊN NHẬN ỦY QUYỀN"
-                    fullName={benB.hoTen}
-                    styles={styles}
-                />
-                <SignatureBlock
-                    title="BÊN ỦY QUYỀN"
-                    fullName={uyQuyen_hoTen}
-                    styles={styles}
-                />
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>BÊN NHẬN ỦY QUYỀN</span>
+                    </div>
+                </div>
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>BÊN ỦY QUYỀN</span>
+                    </div>
+                </div>
             </div>
         </div>
     );

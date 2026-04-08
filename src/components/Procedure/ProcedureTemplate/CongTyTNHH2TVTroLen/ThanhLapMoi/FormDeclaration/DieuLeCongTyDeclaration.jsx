@@ -11,6 +11,7 @@ import DiaChiTruSoSection from "@/components/Procedure/ProcedureTemplate/SharedF
 import NguoiDaiDienPhapLuatSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/NguoiDaiDienPhapLuatSection";
 import VonDieuLeSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/VonDieuLeSection";
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import FormattedNumberInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormattedNumberInput/FormattedNumberInput";
 
 const EMPTY_MEMBER_ROW = {
     hoTen: "",
@@ -21,24 +22,61 @@ const EMPTY_MEMBER_ROW = {
     ghiChu: "",
 };
 
+// Các trường chia sẻ với Form 1 (GiayDeNghiDKDN) – luôn lấy từ Form 1
+const FORM1_SHARED_KEYS = [
+    "tenCongTyVN", "tenCongTyEN", "tenCongTyVietTat",
+    "truSo_tinh", "truSo_xa", "truSo_soNha", "truSo_phone", "truSo_fax",
+    "truSo_email", "truSo_website", "truSo_loaiKhu", "truSo_anNinhQuocPhong",
+    "nguoiDaiDien_hoTen", "nguoiDaiDien_ngaySinh", "nguoiDaiDien_gioiTinh",
+    "nguoiDaiDien_cccd", "nguoiDaiDien_chucDanh", "nguoiDaiDien_danToc",
+    "nguoiDaiDien_quocTich", "nguoiDaiDien_soHoChieu", "nguoiDaiDien_ngayCapHoChieu",
+    "nguoiDaiDien_noiCapHoChieu", "nguoiDaiDien_tinh", "nguoiDaiDien_xa",
+    "nguoiDaiDien_soNha", "nguoiDaiDien_thuongTru_tinh", "nguoiDaiDien_thuongTru_xa",
+    "nguoiDaiDien_thuongTru_soNha", "nguoiDaiDien_thuongTru_quocGia",
+    "vonDieuLe", "vonDieuLe_bangChu", "vonDieuLe_ngoaiTeBangSo", "vonDieuLe_ngoaiTeDonVi",
+    "hienThiNgoaiTe",
+];
+
 const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
     { formId, dataJson, onSubmit, formRef },
     componentRef,
 ) {
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [thanhVienRows, setThanhVienRows] = useState([]);
-    const thanhVienList = useGetFormDataJsonFromName("Danh sách thành viên")?.thanhVienList || [];
 
-    // Sync state from dataJson
+    // Lấy dữ liệu từ Form 1 và Form 3 để reuse
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    const thanhVienData = useGetFormDataJsonFromName("Danh sách thành viên");
+
+    // Tạo mergedData: luôn ưu tiên Form 1 cho các trường chia sẻ
+    const mergedData = {
+        ...dataJson,
+        ...(giayDeNghiData
+            ? Object.fromEntries(FORM1_SHARED_KEYS.map((k) => [k, giayDeNghiData[k]]))
+            : {}),
+    };
+
+    // Ngành nghề: luôn lấy từ Form 1
     useEffect(() => {
-        if (dataJson) {
-            setNganhNgheRows(dataJson.nganhNgheList || []);
-            setThanhVienRows(dataJson.thanhVienList || []);
+        if (giayDeNghiData?.nganhNgheList?.length) {
+            setNganhNgheRows(giayDeNghiData.nganhNgheList);
+        } else if (dataJson?.nganhNgheList?.length) {
+            setNganhNgheRows(dataJson.nganhNgheList);
         } else {
             setNganhNgheRows([]);
+        }
+    }, [giayDeNghiData, dataJson]);
+
+    // Thành viên: luôn lấy từ Form 3
+    useEffect(() => {
+        if (thanhVienData?.thanhVienList?.length) {
+            setThanhVienRows(thanhVienData.thanhVienList);
+        } else if (dataJson?.thanhVienList?.length) {
+            setThanhVienRows(dataJson.thanhVienList);
+        } else {
             setThanhVienRows([]);
         }
-    }, [dataJson]);
+    }, [thanhVienData, dataJson]);
 
     // Expose API
     useImperativeHandle(componentRef, () => ({
@@ -46,7 +84,6 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
             if (!formRef?.current) return null;
             const formData = new FormData(formRef.current);
             const data = Object.fromEntries(formData.entries());
-            // Sync the data explicitly
             data.nganhNgheList = nganhNgheRows;
             data.thanhVienList = thanhVienRows;
             return data;
@@ -94,27 +131,29 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
         setThanhVienRows(newRows);
     };
 
+    // Key form: re-render khi cả Form 1 và Form 3 load xong
+    const formKey = `${giayDeNghiData ? "dn-loaded" : "dn-loading"}-${thanhVienData ? "tv-loaded" : "tv-loading"}`;
+
     return (
-        <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
-            {/* 1. TÊN CÔNG TY */}
-            <TenCongTySection dataJson={dataJson} styles={styles} />
+        <form onSubmit={handleSubmit} ref={formRef} key={formKey}>
+            {/* 1. TÊN CÔNG TY – lấy từ Form 1 */}
+            <TenCongTySection dataJson={mergedData} styles={styles} />
 
-            {/* 2. ĐỊA CHỈ TRỤ SỞ */}
-            <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
+            {/* 2. ĐỊA CHỈ TRỤ SỞ – lấy từ Form 1 */}
+            <DiaChiTruSoSection dataJson={mergedData} styles={styles} />
 
-            {/* 3. NGÀNH NGHỀ KINH DOANH */}
+            {/* 3. NGÀNH NGHỀ KINH DOANH – lấy từ Form 1 */}
             <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Ngành, nghề kinh doanh:</h3>
                 <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} />
             </div>
 
-            {/* 4. NGƯỜI ĐẠI DIỆN PHÁP LUẬT */}
-            <NguoiDaiDienPhapLuatSection dataJson={dataJson} styles={styles} />
+            {/* 4. NGƯỜI ĐẠI DIỆN PHÁP LUẬT – lấy từ Form 1 */}
+            <NguoiDaiDienPhapLuatSection dataJson={mergedData} styles={styles} />
 
-            {/* 5. VỐN ĐIỀU LỆ */}
-            <VonDieuLeSection dataJson={dataJson} styles={styles} />
+            {/* 5. VỐN ĐIỀU LỆ – lấy từ Form 1 */}
+            <VonDieuLeSection dataJson={mergedData} styles={styles} />
 
-            {/* 6. PHẦN GÓP VỐN CỦA CÁC THÀNH VIÊN */}
+            {/* 6. PHẦN GÓP VỐN CỦA CÁC THÀNH VIÊN – lấy từ Form 3 */}
             <div className={styles.sectionGroup}>
                 <h3 className={styles.sectionTitle}>
                     Phần vốn góp, giá trị phần vốn góp của các thành viên, thời hạn góp vốn:
@@ -138,7 +177,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 80 }}>Thao tác</th>
                             </tr>
                             <tr>
-                                <th className={styles.th} style={{ minWidth: 200 }}>
+                                <th className={styles.th} style={{ minWidth: 320 }}>
                                     Phần vốn góp (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)
                                 </th>
                                 <th className={styles.th} style={{ minWidth: 80 }}>Tỷ lệ (%)</th>
@@ -159,7 +198,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                             {thanhVienRows.length === 0 ? (
                                 <tr>
                                     <td colSpan={8} className={styles.td} style={{ textAlign: "center", padding: "20px" }}>
-                                        Chưa có thông tin thành viên dự kiến. Nhấn "Thêm dòng" để bắt đầu.
+                                        Chưa có thông tin thành viên. Dữ liệu sẽ được tự động lấy từ "Danh sách thành viên".
                                     </td>
                                 </tr>
                             ) : (
@@ -176,13 +215,40 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                             />
                                         </td>
                                         <td className={styles.td}>
-                                            <input
-                                                type="text"
-                                                className={styles.input}
-                                                name="phanVonGop"
-                                                value={row.phanVonGop}
-                                                onChange={(e) => handleMemberRowChange(idx, e)}
-                                            />
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                                <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                                    <FormattedNumberInput
+                                                        className={styles.input}
+                                                        name="phanVonGop"
+                                                        value={row.phanVonGop || ""}
+                                                        onChange={(e) => handleMemberRowChange(idx, e)}
+                                                        placeholder="0"
+                                                        style={{ textAlign: 'right', paddingRight: '46px', width: '100%' }}
+                                                    />
+                                                    <span style={{ position: 'absolute', right: '12px', color: '#444', fontSize: '14px', pointerEvents: 'none', fontWeight: 500 }}>VNĐ</span>
+                                                </div>
+                                                <div style={{ fontSize: '12px', color: '#555', textAlign: 'left', marginTop: '4px' }}>
+                                                    Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có; bằng số, loại ngoại tệ):
+                                                </div>
+                                                <div style={{ display: 'flex', gap: '4px' }}>
+                                                    <FormattedNumberInput
+                                                        className={styles.input}
+                                                        name="phanVonGopNgoaiTe_GiaTri"
+                                                        value={row.phanVonGopNgoaiTe_GiaTri || ""}
+                                                        onChange={(e) => handleMemberRowChange(idx, e)}
+                                                        placeholder="Tiền bằng số"
+                                                        style={{ width: '65%' }}
+                                                    />
+                                                    <input
+                                                        className={styles.input}
+                                                        name="phanVonGopNgoaiTe_Loai"
+                                                        value={row.phanVonGopNgoaiTe_Loai || ""}
+                                                        onChange={(e) => handleMemberRowChange(idx, e)}
+                                                        placeholder="Loại ngoại tệ"
+                                                        style={{ width: '35%' }}
+                                                    />
+                                                </div>
+                                            </div>
                                         </td>
                                         <td className={styles.td}>
                                             <input
@@ -237,41 +303,6 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                     </table>
                 </div>
             </div>
-
-            {/* 7. CHỮ KÝ */}
-            <div className={styles.sectionGroup} style={{ paddingTop: "20px" }}>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexWrap: "wrap", gap: "20px" }}>
-                    <div>
-                        <div className={styles.sectionTitle} style={{ textTransform: "uppercase", fontWeight: 500 }}>Chữ ký của các thành viên:</div>
-                        {thanhVienList.length > 0 ? (
-                            thanhVienList.map((row, idx) => (
-                                <div key={`member-sig-${idx}`} style={{ flex: 1, minWidth: "300px" }}>
-                                    <Signature
-                                        subject={`Chữ ký của ${row.hoTen || `Thành viên ${idx + 1}`}`}
-                                        dataJson={dataJson}
-                                        namePrefix={`chuKyThanhVien_${idx}`}
-                                    />
-                                </div>
-                            ))
-                        ) : (
-                            <div style={{ flex: 1, minWidth: "300px" }}>
-                                <Signature
-                                    subject="Chữ ký của thành viên"
-                                    dataJson={dataJson}
-                                    namePrefix="chuKyThanhVien_0"
-                                />
-                            </div>
-                        )}
-                    </div>
-                    <div style={{ flex: 1, minWidth: "300px" }}>
-                        <Signature
-                            subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA DOANH NGHIỆP"
-                            dataJson={dataJson}
-                        />
-                    </div>
-                </div>
-            </div>
-
         </form>
     );
 });

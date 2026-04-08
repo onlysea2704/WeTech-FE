@@ -183,7 +183,7 @@ export default function GiayDeNghi({ dataJson }) {
             </div>
             <div className={styles.infoLine} style={{ marginLeft: "16px" }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng Việt (ghi bằng chữ in hoa): HỘ KINH DOANH </span>
-                <span className={styles.infoValue}>{hkd_tenVN}</span>
+                <span className={styles.infoValue}>{hkd_tenVN?.toUpperCase()}</span>
             </div>
             <div className={styles.infoLine} style={{ marginLeft: "16px" }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng nước ngoài (nếu có): </span>
@@ -252,17 +252,28 @@ export default function GiayDeNghi({ dataJson }) {
                     </thead>
                     <tbody>
                         {nganhNgheList.length > 0 &&
-                            nganhNgheList.map((row, idx) => (
-                                <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>
-                                        <div>{row.tenNganh}</div>
-                                        {row.chiTiet && <div>Chi tiết: {row.chiTiet}</div>}
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>{row.maNganh}</td>
-                                    <td style={{ textAlign: "center" }}>{row.laNganhChinh ? "X" : ""}</td>
-                                </tr>
-                            ))}
+                            nganhNgheList.map((row, idx) => {
+                                const chiTietTrim = row.chiTiet?.trim().toLowerCase() || "";
+                                const chiTiet = chiTietTrim.startsWith("chi tiết") ? (row.chiTiet.trim().charAt(0).toUpperCase() + row.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
+                                return (
+                                    <tr key={idx}>
+                                        <td>{idx + 1}</td>
+                                        <td>
+                                            <div>{row.tenNganh}</div>
+                                            {row.chiTiet && <pre
+                                                style={{
+                                                    margin: 0,
+                                                    whiteSpace: "pre-wrap",
+                                                    wordBreak: "break-word",
+                                                    fontFamily: "Roboto",
+                                                    fontSize: "16px"
+                                                }}>{chiTiet}</pre>}
+                                        </td>
+                                        <td style={{ textAlign: "center" }}>{row.maNganh}</td>
+                                        <td style={{ textAlign: "center" }}>{row.laNganhChinh ? "X" : ""}</td>
+                                    </tr>
+                                )
+                            })}
                     </tbody>
                 </table>
             </div>

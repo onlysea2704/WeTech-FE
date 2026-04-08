@@ -7,7 +7,7 @@ import {
     QuocTichSelect,
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
-import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
+import FormattedNumberInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormattedNumberInput/FormattedNumberInput";
 import deleteIcon from "@/assets/delete-icon.png";
 
 const EMPTY_ROW = {
@@ -19,6 +19,8 @@ const EMPTY_ROW = {
     danToc: "",
     diaChiLienLac: "",
     phanVonGop: "",
+    phanVonGopNgoaiTe_GiaTri: "",
+    phanVonGopNgoaiTe_Loai: "",
     tyLe: "",
     loaiTaiSan: "",
     thoiHan: "",
@@ -130,17 +132,16 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
                                 <th colSpan={3} className={styles.th}>Vốn góp</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 120 }}>Thời hạn góp vốn</th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 120 }}>Chữ ký của thành viên</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 120 }}>Ghi chú (nếu có)</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Thao tác</th>
                             </tr>
                             <tr>
-                                <th className={styles.th} style={{ minWidth: 160 }}>Phần vốn góp (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)</th>
-                                <th className={styles.th} style={{ minWidth: 60 }}>Tỷ lệ (%)</th>
+                                <th className={styles.th} style={{ minWidth: 350 }}>Phần vốn góp (bằng số; VNĐ và giá trị tương đương theo đơn vị tiền nước ngoài: bằng số, loại ngoại tệ, nếu có)</th>
+                                <th className={styles.th} style={{ minWidth: 80 }}>Tỷ lệ (%)</th>
                                 <th className={styles.th} style={{ minWidth: 160 }}>Loại tài sản, số lượng, giá trị tài sản góp vốn</th>
                             </tr>
                             <tr className={styles.colNumberRow}>
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, ""].map((n, i) => (
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, ""].map((n, i) => (
                                     <td key={i} className={styles.colNumber}>{n}</td>
                                 ))}
                             </tr>
@@ -185,10 +186,10 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                                         />
                                     </td>
                                     <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
-                                        <QuocTichSelect name="quocTich" defaultValue={row.quocTich} />
+                                        <QuocTichSelect name="quocTich" defaultValue={row.quocTich} required={false} />
                                     </td>
                                     <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
-                                        <DanTocSelect name="danToc" defaultValue={row.danToc} />
+                                        <DanTocSelect name="danToc" defaultValue={row.danToc} required={false} />
                                     </td>
                                     <td className={styles.td}>
                                         <input
@@ -200,12 +201,40 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                                         />
                                     </td>
                                     <td className={styles.td}>
-                                        <input
-                                            className={styles.input}
-                                            name="phanVonGop"
-                                            value={row.phanVonGop}
-                                            onChange={(e) => handleRowChange(idx, e)}
-                                        />
+                                        <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                                            <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                                <FormattedNumberInput
+                                                    className={styles.input}
+                                                    name="phanVonGop"
+                                                    value={row.phanVonGop}
+                                                    onChange={(e) => handleRowChange(idx, e)}
+                                                    placeholder="0"
+                                                    style={{ textAlign: 'right', paddingRight: '46px', width: '100%' }}
+                                                />
+                                                <span style={{ position: 'absolute', right: '12px', color: '#444', fontSize: '14px', pointerEvents: 'none', fontWeight: 500 }}>VNĐ</span>
+                                            </div>
+                                            <div style={{ fontSize: '12px', color: '#555', textAlign: 'left', marginTop: '4px' }}>
+                                                Giá trị tương đương theo đơn vị tiền nước ngoài (nếu có; bằng số, loại ngoại tệ):
+                                            </div>
+                                            <div style={{ display: 'flex', gap: '4px' }}>
+                                                <FormattedNumberInput
+                                                    className={styles.input}
+                                                    name="phanVonGopNgoaiTe_GiaTri"
+                                                    value={row.phanVonGopNgoaiTe_GiaTri || ""}
+                                                    onChange={(e) => handleRowChange(idx, e)}
+                                                    placeholder="Tiền bằng số"
+                                                    style={{ width: '65%' }}
+                                                />
+                                                <input
+                                                    className={styles.input}
+                                                    name="phanVonGopNgoaiTe_Loai"
+                                                    value={row.phanVonGopNgoaiTe_Loai || ""}
+                                                    onChange={(e) => handleRowChange(idx, e)}
+                                                    placeholder="Loại ngoại tệ"
+                                                    style={{ width: '35%' }}
+                                                />
+                                            </div>
+                                        </div>
                                     </td>
                                     <td className={styles.td}>
                                         <input
@@ -234,14 +263,6 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                                     <td className={styles.td}>
                                         <input
                                             className={styles.input}
-                                            name="chuKy"
-                                            value={row.chuKy}
-                                            onChange={(e) => handleRowChange(idx, e)}
-                                        />
-                                    </td>
-                                    <td className={styles.td}>
-                                        <input
-                                            className={styles.input}
                                             name="ghiChu"
                                             value={row.ghiChu}
                                             onChange={(e) => handleRowChange(idx, e)}
@@ -262,11 +283,6 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                         </tbody>
                     </table>
                 </div>
-
-                <Signature
-                    subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY"
-                    dataJson={dataJson}
-                />
             </div>
         </form>
     );

@@ -31,7 +31,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [coDongRows, setCoDongRows] = useState([]);
     const [loaiCoPhanKhacTen, setLoaiCoPhanKhacTen] = useState("");
-    
+
     // States for auto format Mệnh giá
     const [menhGiaSo, setMenhGiaSo] = useState("");
     const [menhGiaChu, setMenhGiaChu] = useState("");
@@ -44,18 +44,40 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
         return Number(raw).toLocaleString("vi-VN");
     }
 
-    const coDongList = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập")?.coDongList || [];
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    const danhSachCoDongData = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập");
+
+    const mergedData = { ...giayDeNghiData, ...dataJson };
 
     useEffect(() => {
-        if (dataJson) {
-            setNganhNgheRows(dataJson.nganhNgheList || []);
-            setCoDongRows(dataJson.coDongRows || []);
-            setLoaiCoPhanKhacTen(dataJson.loaiCoPhanKhacTen || "");
+        if (dataJson || giayDeNghiData || danhSachCoDongData) {
+            setNganhNgheRows(dataJson?.nganhNgheList || giayDeNghiData?.nganhNgheList || []);
             
-            const parsed = dataJson.menhGiaCoPhan_bangSo ? formatNumber(String(dataJson.menhGiaCoPhan_bangSo)) : "";
+            let initialCoDongRows = [];
+            if (dataJson?.coDongRows && dataJson.coDongRows.length > 0) {
+                initialCoDongRows = dataJson.coDongRows;
+            } else if (danhSachCoDongData?.coDongList && danhSachCoDongData.coDongList.length > 0) {
+                initialCoDongRows = danhSachCoDongData.coDongList.map(item => ({
+                    hoTen: item.hoTen || "",
+                    tongSoCoPhan_soLuong: item.tongSoCoPhan_soLuong || "",
+                    tongSoCoPhan_giaTri: item.tongSoCoPhan_giaTri || "",
+                    tyLe: item.tyLe || "",
+                    loaiCoPhan_phoThong_soLuong: item.loaiCoPhan_phoThong_soLuong || "",
+                    loaiCoPhan_phoThong_giaTri: item.loaiCoPhan_phoThong_giaTri || "",
+                    loaiCoPhan_khac_soLuong: item.loaiCoPhan_khac_soLuong || "",
+                    loaiCoPhan_khac_giaTri: item.loaiCoPhan_khac_giaTri || "",
+                    loaiTaiSan: item.loaiTaiSanGopVon || "",
+                    thoiHan: item.thoiHanGopVon || "",
+                }));
+            }
+            setCoDongRows(initialCoDongRows);
+            setLoaiCoPhanKhacTen(dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || "");
+
+            const menhGiaVal = dataJson?.menhGiaCoPhan_bangSo || giayDeNghiData?.menhGiaCoPhan || "";
+            const parsed = formatNumber(String(menhGiaVal));
             setMenhGiaSo(parsed);
-            
-            if (dataJson.menhGiaCoPhan_bangChu) {
+
+            if (dataJson?.menhGiaCoPhan_bangChu) {
                 setMenhGiaChu(dataJson.menhGiaCoPhan_bangChu);
             } else if (parsed) {
                 setMenhGiaChu(numberToVietnameseText(parsed));
@@ -69,7 +91,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
             setMenhGiaSo("");
             setMenhGiaChu("");
         }
-    }, [dataJson]);
+    }, [dataJson, giayDeNghiData, danhSachCoDongData]);
 
     useEffect(() => {
         if (cursor !== null && menhGiaRef.current) {
@@ -129,7 +151,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
             if (importedData.menhGiaCoPhan_bangSo !== undefined) {
                 const parsed = formatNumber(String(importedData.menhGiaCoPhan_bangSo));
                 setMenhGiaSo(parsed);
-                
+
                 if (importedData.menhGiaCoPhan_bangChu) {
                     setMenhGiaChu(importedData.menhGiaCoPhan_bangChu);
                 } else if (parsed) {
@@ -168,28 +190,28 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
-            <TenCongTySection dataJson={dataJson} styles={styles} />
-            <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
+            <TenCongTySection dataJson={mergedData} styles={styles} />
+            <DiaChiTruSoSection dataJson={mergedData} styles={styles} />
 
             <div className={styles.sectionGroup}>
                 <h3 className={styles.sectionTitle}>Ngành, nghề kinh doanh:</h3>
                 <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} />
             </div>
 
-            <NguoiDaiDienPhapLuatSection dataJson={dataJson} styles={styles} />
+            <NguoiDaiDienPhapLuatSection dataJson={mergedData} styles={styles} />
 
-            <VonDieuLeSection dataJson={dataJson} styles={styles} />
+            <VonDieuLeSection dataJson={mergedData} styles={styles} />
 
             <div className={styles.sectionGroup}>
                 <h3 className={styles.sectionTitle}>Thông tin cổ phần của cổ đông sáng lập đăng ký:</h3>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Tổng số cổ phần cổ đông sáng lập đăng ký mua:</label>
-                        <input type="text" className={styles.input} name="soCoPhanCoDongSangLap" defaultValue={dataJson?.soCoPhanCoDongSangLap || ""} />
+                        <input type="text" className={styles.input} name="soCoPhanCoDongSangLap" defaultValue={dataJson?.soCoPhanCoDongSangLap || giayDeNghiData?.tongSoCoPhanDangKyMua || ""} />
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Loại cổ phần:</label>
-                        <select className={styles.select} name="loaiCoPhan" defaultValue={dataJson?.loaiCoPhan || "Phổ thông"}>
+                        <select className={styles.select} name="loaiCoPhan" defaultValue={dataJson?.loaiCoPhan || giayDeNghiData?.loaiCoPhan || "Phổ thông"}>
                             <option value="Phổ thông">Phổ thông</option>
                             <option value="Ưu đãi cổ tức">Ưu đãi cổ tức</option>
                             <option value="Ưu đãi hoàn lại">Ưu đãi hoàn lại</option>
@@ -325,39 +347,6 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                             )}
                         </tbody>
                     </table>
-                </div>
-            </div>
-
-            <div className={styles.sectionGroup} style={{ paddingTop: "20px" }}>
-                <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", flexWrap: "wrap", gap: "20px" }}>
-                    <div>
-                        <div className={styles.sectionTitle} style={{ textTransform: "uppercase", fontWeight: 500 }}>Chữ ký của các cổ đông sáng lập:</div>
-                        {coDongList.length > 0 ? (
-                            coDongList.map((row, idx) => (
-                                <div key={`member-sig-${idx}`} style={{ flex: 1, minWidth: "300px" }}>
-                                    <Signature
-                                        subject={`Chữ ký của ${row.hoTen || `Cổ đông ${idx + 1}`}`}
-                                        dataJson={dataJson}
-                                        namePrefix={`chuKyCoDong_${idx}`}
-                                    />
-                                </div>
-                            ))
-                        ) : (
-                            <div style={{ flex: 1, minWidth: "300px" }}>
-                                <Signature
-                                    subject="Chữ ký của cổ đông sáng lập"
-                                    dataJson={dataJson}
-                                    namePrefix="chuKyCoDong_0"
-                                />
-                            </div>
-                        )}
-                    </div>
-                    <div style={{ flex: 1, minWidth: "300px" }}>
-                        <Signature
-                            subject="NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT"
-                            dataJson={dataJson}
-                        />
-                    </div>
                 </div>
             </div>
         </form>

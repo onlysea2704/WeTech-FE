@@ -301,27 +301,27 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_nganSach_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_soTien}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_tuNhan_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_soTien}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_nuocNgoai_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_soTien}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_khac_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_khac_soTien}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>Tổng cộng</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_tongCong_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_soTien}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe}</td>
                         </tr>
                     </tbody>
@@ -408,7 +408,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td style={{ textAlign: "center", verticalAlign: "top" }}>9.1</td>
                             <td colSpan="2">
                                 <p>Thông tin về Giám đốc/Tổng giám đốc <em>(nếu có)</em>:</p>
-                                <p>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: {giamDoc_hoTen}</p>
+                                <p>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: {giamDoc_hoTen?.toUpperCase()}</p>
                                 <p>Ngày, tháng, năm sinh: {formatDate(giamDoc_ngaySinh)}</p>
                                 <p>Giới tính: {giamDoc_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {giamDoc_cccd}</p>
@@ -419,7 +419,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td style={{ textAlign: "center", verticalAlign: "top" }}>9.2</td>
                             <td colSpan="2">
                                 <p>Thông tin về Kế toán trưởng/Phụ trách kế toán <em>(nếu có)</em>:</p>
-                                <p>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: {keToan_hoTen}</p>
+                                <p>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán: {keToan_hoTen?.toUpperCase()}</p>
                                 <p>Ngày, tháng, năm sinh: {formatDate(keToan_ngaySinh)}</p>
                                 <p>Giới tính: {keToan_gioiTinh}</p>
                                 <p>Số định danh cá nhân: {keToan_cccd}</p>
@@ -567,8 +567,6 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td className={styles.textCenter} style={{ verticalAlign: "top" }}>
                                 <p><strong>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY</strong><br />
                                     (<em>Ký và ghi họ tên</em>)</p>
-                                <p style={{ marginTop: "20px" }}><strong>{getLastName(nguoiDaiDien_hoTen)}</strong></p>
-                                <p style={{ marginTop: "20px", textTransform: "uppercase" }}><strong>{nguoiDaiDien_hoTen}</strong></p>
                             </td>
                         </tr>
                     </tbody>

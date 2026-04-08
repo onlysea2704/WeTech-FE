@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
-import html2pdf from "html2pdf.js";
+import { generateHtmlFile } from "@/utils/generateHtmlFile";
 import { authAxios } from "@/services/axios-instance";
 import styles from "./DeclarationForms.module.css";
 
@@ -34,27 +34,20 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
 
             try {
                 const element = pdfContentRef.current;
+                const filename = `${currentForm.code || "form"}.html`;
 
-                // Cấu hình html2pdf để xuất chất lượng tốt, có margin và tránh bị cắt nội dung
-                const opt = {
-                    margin: [10, 10, 15, 10], // [top, right, bottom, left] - đơn vị mm, bottom 15 để tránh nội dung dính vào rìa trang
-                    filename: `${currentForm.code || "form"}.pdf`,
-                    image: { type: "jpeg", quality: 0.98 },
-                    html2canvas: { scale: 2, useCORS: true, logging: false },
-                    jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-                    pagebreak: { mode: ["avoid-all", "css", "legacy"] },
-                };
+                // Chuyển toàn bộ nội dung form đã render thành file HTML chuẩn.
+                // Server sẽ dùng file HTML này để sinh PDF (puppeteer, wkhtmltopdf, ...).
+                // CSS Modules (hash class) được tự động thu thập từ stylesheets của trang
+                // và nhúng inline vào <style> bên trong <head> — đảm bảo layout đúng.
+                const htmlFile = generateHtmlFile(element, filename, {
+                    title: currentForm.code || "Biểu mẫu",
+                });
 
-                // Generate PDF dưới dạng blob
-                const pdfBlob = await html2pdf().set(opt).from(element).output("blob");
-
-                // Tạo file từ blob
-                const pdfFile = new File([pdfBlob], opt.filename, { type: "application/pdf" });
-
-                // Gửi form data
+                // Gửi FormData lên server
                 const formData = new FormData();
                 formData.append("formId", currentForm.formId);
-                formData.append("pdfFile", pdfFile);
+                formData.append("htmlFile", htmlFile);
 
                 await authAxios.post("/api/form-submission/confirm", formData, {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -64,8 +57,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                     onStepSubmitSuccess();
                 }
             } catch (err) {
-                console.error("Error saving PDF and confirming form:", err);
-                // Handle error suitably
+                console.error("Error saving HTML and confirming form:", err);
             }
         },
     }));
@@ -77,7 +69,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
     return (
         <div className={styles.container}>
             {CurrentFormComponent ? (
-                // Wrapper ref để html2pdf bắt gọn content của form
+                // Wrapper ref để generateHtmlFile đọc nội dung đã render
                 <div ref={pdfContentRef}>
                     <CurrentFormComponent dataJson={dataJson} />
                 </div>

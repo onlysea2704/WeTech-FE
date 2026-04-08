@@ -88,7 +88,7 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                         </div>
                     </div>
 
-                    <h3 className={styles.sectionTitle}>Thông tin cá nhân khác:</h3>
+                    <h3 className={styles.sectionTitle}>Thông tin cá nhân khác của người đại diện:</h3>
                     <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                     <div className={styles.grid2} style={{ marginTop: "8px" }}>
                         <DanTocSelect name="nguoiNop_danToc" defaultValue={dataJson?.nguoiNop_danToc} required={false} />

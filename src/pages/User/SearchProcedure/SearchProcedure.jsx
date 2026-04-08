@@ -72,7 +72,6 @@ export default function SearchProcedure() {
             fetchDrafts();
         }
     };
-
     // Khi load trang hoặc đổi tab, fetch data
     useEffect(() => {
         handleSearch();
@@ -85,7 +84,7 @@ export default function SearchProcedure() {
         return date.toISOString().replace("Z", "");
     };
 
-    const handleDownloadFile = async (procedureId, fallbackName = "files.zip") => {
+    const handleDownloadFiles = async (procedureId, fallbackName = "files.zip") => {
         try {
             setDownloadingId(procedureId);
             const response = await authAxios.get("/api/procedurer/download-files", {
@@ -357,7 +356,7 @@ export default function SearchProcedure() {
                                                     className={styles.textBtn}
                                                     disabled={downloadingId === item.procedureId}
                                                     onClick={() =>
-                                                        handleDownloadFile(item.procedureId, item.title || "ho_so")
+                                                        handleDownloadFiles(item.procedureId, item.title || "ho_so")
                                                     }
                                                 >
                                                     {downloadingId === item.procedureId ? (

@@ -12,6 +12,7 @@ import failurePaymentIcon from "@/assets/failure-icon.png";
 import { downloadPdf } from "@/utils/downloadPdf";
 import checkIcon from "@/assets/Check_perspective_matte.png";
 import pdfIcon from "@/assets/pdf-image.png";
+import checkboxIcon from "@/assets/checkbox_icon.png";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 
 export default function SubmitProcedure({ procedure, setActiveTab }) {
@@ -21,6 +22,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     // Step 1 states
     const [pdfUrls, setPdfUrls] = useState([]);
     const [loadingPdfs, setLoadingPdfs] = useState(false);
+    const [downloadingAll, setDownloadingAll] = useState(false);
 
     // Step 2 states
     const [agencyType, setAgencyType] = useState("tinh_thanh"); // tinh_thanh, bo_nganh
@@ -83,6 +85,32 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
         await downloadPdf(url, fileName);
     };
 
+    const handleDownloadAll = async () => {
+        try {
+            setDownloadingAll(true);
+            const response = await authAxios.get("/api/procedurer/download-files", {
+                params: { procedureId: id_procedure },
+                responseType: "blob",
+            });
+
+            const blob = new Blob([response.data], { type: "application/zip" });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.href = url;
+            link.download = procedure?.title ? `${procedure.title}.zip` : "ho_so.zip";
+
+            document.body.appendChild(link);
+            link.click();
+
+            link.remove();
+            window.URL.revokeObjectURL(url);
+        } catch (error) {
+            console.error("Error downloading all files:", error);
+        } finally {
+            setDownloadingAll(false);
+        }
+    };
+
     const handleProvChange = (selectedOption) => {
         setProvValue(selectedOption ? selectedOption.value : "");
         setProvCode(selectedOption ? selectedOption.code : "");
@@ -105,8 +133,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                     "_blank",
                 );
             }
-            const taxAuth =
-                agencyType === "tinh_thanh" ? `UBND ${wardValue}` : boNganhValue;
+            const taxAuth = agencyType === "tinh_thanh" ? `UBND ${wardValue}` : boNganhValue;
             await authAxios.post("/api/procedurer/update-my-procedure", null, {
                 params: {
                     procedureId: id_procedure,
@@ -149,6 +176,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                             href="https://csdl.dichvucong.gov.vn/web/jsp/download_file.jsp?ma=3fc41612393c279c"
                                             target="_blank"
                                             style={{ textDecoration: "underline", color: "#4b4b8a" }}
+                                            rel="noreferrer"
                                         >
                                             NQ 69 HĐND BRVT.pdf
                                         </a>
@@ -233,6 +261,12 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
             </div>
 
             <div className={styles.step1Actions}>
+                <div>
+                    <button className={styles.btnAction} onClick={handleDownloadAll} disabled={downloadingAll}>
+                        <img src={checkboxIcon} alt="" />
+                        {downloadingAll ? "ĐANG TẢI..." : "TẢI XUỐNG TẤT CẢ"}
+                    </button>
+                </div>
                 <div>
                     <button className={styles.btnAction} onClick={() => setActiveTab(0)}>
                         <img src={loadIcon} alt="" />
@@ -516,9 +550,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                                 </span>
                                             </div>
                                             <div className={styles.detailItem}>
-                                                <p>
-                                                    Cơ quan thực hiện: UBND {wardValue}
-                                                </p>
+                                                <p>Cơ quan thực hiện: UBND {wardValue}</p>
                                                 <p>Đối tượng: Công dân Việt Nam</p>
                                             </div>
                                         </div>
@@ -626,7 +658,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                         <button className={styles.btnAgree} onClick={() => setSubmitStep(2)}>
                             Quay lại
                         </button>
-                        <button className={styles.btnAgree} onClick={() => { }}>
+                        <button className={styles.btnAgree} onClick={() => {}}>
                             Đồng ý
                         </button>
                     </div>

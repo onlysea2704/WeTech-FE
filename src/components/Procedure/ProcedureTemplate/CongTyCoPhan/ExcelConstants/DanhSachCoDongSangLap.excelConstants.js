@@ -1,6 +1,7 @@
 // ──────────────────────────────────────────────────────────────────────────────
 // Excel constants cho Danh Sách Cổ Đông Sáng Lập (Công ty Cổ phần)
 // ──────────────────────────────────────────────────────────────────────────────
+import { parseDateExcel } from "@/components/Procedure/ParentForm/FormExcelConstants";
 
 export const CO_DONG_SANG_LAP_HEADERS = [
     "STT",
@@ -86,7 +87,7 @@ export function parseImportRowsDanhSachCoDongSangLap(allRows) {
             if (!row[1]) continue;
             data.coDongList.push({
                 hoTen: String(row[1] || ""),
-                ngaySinh: String(row[2] || ""),
+                ngaySinh: parseDateExcel(String(row[2] || "")),
                 gioiTinh: String(row[3] || ""),
                 giaTo: String(row[4] || ""),
                 quocTich: String(row[5] || ""),

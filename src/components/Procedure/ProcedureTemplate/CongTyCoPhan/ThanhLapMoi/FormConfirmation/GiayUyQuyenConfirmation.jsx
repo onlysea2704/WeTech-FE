@@ -17,24 +17,22 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
         uyQuyen_soNha = "",
         uyQuyen_xa = "",
         uyQuyen_tinh = "",
-        phongThucHien = "……………………………………………………………"
+        nhanUyQuyen_hoTen = "",
+        nhanUyQuyen_ngaySinh = "",
+        nhanUyQuyen_gioiTinh = "",
+        nhanUyQuyen_cccd = "",
+        nhanUyQuyen_phone = "",
+        nhanUyQuyen_email = "",
+        nhanUyQuyen_danToc = "",
+        nhanUyQuyen_quocTich = "",
+        nhanUyQuyen_thuongTru_soNha = "",
+        nhanUyQuyen_thuongTru_xa = "",
+        nhanUyQuyen_thuongTru_tinh = "",
+        nhanUyQuyen_lienLac_soNha = "",
+        nhanUyQuyen_lienLac_xa = "",
+        nhanUyQuyen_lienLac_tinh = "",
+        phongThucHien = "……………………………………………………………",
     } = dataJson;
-
-    // Fixed Ben B Info
-    const benB = {
-        hoTen: "NGUYỄN HỮU HOÀN",
-        gioiTinh: "Nam",
-        ngaySinh: "25/03/1991",
-        danToc: "Kinh",
-        quocTich: "Việt Nam",
-        cccd: "040091028384",
-        thuongTru: "Thửa đất số 84-3, 84-4, TBĐS 37, Tổ 3, Phường Hà Đông, Thành phố Hà Nội",
-        lienLac: "BT6-7 Khu đô thị Văn Khê, Phường Hà Đông, Thành phố Hà Nội",
-        phone: "0933785838",
-        email: "huuhoanspkt@gmail.com",
-    };
-
-
 
     return (
         <div className={styles.page}>
@@ -53,7 +51,9 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             <div className={styles.infoRow}>
                 <div className={styles.infoItem} style={{ flex: 1.5 }}>
                     <span className={styles.infoLabel}>Họ và tên: </span>
-                    <span className={styles.infoValue} style={{ textTransform: "uppercase" }}>{uyQuyen_hoTen}</span>
+                    <span className={styles.infoValue} style={{ textTransform: "uppercase" }}>
+                        {uyQuyen_hoTen}
+                    </span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Giới tính: </span>
@@ -97,48 +97,56 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
                 <div className={styles.infoItem} style={{ flex: 1.5 }}>
                     <span className={styles.infoLabel}>Họ và tên: </span>
                     <span className={styles.infoValue} style={{ textTransform: "uppercase" }}>
-                        {benB.hoTen}
+                        {nhanUyQuyen_hoTen}
                     </span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Giới tính: </span>
-                    <span className={styles.infoValue}>{benB.gioiTinh}</span>
+                    <span className={styles.infoValue}>{nhanUyQuyen_gioiTinh}</span>
                 </div>
             </div>
             <div className={styles.infoRow}>
                 <div className={styles.infoItem} style={{ flex: 1.5 }}>
                     <span className={styles.infoLabel}>Sinh ngày: </span>
-                    <span className={styles.infoValue}>{formatDate(benB.ngaySinh)}</span>
+                    <span className={styles.infoValue}>{formatDate(nhanUyQuyen_ngaySinh)}</span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Dân tộc: </span>
-                    <span className={styles.infoValue}>{benB.danToc}</span>
+                    <span className={styles.infoValue}>{nhanUyQuyen_danToc}</span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Quốc tịch: </span>
-                    <span className={styles.infoValue}>{benB.quocTich}</span>
+                    <span className={styles.infoValue}>{nhanUyQuyen_quocTich}</span>
                 </div>
             </div>
             <div className={styles.infoLine}>
                 <span className={styles.infoLabel}>Số định danh cá nhân: </span>
-                <span className={styles.infoValue}>{benB.cccd}</span>
+                <span className={styles.infoValue}>{nhanUyQuyen_cccd}</span>
             </div>
             <div className={styles.infoLine}>
                 <span className={styles.infoLabel}>Địa chỉ thường trú: </span>
-                <span className={styles.infoValue}>{benB.thuongTru}</span>
+                <span className={styles.infoValue}>
+                    {[nhanUyQuyen_thuongTru_soNha, nhanUyQuyen_thuongTru_xa, nhanUyQuyen_thuongTru_tinh]
+                        .filter(Boolean)
+                        .join(", ")}
+                </span>
             </div>
             <div className={styles.infoLine}>
                 <span className={styles.infoLabel}>Địa chỉ liên lạc: </span>
-                <span className={styles.infoValue}>{benB.lienLac}</span>
+                <span className={styles.infoValue}>
+                    {[nhanUyQuyen_lienLac_soNha, nhanUyQuyen_lienLac_xa, nhanUyQuyen_lienLac_tinh]
+                        .filter(Boolean)
+                        .join(", ")}
+                </span>
             </div>
             <div className={styles.infoRow}>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Số điện thoại: </span>
-                    <span className={styles.infoValue}>{benB.phone}</span>
+                    <span className={styles.infoValue}>{nhanUyQuyen_phone}</span>
                 </div>
                 <div className={styles.infoItem} style={{ flex: 1 }}>
                     <span className={styles.infoLabel}>Email: </span>
-                    <span className={styles.infoValue}>{benB.email}</span>
+                    <span className={styles.infoValue}>{nhanUyQuyen_email}</span>
                 </div>
             </div>
 
@@ -161,30 +169,35 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
             >
                 THỜI HẠN UỶ QUYỀN:
             </div>
-            <div className={styles.infoLine} style={{ textAlign: "left" }}>Từ ngày ký đến khi hoàn tất công việc.</div>
-            <div className={styles.infoLine} style={{ textAlign: "left" }}>Thù lao ủy quyền: ủy quyền này không có thù lao</div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>
+                Từ ngày ký đến khi hoàn tất công việc.
+            </div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>
+                Thù lao ủy quyền: ủy quyền này không có thù lao
+            </div>
             <div className={styles.infoLine} style={{ textAlign: "left" }}>
                 Chúng tôi cam kết chịu trách nhiệm trước pháp luật về nội dung ủy quyền này.
             </div>
-            <div className={styles.infoLine} style={{ textAlign: "left" }}>Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.</div>
+            <div className={styles.infoLine} style={{ textAlign: "left" }}>
+                Giấy ủy quyền này được lập thành 02 bản chính, mỗi bên giữ 01 bản.
+            </div>
 
             <div className={styles.dateLocation}>
                 <CurrentDate />
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <SignatureBlock
-                    title="BÊN NHẬN ỦY QUYỀN"
-                    fullName={benB.hoTen}
-                    styles={styles}
-                />
-                <SignatureBlock
-                    title="BÊN ỦY QUYỀN"
-                    fullName={uyQuyen_hoTen}
-                    styles={styles}
-                />
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>BÊN NHẬN ỦY QUYỀN</span>
+                    </div>
+                </div>
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>BÊN ỦY QUYỀN</span>
+                    </div>
+                </div>
             </div>
         </div>
     );
 }
-

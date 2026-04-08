@@ -164,6 +164,16 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return nameParts[nameParts.length - 1];
     };
 
+    const formatCurrency = (value) => {
+        if (value === null || value === undefined || value === "") return "";
+        const str = value.toString().trim();
+        const numStr = str.replace(/\./g, "").replace(/,/g, "");
+        if (!isNaN(numStr) && numStr !== "") {
+            return Number(numStr).toLocaleString("vi-VN");
+        }
+        return str;
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -370,27 +380,27 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_nganSach_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_nganSach_soTien)}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_tuNhan_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_tuNhan_soTien)}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_nuocNgoai_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_nuocNgoai_soTien)}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_khac_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_khac_soTien)}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>Tổng cộng</td>
-                            <td style={{ textAlign: "right" }}>{nguonVon_tongCong_soTien}</td>
+                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_tongCong_soTien)}</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe}</td>
                         </tr>
                     </tbody>
@@ -407,15 +417,15 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr><td className={styles.textCenter}>1</td><td>Đồng Việt Nam</td><td className={styles.textRight}>{taiSan_dongVN_giaTri}</td><td className={styles.textCenter}>{taiSan_dongVN_tyLe}</td></tr>
-                        <tr><td className={styles.textCenter}>2</td><td>Ngoại tệ tự do chuyển đổi (<em>ghi rõ loại ngoại tệ, số tiền được góp bằng mỗi loại ngoại tệ</em>)</td><td className={styles.textRight}>{taiSan_ngoaiTe_giaTri}</td><td className={styles.textCenter}>{taiSan_ngoaiTe_tyLe}</td></tr>
-                        <tr><td className={styles.textCenter}>3</td><td>Vàng</td><td className={styles.textRight}>{taiSan_vang_giaTri}</td><td className={styles.textCenter}>{taiSan_vang_tyLe}</td></tr>
-                        <tr><td className={styles.textCenter}>4</td><td>Quyền sử dụng đất</td><td className={styles.textRight}>{taiSan_qsdDat_giaTri}</td><td className={styles.textCenter}>{taiSan_qsdDat_tyLe}</td></tr>
-                        <tr><td className={styles.textCenter}>5</td><td>Quyền sở hữu trí tuệ</td><td className={styles.textRight}>{taiSan_shtt_giaTri}</td><td className={styles.textCenter}>{taiSan_shtt_tyLe}</td></tr>
-                        <tr><td className={styles.textCenter}>6</td><td>Các tài sản khác (<em>ghi rõ loại tài sản, số lượng và giá trị còn lại của mỗi loại tài sản, có thể lập thành danh mục riêng kèm theo hồ sơ đăng ký doanh nghiệp</em>)</td><td className={styles.textRight}>{taiSan_khac_giaTri}</td><td className={styles.textCenter}>{taiSan_khac_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>1</td><td>Đồng Việt Nam</td><td className={styles.textCenter}>{formatCurrency(taiSan_dongVN_giaTri)}</td><td className={styles.textCenter}>{taiSan_dongVN_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>2</td><td>Ngoại tệ tự do chuyển đổi (<em>ghi rõ loại ngoại tệ, số tiền được góp bằng mỗi loại ngoại tệ</em>)</td><td className={styles.textCenter}>{formatCurrency(taiSan_ngoaiTe_giaTri)}</td><td className={styles.textCenter}>{taiSan_ngoaiTe_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>3</td><td>Vàng</td><td className={styles.textCenter}>{formatCurrency(taiSan_vang_giaTri)}</td><td className={styles.textCenter}>{taiSan_vang_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>4</td><td>Quyền sử dụng đất</td><td className={styles.textCenter}>{formatCurrency(taiSan_qsdDat_giaTri)}</td><td className={styles.textCenter}>{taiSan_qsdDat_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>5</td><td>Quyền sở hữu trí tuệ</td><td className={styles.textCenter}>{formatCurrency(taiSan_shtt_giaTri)}</td><td className={styles.textCenter}>{taiSan_shtt_tyLe}</td></tr>
+                        <tr><td className={styles.textCenter}>6</td><td>Các tài sản khác (<em>ghi rõ loại tài sản, số lượng và giá trị còn lại của mỗi loại tài sản, có thể lập thành danh mục riêng kèm theo hồ sơ đăng ký doanh nghiệp</em>)</td><td className={styles.textCenter}>{formatCurrency(taiSan_khac_giaTri)}</td><td className={styles.textCenter}>{taiSan_khac_tyLe}</td></tr>
                         <tr>
                             <td colSpan="2" className={styles.textCenter}>Tổng số</td>
-                            <td className={styles.textRight}>{taiSan_tongSo_giaTri}</td>
+                            <td className={styles.textCenter}>{formatCurrency(taiSan_tongSo_giaTri)}</td>
                             <td className={styles.textCenter}>{taiSan_tongSo_tyLe}</td>
                         </tr>
                     </tbody>

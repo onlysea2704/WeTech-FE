@@ -39,12 +39,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
         <div className={styles.sectionGroup} style={{ marginTop: "20px" }}>
             <h3 className={styles.sectionTitle}>Thông tin về các thành viên hộ gia đình đăng ký hộ kinh doanh:</h3>
             <div className={styles.actionRow}>
-                <button
-                    type="button"
-                    className={styles.btnPrimary}
-                    onClick={handleAdd}
-                    disabled={disabled}
-                >
+                <button type="button" className={styles.btnPrimary} onClick={handleAdd} disabled={disabled}>
                     Thêm dòng
                 </button>
             </div>
@@ -53,7 +48,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                     <colgroup>
                         <col style={{ width: "48px", minWidth: "48px" }} />
                         <col style={{ width: "160px", minWidth: "160px" }} />
-                        <col style={{ width: "120px", minWidth: "120px" }} />
+                        <col style={{ width: "160px", minWidth: "120px" }} />
                         <col style={{ width: "140px", minWidth: "140px" }} />
                         <col style={{ width: "90px", minWidth: "90px" }} />
                         <col style={{ width: "100px", minWidth: "100px" }} />

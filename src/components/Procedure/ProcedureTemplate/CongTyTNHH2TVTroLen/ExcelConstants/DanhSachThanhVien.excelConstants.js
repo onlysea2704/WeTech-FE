@@ -1,6 +1,7 @@
 // ──────────────────────────────────────────────────────────────────────────────
 // Excel constants cho Danh Sách Thành Viên (Công ty TNHH 2TV)
 // ──────────────────────────────────────────────────────────────────────────────
+import { parseDateExcel } from "@/components/Procedure/ParentForm/FormExcelConstants";
 
 export const THANH_VIEN_TV2_HEADERS = [
     "STT",
@@ -75,7 +76,7 @@ export function parseImportRowsDanhSachThanhVien(allRows) {
             if (!row[1]) continue;
             data.thanhVienList.push({
                 hoTen: String(row[1] || ""),
-                ngaySinh: String(row[2] || ""),
+                ngaySinh: parseDateExcel(String(row[2] || "")),
                 gioiTinh: String(row[3] || ""),
                 giaTo: String(row[4] || ""),
                 quocTich: String(row[5] || ""),

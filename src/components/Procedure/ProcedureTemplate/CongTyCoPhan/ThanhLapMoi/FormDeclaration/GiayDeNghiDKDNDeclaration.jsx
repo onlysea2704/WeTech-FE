@@ -91,7 +91,6 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             </div>
 
             <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Vốn điều lệ:</h3>
                 <VonDieuLeSection dataJson={dataJson} styles={styles} />
             </div>
 

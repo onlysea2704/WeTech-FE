@@ -110,10 +110,27 @@ export default function NganhNgheTable({ rows, data, onChangeRows, disabled = fa
                                     />
                                 </td>
                                 <td>
-                                    <input
-                                        className={`${styles.input} ${styles.input}`}
+                                    <textarea
+                                        className={`${styles.input}`}
                                         value={row.chiTiet || ""}
-                                        onChange={(e) => updateRow(idx, "chiTiet", e.target.value)}
+                                        onChange={(e) => {
+                                            e.target.style.height = "auto";
+                                            e.target.style.height = `${e.target.scrollHeight}px`;
+                                            updateRow(idx, "chiTiet", e.target.value);
+                                        }}
+                                        ref={(el) => {
+                                            if (el) {
+                                                el.style.height = "auto";
+                                                el.style.height = `${el.scrollHeight}px`;
+                                            }
+                                        }}
+                                        style={{
+                                            minHeight: "16px",
+                                            maxHeight: "200px",
+                                            resize: "none",
+                                            overflow: "hidden",
+                                            fontFamily: "Roboto"
+                                        }}
                                         readOnly={disabled || readOnly}
                                     />
                                 </td>

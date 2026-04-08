@@ -20,20 +20,20 @@ export default function GiayUyQuyen({ dataJson }) {
 
         chuHo_ten = "",
         chuHo_xa_phuong = "",
+        kinhGuiPrefix = "Phòng Kinh tế, Hạ tầng và Đô thị phường ",
     } = dataJson;
 
-    // Fixed Ben B Info based on the image provided
     const benB = {
-        hoTen: "NGUYỄN HỮU HOÀN",
-        gioiTinh: "Nam",
-        ngaySinh: "25/03/1991",
-        danToc: "Kinh",
-        quocTich: "Việt Nam",
-        cccd: "040091028384",
-        thuongTru: "Thửa đất số 84-3, 84-4, TBĐS 37, Tổ 3, Phường Hà Đông, Thành phố Hà Nội",
-        lienLac: "BT6-7 Khu đô thị Văn Khê, Phường Hà Đông, Thành phố Hà Nội",
-        phone: "0933785838",
-        email: "huuhoanspkt@gmail.com",
+        hoTen: dataJson.nhanUyQuyen_hoTen || "",
+        gioiTinh: dataJson.nhanUyQuyen_gioiTinh || "",
+        ngaySinh: formatDate(dataJson.nhanUyQuyen_ngaySinh || ""),
+        danToc: dataJson.nhanUyQuyen_danToc || "",
+        quocTich: dataJson.nhanUyQuyen_quocTich || "",
+        cccd: dataJson.nhanUyQuyen_cccd || "",
+        thuongTru: [dataJson.nhanUyQuyen_thuongTru_soNha, dataJson.nhanUyQuyen_thuongTru_xa, dataJson.nhanUyQuyen_thuongTru_tinh].filter(Boolean).join(", "),
+        lienLac: [dataJson.nhanUyQuyen_lienLac_soNha, dataJson.nhanUyQuyen_lienLac_xa, dataJson.nhanUyQuyen_lienLac_tinh].filter(Boolean).join(", "),
+        phone: dataJson.nhanUyQuyen_phone || "",
+        email: dataJson.nhanUyQuyen_email || "",
     };
 
     const today = getToday();
@@ -99,7 +99,7 @@ export default function GiayUyQuyen({ dataJson }) {
             <div className={styles.infoLine} style={{ marginTop: "10px", lineHeight: "1.8" }}>
                 <span>Là chủ hộ kinh doanh đăng ký thành lập HỘ KINH DOANH </span>
                 <span>{chuHo_ten}</span>
-                <span> tại Phòng Kinh tế, Hạ tầng và Đô thị Phường </span>
+                <span> tại {kinhGuiPrefix.trim()} </span>
                 <span>{formatWard(chuHo_xa_phuong)}</span>
             </div>
 
@@ -168,8 +168,8 @@ export default function GiayUyQuyen({ dataJson }) {
                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
             </div>
             <div className={styles.infoLine} style={{ lineHeight: "1.8" }}>
-                Nộp hồ sơ và nhận kết quả thủ tục đăng ký thành lập HỘ KINH DOANH <span>{chuHo_ten}</span> tại Phòng
-                Kinh tế, Hạ tầng và Đô thị Phường <span>{formatWard(chuHo_xa_phuong)}</span>
+                Nộp hồ sơ và nhận kết quả thủ tục đăng ký thành lập HỘ KINH DOANH <span>{chuHo_ten}</span> tại {kinhGuiPrefix.trim()}{" "}
+                <span>{formatWard(chuHo_xa_phuong)}</span>
             </div>
 
             <div
@@ -190,16 +190,20 @@ export default function GiayUyQuyen({ dataJson }) {
             </div>
 
             <div style={{ display: "flex", justifyContent: "space-between", marginTop: "20px", padding: "0 40px" }}>
-                <SignatureBlock
-                    title="BÊN NHẬN ỦY QUYỀN"
-                    fullName={benB.hoTen}
-                    styles={styles}
-                />
-                <SignatureBlock
-                    title="BÊN ỦY QUYỀN"
-                    fullName={uyQuyen_hoTen}
-                    styles={styles}
-                />
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
+                            BÊN NHẬN ỦY QUYỀN
+                        </span>
+                    </div>
+                </div>
+                <div>
+                    <div style={{ textAlign: "center", marginBottom: "10px" }}>
+                        <span style={{ fontWeight: "bold", textDecoration: "underline" }}>
+                            BÊN ỦY QUYỀN
+                        </span>
+                    </div>
+                </div>
             </div>
         </div>
     );

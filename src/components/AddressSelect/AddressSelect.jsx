@@ -139,8 +139,11 @@ export default function AddressSelect({
             </div>
             {hasHouseNumber && (
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>Số nhà, đường phố, xóm/ ấp/ thôn:</label>
+                    <label className={styles.label}>
+                        Số nhà, đường phố, xóm/ ấp/ thôn {isRequired && <span className={styles.required}>*</span>}
+                    </label>
                     <input
+                        required={isRequired}
                         key={`house_${houseNumberDefault}`}
                         type="text"
                         className={styles.input}

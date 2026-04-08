@@ -1,21 +1,70 @@
-import { useEffect, useState, forwardRef, useImperativeHandle, useRef } from "react";
+import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./GiayDeNghi.module.css";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
-import numberToVietnameseText from "@/utils/numberToVietnameseText";
 import NganhNgheTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/NganhNgheTable/NganhNgheTable";
 import ThanhVienTable from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/ThanhVienTable/ThanhVienTable";
-import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
-import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
+import {
+    GioiTinhSelect,
+    DanTocSelect,
+    QuocTichSelect,
+} from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
+import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+
+/**
+ * Map fields from corporate form (Giấy đề nghị đăng ký doanh nghiệp)
+ * to household business form (Giấy đề nghị đăng ký hộ kinh doanh)
+ */
+const mapCorporateDataToHousehold = (giayDeNghiData) => {
+    if (!giayDeNghiData) return {};
+
+    return {
+        // Map person submitting form (người nộp) to representative (người đại diện)
+        nguoiDaiDien_hoTen: giayDeNghiData.nguoiNop_hoTen || "",
+        nguoiDaiDien_ngaySinh: giayDeNghiData.nguoiNop_ngaySinh || "",
+        nguoiDaiDien_gioiTinh: giayDeNghiData.nguoiNop_gioiTinh || "",
+        nguoiDaiDien_cccd: giayDeNghiData.nguoiNop_cccd || "",
+        nguoiDaiDien_danToc: giayDeNghiData.nguoiNop_danToc || "",
+        nguoiDaiDien_quocTich: giayDeNghiData.nguoiNop_quocTich || "",
+        nguoiDaiDien_phone: giayDeNghiData.nguoiNop_phone || "",
+        nguoiDaiDien_email: giayDeNghiData.nguoiNop_email || "",
+
+        // Map contact address (địa chỉ liên lạc) to current residence (nơi ở hiện tại)
+        hienTai_tinh: giayDeNghiData.lienLac_tinh || "",
+        hienTai_xa: giayDeNghiData.lienLac_xa || "",
+        hienTai_soNha: giayDeNghiData.lienLac_soNha || "",
+
+        // Map company name to business name (tên hộ kinh doanh)
+        hkd_tenVN: giayDeNghiData.tenCongTy_tenVN || "",
+        hkd_tenEN: giayDeNghiData.tenCongTy_tenEN || "",
+        hkd_tenVietTat: giayDeNghiData.tenCongTy_tenVietTat || "",
+
+        // Map headquarters address to business headquarters (trụ sở hộ kinh doanh)
+        truSo_tinh: giayDeNghiData.truSo_tinh || "",
+        truSo_xa: giayDeNghiData.truSo_xa || "",
+        truSo_soNha: giayDeNghiData.truSo_soNha || "",
+        truSo_phone: giayDeNghiData.truSo_phone || "",
+        truSo_email: giayDeNghiData.truSo_email || "",
+
+        // Map capital and other business info
+        vonKinhDoanh: giayDeNghiData.vonDieuLe || "",
+        vonKinhDoanh_bangChu: giayDeNghiData.vonDieuLe_bangChu || "",
+        ngayBatDau: giayDeNghiData.ngayBatDau || "",
+        soLaoDong: giayDeNghiData.soLaoDong || "",
+        vatMethod: giayDeNghiData.vatMethod || "",
+    };
+};
 
 const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, formRef }, componentRef) {
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
     // ── State ────────────────────────────────────────────────────────────────
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [thanhVienRows, setThanhVienRows] = useState([]);
+    const [mappedData, setMappedData] = useState({});
 
     // Province codes cho từng ô địa chỉ (dùng để trigger fetch communes)
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
@@ -30,7 +79,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
         xa: dataJson?.thue_xa || "",
         soNha: dataJson?.thue_soNha || "",
         phone: dataJson?.thue_phone || "",
-        email: dataJson?.thue_email || ""
+        email: dataJson?.thue_email || "",
     });
     const [thueKey, setThueKey] = useState(0);
 
@@ -43,18 +92,18 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                 xa: fd.get("truSo_xa") || "",
                 soNha: fd.get("truSo_soNha") || "",
                 phone: fd.get("truSo_phone") || "",
-                email: fd.get("truSo_email") || ""
+                email: fd.get("truSo_email") || "",
             });
-            setThueKey(prev => prev + 1);
+            setThueKey((prev) => prev + 1);
         } else {
             setThueAddressState({
                 tinh: dataJson?.thue_tinh || "",
                 xa: dataJson?.thue_xa || "",
                 soNha: dataJson?.thue_soNha || "",
                 phone: dataJson?.thue_phone || "",
-                email: dataJson?.thue_email || ""
+                email: dataJson?.thue_email || "",
             });
-            setThueKey(prev => prev + 1);
+            setThueKey((prev) => prev + 1);
         }
     };
 
@@ -63,6 +112,32 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     const { communes: communes_hienTai } = useFetchAddress(provCode_hienTai);
     const { communes: communes_truSo } = useFetchAddress(provCode_truSo);
     const { communes: communes_thue } = useFetchAddress(provCode_thue);
+
+    // Helper để lấy giá trị mặc định - ưu tiên dataJson, nếu không có thì lấy mapped
+    const getDefaultValue = (fieldName, fallbackValue = "") => {
+        if (dataJson && dataJson[fieldName]) {
+            return dataJson[fieldName];
+        }
+        return mappedData[fieldName] || fallbackValue;
+    };
+
+    // ── Sync từ giayDeNghiData ──────────────────────────────────────────────
+    useEffect(() => {
+        if (giayDeNghiData) {
+            const mapped = mapCorporateDataToHousehold(giayDeNghiData);
+            setMappedData(mapped);
+            // Sync ngành nghề from corporate form if available
+            if (giayDeNghiData.nganhNgheList && giayDeNghiData.nganhNgheList.length > 0) {
+                setNganhNgheRows(giayDeNghiData.nganhNgheList);
+            } // Sync trụ sở info to update kính gửi field
+            if (giayDeNghiData.truSo_xa) {
+                setTruSoXaValue(giayDeNghiData.truSo_xa);
+            }
+            if (giayDeNghiData.truSo_tinh) {
+                setProvCode_truSo(giayDeNghiData.truSo_tinh);
+            }
+        }
+    }, [giayDeNghiData]);
 
     // ── Sync từ dataJson ─────────────────────────────────────────────────────
     useEffect(() => {
@@ -75,7 +150,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             const phonePrefixes = [
                 "Ph\u00f2ng Kinh t\u1ebf x\u00e3 ",
                 "Ph\u00f2ng Kinh t\u1ebf, H\u1ea1 t\u1ea7ng v\u00e0 \u0110\u00f4 th\u1ecb ph\u01b0\u1eddng ",
-                "Ph\u00f2ng Kinh t\u1ebf, H\u1ea1 t\u1ea7ng v\u00e0 \u0110\u00f4 th\u1ecb th\u1ecb tr\u1ea5n "
+                "Ph\u00f2ng Kinh t\u1ebf, H\u1ea1 t\u1ea7ng v\u00e0 \u0110\u00f4 th\u1ecb th\u1ecb tr\u1ea5n ",
             ];
             let stripped = kg;
             for (const p of phonePrefixes) {
@@ -90,9 +165,9 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                 xa: dataJson.thue_xa || "",
                 soNha: dataJson.thue_soNha || "",
                 phone: dataJson.thue_phone || "",
-                email: dataJson.thue_email || ""
+                email: dataJson.thue_email || "",
             });
-            setThueKey(prev => prev + 1);
+            setThueKey((prev) => prev + 1);
         } else {
             setNganhNgheRows([]);
             setThanhVienRows([]);
@@ -103,9 +178,9 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                 xa: "",
                 soNha: "",
                 phone: "",
-                email: ""
+                email: "",
             });
-            setThueKey(prev => prev + 1);
+            setThueKey((prev) => prev + 1);
         }
     }, [dataJson]);
 
@@ -194,7 +269,8 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="text"
                                 className={styles.input}
                                 name="nguoiDaiDien_hoTen"
-                                defaultValue={dataJson?.nguoiDaiDien_hoTen || ""}
+                                defaultValue={getDefaultValue("nguoiDaiDien_hoTen")}
+                                style={{ textTransform: "uppercase" }}
                                 required
                             />
                         </div>
@@ -205,11 +281,14 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             <DateInput
                                 className={styles.input}
                                 name="nguoiDaiDien_ngaySinh"
-                                defaultValue={dataJson?.nguoiDaiDien_ngaySinh || ""}
+                                defaultValue={getDefaultValue("nguoiDaiDien_ngaySinh")}
                                 required
                             />
                         </div>
-                        <GioiTinhSelect name="nguoiDaiDien_gioiTinh" defaultValue={dataJson?.nguoiDaiDien_gioiTinh} />
+                        <GioiTinhSelect
+                            name="nguoiDaiDien_gioiTinh"
+                            defaultValue={getDefaultValue("nguoiDaiDien_gioiTinh")}
+                        />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
                                 Số định danh cá nhân <span className={styles.required}>*</span>
@@ -218,14 +297,13 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="text"
                                 className={styles.input}
                                 name="nguoiDaiDien_cccd"
-                                defaultValue={dataJson?.nguoiDaiDien_cccd || ""}
+                                defaultValue={getDefaultValue("nguoiDaiDien_cccd")}
                                 required
                                 pattern="[0-9]{9,12}"
                                 title="Số CCCD phải có 9–12 chữ số"
                             />
                         </div>
-                        <DanTocSelect name="nguoiDaiDien_danToc" defaultValue={dataJson?.nguoiDaiDien_danToc} />
-                        <QuocTichSelect name="nguoiDaiDien_quocTich" defaultValue={dataJson?.nguoiDaiDien_quocTich} />
+
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
                                 Điện thoại <span className={styles.required}>*</span>
@@ -234,7 +312,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="tel"
                                 className={styles.input}
                                 name="nguoiDaiDien_phone"
-                                defaultValue={dataJson?.nguoiDaiDien_phone || ""}
+                                defaultValue={getDefaultValue("nguoiDaiDien_phone")}
                                 required
                                 pattern="(0|\+84)[0-9]{9,10}"
                             />
@@ -245,35 +323,49 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="email"
                                 className={styles.input}
                                 name="nguoiDaiDien_email"
-                                defaultValue={dataJson?.nguoiDaiDien_email || ""}
+                                defaultValue={getDefaultValue("nguoiDaiDien_email")}
                             />
                         </div>
+                    </div>
+                    <div className={styles.grid2}>
+                        <DanTocSelect
+                            name="nguoiDaiDien_danToc"
+                            defaultValue={getDefaultValue("nguoiDaiDien_danToc")}
+                            required={false}
+                        />
+                        <QuocTichSelect
+                            name="nguoiDaiDien_quocTich"
+                            defaultValue={getDefaultValue("nguoiDaiDien_quocTich")}
+                            required={false}
+                        />
                     </div>
 
                     <h3 className={styles.sectionTitle}>Nơi thường trú:</h3>
                     <AddressSelect
+                        isRequired={false}
                         provinces={provinces}
                         communes={communes_thuongTru}
                         onProvinceChange={setProvCode_thuongTru}
                         provinceName="thuongTru_tinh"
                         wardName="thuongTru_xa"
                         houseNumberName="thuongTru_soNha"
-                        provinceDefault={dataJson?.thuongTru_tinh || ""}
-                        wardDefault={dataJson?.thuongTru_xa || ""}
-                        houseNumberDefault={dataJson?.thuongTru_soNha || ""}
+                        provinceDefault={getDefaultValue("thuongTru_tinh")}
+                        wardDefault={getDefaultValue("thuongTru_xa")}
+                        houseNumberDefault={getDefaultValue("thuongTru_soNha")}
                     />
 
                     <h3 className={styles.sectionTitle}>Nơi ở hiện tại:</h3>
                     <AddressSelect
+                        isRequired={false}
                         provinces={provinces}
                         communes={communes_hienTai}
                         onProvinceChange={setProvCode_hienTai}
                         provinceName="hienTai_tinh"
                         wardName="hienTai_xa"
                         houseNumberName="hienTai_soNha"
-                        provinceDefault={dataJson?.hienTai_tinh || ""}
-                        wardDefault={dataJson?.hienTai_xa || ""}
-                        houseNumberDefault={dataJson?.hienTai_soNha || ""}
+                        provinceDefault={getDefaultValue("hienTai_tinh")}
+                        wardDefault={getDefaultValue("hienTai_xa")}
+                        houseNumberDefault={getDefaultValue("hienTai_soNha")}
                     />
                 </div>
                 <div className={styles.colRight}>
@@ -295,7 +387,8 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="text"
                                 className={styles.inputNoBorder}
                                 name="hkd_tenVN"
-                                defaultValue={dataJson?.hkd_tenVN || ""}
+                                defaultValue={getDefaultValue("hkd_tenVN")}
+                                style={{ textTransform: "uppercase" }}
                                 required
                             />
                         </div>
@@ -306,7 +399,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             type="text"
                             className={styles.input}
                             name="hkd_tenEN"
-                            defaultValue={dataJson?.hkd_tenEN || ""}
+                            defaultValue={getDefaultValue("hkd_tenEN")}
                         />
                     </div>
                     <div className={styles.formGroup}>
@@ -315,7 +408,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             type="text"
                             className={styles.input}
                             name="hkd_tenVietTat"
-                            defaultValue={dataJson?.hkd_tenVietTat || ""}
+                            defaultValue={getDefaultValue("hkd_tenVietTat")}
                         />
                     </div>
                 </div>
@@ -330,9 +423,9 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         provinceName="truSo_tinh"
                         wardName="truSo_xa"
                         houseNumberName="truSo_soNha"
-                        provinceDefault={dataJson?.truSo_tinh || ""}
-                        wardDefault={dataJson?.truSo_xa || ""}
-                        houseNumberDefault={dataJson?.truSo_soNha || ""}
+                        provinceDefault={getDefaultValue("truSo_tinh")}
+                        wardDefault={getDefaultValue("truSo_xa")}
+                        houseNumberDefault={getDefaultValue("truSo_soNha")}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -343,7 +436,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="tel"
                                 className={styles.input}
                                 name="truSo_phone"
-                                defaultValue={dataJson?.truSo_phone || ""}
+                                defaultValue={getDefaultValue("truSo_phone")}
                                 required
                                 pattern="(0|\+84)[0-9]{9,10}"
                             />
@@ -354,7 +447,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="email"
                                 className={styles.input}
                                 name="truSo_email"
-                                defaultValue={dataJson?.truSo_email || ""}
+                                defaultValue={getDefaultValue("truSo_email")}
                             />
                         </div>
                     </div>
@@ -371,8 +464,8 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                 labelText="Tổng số bằng chữ"
                 nameNumber="vonKinhDoanh"
                 nameText="vonKinhDoanh_bangChu"
-                defaultNumber={dataJson?.vonKinhDoanh}
-                defaultText={dataJson?.vonKinhDoanh_bangChu}
+                defaultNumber={getDefaultValue("vonKinhDoanh")}
+                defaultText={getDefaultValue("vonKinhDoanh_bangChu")}
                 required={true}
             />
 
@@ -416,7 +509,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="tel"
                                 className={styles.input}
                                 name="thue_phone"
-                                defaultValue={thueAddressState.phone}
+                                defaultValue={getDefaultValue("thue_phone") || thueAddressState.phone}
                                 pattern="(0|\+84)[0-9]{9,10}"
                             />
                         </div>
@@ -426,7 +519,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 type="email"
                                 className={styles.input}
                                 name="thue_email"
-                                defaultValue={thueAddressState.email}
+                                defaultValue={getDefaultValue("thue_email") || thueAddressState.email}
                             />
                         </div>
                     </div>
@@ -439,7 +532,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                     <DateInput
                         className={styles.input}
                         name="ngayBatDau"
-                        defaultValue={dataJson?.ngayBatDau || ""}
+                        defaultValue={getDefaultValue("ngayBatDau")}
                     />
                 </div>
                 <div className={styles.formGroup}>
@@ -449,7 +542,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         className={styles.input}
                         name="soLaoDong"
                         min="0"
-                        defaultValue={dataJson?.soLaoDong || ""}
+                        defaultValue={getDefaultValue("soLaoDong")}
                     />
                 </div>
             </div>
@@ -463,7 +556,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             name="vatMethod"
                             value="ke_khai"
                             className={styles.radioInput}
-                            defaultChecked={dataJson?.vatMethod === "ke_khai"}
+                            defaultChecked={getDefaultValue("vatMethod") === "ke_khai"}
                         />{" "}
                         Phương pháp kê khai
                     </label>
@@ -473,7 +566,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             name="vatMethod"
                             value="khoan"
                             className={styles.radioInput}
-                            defaultChecked={!dataJson?.vatMethod || dataJson?.vatMethod === "khoan"}
+                            defaultChecked={!getDefaultValue("vatMethod") || getDefaultValue("vatMethod") === "khoan"}
                         />{" "}
                         Phương pháp khoán
                     </label>
@@ -489,7 +582,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             name="subject"
                             value="ca_nhan"
                             className={styles.radioInput}
-                            defaultChecked={!dataJson?.subject || dataJson?.subject === "ca_nhan"}
+                            defaultChecked={!getDefaultValue("subject") || getDefaultValue("subject") === "ca_nhan"}
                         />{" "}
                         Cá nhân
                     </label>
@@ -499,7 +592,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                             name="subject"
                             value="thanh_vien_gd"
                             className={styles.radioInput}
-                            defaultChecked={dataJson?.subject === "thanh_vien_gd"}
+                            defaultChecked={getDefaultValue("subject") === "thanh_vien_gd"}
                         />{" "}
                         Các thành viên hộ gia đình
                     </label>
@@ -508,12 +601,6 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
 
             {/* ── Bảng thành viên ── */}
             <ThanhVienTable rows={thanhVienRows} onChangeRows={setThanhVienRows} disabled={false} />
-
-            {/* ── Chủ hộ ── */}
-            <Signature
-                subject="Chủ hộ kinh doanh"
-                dataJson={dataJson}
-            />
         </form>
     );
 });

@@ -99,10 +99,25 @@ export const formatDateExcel = (dateStr) => {
 export const parseDateExcel = (dateStr) => {
     if (!dateStr) return "";
     let temp = String(dateStr).trim();
+
+    // Handle Excel Serial Date Number (vd: "45000")
+    if (!isNaN(temp) && Number(temp) > 10000) {
+        // Excel tính số ngày từ 30/12/1899
+        const serial = Number(temp);
+        const date = new Date(Math.round((serial - 25569) * 86400 * 1000));
+        const y = date.getUTCFullYear();
+        const m = String(date.getUTCMonth() + 1).padStart(2, "0");
+        const d = String(date.getUTCDate()).padStart(2, "0");
+        return `${y}-${m}-${d}`;
+    }
+
     if (temp.includes("/")) {
         const parts = temp.split("/");
         if (parts.length === 3) {
-            return `${parts[2].split(" ")[0]}-${parts[1]}-${parts[0]}`;
+            const y = parts[2].split(" ")[0];
+            const m = String(parts[1]).padStart(2, "0");
+            const d = String(parts[0]).padStart(2, "0");
+            return `${y}-${m}-${d}`;
         }
     }
     return temp;

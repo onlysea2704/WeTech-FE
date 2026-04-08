@@ -184,7 +184,7 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
             </div>
             <div className={styles.infoLine} style={{ marginLeft: "16px" }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng Việt (ghi bằng chữ in hoa): HỘ KINH DOANH </span>
-                <span className={styles.infoValue}>{hkd_tenVN}</span>
+                <span className={styles.infoValue}>{hkd_tenVN?.toUpperCase()}</span>
             </div>
             <div className={styles.infoLine} style={{ marginLeft: "16px" }}>
                 <span>Tên hộ kinh doanh viết bằng tiếng nước ngoài (nếu có): </span>

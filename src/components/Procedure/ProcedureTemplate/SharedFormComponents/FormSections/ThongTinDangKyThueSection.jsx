@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
@@ -6,9 +6,77 @@ import DateInput from "@/components/DateInput/DateInput";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
 
+
 export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = false }) {
     const [provCode_thongBaoThue, setProvCode_thongBaoThue] = useState("");
     const { provinces, communes: communes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
+    const sectionRef = useRef(null);
+    const [giamDocNgaySinh, setGiamDocNgaySinh] = useState(dataJson?.giamDoc_ngaySinh || dataJson?.nguoiDaiDien_ngaySinh || "");
+
+    // --- Cập nhật real-time: khi người dùng nhập liệu vào người đại diện, tự động điền vào giám đốc ---
+    useEffect(() => {
+        const form = sectionRef.current?.closest("form");
+        if (!form) return;
+
+        const MIRROR_MAP = {
+            nguoiDaiDien_hoTen: "giamDoc_hoTen",
+            nguoiDaiDien_gioiTinh: "giamDoc_gioiTinh",
+            nguoiDaiDien_cccd: "giamDoc_cccd",
+            nguoiDaiDien_phone: "giamDoc_phone",
+        };
+
+        // Sync các field thông thường (text, select, tel)
+        const syncToGiamDoc = (e) => {
+            if (!e.target?.name) return;
+            const dstName = MIRROR_MAP[e.target.name];
+            if (!dstName) return;
+            const dst = form.querySelector(`[name="${dstName}"]`);
+            if (dst) dst.value = e.target.value;
+        };
+
+        form.addEventListener("input", syncToGiamDoc);
+        form.addEventListener("change", syncToGiamDoc);
+
+        // --- Xử lý riêng cho DateInput (ngaySinh) ---
+        // DateInput render: <input type="hidden" name="nguoiDaiDien_ngaySinh"> + <input type="text"> (display)
+        // Hidden input không fire event, nên cần theo dõi text input gần nó
+        const toDisplay = (iso) => {
+            if (!iso) return "";
+            const [y, m, d] = iso.split("-");
+            return (y && m && d) ? `${d}/${m}/${y}` : "";
+        };
+
+        const syncDate = () => {
+            const srcHidden = form.querySelector(`input[type="hidden"][name="nguoiDaiDien_ngaySinh"]`);
+            if (!srcHidden) return;
+            const isoVal = srcHidden.value;
+            const dstHidden = form.querySelector(`input[type="hidden"][name="giamDoc_ngaySinh"]`);
+            if (!dstHidden) return;
+            dstHidden.value = isoVal;
+            const dstTextInput = dstHidden.closest("div")?.querySelector('input[type="text"]');
+            if (dstTextInput) dstTextInput.value = toDisplay(isoVal);
+        };
+
+        const onDateInputDelegation = (e) => {
+            const srcHidden = form.querySelector(`input[type="hidden"][name="nguoiDaiDien_ngaySinh"]`);
+            if (srcHidden && srcHidden.parentElement && srcHidden.parentElement.contains(e.target)) {
+                setTimeout(() => {
+                    syncDate();
+                    setGiamDocNgaySinh(srcHidden.value);
+                }, 10);
+            }
+        };
+
+        form.addEventListener("input", onDateInputDelegation);
+        form.addEventListener("change", onDateInputDelegation);
+
+        return () => {
+            form.removeEventListener("input", syncToGiamDoc);
+            form.removeEventListener("change", syncToGiamDoc);
+            form.removeEventListener("input", onDateInputDelegation);
+            form.removeEventListener("change", onDateInputDelegation);
+        };
+    }, []);
 
     const [thueAddressState, setThueAddressState] = useState({
         tinh: dataJson?.thongBaoThue_tinh || "",
@@ -19,6 +87,41 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
         email: dataJson?.thongBaoThue_email || ""
     });
     const [thueKey, setThueKey] = useState(0);
+
+    const [keToanState, setKeToanState] = useState({
+        hoTen: dataJson?.keToan_hoTen || "",
+        ngaySinh: dataJson?.keToan_ngaySinh || "",
+        gioiTinh: dataJson?.keToan_gioiTinh || "",
+        cccd: dataJson?.keToan_cccd || "",
+        phone: dataJson?.keToan_phone || "",
+    });
+    const [keToanKey, setKeToanKey] = useState(0);
+
+    const handleCopyNguoiNopToKeToan = (isChecked, e) => {
+        if (isChecked) {
+            const form = e.target.closest('form');
+            if (form) {
+                const fd = new FormData(form);
+                setKeToanState({
+                    hoTen: fd.get("nguoiNop_hoTen") || "",
+                    ngaySinh: fd.get("nguoiNop_ngaySinh") || "",
+                    gioiTinh: fd.get("nguoiNop_gioiTinh") || "",
+                    cccd: fd.get("nguoiNop_cccd") || "",
+                    phone: fd.get("nguoiNop_phone") || "",
+                });
+                setKeToanKey(prev => prev + 1);
+            }
+        } else {
+            setKeToanState({
+                hoTen: dataJson?.keToan_hoTen || "",
+                ngaySinh: dataJson?.keToan_ngaySinh || "",
+                gioiTinh: dataJson?.keToan_gioiTinh || "",
+                cccd: dataJson?.keToan_cccd || "",
+                phone: dataJson?.keToan_phone || "",
+            });
+            setKeToanKey(prev => prev + 1);
+        }
+    };
 
     const handleCopyTruSoToThue = (isChecked, e) => {
         if (isChecked) {
@@ -59,6 +162,15 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                 email: dataJson.thongBaoThue_email || ""
             });
             setThueKey(prev => prev + 1);
+            setKeToanState({
+                hoTen: dataJson.keToan_hoTen || "",
+                ngaySinh: dataJson.keToan_ngaySinh || "",
+                gioiTinh: dataJson.keToan_gioiTinh || "",
+                cccd: dataJson.keToan_cccd || "",
+                phone: dataJson.keToan_phone || "",
+            });
+            setKeToanKey(prev => prev + 1);
+            setGiamDocNgaySinh(dataJson.giamDoc_ngaySinh || dataJson.nguoiDaiDien_ngaySinh || "");
         } else {
             setThueAddressState({
                 tinh: "",
@@ -69,6 +181,15 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                 email: ""
             });
             setThueKey(prev => prev + 1);
+            setKeToanState({
+                hoTen: "",
+                ngaySinh: "",
+                gioiTinh: "",
+                cccd: "",
+                phone: "",
+            });
+            setKeToanKey(prev => prev + 1);
+            setGiamDocNgaySinh("");
         }
     }, [dataJson]);
 
@@ -78,7 +199,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
     const tooltipPPThue = "Chỉ kê khai trong trường hợp thành lập mới. Doanh nghiệp căn cứ vào quy định của pháp luật về thuế giá trị gia tăng và dự kiến hoạt động kinh doanh của doanh nghiệp để xác định 01 trong 04 phương pháp tính thuế giá trị gia tăng tại chỉ tiêu này, trừ trường hợp doanh nghiệp mua bán, chế tác vàng, bạc, đá quý có thể chọn thêm phương pháp trực tiếp trên GTGT ngoài các phương pháp khác (nếu có).";
 
     return (
-        <div className={styles.sectionGroup}>
+        <div ref={sectionRef} className={styles.sectionGroup}>
             <h3 className={styles.sectionTitle}>Thông tin đăng ký thuế:</h3>
             <table className={styles.table}>
                 <thead>
@@ -95,20 +216,20 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                             <div className={styles.grid2}>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: <span className={styles.required}>*</span></label>
-                                    <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                                    <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || dataJson?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} required />
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
-                                    <DateInput className={styles.input} name="giamDoc_ngaySinh" defaultValue={dataJson?.giamDoc_ngaySinh || ""} required />
+                                    <DateInput className={styles.input} name="giamDoc_ngaySinh" defaultValue={giamDocNgaySinh} required />
                                 </div>
-                                <GioiTinhSelect name="giamDoc_gioiTinh" defaultValue={dataJson?.giamDoc_gioiTinh} required />
+                                <GioiTinhSelect name="giamDoc_gioiTinh" defaultValue={dataJson?.giamDoc_gioiTinh || dataJson?.nguoiDaiDien_gioiTinh} required />
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Số định danh cá nhân: <span className={styles.required}>*</span></label>
-                                    <input type="text" className={styles.input} name="giamDoc_cccd" defaultValue={dataJson?.giamDoc_cccd || ""} pattern="[0-9]{9,12}" required />
+                                    <input type="text" className={styles.input} name="giamDoc_cccd" defaultValue={dataJson?.giamDoc_cccd || dataJson?.nguoiDaiDien_cccd || ""} pattern="[0-9]{9,12}" required />
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Điện thoại: <span className={styles.required}>*</span></label>
-                                    <input type="tel" className={styles.input} name="giamDoc_phone" defaultValue={dataJson?.giamDoc_phone || ""} pattern="(0|\+84)[0-9]{9,10}" required />
+                                    <input type="tel" className={styles.input} name="giamDoc_phone" defaultValue={dataJson?.giamDoc_phone || dataJson?.nguoiDaiDien_phone || ""} pattern="(0|\+84)[0-9]{9,10}" required />
                                 </div>
                             </div>
                         </td>
@@ -117,23 +238,29 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.2</td>
                         <td>
                             <p className={styles.sectionTitle}>Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):</p>
-                            <div className={styles.formGroup}>
-                                <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
-                                <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={dataJson?.keToan_hoTen || ""} style={{ textTransform: "uppercase" }} />
-                            </div>
-                            <div className={styles.grid2}>
+                            <CopyAddressCheckbox 
+                                label="Tích chọn nếu Kế toán trưởng/Phụ trách kế toán đồng thời là người soạn hồ sơ"
+                                onChange={handleCopyNguoiNopToKeToan} 
+                            />
+                            <div key={`ketoan-group-${keToanKey}`}>
                                 <div className={styles.formGroup}>
-                                    <label className={styles.label}>Ngày, tháng, năm sinh:</label>
-                                    <DateInput className={styles.input} name="keToan_ngaySinh" defaultValue={dataJson?.keToan_ngaySinh || ""} />
+                                    <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
+                                    <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={keToanState.hoTen} style={{ textTransform: "uppercase" }} />
                                 </div>
-                                <GioiTinhSelect name="keToan_gioiTinh" defaultValue={dataJson?.keToan_gioiTinh} required={false} />
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>Số định danh cá nhân:</label>
-                                    <input type="text" className={styles.input} name="keToan_cccd" defaultValue={dataJson?.keToan_cccd || ""} pattern="[0-9]{9,12}" />
-                                </div>
-                                <div className={styles.formGroup}>
-                                    <label className={styles.label}>Điện thoại:</label>
-                                    <input type="tel" className={styles.input} name="keToan_phone" defaultValue={dataJson?.keToan_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                                <div className={styles.grid2}>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Ngày, tháng, năm sinh:</label>
+                                        <DateInput className={styles.input} name="keToan_ngaySinh" defaultValue={keToanState.ngaySinh} />
+                                    </div>
+                                    <GioiTinhSelect name="keToan_gioiTinh" defaultValue={keToanState.gioiTinh} required={false} />
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Số định danh cá nhân:</label>
+                                        <input type="text" className={styles.input} name="keToan_cccd" defaultValue={keToanState.cccd} pattern="[0-9]{9,12}" />
+                                    </div>
+                                    <div className={styles.formGroup}>
+                                        <label className={styles.label}>Điện thoại:</label>
+                                        <input type="tel" className={styles.input} name="keToan_phone" defaultValue={keToanState.phone} pattern="(0|\+84)[0-9]{9,10}" />
+                                    </div>
                                 </div>
                             </div>
                         </td>

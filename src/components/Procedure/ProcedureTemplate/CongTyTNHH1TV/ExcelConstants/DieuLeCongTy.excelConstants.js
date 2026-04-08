@@ -1,5 +1,7 @@
+import { parseDateExcel } from "@/components/Procedure/ParentForm/FormExcelConstants";
 export const SENTINEL_DIEULE = "[ĐIỀU LỆ CÔNG TY TNHH 1 THÀNH VIÊN]";
 export const SENTINEL_NGANH_DIEULE = "[NGÀNH NGHỀ CAO]";
+
 
 export const buildExportRowsDieuLeCongTy = (src) => {
     const rows = [];
@@ -107,7 +109,7 @@ export const parseImportRowsDieuLeCongTy = (rows) => {
                 
                 case "Họ tên chủ sở hữu": result.chuSoHuu_hoTen = col1; break;
                 case "Giới tính CSH": result.chuSoHuu_gioiTinh = col1; break;
-                case "Ngày sinh CSH": result.chuSoHuu_ngaySinh = col1; break;
+                case "Ngày sinh CSH": result.chuSoHuu_ngaySinh = parseDateExcel(col1); break;
                 case "CCCD CSH": result.chuSoHuu_cccd = col1; break;
                 case "Dân tộc CSH": result.chuSoHuu_danToc = col1; break;
                 case "Quốc tịch CSH": result.chuSoHuu_quocTich = col1; break;
@@ -119,7 +121,7 @@ export const parseImportRowsDieuLeCongTy = (rows) => {
 
                 case "Họ tên NDD": result.nguoiDaiDien_hoTen = col1; break;
                 case "Giới tính NDD": result.nguoiDaiDien_gioiTinh = col1; break;
-                case "Ngày sinh NDD": result.nguoiDaiDien_ngaySinh = col1; break;
+                case "Ngày sinh NDD": result.nguoiDaiDien_ngaySinh = parseDateExcel(col1); break;
                 case "CCCD NDD": result.nguoiDaiDien_cccd = col1; break;
                 case "Dân tộc NDD": result.nguoiDaiDien_danToc = col1; break;
                 case "Quốc tịch NDD": result.nguoiDaiDien_quocTich = col1; break;
@@ -128,7 +130,7 @@ export const parseImportRowsDieuLeCongTy = (rows) => {
                 case "Số nhà NDD": result.nguoiDaiDien_soNha = String(rw[1] || ""); break;
                 case "Chức danh NDD": result.nguoiDaiDien_chucDanh = col1; break;
 
-                case "Ngày thông qua": result.ngayThongQua = col1; break;
+                case "Ngày thông qua": result.ngayThongQua = parseDateExcel(col1); break;
             }
         }
     }
