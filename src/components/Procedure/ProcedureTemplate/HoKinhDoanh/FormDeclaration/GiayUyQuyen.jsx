@@ -91,7 +91,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                                 type="text"
                                 className={styles.input}
                                 name="uyQuyen_hoTen"
-                                defaultValue={dataJson?.uyQuyen_hoTen || giayDeNghiData?.nguoiDaiDien_hoTen || ""}
+                                defaultValue={dataJson?.uyQuyen_hoTen || giayDeNghiData?.nguoiDaiDien_hoTen?.toUpperCase() || ""}
                                 required
                             />
                         </div>
