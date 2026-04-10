@@ -10,7 +10,7 @@ import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/Proces
 const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit, formRef }, componentRef) {
     const [provCode_uyQuyen, setProvCode_uyQuyen] = useState("");
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký hộ kinh doanh");
-    const hkd_tenVN = giayDeNghiData?.hkd_tenVN;
+    const hkd_tenVN = giayDeNghiData?.hkd_tenVN?.toUpperCase();
     const [provCode_nhanUyQuyen_thuongTru, setProvCode_nhanUyQuyen_thuongTru] = useState("");
     const [provCode_nhanUyQuyen_lienLac, setProvCode_nhanUyQuyen_lienLac] = useState("");
     // Helper: tách prefix và tên từ chuỗi kinhGui đã lưu

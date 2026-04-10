@@ -9,14 +9,15 @@
  * @param {object}  [options]
  * @param {string}  [options.title="Biểu mẫu"] - Tiêu đề tài liệu HTML
  * @param {string}  [options.lang="vi"]         - Thuộc tính lang của <html>
+ * @param {boolean} [options.landscape=false]   - Orientation PDF (true = landscape, false = portrait)
  * @returns {string} Chuỗi HTML đầy đủ (<!DOCTYPE html> ... </html>)
  */
 export function generateHtmlString(element, options = {}) {
-  const { title = "Biểu mẫu", lang = "vi" } = options;
+  const { title = "Biểu mẫu", lang = "vi", landscape = false } = options;
 
   // ── 1. Lấy HTML nội dung đã render ────────────────────────────────────
   const bodyHtml = element.outerHTML;
-
+  console.log("bodyHtml:", bodyHtml)
   // ── 2. Thu thập toàn bộ CSS hiện có trên trang ────────────────────────
   //       Bao gồm CSS Modules (đã được hash class name và inject vào DOM).
   let cssText = "";
@@ -42,12 +43,12 @@ export function generateHtmlString(element, options = {}) {
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="pdf-orientation" content="${landscape ? "landscape" : "portrait"}" />
   <title>${title}</title>
   <style>
-    /* Reset cơ bản cho PDF render ở server */
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 0;
+      margin: 20px;
       padding: 0;
       background: #fff;
       color: #000;
@@ -56,7 +57,6 @@ export function generateHtmlString(element, options = {}) {
       line-height: 1.5;
     }
 
-    /* Toàn bộ CSS của ứng dụng (CSS Modules đã được inject) */
     ${cssText}
   </style>
 </head>
@@ -72,10 +72,12 @@ export function generateHtmlString(element, options = {}) {
  * @param {HTMLElement} element  - DOM element đã render
  * @param {string}      filename - Tên file, ví dụ: "GiayDeNghi.html"
  * @param {object}      [options] - Truyền thêm cho generateHtmlString
+ * @param {boolean}     [options.landscape=false] - Orientation PDF (true = landscape, false = portrait)
  * @returns {File} File HTML (type: "text/html")
  */
 export function generateHtmlFile(element, filename, options = {}) {
   const htmlString = generateHtmlString(element, { title: filename, ...options });
+  console.log("htmlString:", htmlString)
   const blob = new Blob([htmlString], { type: "text/html; charset=utf-8" });
   return new File([blob], filename, { type: "text/html" });
 }

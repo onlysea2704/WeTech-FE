@@ -781,33 +781,17 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             </p>
 
             <div className={styles.signatures}>
-                <div className={styles.signatureBox}>
+                <div className={styles.signatureBox} style={{ justifyContent: "flex-start", gap: 0 }}>
                     <p className={styles.bold}>CHỦ SỞ HỮU</p>
                     <p className={styles.signatureName}>
-                        {dataJson.chuSoHuu_hoTen ? (
-                            <>
-                                <span style={{ fontWeight: "600" }}>{getLastName(dataJson.chuSoHuu_hoTen)}</span>
-                                <br />
-                                {dataJson.chuSoHuu_hoTen.toUpperCase()}
-                            </>
-                        ) : (
-                            "(Ký, ghi rõ họ tên)"
-                        )}
+                        <em>(Ký, ghi rõ họ tên)</em>
                     </p>
                 </div>
                 <div className={styles.signatureBox}>
                     <p className={styles.bold}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT</p>
                     <p className={styles.bold}>GIÁM ĐỐC</p>
                     <p className={styles.signatureName}>
-                        {dataJson.nguoiDaiDien_hoTen ? (
-                            <>
-                                <span style={{ fontWeight: "600" }}>{getLastName(dataJson.nguoiDaiDien_hoTen)}</span>
-                                <br />
-                                {dataJson.nguoiDaiDien_hoTen.toUpperCase()}
-                            </>
-                        ) : (
-                            "(Ký, ghi rõ họ tên)"
-                        )}
+                        <em>(Ký, ghi rõ họ tên)</em>
                     </p>
                 </div>
             </div>

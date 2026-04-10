@@ -94,9 +94,7 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
 
             <div className={styles.docTitle}>GIẤY ĐỀ NGHỊ ĐĂNG KÝ HỘ KINH DOANH</div>
 
-            <div style={{ textAlign: "center", margin: "15px 0", fontSize: "16px" }}>
-                Kính gửi: {kinhGui}
-            </div>
+            <div style={{ textAlign: "center", margin: "15px 0", fontSize: "16px" }}>Kính gửi: {kinhGui}</div>
 
             <div className={styles.infoLine}>
                 <span className={styles.infoLabel}>Tôi là (ghi họ tên bằng chữ in hoa): </span>
@@ -252,18 +250,32 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {nganhNgheList.length > 0 &&
+                        {nganhNgheList.length > 0 ? (
                             nganhNgheList.map((row, idx) => (
                                 <tr key={idx}>
-                                    <td>{idx + 1}</td>
-                                    <td>
-                                        <div>{row.tenNganh}</div>
-                                        {row.chiTiet && <div>Chi tiết: {row.chiTiet}</div>}
+                                    <td style={{ textAlign: "center" }}>{idx + 1}</td>
+                                    <td style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
+                                        {row.tenNganh}
+                                        {row.chiTiet && (
+                                            <div style={{ marginTop: "4px" }}>
+                                                Chi tiết:
+                                                <br />
+                                                {row.chiTiet}
+                                            </div>
+                                        )}
                                     </td>
                                     <td style={{ textAlign: "center" }}>{row.maNganh}</td>
                                     <td style={{ textAlign: "center" }}>{row.laNganhChinh ? "X" : ""}</td>
                                 </tr>
-                            ))}
+                            ))
+                        ) : (
+                            <tr>
+                                <td style={{ textAlign: "center" }}>1</td>
+                                <td>................................................</td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        )}
                     </tbody>
                 </table>
             </div>

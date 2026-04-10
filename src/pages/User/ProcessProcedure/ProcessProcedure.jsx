@@ -140,7 +140,9 @@ const ProcessProcedure = () => {
                     setIsConfirming(true);
                     try {
                         if (confirmationFormsRef.current) {
-                            await confirmationFormsRef.current.submitCurrentForm();
+                            const currentForm = forms?.[currentFormStep];
+                            const isLandscape = currentForm?.name?.toLowerCase().startsWith("danh sách") || false;
+                            await confirmationFormsRef.current.submitCurrentForm(isLandscape);
                         }
                     } finally {
                         setIsConfirming(false);
@@ -398,8 +400,8 @@ const ProcessProcedure = () => {
                                 >
                                     <img src={iconCheck} alt="" />
                                     {viewMode === "see_again" &&
-                                        activeTab === 1 &&
-                                        currentFormStep === formDeclarationSteps.length - 1
+                                    activeTab === 1 &&
+                                    currentFormStep === formDeclarationSteps.length - 1
                                         ? "Tạo mới"
                                         : "Tiếp theo"}
 

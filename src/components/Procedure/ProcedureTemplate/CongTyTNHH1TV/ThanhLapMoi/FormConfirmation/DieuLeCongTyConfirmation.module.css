@@ -120,6 +120,11 @@
     margin-top: 10px;
 }
 
+.signatureName em {
+    font-style: italic;
+    font-weight: normal;
+}
+
 .input,
 .select {
     width: 100%;

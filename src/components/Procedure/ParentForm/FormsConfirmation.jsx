@@ -29,7 +29,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
 
     // Expose submitCurrentForm
     useImperativeHandle(ref, () => ({
-        submitCurrentForm: async () => {
+        submitCurrentForm: async (landscape = false) => {
             if (!pdfContentRef.current) return;
 
             try {
@@ -42,7 +42,9 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                 // và nhúng inline vào <style> bên trong <head> — đảm bảo layout đúng.
                 const htmlFile = generateHtmlFile(element, filename, {
                     title: currentForm.code || "Biểu mẫu",
+                    landscape,
                 });
+                console.log("htmlFile:", htmlFile);
 
                 // Gửi FormData lên server
                 const formData = new FormData();
