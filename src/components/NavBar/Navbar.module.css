@@ -352,3 +352,56 @@
     padding: 6px 15px;
     text-decoration: none;
 }
+
+/* --- RESPONSIVE CHO NAVBAR --- */
+@media screen and (max-width: 1300px) {
+    .navbar-container {
+        width: 100%;
+        padding: 13px 20px;
+    }
+
+    .navbar-menu {
+        gap: 15px;
+        font-size: 14px;
+    }
+
+    .nav-item {
+        white-space: nowrap;
+        /* Ngăn chữ bị xuống dòng */
+    }
+
+    .logo {
+        height: 55px;
+        /* Thu nhỏ logo một chút */
+    }
+
+    .navbar-right-btn {
+        min-width: auto;
+    }
+
+    .navbar-right-btn button {
+        width: 90px;
+        padding: 6px 10px;
+    }
+}
+
+@media screen and (max-width: 1024px) {
+    .navbar-container {
+        padding: 13px 10px;
+    }
+
+    .navbar-menu {
+        gap: 10px;
+        font-size: 13px;
+    }
+
+    .logo {
+        height: 45px;
+    }
+
+    .navbar-right-btn button {
+        width: auto;
+        padding: 5px 10px;
+        font-size: 12px;
+    }
+}

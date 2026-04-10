@@ -19,7 +19,8 @@
 }
 
 .tabs button {
-    min-width: calc(20% - 22px);
+    flex: 1;
+    white-space: nowrap;
     border: 1px solid #c4c4c4;
     background: white;
     padding: 10px 24px;
