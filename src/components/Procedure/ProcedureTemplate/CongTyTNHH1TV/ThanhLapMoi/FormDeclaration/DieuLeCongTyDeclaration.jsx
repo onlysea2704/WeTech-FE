@@ -7,9 +7,48 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import DateInput from "@/components/DateInput/DateInput";
 import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 
 const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ formId, dataJson, onSubmit, formRef }, componentRef) {
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+
+
+    const [localChuSoHuu, setLocalChuSoHuu] = useState({});
+    const [chuSoHuuKey, setChuSoHuuKey] = useState(0);
+
+    const handleFillChuSoHuuCard = (card) => {
+        setLocalChuSoHuu({
+            chuSoHuu_hoTen: card.fullName || "",
+            chuSoHuu_gioiTinh: card.gender || "",
+            chuSoHuu_ngaySinh: card.dob || "",
+            chuSoHuu_cccd: card.cccd || "",
+            chuSoHuu_danToc: card.ethnicity || "Kinh",
+            chuSoHuu_quocTich: card.nationality || "Việt Nam",
+            chuSoHuu_tinh: card.currentAddress?.province || "",
+            chuSoHuu_xa: card.currentAddress?.ward || "",
+            chuSoHuu_soNha: card.currentAddress?.street || "",
+        });
+        setChuSoHuuKey((prev) => prev + 1);
+    };
+
+    const [localNguoiDaiDien, setLocalNguoiDaiDien] = useState({});
+    const [nguoiDaiDienKey, setNguoiDaiDienKey] = useState(0);
+
+    const handleFillNguoiDaiDienCard = (card) => {
+        setLocalNguoiDaiDien({
+            nguoiDaiDien_hoTen: card.fullName || "",
+            nguoiDaiDien_gioiTinh: card.gender || "",
+            nguoiDaiDien_ngaySinh: card.dob || "",
+            nguoiDaiDien_cccd: card.cccd || "",
+            nguoiDaiDien_danToc: card.ethnicity || "Kinh",
+            nguoiDaiDien_quocTich: card.nationality || "Việt Nam",
+            nguoiDaiDien_tinh: card.currentAddress?.province || "",
+            nguoiDaiDien_xa: card.currentAddress?.ward || "",
+            nguoiDaiDien_soNha: card.currentAddress?.street || "",
+        });
+        setNguoiDaiDienKey((prev) => prev + 1);
+    };
+
 
     const [nganhNgheRows, setNganhNgheRows] = useState(dataJson?.nganhNgheList || []);
     // Province codes
@@ -43,28 +82,28 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
     const defaultEmail = dataJson?.email || giayDeNghiData?.truSo_email || "";
     const defaultWebsite = dataJson?.website || giayDeNghiData?.truSo_website || "";
 
-    const defaultChuSoHuu_hoTen = dataJson?.chuSoHuu_hoTen || giayDeNghiData?.chuSoHuu_hoTen || "";
-    const defaultChuSoHuu_gioiTinh = dataJson?.chuSoHuu_gioiTinh || giayDeNghiData?.chuSoHuu_gioiTinh;
-    const defaultChuSoHuu_ngaySinh = dataJson?.chuSoHuu_ngaySinh || giayDeNghiData?.chuSoHuu_ngaySinh || "";
-    const defaultChuSoHuu_cccd = dataJson?.chuSoHuu_cccd || giayDeNghiData?.chuSoHuu_cccd || "";
-    const defaultChuSoHuu_danToc = dataJson?.chuSoHuu_danToc || giayDeNghiData?.chuSoHuu_danToc || "Kinh";
-    const defaultChuSoHuu_quocTich = dataJson?.chuSoHuu_quocTich || giayDeNghiData?.chuSoHuu_quocTich || "Việt Nam";
-    const defaultChuSoHuu_tinh = dataJson?.chuSoHuu_tinh || giayDeNghiData?.chuSoHuu_tinh || "";
-    const defaultChuSoHuu_xa = dataJson?.chuSoHuu_xa || giayDeNghiData?.chuSoHuu_xa || "";
-    const defaultChuSoHuu_soNha = dataJson?.chuSoHuu_soNha || giayDeNghiData?.chuSoHuu_soNha || "";
+    const defaultChuSoHuu_hoTen = localChuSoHuu.chuSoHuu_hoTen ?? (dataJson?.chuSoHuu_hoTen || giayDeNghiData?.chuSoHuu_hoTen || "");
+    const defaultChuSoHuu_gioiTinh = localChuSoHuu.chuSoHuu_gioiTinh ?? (dataJson?.chuSoHuu_gioiTinh || giayDeNghiData?.chuSoHuu_gioiTinh);
+    const defaultChuSoHuu_ngaySinh = localChuSoHuu.chuSoHuu_ngaySinh ?? (dataJson?.chuSoHuu_ngaySinh || giayDeNghiData?.chuSoHuu_ngaySinh || "");
+    const defaultChuSoHuu_cccd = localChuSoHuu.chuSoHuu_cccd ?? (dataJson?.chuSoHuu_cccd || giayDeNghiData?.chuSoHuu_cccd || "");
+    const defaultChuSoHuu_danToc = localChuSoHuu.chuSoHuu_danToc ?? (dataJson?.chuSoHuu_danToc || giayDeNghiData?.chuSoHuu_danToc || "Kinh");
+    const defaultChuSoHuu_quocTich = localChuSoHuu.chuSoHuu_quocTich ?? (dataJson?.chuSoHuu_quocTich || giayDeNghiData?.chuSoHuu_quocTich || "Việt Nam");
+    const defaultChuSoHuu_tinh = localChuSoHuu.chuSoHuu_tinh ?? (dataJson?.chuSoHuu_tinh || giayDeNghiData?.chuSoHuu_tinh || "");
+    const defaultChuSoHuu_xa = localChuSoHuu.chuSoHuu_xa ?? (dataJson?.chuSoHuu_xa || giayDeNghiData?.chuSoHuu_xa || "");
+    const defaultChuSoHuu_soNha = localChuSoHuu.chuSoHuu_soNha ?? (dataJson?.chuSoHuu_soNha || giayDeNghiData?.chuSoHuu_soNha || "");
 
     const defaultVonTienMat = dataJson?.vonTienMat || giayDeNghiData?.vonDieuLe || "";
     const defaultVonTienMat_bangChu = dataJson?.vonTienMat_bangChu || giayDeNghiData?.vonDieuLe_bangChu || "";
 
-    const defaultNguoiDaiDien_hoTen = dataJson?.nguoiDaiDien_hoTen || giayDeNghiData?.nguoiDaiDien_hoTen || "";
-    const defaultNguoiDaiDien_gioiTinh = dataJson?.nguoiDaiDien_gioiTinh || giayDeNghiData?.nguoiDaiDien_gioiTinh;
-    const defaultNguoiDaiDien_ngaySinh = dataJson?.nguoiDaiDien_ngaySinh || giayDeNghiData?.nguoiDaiDien_ngaySinh || "";
-    const defaultNguoiDaiDien_cccd = dataJson?.nguoiDaiDien_cccd || giayDeNghiData?.nguoiDaiDien_cccd || "";
-    const defaultNguoiDaiDien_danToc = dataJson?.nguoiDaiDien_danToc || giayDeNghiData?.nguoiDaiDien_danToc || "Kinh";
-    const defaultNguoiDaiDien_quocTich = dataJson?.nguoiDaiDien_quocTich || giayDeNghiData?.nguoiDaiDien_quocTich || "Việt Nam";
-    const defaultNguoiDaiDien_tinh = dataJson?.nguoiDaiDien_tinh || giayDeNghiData?.nguoiDaiDien_tinh || "";
-    const defaultNguoiDaiDien_xa = dataJson?.nguoiDaiDien_xa || giayDeNghiData?.nguoiDaiDien_xa || "";
-    const defaultNguoiDaiDien_soNha = dataJson?.nguoiDaiDien_soNha || giayDeNghiData?.nguoiDaiDien_soNha || "";
+    const defaultNguoiDaiDien_hoTen = localNguoiDaiDien.nguoiDaiDien_hoTen ?? (dataJson?.nguoiDaiDien_hoTen || giayDeNghiData?.nguoiDaiDien_hoTen || "");
+    const defaultNguoiDaiDien_gioiTinh = localNguoiDaiDien.nguoiDaiDien_gioiTinh ?? (dataJson?.nguoiDaiDien_gioiTinh || giayDeNghiData?.nguoiDaiDien_gioiTinh);
+    const defaultNguoiDaiDien_ngaySinh = localNguoiDaiDien.nguoiDaiDien_ngaySinh ?? (dataJson?.nguoiDaiDien_ngaySinh || giayDeNghiData?.nguoiDaiDien_ngaySinh || "");
+    const defaultNguoiDaiDien_cccd = localNguoiDaiDien.nguoiDaiDien_cccd ?? (dataJson?.nguoiDaiDien_cccd || giayDeNghiData?.nguoiDaiDien_cccd || "");
+    const defaultNguoiDaiDien_danToc = localNguoiDaiDien.nguoiDaiDien_danToc ?? (dataJson?.nguoiDaiDien_danToc || giayDeNghiData?.nguoiDaiDien_danToc || "Kinh");
+    const defaultNguoiDaiDien_quocTich = localNguoiDaiDien.nguoiDaiDien_quocTich ?? (dataJson?.nguoiDaiDien_quocTich || giayDeNghiData?.nguoiDaiDien_quocTich || "Việt Nam");
+    const defaultNguoiDaiDien_tinh = localNguoiDaiDien.nguoiDaiDien_tinh ?? (dataJson?.nguoiDaiDien_tinh || giayDeNghiData?.nguoiDaiDien_tinh || "");
+    const defaultNguoiDaiDien_xa = localNguoiDaiDien.nguoiDaiDien_xa ?? (dataJson?.nguoiDaiDien_xa || giayDeNghiData?.nguoiDaiDien_xa || "");
+    const defaultNguoiDaiDien_soNha = localNguoiDaiDien.nguoiDaiDien_soNha ?? (dataJson?.nguoiDaiDien_soNha || giayDeNghiData?.nguoiDaiDien_soNha || "");
     const defaultNguoiDaiDien_chucDanh = dataJson?.nguoiDaiDien_chucDanh || giayDeNghiData?.nguoiDaiDien_chucDanh || "Giám đốc";
 
     const isPredefined = ["Giám đốc", "Tổng giám đốc"].includes(defaultNguoiDaiDien_chucDanh);
@@ -160,8 +199,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
             </div>
 
             {/* CHỦ SỞ HỮU CÔNG TY */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Chủ sở hữu công ty</h3>
+            <div className={styles.sectionGroup} key={`chuSoHuu-${chuSoHuuKey}`}>
+                <h3 className={styles.sectionTitle}>Chủ sở hữu công ty <UserCardDropdown onSelect={handleFillChuSoHuuCard} /></h3>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Họ và tên <span className={styles.required}>*</span></label>
@@ -206,8 +245,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
             />
 
             {/* NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT */}
-            <div className={styles.sectionGroup}>
-                <h3 className={styles.sectionTitle}>Người đại diện theo pháp luật của công ty</h3>
+            <div className={styles.sectionGroup} key={`nguoiDaiDien-${nguoiDaiDienKey}`}>
+                <h3 className={styles.sectionTitle}>Người đại diện theo pháp luật của công ty <UserCardDropdown onSelect={handleFillNguoiDaiDienCard} /></h3>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Họ và tên <span className={styles.required}>*</span></label>

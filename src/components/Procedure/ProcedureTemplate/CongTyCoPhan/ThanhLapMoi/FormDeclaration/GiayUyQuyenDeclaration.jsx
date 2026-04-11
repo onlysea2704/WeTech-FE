@@ -1,3 +1,4 @@
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormDeclaration/GiayUyQuyen.module.css";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
@@ -89,6 +90,56 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         },
     }));
 
+    
+    const [localUyQuyen, setLocalUyQuyen] = useState({});
+    const [uyQuyenKey, setUyQuyenKey] = useState(0);
+
+    const handleFillUyQuyenCard = (card) => {
+        setLocalUyQuyen({
+            uyQuyen_hoTen: card.fullName || "",
+            uyQuyen_gioiTinh: card.gender || "",
+            uyQuyen_ngaySinh: card.dob || "",
+            uyQuyen_cccd: card.cccd || "",
+            uyQuyen_phone: card.phone || "",
+            uyQuyen_email: card.email || "",
+            uyQuyen_tinh: card.currentAddress?.province || "",
+            uyQuyen_xa: card.currentAddress?.ward || "",
+            uyQuyen_soNha: card.currentAddress?.street || "",
+        });
+        setUyQuyenKey((prev) => prev + 1);
+    };
+
+    const [localNhanUyQuyen, setLocalNhanUyQuyen] = useState({});
+    const [nhanUyQuyenKey, setNhanUyQuyenKey] = useState(0);
+
+    const handleFillNhanUyQuyenCard = (card) => {
+        setLocalNhanUyQuyen({
+            nhanUyQuyen_hoTen: card.fullName || "",
+            nhanUyQuyen_gioiTinh: card.gender || "",
+            nhanUyQuyen_ngaySinh: card.dob || "",
+            nhanUyQuyen_cccd: card.cccd || "",
+            nhanUyQuyen_phone: card.phone || "",
+            nhanUyQuyen_email: card.email || "",
+            nhanUyQuyen_danToc: card.ethnicity || "Kinh",
+            nhanUyQuyen_quocTich: card.nationality || "Việt Nam",
+            nhanUyQuyen_thuongTru_tinh: card.permanentAddress?.province || "",
+            nhanUyQuyen_thuongTru_xa: card.permanentAddress?.ward || "",
+            nhanUyQuyen_thuongTru_soNha: card.permanentAddress?.street || "",
+            nhanUyQuyen_lienLac_tinh: card.currentAddress?.province || "",
+            nhanUyQuyen_lienLac_xa: card.currentAddress?.ward || "",
+            nhanUyQuyen_lienLac_soNha: card.currentAddress?.street || "",
+        });
+        if (typeof setNhanUyQuyenLienLacAddressState === 'function') {
+            setNhanUyQuyenLienLacAddressState({
+                tinh: card.currentAddress?.province || "",
+                xa: card.currentAddress?.ward || "",
+                soNha: card.currentAddress?.street || ""
+            });
+            if (typeof setNhanUyQuyenLienLacKey === 'function') setNhanUyQuyenLienLacKey(prev => prev + 1);
+        }
+        setNhanUyQuyenKey((prev) => prev + 1);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
@@ -102,7 +153,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             <div className={styles.row}>
                 <div className={styles.colLeft}>
-                    <h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A):</h3>
+                    <div key={`uyQuyen-${uyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A): <UserCardDropdown onSelect={handleFillUyQuyenCard} /></h3>
 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -126,14 +177,14 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                             <DateInput
                                 className={styles.input}
                                 name="uyQuyen_ngaySinh"
-                                defaultValue={dataJson?.uyQuyen_ngaySinh || giayDeNghiData?.giamDoc_ngaySinh || ""}
+                                defaultValue={localUyQuyen.uyQuyen_ngaySinh ?? (dataJson?.uyQuyen_ngaySinh || giayDeNghiData?.giamDoc_ngaySinh || "")}
                                 required
                             />
                         </div>
 
                         <GioiTinhSelect
                             name="uyQuyen_gioiTinh"
-                            defaultValue={dataJson?.uyQuyen_gioiTinh || giayDeNghiData?.giamDoc_gioiTinh}
+                            defaultValue={localUyQuyen.uyQuyen_gioiTinh ?? (dataJson?.uyQuyen_gioiTinh || giayDeNghiData?.giamDoc_gioiTinh)}
                         />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -143,7 +194,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="text"
                                 className={styles.input}
                                 name="uyQuyen_cccd"
-                                defaultValue={dataJson?.uyQuyen_cccd || giayDeNghiData?.giamDoc_cccd || ""}
+                                defaultValue={localUyQuyen.uyQuyen_cccd ?? (dataJson?.uyQuyen_cccd || giayDeNghiData?.giamDoc_cccd || "")}
                                 required
                                 pattern="[0-9]{9,12}"
                                 title="Số CCCD phải có 9–12 chữ số"
@@ -158,7 +209,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="tel"
                                 className={styles.input}
                                 name="uyQuyen_phone"
-                                defaultValue={dataJson?.uyQuyen_phone || giayDeNghiData?.giamDoc_phone || ""}
+                                defaultValue={localUyQuyen.uyQuyen_phone ?? (dataJson?.uyQuyen_phone || giayDeNghiData?.giamDoc_phone || "")}
                                 required
                                 pattern="(0|\+84)[0-9]{9,10}"
                             />
@@ -169,7 +220,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="email"
                                 className={styles.input}
                                 name="uyQuyen_email"
-                                defaultValue={dataJson?.uyQuyen_email || giayDeNghiData?.giamDoc_email || ""}
+                                defaultValue={localUyQuyen.uyQuyen_email ?? (dataJson?.uyQuyen_email || giayDeNghiData?.giamDoc_email || "")}
                             />
                         </div>
                     </div>
@@ -204,9 +255,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                         }
                     />
 
-                    <h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>
-                        Bên nhận uỷ quyền (Bên B):
-                    </h3>
+                    </div>\n                    <div key={`nhanUyQuyen-${nhanUyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -230,13 +279,13 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                             <DateInput
                                 className={styles.input}
                                 name="nhanUyQuyen_ngaySinh"
-                                defaultValue={dataJson?.nhanUyQuyen_ngaySinh || giayDeNghiData?.nguoiNop_ngaySinh || ""}
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_ngaySinh ?? (dataJson?.nhanUyQuyen_ngaySinh || giayDeNghiData?.nguoiNop_ngaySinh || "")}
                                 required
                             />
                         </div>
                         <GioiTinhSelect
                             name="nhanUyQuyen_gioiTinh"
-                            defaultValue={dataJson?.nhanUyQuyen_gioiTinh || giayDeNghiData?.nguoiNop_gioiTinh}
+                            defaultValue={localNhanUyQuyen.nhanUyQuyen_gioiTinh ?? (dataJson?.nhanUyQuyen_gioiTinh || giayDeNghiData?.nguoiNop_gioiTinh)}
                         />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -246,7 +295,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="text"
                                 className={styles.input}
                                 name="nhanUyQuyen_cccd"
-                                defaultValue={dataJson?.nhanUyQuyen_cccd || giayDeNghiData?.nguoiNop_cccd || ""}
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_cccd ?? (dataJson?.nhanUyQuyen_cccd || giayDeNghiData?.nguoiNop_cccd || "")}
                                 required
                                 pattern="[0-9]{9,12}"
                                 title="Số CCCD phải có 9–12 chữ số"
@@ -261,7 +310,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="tel"
                                 className={styles.input}
                                 name="nhanUyQuyen_phone"
-                                defaultValue={dataJson?.nhanUyQuyen_phone || giayDeNghiData?.nguoiNop_phone || ""}
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_phone ?? (dataJson?.nhanUyQuyen_phone || giayDeNghiData?.nguoiNop_phone || "")}
                                 required
                                 pattern="(0|\+84)[0-9]{9,10}"
                             />
@@ -272,12 +321,12 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                                 type="email"
                                 className={styles.input}
                                 name="nhanUyQuyen_email"
-                                defaultValue={dataJson?.nhanUyQuyen_email || giayDeNghiData?.nguoiNop_email || ""}
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_email ?? (dataJson?.nhanUyQuyen_email || giayDeNghiData?.nguoiNop_email || "")}
                             />
                         </div>
                         <DanTocSelect
                             name="nhanUyQuyen_danToc"
-                            defaultValue={dataJson?.nhanUyQuyen_danToc || giayDeNghiData?.nguoiNop_danToc}
+                            defaultValue={localNhanUyQuyen.nhanUyQuyen_danToc ?? (dataJson?.nhanUyQuyen_danToc || giayDeNghiData?.nguoiNop_danToc)}
                             required={false}
                         />
                         <QuocTichSelect
@@ -302,7 +351,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                         provinceDefault={
                             dataJson?.nhanUyQuyen_thuongTru_tinh || giayDeNghiData?.nguoiNop_thuongTru_tinh || ""
                         }
-                        wardDefault={dataJson?.nhanUyQuyen_thuongTru_xa || giayDeNghiData?.nguoiNop_thuongTru_xa || ""}
+                        wardDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_xa ?? (dataJson?.nhanUyQuyen_thuongTru_xa || giayDeNghiData?.nguoiNop_thuongTru_xa || "")}
                         houseNumberDefault={
                             dataJson?.nhanUyQuyen_thuongTru_soNha || giayDeNghiData?.nguoiNop_thuongTru_soNha || ""
                         }
@@ -327,7 +376,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                     </div>
 
                     {/* The grey text box - updated for CongTyCoPhan */}
-                    <div className={styles.greyBox}>
+                    </div>\n                    <div className={styles.greyBox}>
                         <div className={styles.greyBoxContent} style={{ display: "block", lineHeight: "1.6" }}>
                             <span className={styles.greyText}>
                                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:

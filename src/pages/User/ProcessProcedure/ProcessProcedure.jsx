@@ -42,8 +42,26 @@ const ProcessProcedure = () => {
     const [isDownloading, setIsDownloading] = useState(false);
     const [isSubmittingForm, setIsSubmittingForm] = useState(false);
     const [editingFromConfirmation, setEditingFromConfirmation] = useState(null);
+    const [userCards, setUserCards] = useState([]);
     const declarationFormsRef = useRef(null);
     const confirmationFormsRef = useRef(null);
+
+    const refreshUserCards = async () => {
+        try {
+            const response = await authAxios.get('/api/users/my-card/get');
+            if (response?.data) {
+                // Determine structure based on format mapping
+                const cards = Array.isArray(response.data) ? response.data : (response.data.result || []);
+                setUserCards(cards);
+            }
+        } catch (error) {
+            console.error("Error fetching user cards:", error);
+        }
+    };
+
+    useEffect(() => {
+        refreshUserCards();
+    }, []);
 
     useEffect(() => {
         const fetchFormDeclarationSteps = async () => {
@@ -237,7 +255,7 @@ const ProcessProcedure = () => {
     }, [tab]);
 
     return (
-        <ProcessProcedureContext.Provider value={{ procedure, forms, setProcedure, setForms }}>
+        <ProcessProcedureContext.Provider value={{ procedure, forms, setProcedure, setForms, userCards, refreshUserCards }}>
             <div className="stepper-container">
                 {loading && <Overlay />}
                 <div className="stepper-header-main">

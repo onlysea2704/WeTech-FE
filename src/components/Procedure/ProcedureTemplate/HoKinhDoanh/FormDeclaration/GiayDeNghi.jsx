@@ -1,3 +1,4 @@
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 import { useEffect, useState, forwardRef, useImperativeHandle } from "react";
 import styles from "./GiayDeNghi.module.css";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
@@ -62,6 +63,30 @@ const mapCorporateDataToHousehold = (giayDeNghiData) => {
 const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, formRef }, componentRef) {
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
     // ── State ────────────────────────────────────────────────────────────────
+    
+    const [localNguoiDaiDien, setLocalNguoiDaiDien] = useState({});
+    const [nguoiDaiDienKey, setNguoiDaiDienKey] = useState(0);
+
+    const handleFillNguoiDaiDienCard = (card) => {
+        setLocalNguoiDaiDien({
+            nguoiDaiDien_hoTen: card.fullName || "",
+            nguoiDaiDien_gioiTinh: card.gender || "",
+            nguoiDaiDien_ngaySinh: card.dob || "",
+            nguoiDaiDien_cccd: card.cccd || "",
+            nguoiDaiDien_phone: card.phone || "",
+            nguoiDaiDien_email: card.email || "",
+            nguoiDaiDien_danToc: card.ethnicity || "Kinh",
+            nguoiDaiDien_quocTich: card.nationality || "Việt Nam",
+            thuongTru_tinh: card.permanentAddress?.province || "",
+            thuongTru_xa: card.permanentAddress?.ward || "",
+            thuongTru_soNha: card.permanentAddress?.street || "",
+            hienTai_tinh: card.currentAddress?.province || "",
+            hienTai_xa: card.currentAddress?.ward || "",
+            hienTai_soNha: card.currentAddress?.street || "",
+        });
+        setNguoiDaiDienKey((prev) => prev + 1);
+    };
+
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [thanhVienRows, setThanhVienRows] = useState([]);
     const [mappedData, setMappedData] = useState({});

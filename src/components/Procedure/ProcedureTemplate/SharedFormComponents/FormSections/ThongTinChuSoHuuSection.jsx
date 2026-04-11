@@ -4,6 +4,8 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
+import { useEffect } from "react";
 
 export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
     const [provCode_chuSoHuu, setProvCode_chuSoHuu] = useState("");
@@ -11,9 +13,40 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
     const { provinces, communes: communes_chuSoHuu } = useFetchAddress(provCode_chuSoHuu);
     const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
+    const [localData, setLocalData] = useState(dataJson || {});
+    const [formKey, setFormKey] = useState(0);
+
+    useEffect(() => {
+        setLocalData(dataJson || {});
+        setFormKey(k => k + 1);
+    }, [dataJson]);
+
+    const handleFillCard = (card) => {
+        setLocalData(prev => ({
+            ...prev,
+            chuSoHuu_hoTen: card.fullName,
+            chuSoHuu_ngaySinh: card.dob,
+            chuSoHuu_gioiTinh: card.gender,
+            chuSoHuu_cccd: card.cccd,
+            chuSoHuu_tinh: card.currentAddress?.province,
+            chuSoHuu_xa: card.currentAddress?.ward,
+            chuSoHuu_soNha: card.currentAddress?.street,
+            chuSoHuu_danToc: card.ethnicity,
+            chuSoHuu_email: card.email,
+            chuSoHuu_quocTich: card.nationality,
+            chuSoHuu_thuongTru_tinh: card.permanentAddress?.province,
+            chuSoHuu_thuongTru_xa: card.permanentAddress?.ward,
+            chuSoHuu_thuongTru_soNha: card.permanentAddress?.street,
+        }));
+        setFormKey(k => k + 1);
+    };
+
     return (
-        <div className={styles.sectionGroup}>
-            <h3 className={styles.sectionTitle}>Thông tin về chủ sở hữu:</h3>
+        <div className={styles.sectionGroup} key={formKey}>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
+                <h3 className={styles.sectionTitle} style={{ margin: 0 }}>Thông tin về chủ sở hữu:</h3>
+                <UserCardDropdown onSelect={handleFillCard} />
+            </div>
             <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
                 <div style={{ flex: 1 }}>
                     <div className={styles.grid2}>
@@ -21,20 +54,20 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                             <label className={styles.label}>
                                 Họ, chữ đệm và tên (ghi bằng chữ in hoa): <span className={styles.required}>*</span>
                             </label>
-                            <input type="text" className={styles.input} name="chuSoHuu_hoTen" defaultValue={dataJson?.chuSoHuu_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                            <input type="text" className={styles.input} name="chuSoHuu_hoTen" defaultValue={localData?.chuSoHuu_hoTen || ""} style={{ textTransform: "uppercase" }} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
                                 Ngày, tháng, năm sinh: <span className={styles.required}>*</span>
                             </label>
-                            <DateInput className={styles.input} name="chuSoHuu_ngaySinh" defaultValue={dataJson?.chuSoHuu_ngaySinh || ""} required />
+                            <DateInput className={styles.input} name="chuSoHuu_ngaySinh" defaultValue={localData?.chuSoHuu_ngaySinh || ""} required />
                         </div>
-                        <GioiTinhSelect name="chuSoHuu_gioiTinh" defaultValue={dataJson?.chuSoHuu_gioiTinh} required />
+                        <GioiTinhSelect name="chuSoHuu_gioiTinh" defaultValue={localData?.chuSoHuu_gioiTinh} required />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
                                 Số định danh cá nhân: <span className={styles.required}>*</span>
                             </label>
-                            <input type="text" className={styles.input} name="chuSoHuu_cccd" defaultValue={dataJson?.chuSoHuu_cccd || ""} required pattern="[0-9]{9,12}" />
+                            <input type="text" className={styles.input} name="chuSoHuu_cccd" defaultValue={localData?.chuSoHuu_cccd || ""} required pattern="[0-9]{9,12}" />
                         </div>
                     </div>
 
@@ -46,39 +79,39 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         provinceName="chuSoHuu_tinh"
                         wardName="chuSoHuu_xa"
                         houseNumberName="chuSoHuu_soNha"
-                        provinceDefault={dataJson?.chuSoHuu_tinh || ""}
-                        wardDefault={dataJson?.chuSoHuu_xa || ""}
-                        houseNumberDefault={dataJson?.chuSoHuu_soNha || ""}
+                        provinceDefault={localData?.chuSoHuu_tinh || ""}
+                        wardDefault={localData?.chuSoHuu_xa || ""}
+                        houseNumberDefault={localData?.chuSoHuu_soNha || ""}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Điện thoại (nếu có):</label>
-                            <input type="tel" className={styles.input} name="chuSoHuu_phone" defaultValue={dataJson?.chuSoHuu_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
+                            <input type="tel" className={styles.input} name="chuSoHuu_phone" defaultValue={localData?.chuSoHuu_phone || ""} pattern="(0|\+84)[0-9]{9,10}" />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Thư điện tử (nếu có):</label>
-                            <input type="email" className={styles.input} name="chuSoHuu_email" defaultValue={dataJson?.chuSoHuu_email || ""} />
+                            <input type="email" className={styles.input} name="chuSoHuu_email" defaultValue={localData?.chuSoHuu_email || ""} />
                         </div>
                     </div>
 
                     <h3 className={styles.sectionTitle}>Thông tin cá nhân khác của chủ sở hữu:</h3>
                     <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                     <div className={styles.grid2} style={{ marginTop: "8px" }}>
-                        <DanTocSelect name="chuSoHuu_danToc" defaultValue={dataJson?.chuSoHuu_danToc} required={false} />
-                        <QuocTichSelect name="chuSoHuu_quocTich" defaultValue={dataJson?.chuSoHuu_quocTich} required={false} />
+                        <DanTocSelect name="chuSoHuu_danToc" defaultValue={localData?.chuSoHuu_danToc} required={false} />
+                        <QuocTichSelect name="chuSoHuu_quocTich" defaultValue={localData?.chuSoHuu_quocTich} required={false} />
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Số hộ chiếu (đối với cá nhân Việt Năm không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
-                        <input type="text" className={styles.input} name="chuSoHuu_soHoChieu" defaultValue={dataJson?.chuSoHuu_soHoChieu || ""} />
+                        <input type="text" className={styles.input} name="chuSoHuu_soHoChieu" defaultValue={localData?.chuSoHuu_soHoChieu || ""} />
                     </div>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày cấp:</label>
-                            <DateInput name="chuSoHuu_ngayCapHoChieu" className={styles.input} defaultValue={dataJson?.chuSoHuu_ngayCapHoChieu || ""} />
+                            <DateInput name="chuSoHuu_ngayCapHoChieu" className={styles.input} defaultValue={localData?.chuSoHuu_ngayCapHoChieu || ""} />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Nơi cấp:</label>
-                            <input type="text" className={styles.input} name="chuSoHuu_noiCapHoChieu" defaultValue={dataJson?.chuSoHuu_noiCapHoChieu || ""} />
+                            <input type="text" className={styles.input} name="chuSoHuu_noiCapHoChieu" defaultValue={localData?.chuSoHuu_noiCapHoChieu || ""} />
                         </div>
                     </div>
                     <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Nơi thường trú:</h3>
@@ -90,28 +123,28 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         provinceName="chuSoHuu_thuongTru_tinh"
                         wardName="chuSoHuu_thuongTru_xa"
                         houseNumberName="chuSoHuu_thuongTru_soNha"
-                        provinceDefault={dataJson?.chuSoHuu_thuongTru_tinh || ""}
-                        wardDefault={dataJson?.chuSoHuu_thuongTru_xa || ""}
-                        houseNumberDefault={dataJson?.chuSoHuu_thuongTru_soNha || ""}
+                        provinceDefault={localData?.chuSoHuu_thuongTru_tinh || ""}
+                        wardDefault={localData?.chuSoHuu_thuongTru_xa || ""}
+                        houseNumberDefault={localData?.chuSoHuu_thuongTru_soNha || ""}
                     />
                     <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                         <label className={styles.label}>Quốc gia:</label>
-                        <input type="text" className={styles.input} name="chuSoHuu_thuongTru_quocGia" defaultValue={dataJson?.chuSoHuu_thuongTru_quocGia || ""} />
+                        <input type="text" className={styles.input} name="chuSoHuu_thuongTru_quocGia" defaultValue={localData?.chuSoHuu_thuongTru_quocGia || ""} />
                     </div>
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin về Giấy chứng nhận đăng ký đầu tư <span style={{ fontWeight: "normal", fontStyle: "italic" }}>(chỉ kê khai nếu chủ sở hữu là nhà đầu tư nước ngoài)</span>:</h3>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Mã số dự án:</label>
-                        <input type="text" className={styles.input} name="chuSoHuu_maSoDuAn" defaultValue={dataJson?.chuSoHuu_maSoDuAn || ""} />
+                        <input type="text" className={styles.input} name="chuSoHuu_maSoDuAn" defaultValue={localData?.chuSoHuu_maSoDuAn || ""} />
                     </div>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày cấp:</label>
-                            <DateInput name="chuSoHuu_ngayCapDuAn" className={styles.input} defaultValue={dataJson?.chuSoHuu_ngayCapDuAn || ""} />
+                            <DateInput name="chuSoHuu_ngayCapDuAn" className={styles.input} defaultValue={localData?.chuSoHuu_ngayCapDuAn || ""} />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Cơ quan cấp:</label>
-                            <input type="text" className={styles.input} name="chuSoHuu_coQuanCapDuAn" defaultValue={dataJson?.chuSoHuu_coQuanCapDuAn || ""} />
+                            <input type="text" className={styles.input} name="chuSoHuu_coQuanCapDuAn" defaultValue={localData?.chuSoHuu_coQuanCapDuAn || ""} />
                         </div>
                     </div>
                 </div>

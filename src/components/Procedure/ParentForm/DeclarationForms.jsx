@@ -2,6 +2,7 @@ import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } f
 import * as XLSX from "xlsx";
 import styles from "./DeclarationForms.module.css";
 import { authAxios } from "@/services/axios-instance";
+import { useProcessProcedure } from "@/pages/User/ProcessProcedure/ProcessProcedure";
 
 import {
     NGANH_NGHE_HEADERS,
@@ -45,6 +46,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     const formRef = useRef(null);
     const componentRef = useRef(null);
     const importInputRef = useRef(null);
+    const { userCards, refreshUserCards } = useProcessProcedure();
 
     const currentForm = forms?.[currentFormStep];
     const CurrentFormComponent = currentForm?.declaration;
@@ -110,9 +112,42 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         fetchFormSubmission();
     }, [currentForm?.formId]);
 
+    const checkAndSaveUserCard = async (data, prefix) => {
+        const docCccd = data[`${prefix}_cccd`];
+        if (!docCccd) return;
+        const exists = userCards?.find((c) => c.cccd === docCccd);
+        if (!exists) {
+            try {
+                const payload = {
+                    fullName: data[`${prefix}_hoTen`] || "",
+                    cccd: docCccd,
+                    gender: data[`${prefix}_gioiTinh`] || "",
+                    dob: data[`${prefix}_ngaySinh`] || "",
+                    nationality: data[`${prefix}_quocTich`] || "",
+                    ethnicity: data[`${prefix}_danToc`] || "",
+                    permanentStreet: data[`${prefix}_thuongTru_soNha`] || "",
+                    permanentWard: data[`${prefix}_thuongTru_xa`] || "",
+                    permanentProvince: data[`${prefix}_thuongTru_tinh`] || "",
+                    currentStreet: prefix === "nguoiNop" ? (data[`lienLac_soNha`] || "") : (data[`${prefix}_soNha`] || ""),
+                    currentWard: prefix === "nguoiNop" ? (data[`lienLac_xa`] || "") : (data[`${prefix}_xa`] || ""),
+                    currentProvince: prefix === "nguoiNop" ? (data[`lienLac_tinh`] || "") : (data[`${prefix}_tinh`] || ""),
+                };
+                await authAxios.post("/api/users/my-card/create", payload);
+                if (refreshUserCards) refreshUserCards();
+            } catch (err) {
+                console.error(`Failed to save user card for ${prefix}:`, err);
+            }
+        }
+    };
+
     async function handleFormSubmission(data) {
         if (setIsSubmittingForm) setIsSubmittingForm(true);
         try {
+            // Check and save user cards
+            await checkAndSaveUserCard(data, "nguoiDaiDien");
+            await checkAndSaveUserCard(data, "chuSoHuu");
+            await checkAndSaveUserCard(data, "nguoiNop");
+
             if (hasServerData) {
                 await authAxios.post("/api/form-submission/update", { formId: currentForm.formId, dataJson: data });
             } else {

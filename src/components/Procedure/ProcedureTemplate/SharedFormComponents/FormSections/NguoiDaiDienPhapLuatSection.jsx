@@ -5,6 +5,7 @@ import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Proce
 import DateInput from "@/components/DateInput/DateInput";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 
 export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
@@ -12,11 +13,39 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
     const { provinces, communes: communes_lienLac } = useFetchAddress(provCode_lienLac);
     const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
+    const [localData, setLocalData] = useState(dataJson || {});
+    const [formKey, setFormKey] = useState(0);
+
+    // Sync if parent dataJson changes completely (e.g. excel import)
+    useEffect(() => {
+        setLocalData(dataJson || {});
+        setFormKey(k => k + 1);
+    }, [dataJson]);
+
+    const handleFillCard = (card) => {
+        setLocalData(prev => ({
+            ...prev,
+            nguoiDaiDien_hoTen: card.fullName,
+            nguoiDaiDien_ngaySinh: card.dob,
+            nguoiDaiDien_gioiTinh: card.gender,
+            nguoiDaiDien_cccd: card.cccd,
+            nguoiDaiDien_tinh: card.currentAddress?.province,
+            nguoiDaiDien_xa: card.currentAddress?.ward,
+            nguoiDaiDien_soNha: card.currentAddress?.street,
+            nguoiDaiDien_danToc: card.ethnicity,
+            nguoiDaiDien_quocTich: card.nationality,
+            nguoiDaiDien_thuongTru_tinh: card.permanentAddress?.province,
+            nguoiDaiDien_thuongTru_xa: card.permanentAddress?.ward,
+            nguoiDaiDien_thuongTru_soNha: card.permanentAddress?.street,
+        }));
+        setFormKey(k => k + 1);
+    };
+
     const tooltipNguoiDaiDien = "Ghi thông tin của tất cả người đại diện theo pháp luật trong trường hợp công ty có nhiều hơn 01 người đại diện theo pháp luật.";
 
     const predefinedChucDanh = ["Giám đốc", "Tổng giám đốc"];
 
-    const defaultChucDanh = dataJson?.nguoiDaiDien_chucDanh || "";
+    const defaultChucDanh = localData?.nguoiDaiDien_chucDanh || "";
     const isPredefined = predefinedChucDanh.includes(defaultChucDanh);
     const initialChucDanhType = defaultChucDanh ? (isPredefined ? defaultChucDanh : "Khác") : "";
     const initialChucDanhOther = isPredefined ? "" : defaultChucDanh;
@@ -29,36 +58,39 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
     useEffect(() => {
         if (hasUserEditedChucDanh) return;
 
-        const nextChucDanh = dataJson?.nguoiDaiDien_chucDanh || "";
+        const nextChucDanh = localData?.nguoiDaiDien_chucDanh || "";
         const nextIsPredefined = predefinedChucDanh.includes(nextChucDanh);
         const nextType = nextChucDanh ? (nextIsPredefined ? nextChucDanh : "Khác") : "";
         const nextOther = nextIsPredefined ? "" : nextChucDanh;
 
         setChucDanhType(nextType);
         setChucDanhOther(nextOther);
-    }, [dataJson?.nguoiDaiDien_chucDanh, hasUserEditedChucDanh]);    
+    }, [localData?.nguoiDaiDien_chucDanh, hasUserEditedChucDanh]);    
 
     return (
-        <div className={styles.sectionGroup}>
-            <h3 className={styles.sectionTitle}>
-                Người đại diện theo pháp luật:
-                {isNote && <InfoTooltip content={tooltipNguoiDaiDien} />}
-            </h3>
+        <div className={styles.sectionGroup} key={formKey}>
+            <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
+                <h3 className={styles.sectionTitle} style={{ margin: 0 }}>
+                    Người đại diện theo pháp luật:
+                    {isNote && <InfoTooltip content={tooltipNguoiDaiDien} />}
+                </h3>
+                <UserCardDropdown onSelect={handleFillCard} />
+            </div>
             <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
                 <div style={{ flex: 1 }}>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Họ, chữ đệm và tên (ghi bằng chữ in hoa): <span className={styles.required}>*</span></label>
-                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={dataJson?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={localData?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
-                            <DateInput className={styles.input} name="nguoiDaiDien_ngaySinh" defaultValue={dataJson?.nguoiDaiDien_ngaySinh || ""} required />
+                            <DateInput className={styles.input} name="nguoiDaiDien_ngaySinh" defaultValue={localData?.nguoiDaiDien_ngaySinh || ""} required />
                         </div>
-                        <GioiTinhSelect name="nguoiDaiDien_gioiTinh" defaultValue={dataJson?.nguoiDaiDien_gioiTinh} required />
+                        <GioiTinhSelect name="nguoiDaiDien_gioiTinh" defaultValue={localData?.nguoiDaiDien_gioiTinh} required />
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Số định danh cá nhân: <span className={styles.required}>*</span></label>
-                            <input type="text" className={styles.input} name="nguoiDaiDien_cccd" defaultValue={dataJson?.nguoiDaiDien_cccd || ""} required pattern="[0-9]{9,12}" />
+                            <input type="text" className={styles.input} name="nguoiDaiDien_cccd" defaultValue={localData?.nguoiDaiDien_cccd || ""} required pattern="[0-9]{9,12}" />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Chức danh:<span className={styles.required}>*</span></label>
@@ -104,29 +136,29 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         provinceName="nguoiDaiDien_tinh"
                         wardName="nguoiDaiDien_xa"
                         houseNumberName="nguoiDaiDien_soNha"
-                        provinceDefault={dataJson?.nguoiDaiDien_tinh || ""}
-                        wardDefault={dataJson?.nguoiDaiDien_xa || ""}
-                        houseNumberDefault={dataJson?.nguoiDaiDien_soNha || ""}
+                        provinceDefault={localData?.nguoiDaiDien_tinh || ""}
+                        wardDefault={localData?.nguoiDaiDien_xa || ""}
+                        houseNumberDefault={localData?.nguoiDaiDien_soNha || ""}
                     />
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin cá nhân khác của người đại diện theo pháp luật:</h3>
                     <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
                     <div className={styles.grid2} style={{ marginTop: "8px" }}>
-                        <DanTocSelect name="nguoiDaiDien_danToc" defaultValue={dataJson?.nguoiDaiDien_danToc} required={false} />
-                        <QuocTichSelect name="nguoiDaiDien_quocTich" defaultValue={dataJson?.nguoiDaiDien_quocTich} required={false} />
+                        <DanTocSelect name="nguoiDaiDien_danToc" defaultValue={localData?.nguoiDaiDien_danToc} required={false} />
+                        <QuocTichSelect name="nguoiDaiDien_quocTich" defaultValue={localData?.nguoiDaiDien_quocTich} required={false} />
                     </div>
                     <div className={styles.formGroup}>
                         <label className={styles.label}>Số hộ chiếu (đối với cá nhân VN không có định danh cá nhân) / Số hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế (đối với người nước ngoài):</label>
-                        <input type="text" className={styles.input} name="nguoiDaiDien_soHoChieu" defaultValue={dataJson?.nguoiDaiDien_soHoChieu || ""} />
+                        <input type="text" className={styles.input} name="nguoiDaiDien_soHoChieu" defaultValue={localData?.nguoiDaiDien_soHoChieu || ""} />
                     </div>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày cấp:</label>
-                            <DateInput name="nguoiDaiDien_ngayCapHoChieu" className={styles.input} defaultValue={dataJson?.nguoiDaiDien_ngayCapHoChieu || ""} />
+                            <DateInput name="nguoiDaiDien_ngayCapHoChieu" className={styles.input} defaultValue={localData?.nguoiDaiDien_ngayCapHoChieu || ""} />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Nơi cấp:</label>
-                            <input type="text" className={styles.input} name="nguoiDaiDien_noiCapHoChieu" defaultValue={dataJson?.nguoiDaiDien_noiCapHoChieu || ""} />
+                            <input type="text" className={styles.input} name="nguoiDaiDien_noiCapHoChieu" defaultValue={localData?.nguoiDaiDien_noiCapHoChieu || ""} />
                         </div>
                     </div>
                     <h3 className={styles.sectionTitle} style={{ marginTop: "8px" }}>Nơi thường trú:</h3>
@@ -138,13 +170,13 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         provinceName="nguoiDaiDien_thuongTru_tinh"
                         wardName="nguoiDaiDien_thuongTru_xa"
                         houseNumberName="nguoiDaiDien_thuongTru_soNha"
-                        provinceDefault={dataJson?.nguoiDaiDien_thuongTru_tinh || ""}
-                        wardDefault={dataJson?.nguoiDaiDien_thuongTru_xa || ""}
-                        houseNumberDefault={dataJson?.nguoiDaiDien_thuongTru_soNha || ""}
+                        provinceDefault={localData?.nguoiDaiDien_thuongTru_tinh || ""}
+                        wardDefault={localData?.nguoiDaiDien_thuongTru_xa || ""}
+                        houseNumberDefault={localData?.nguoiDaiDien_thuongTru_soNha || ""}
                     />
                     <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                         <label className={styles.label}>Quốc gia:</label>
-                        <input type="text" className={styles.input} name="nguoiDaiDien_thuongTru_quocGia" defaultValue={dataJson?.nguoiDaiDien_thuongTru_quocGia || "Việt Nam"} />
+                        <input type="text" className={styles.input} name="nguoiDaiDien_thuongTru_quocGia" defaultValue={localData?.nguoiDaiDien_thuongTru_quocGia || "Việt Nam"} />
                     </div>
                 </div>
                 <div style={{ width: "320px", flexShrink: 0, marginTop: "22px" }}>
