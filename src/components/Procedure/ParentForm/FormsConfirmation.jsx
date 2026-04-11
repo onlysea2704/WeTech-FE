@@ -50,6 +50,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                 const formData = new FormData();
                 formData.append("formId", currentForm.formId);
                 formData.append("htmlFile", htmlFile);
+                formData.append("landscape", landscape);
 
                 await authAxios.post("/api/form-submission/confirm", formData, {
                     headers: { "Content-Type": "multipart/form-data" },
