@@ -12,12 +12,7 @@ const EMPTY_THANH_VIEN = {
     danToc: "",
     thuongTru: "",
     hienTai: "",
-    chuKy: "",
 };
-
-function isThanhVienEmpty(row) {
-    return !row.hoTen && !row.ngaySinh && !row.cccd;
-}
 
 export default function ThanhVienTable({ rows, onChangeRows, disabled = false }) {
     const updateRow = (idx, field, value) => {
@@ -48,7 +43,7 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                     <colgroup>
                         <col style={{ width: "48px", minWidth: "48px" }} />
                         <col style={{ width: "160px", minWidth: "160px" }} />
-                        <col style={{ width: "160px", minWidth: "120px" }} />
+                        <col style={{ width: "180px", minWidth: "180px" }} />
                         <col style={{ width: "140px", minWidth: "140px" }} />
                         <col style={{ width: "90px", minWidth: "90px" }} />
                         <col style={{ width: "100px", minWidth: "100px" }} />
@@ -56,7 +51,6 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                         <col style={{ width: "160px", minWidth: "160px" }} />
                         <col style={{ width: "160px", minWidth: "160px" }} />
                         <col style={{ width: "100px", minWidth: "100px" }} />
-                        <col style={{ width: "80px", minWidth: "80px" }} />
                     </colgroup>
                     <thead>
                         <tr>
@@ -69,7 +63,6 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                             <th>Dân tộc</th>
                             <th>Nơi thường trú</th>
                             <th>Nơi ở hiện tại</th>
-                            <th>Chữ ký</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -162,14 +155,6 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                                         className={`${styles.input} ${styles.input}`}
                                         value={row.hienTai || ""}
                                         onChange={(e) => updateRow(idx, "hienTai", e.target.value)}
-                                        readOnly={disabled}
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        className={`${styles.input} ${styles.input}`}
-                                        value={row.chuKy || ""}
-                                        onChange={(e) => updateRow(idx, "chuKy", e.target.value)}
                                         readOnly={disabled}
                                     />
                                 </td>
