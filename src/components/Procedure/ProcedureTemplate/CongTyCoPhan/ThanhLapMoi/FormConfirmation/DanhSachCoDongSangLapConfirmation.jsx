@@ -25,38 +25,38 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
                 <table className={styles.table}>
                     <thead>
                         <tr>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 40 }}>STT</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 150 }}>Tên cổ đông sáng lập</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Ngày, tháng, năm sinh</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 80 }}>Giới tính</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 180 }}>
+                            <th rowSpan={4} className={styles.th}>STT</th>
+                            <th rowSpan={4} className={styles.th}>Tên cổ đông sáng lập</th>
+                            <th rowSpan={4} className={styles.th}>Ngày, tháng, năm sinh</th>
+                            <th rowSpan={4} className={styles.th}>Giới tính</th>
+                            <th rowSpan={4} className={styles.th}>
                                 Loại giấy tờ, số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
                             </th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
+                            <th rowSpan={4} className={styles.th}>Quốc tịch</th>
+                            <th rowSpan={4} className={styles.th}>Dân tộc</th>
+                            <th rowSpan={4} className={styles.th}>Địa chỉ liên lạc</th>
                             <th colSpan={8} className={styles.th}>Vốn góp²</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Thời hạn góp vốn⁴</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Chữ ký của cổ đông sáng lập⁵</th>
-                            <th rowSpan={4} className={styles.th} style={{ minWidth: 120 }}>Ghi chú (nếu có)</th>
+                            <th rowSpan={4} className={styles.th}>Thời hạn góp vốn⁴</th>
+                            <th rowSpan={4} className={styles.th}>Chữ ký của cổ đông sáng lập⁵</th>
+                            <th rowSpan={4} className={styles.th}>Ghi chú (nếu có)</th>
                         </tr>
                         <tr>
                             <th colSpan={2} className={styles.th}>Tổng số cổ phần</th>
-                            <th rowSpan={3} className={styles.th} style={{ minWidth: 60 }}>Tỷ lệ (%)</th>
+                            <th rowSpan={3} className={styles.th}>Tỷ lệ (%)</th>
                             <th colSpan={4} className={styles.th}>Loại cổ phần</th>
-                            <th rowSpan={3} className={styles.th} style={{ minWidth: 160 }}>Loại tài sản, số lượng, giá trị tài sản góp vốn³</th>
+                            <th rowSpan={3} className={styles.th}>Loại tài sản, số lượng, giá trị tài sản góp vốn³</th>
                         </tr>
                         <tr>
-                            <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
-                            <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                            <th rowSpan={2} className={styles.th}>Số lượng</th>
+                            <th rowSpan={2} className={styles.th}>Giá trị</th>
                             <th colSpan={2} className={styles.th}>Phổ thông</th>
                             <th colSpan={2} className={styles.th}>Khác (ghi rõ): {loaiCoPhanKhacTen}</th>
                         </tr>
                         <tr>
-                            <th className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
-                            <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
-                            <th className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
-                            <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                            <th className={styles.th}>Số lượng</th>
+                            <th className={styles.th}>Giá trị</th>
+                            <th className={styles.th}>Số lượng</th>
+                            <th className={styles.th}>Giá trị</th>
                         </tr>
                         <tr className={styles.colNumberRow}>
                             {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map((n) => (
