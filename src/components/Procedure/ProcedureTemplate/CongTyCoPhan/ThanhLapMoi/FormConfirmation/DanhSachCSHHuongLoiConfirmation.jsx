@@ -5,7 +5,6 @@ import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComp
 
 function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
     const rows = dataJson?.cshHuongLoiList || [];
-    const { chuKy_ten = "", chuKy_hoTen = "" } = dataJson || {};
 
     return (
         <div className={styles.wrapper}>
@@ -145,13 +144,6 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                 </p>
                 <p className={styles.signatureSubtitle}>
                     (<em>Ký và ghi họ tên</em>)
-                </p>
-
-                <p style={{ marginTop: "20px" }}>
-                    <strong>{chuKy_ten}</strong>
-                </p>
-                <p style={{ marginTop: "20px", textTransform: "uppercase" }}>
-                    <strong>{chuKy_hoTen}</strong>
                 </p>
             </div>
         </div>

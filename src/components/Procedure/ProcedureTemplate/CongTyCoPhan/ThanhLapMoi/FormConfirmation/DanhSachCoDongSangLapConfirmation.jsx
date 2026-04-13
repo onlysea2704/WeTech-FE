@@ -115,9 +115,6 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
                 <p className={styles.signatureDate}><CurrentDate /></p>
                 <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT<br />CỦA CÔNG TY</p>
                 <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
-
-                <p style={{ marginTop: "40px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
-                <p style={{ marginTop: "10px" }}><strong>{chuKy_ten}</strong></p>
             </div>
         </div>
     );

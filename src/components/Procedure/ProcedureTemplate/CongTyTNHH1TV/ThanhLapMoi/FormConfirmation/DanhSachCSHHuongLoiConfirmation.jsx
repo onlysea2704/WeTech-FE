@@ -77,9 +77,6 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                 <p className={styles.signatureDate}><CurrentDate /></p>
                 <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT /<br />QUẢN TRỊ CỦA CÔNG TY</p>
                 <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
-
-                <p style={{ marginTop: "20px" }}><strong>{chuKy_ten}</strong></p>
-                <p style={{ marginTop: "20px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
             </div>
         </div>
     );

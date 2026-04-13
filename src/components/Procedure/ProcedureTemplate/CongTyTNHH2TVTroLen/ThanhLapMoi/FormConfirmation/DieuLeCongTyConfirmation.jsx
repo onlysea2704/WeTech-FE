@@ -1583,8 +1583,6 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                     </p>
                     <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)" }}>
                         {thanhVienRows.map((row, idx) => {
-                            const sigHoTen = dataJson[`chuKyThanhVien_${idx}_hoTen`] || row.hoTen;
-                            const sigTen = dataJson[`chuKyThanhVien_${idx}_ten`] || "";
                             return (
                                 <div
                                     key={idx}

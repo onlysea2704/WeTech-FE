@@ -467,8 +467,6 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
                 <div className={styles.signatureBlock}>
                     <div className={styles.signatureTitle}>CHỦ HỘ KINH DOANH</div>
                     <div className={styles.signatureNote}>(Ký và ghi họ tên)</div>
-                    <div className={styles.signatureName}>{chuKy_ten}</div>
-                    <div className={styles.signatureName}>{chuKy_hoTen}</div>
                 </div>
             </div>
         </div>

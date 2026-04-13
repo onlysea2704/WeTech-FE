@@ -68,7 +68,7 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
 
                                     <td className={styles.td} style={{ textAlign: "center" }}>
                                         {row.phanVonGop ? `${row.phanVonGop} VNĐ` : ""}
-                                        {row.phanVonGopNgoaiTe_GiaTri ? <><br/>({row.phanVonGopNgoaiTe_GiaTri} {row.phanVonGopNgoaiTe_Loai})</> : ""}
+                                        {row.phanVonGopNgoaiTe_GiaTri ? <><br />({row.phanVonGopNgoaiTe_GiaTri} {row.phanVonGopNgoaiTe_Loai})</> : ""}
                                     </td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiTaiSan}</td>
@@ -87,9 +87,6 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
                 <p className={styles.signatureDate}><CurrentDate /></p>
                 <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT<br />CỦA CÔNG TY</p>
                 <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
-
-                <p style={{ marginTop: "20px", textTransform: "uppercase" }}><strong>{chuKy_hoTen}</strong></p>
-                <p style={{ marginTop: "10px" }}><strong>{chuKy_ten}</strong></p>
             </div>
         </div>
     );
