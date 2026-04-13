@@ -88,12 +88,18 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             </p>
             <p>{dataJson.diaChiTruSo || "........................................................................"}</p>
             <p>
-                Điện thoại: {dataJson.dienThoai || "..................."} Số fax (<em>nếu có</em>):{" "}
-                {dataJson.fax || "..................."}
+                Điện thoại: {dataJson.dienThoai || "..................."}
+                <span style={{ marginLeft: "20px" }}>Số fax (<em>nếu có</em>):{" "}
+                    {dataJson.fax || "..................."}</span>
             </p>
             <p>
-                Thư điện tử (<em>nếu có</em>): {dataJson.email || "..................."} Website (<em>nếu có</em>):{" "}
-                {dataJson.website || "..................."}
+                <span>
+                    Thư điện tử (<em>nếu có</em>): {dataJson.email || "..................."}
+                </span>
+                <span style={{ marginLeft: "20px" }}>
+                    Website (<em>nếu có</em>):{" "}
+                    {dataJson.website || "..................."}
+                </span>
             </p>
 
             <p>
@@ -168,7 +174,9 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             </p>
             <p>
                 Địa chỉ liên lạc:{" "}
-                {dataJson.chuSoHuu_diaChi || ".........................................................."}
+                {[dataJson.chuSoHuu_soNha, dataJson.chuSoHuu_xa, dataJson.chuSoHuu_tinh]
+                    .filter(Boolean)
+                    .join(", ") || ".........................................................."}
             </p>
 
             <p className={styles.articleTitle}>Điều 5: Vốn điều lệ và thay đổi vốn điều lệ</p>
@@ -360,7 +368,9 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             </p>
             <p>
                 Địa chỉ liên lạc:{" "}
-                {dataJson.nguoiDaiDien_diaChi || ".........................................................."}
+                {[dataJson.nguoiDaiDien_soNha, dataJson.nguoiDaiDien_xa, dataJson.nguoiDaiDien_tinh]
+                    .filter(Boolean)
+                    .join(", ") || ".........................................................."}
             </p>
             <p>
                 <strong>Chức danh: </strong>
