@@ -155,7 +155,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
             <div className={styles.row}>
                 {/* Left side: Form fields */}
                 <div className={styles.colLeft}>
-                    <div key={`uyQuyen-${uyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A): <UserCardDropdown onSelect={handleFillUyQuyenCard} /></h3>
+                    <div key={`uyQuyen-${uyQuyenKey}`}><h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A): <UserCardDropdown onSelect={handleFillUyQuyenCard} /></h3>
 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -270,7 +270,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                         }
                     />
 
-                    </div>\n                    <div key={`nhanUyQuyen-${nhanUyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
+                    </div><div key={`nhanUyQuyen-${nhanUyQuyenKey}`}><h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -391,7 +391,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                     </div>
 
                     {/* The grey text box */}
-                    </div>\n                    <div className={styles.greyBox}>
+                    </div><div className={styles.greyBox}>
                         <div className={styles.greyBoxContent}>
                             <span className={styles.greyText}>
                                 Là người đại diện đăng ký thành lập <b>CÔNG TY TNHH</b>

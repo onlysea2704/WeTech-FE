@@ -90,7 +90,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         },
     }));
 
-    
+
     const [localUyQuyen, setLocalUyQuyen] = useState({});
     const [uyQuyenKey, setUyQuyenKey] = useState(0);
 
@@ -153,230 +153,235 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             <div className={styles.row}>
                 <div className={styles.colLeft}>
-                    <div key={`uyQuyen-${uyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A): <UserCardDropdown onSelect={handleFillUyQuyenCard} /></h3>
+                    <div key={`uyQuyen-${uyQuyenKey}`}>
+                        <h3 className={styles.sectionTitle}>Bên uỷ quyền (Bên A): <UserCardDropdown onSelect={handleFillUyQuyenCard} /></h3>
 
-                    <div className={styles.grid2}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Họ và tên <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                name="uyQuyen_hoTen"
-                                defaultValue={
-                                    dataJson?.uyQuyen_hoTen || giayDeNghiData?.giamDoc_hoTen?.toUpperCase() || ""
-                                }
-                                required
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Ngày sinh <span className={styles.required}>*</span>
-                            </label>
-                            <DateInput
-                                className={styles.input}
-                                name="uyQuyen_ngaySinh"
-                                defaultValue={localUyQuyen.uyQuyen_ngaySinh ?? (dataJson?.uyQuyen_ngaySinh || giayDeNghiData?.giamDoc_ngaySinh || "")}
-                                required
-                            />
-                        </div>
+                        <div className={styles.grid2}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Họ và tên <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className={styles.input}
+                                    name="uyQuyen_hoTen"
+                                    defaultValue={
+                                        dataJson?.uyQuyen_hoTen || giayDeNghiData?.giamDoc_hoTen?.toUpperCase() || ""
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Ngày sinh <span className={styles.required}>*</span>
+                                </label>
+                                <DateInput
+                                    className={styles.input}
+                                    name="uyQuyen_ngaySinh"
+                                    defaultValue={localUyQuyen.uyQuyen_ngaySinh ?? (dataJson?.uyQuyen_ngaySinh || giayDeNghiData?.giamDoc_ngaySinh || "")}
+                                    required
+                                />
+                            </div>
 
-                        <GioiTinhSelect
-                            name="uyQuyen_gioiTinh"
-                            defaultValue={localUyQuyen.uyQuyen_gioiTinh ?? (dataJson?.uyQuyen_gioiTinh || giayDeNghiData?.giamDoc_gioiTinh)}
-                        />
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Số định danh cá nhân <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                name="uyQuyen_cccd"
-                                defaultValue={localUyQuyen.uyQuyen_cccd ?? (dataJson?.uyQuyen_cccd || giayDeNghiData?.giamDoc_cccd || "")}
-                                required
-                                pattern="[0-9]{9,12}"
-                                title="Số CCCD phải có 9–12 chữ số"
+                            <GioiTinhSelect
+                                name="uyQuyen_gioiTinh"
+                                defaultValue={localUyQuyen.uyQuyen_gioiTinh ?? (dataJson?.uyQuyen_gioiTinh || giayDeNghiData?.giamDoc_gioiTinh)}
                             />
-                        </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Số định danh cá nhân <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className={styles.input}
+                                    name="uyQuyen_cccd"
+                                    defaultValue={localUyQuyen.uyQuyen_cccd ?? (dataJson?.uyQuyen_cccd || giayDeNghiData?.giamDoc_cccd || "")}
+                                    required
+                                    pattern="[0-9]{9,12}"
+                                    title="Số CCCD phải có 9–12 chữ số"
+                                />
+                            </div>
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Điện thoại liên hệ <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="tel"
-                                className={styles.input}
-                                name="uyQuyen_phone"
-                                defaultValue={localUyQuyen.uyQuyen_phone ?? (dataJson?.uyQuyen_phone || giayDeNghiData?.giamDoc_phone || "")}
-                                required
-                                pattern="(0|\+84)[0-9]{9,10}"
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Email:</label>
-                            <input
-                                type="email"
-                                className={styles.input}
-                                name="uyQuyen_email"
-                                defaultValue={localUyQuyen.uyQuyen_email ?? (dataJson?.uyQuyen_email || giayDeNghiData?.giamDoc_email || "")}
-                            />
-                        </div>
-                    </div>
-
-                    <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
-                        Địa chỉ liên lạc:
-                    </h3>
-                    <AddressSelect
-                        provinces={provinces}
-                        communes={communes_uyQuyen}
-                        onProvinceChange={setProvCode_uyQuyen}
-                        provinceName="uyQuyen_tinh"
-                        wardName="uyQuyen_xa"
-                        houseNumberName="uyQuyen_soNha"
-                        provinceDefault={
-                            dataJson?.uyQuyen_tinh ||
-                            giayDeNghiData?.nguoiDaiDien_tinh ||
-                            giayDeNghiData?.nguoiDaiDien_thuongTru_tinh ||
-                            ""
-                        }
-                        wardDefault={
-                            dataJson?.uyQuyen_xa ||
-                            giayDeNghiData?.nguoiDaiDien_xa ||
-                            giayDeNghiData?.nguoiDaiDien_thuongTru_xa ||
-                            ""
-                        }
-                        houseNumberDefault={
-                            dataJson?.uyQuyen_soNha ||
-                            giayDeNghiData?.nguoiDaiDien_soNha ||
-                            giayDeNghiData?.nguoiDaiDien_thuongTru_soNha ||
-                            ""
-                        }
-                    />
-
-                    </div>\n                    <div key={`nhanUyQuyen-${nhanUyQuyenKey}`}>\n                    <h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
-
-                    <div className={styles.grid2}>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Họ và tên <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                name="nhanUyQuyen_hoTen"
-                                defaultValue={
-                                    dataJson?.nhanUyQuyen_hoTen || giayDeNghiData?.nguoiNop_hoTen?.toUpperCase() || ""
-                                }
-                                required
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Ngày sinh <span className={styles.required}>*</span>
-                            </label>
-                            <DateInput
-                                className={styles.input}
-                                name="nhanUyQuyen_ngaySinh"
-                                defaultValue={localNhanUyQuyen.nhanUyQuyen_ngaySinh ?? (dataJson?.nhanUyQuyen_ngaySinh || giayDeNghiData?.nguoiNop_ngaySinh || "")}
-                                required
-                            />
-                        </div>
-                        <GioiTinhSelect
-                            name="nhanUyQuyen_gioiTinh"
-                            defaultValue={localNhanUyQuyen.nhanUyQuyen_gioiTinh ?? (dataJson?.nhanUyQuyen_gioiTinh || giayDeNghiData?.nguoiNop_gioiTinh)}
-                        />
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Số định danh cá nhân <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="text"
-                                className={styles.input}
-                                name="nhanUyQuyen_cccd"
-                                defaultValue={localNhanUyQuyen.nhanUyQuyen_cccd ?? (dataJson?.nhanUyQuyen_cccd || giayDeNghiData?.nguoiNop_cccd || "")}
-                                required
-                                pattern="[0-9]{9,12}"
-                                title="Số CCCD phải có 9–12 chữ số"
-                            />
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Điện thoại liên hệ <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    className={styles.input}
+                                    name="uyQuyen_phone"
+                                    defaultValue={localUyQuyen.uyQuyen_phone ?? (dataJson?.uyQuyen_phone || giayDeNghiData?.giamDoc_phone || "")}
+                                    required
+                                    pattern="(0|\+84)[0-9]{9,10}"
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Email:</label>
+                                <input
+                                    type="email"
+                                    className={styles.input}
+                                    name="uyQuyen_email"
+                                    defaultValue={localUyQuyen.uyQuyen_email ?? (dataJson?.uyQuyen_email || giayDeNghiData?.giamDoc_email || "")}
+                                />
+                            </div>
                         </div>
 
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>
-                                Điện thoại liên hệ <span className={styles.required}>*</span>
-                            </label>
-                            <input
-                                type="tel"
-                                className={styles.input}
-                                name="nhanUyQuyen_phone"
-                                defaultValue={localNhanUyQuyen.nhanUyQuyen_phone ?? (dataJson?.nhanUyQuyen_phone || giayDeNghiData?.nguoiNop_phone || "")}
-                                required
-                                pattern="(0|\+84)[0-9]{9,10}"
-                            />
-                        </div>
-                        <div className={styles.formGroup}>
-                            <label className={styles.label}>Email:</label>
-                            <input
-                                type="email"
-                                className={styles.input}
-                                name="nhanUyQuyen_email"
-                                defaultValue={localNhanUyQuyen.nhanUyQuyen_email ?? (dataJson?.nhanUyQuyen_email || giayDeNghiData?.nguoiNop_email || "")}
-                            />
-                        </div>
-                        <DanTocSelect
-                            name="nhanUyQuyen_danToc"
-                            defaultValue={localNhanUyQuyen.nhanUyQuyen_danToc ?? (dataJson?.nhanUyQuyen_danToc || giayDeNghiData?.nguoiNop_danToc)}
-                            required={false}
-                        />
-                        <QuocTichSelect
-                            name="nhanUyQuyen_quocTich"
-                            defaultValue={
-                                dataJson?.nhanUyQuyen_quocTich || giayDeNghiData?.nguoiNop_quocTich || "Việt Nam"
-                            }
-                            required={false}
-                        />
-                    </div>
-
-                    <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
-                        Địa chỉ thường trú:
-                    </h3>
-                    <AddressSelect
-                        provinces={provinces}
-                        communes={communes_nhanUyQuyen_thuongTru}
-                        onProvinceChange={setProvCode_nhanUyQuyen_thuongTru}
-                        provinceName="nhanUyQuyen_thuongTru_tinh"
-                        wardName="nhanUyQuyen_thuongTru_xa"
-                        houseNumberName="nhanUyQuyen_thuongTru_soNha"
-                        provinceDefault={
-                            dataJson?.nhanUyQuyen_thuongTru_tinh || giayDeNghiData?.nguoiNop_thuongTru_tinh || ""
-                        }
-                        wardDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_xa ?? (dataJson?.nhanUyQuyen_thuongTru_xa || giayDeNghiData?.nguoiNop_thuongTru_xa || "")}
-                        houseNumberDefault={
-                            dataJson?.nhanUyQuyen_thuongTru_soNha || giayDeNghiData?.nguoiNop_thuongTru_soNha || ""
-                        }
-                        isRequired={false}
-                    />
-
-                    <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
-                        Địa chỉ liên lạc:
-                    </h3>
-                    <div key={`nhanUyQuyen-lienLac-group-${nhanUyQuyenLienLacKey}`}>
+                        <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
+                            Địa chỉ liên lạc:
+                        </h3>
                         <AddressSelect
                             provinces={provinces}
-                            communes={communes_nhanUyQuyen_lienLac}
-                            onProvinceChange={setProvCode_nhanUyQuyen_lienLac}
-                            provinceName="nhanUyQuyen_lienLac_tinh"
-                            wardName="nhanUyQuyen_lienLac_xa"
-                            houseNumberName="nhanUyQuyen_lienLac_soNha"
-                            provinceDefault={nhanUyQuyenLienLacAddressState.tinh}
-                            wardDefault={nhanUyQuyenLienLacAddressState.xa}
-                            houseNumberDefault={nhanUyQuyenLienLacAddressState.soNha}
+                            communes={communes_uyQuyen}
+                            onProvinceChange={setProvCode_uyQuyen}
+                            provinceName="uyQuyen_tinh"
+                            wardName="uyQuyen_xa"
+                            houseNumberName="uyQuyen_soNha"
+                            provinceDefault={
+                                dataJson?.uyQuyen_tinh ||
+                                giayDeNghiData?.nguoiDaiDien_tinh ||
+                                giayDeNghiData?.nguoiDaiDien_thuongTru_tinh ||
+                                ""
+                            }
+                            wardDefault={
+                                dataJson?.uyQuyen_xa ||
+                                giayDeNghiData?.nguoiDaiDien_xa ||
+                                giayDeNghiData?.nguoiDaiDien_thuongTru_xa ||
+                                ""
+                            }
+                            houseNumberDefault={
+                                dataJson?.uyQuyen_soNha ||
+                                giayDeNghiData?.nguoiDaiDien_soNha ||
+                                giayDeNghiData?.nguoiDaiDien_thuongTru_soNha ||
+                                ""
+                            }
                         />
-                    </div>
 
-                    {/* The grey text box - updated for CongTyCoPhan */}
-                    </div>\n                    <div className={styles.greyBox}>
+                    </div>
+                    <div key={`nhanUyQuyen-${nhanUyQuyenKey}`}>
+                        <h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>
+                            Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} />
+                        </h3>
+
+                        <div className={styles.grid2}>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Họ và tên <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className={styles.input}
+                                    name="nhanUyQuyen_hoTen"
+                                    defaultValue={
+                                        dataJson?.nhanUyQuyen_hoTen || giayDeNghiData?.nguoiNop_hoTen?.toUpperCase() || ""
+                                    }
+                                    required
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Ngày sinh <span className={styles.required}>*</span>
+                                </label>
+                                <DateInput
+                                    className={styles.input}
+                                    name="nhanUyQuyen_ngaySinh"
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_ngaySinh ?? (dataJson?.nhanUyQuyen_ngaySinh || giayDeNghiData?.nguoiNop_ngaySinh || "")}
+                                    required
+                                />
+                            </div>
+                            <GioiTinhSelect
+                                name="nhanUyQuyen_gioiTinh"
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_gioiTinh ?? (dataJson?.nhanUyQuyen_gioiTinh || giayDeNghiData?.nguoiNop_gioiTinh)}
+                            />
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Số định danh cá nhân <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="text"
+                                    className={styles.input}
+                                    name="nhanUyQuyen_cccd"
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_cccd ?? (dataJson?.nhanUyQuyen_cccd || giayDeNghiData?.nguoiNop_cccd || "")}
+                                    required
+                                    pattern="[0-9]{9,12}"
+                                    title="Số CCCD phải có 9–12 chữ số"
+                                />
+                            </div>
+
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>
+                                    Điện thoại liên hệ <span className={styles.required}>*</span>
+                                </label>
+                                <input
+                                    type="tel"
+                                    className={styles.input}
+                                    name="nhanUyQuyen_phone"
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_phone ?? (dataJson?.nhanUyQuyen_phone || giayDeNghiData?.nguoiNop_phone || "")}
+                                    required
+                                    pattern="(0|\+84)[0-9]{9,10}"
+                                />
+                            </div>
+                            <div className={styles.formGroup}>
+                                <label className={styles.label}>Email:</label>
+                                <input
+                                    type="email"
+                                    className={styles.input}
+                                    name="nhanUyQuyen_email"
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_email ?? (dataJson?.nhanUyQuyen_email || giayDeNghiData?.nguoiNop_email || "")}
+                                />
+                            </div>
+                            <DanTocSelect
+                                name="nhanUyQuyen_danToc"
+                                defaultValue={localNhanUyQuyen.nhanUyQuyen_danToc ?? (dataJson?.nhanUyQuyen_danToc || giayDeNghiData?.nguoiNop_danToc)}
+                                required={false}
+                            />
+                            <QuocTichSelect
+                                name="nhanUyQuyen_quocTich"
+                                defaultValue={
+                                    dataJson?.nhanUyQuyen_quocTich || giayDeNghiData?.nguoiNop_quocTich || "Việt Nam"
+                                }
+                                required={false}
+                            />
+                        </div>
+
+                        <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
+                            Địa chỉ thường trú:
+                        </h3>
+                        <AddressSelect
+                            provinces={provinces}
+                            communes={communes_nhanUyQuyen_thuongTru}
+                            onProvinceChange={setProvCode_nhanUyQuyen_thuongTru}
+                            provinceName="nhanUyQuyen_thuongTru_tinh"
+                            wardName="nhanUyQuyen_thuongTru_xa"
+                            houseNumberName="nhanUyQuyen_thuongTru_soNha"
+                            provinceDefault={
+                                dataJson?.nhanUyQuyen_thuongTru_tinh || giayDeNghiData?.nguoiNop_thuongTru_tinh || ""
+                            }
+                            wardDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_xa ?? (dataJson?.nhanUyQuyen_thuongTru_xa || giayDeNghiData?.nguoiNop_thuongTru_xa || "")}
+                            houseNumberDefault={
+                                dataJson?.nhanUyQuyen_thuongTru_soNha || giayDeNghiData?.nguoiNop_thuongTru_soNha || ""
+                            }
+                            isRequired={false}
+                        />
+
+                        <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
+                            Địa chỉ liên lạc:
+                        </h3>
+                        <div key={`nhanUyQuyen-lienLac-group-${nhanUyQuyenLienLacKey}`}>
+                            <AddressSelect
+                                provinces={provinces}
+                                communes={communes_nhanUyQuyen_lienLac}
+                                onProvinceChange={setProvCode_nhanUyQuyen_lienLac}
+                                provinceName="nhanUyQuyen_lienLac_tinh"
+                                wardName="nhanUyQuyen_lienLac_xa"
+                                houseNumberName="nhanUyQuyen_lienLac_soNha"
+                                provinceDefault={nhanUyQuyenLienLacAddressState.tinh}
+                                wardDefault={nhanUyQuyenLienLacAddressState.xa}
+                                houseNumberDefault={nhanUyQuyenLienLacAddressState.soNha}
+                            />
+                        </div>
+
+                        {/* The grey text box - updated for CongTyCoPhan */}
+                    </div><div className={styles.greyBox}>
                         <div className={styles.greyBoxContent} style={{ display: "block", lineHeight: "1.6" }}>
                             <span className={styles.greyText}>
                                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
