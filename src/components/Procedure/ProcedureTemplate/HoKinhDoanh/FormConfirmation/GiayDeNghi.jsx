@@ -284,15 +284,10 @@ export default function GiayDeNghi({ dataJson }) {
             <div className={styles.infoLine}>
                 <span>Tổng số (bằng số): </span>
                 <span className={styles.infoValue}>{formatNumber(vonKinhDoanh)} VNĐ </span>
+                <span className={styles.infoValue} style={{ fontStyle: "italic" }}>
+                    ({vonKinhDoanh_bangChu} VNĐ)
+                </span>
             </div>
-            {vonKinhDoanh_bangChu && (
-                <div className={styles.infoLine}>
-                    <span>Tổng số (bằng chữ): </span>
-                    <span className={styles.infoValue} style={{ fontStyle: "italic" }}>
-                        {vonKinhDoanh_bangChu}
-                    </span>
-                </div>
-            )}
 
             <div className={styles.infoLine} style={{ marginTop: "10px" }}>
                 <span className={`${styles.infoLabel} ${styles.heading1}`}>5. Thông tin đăng ký thuế:</span>

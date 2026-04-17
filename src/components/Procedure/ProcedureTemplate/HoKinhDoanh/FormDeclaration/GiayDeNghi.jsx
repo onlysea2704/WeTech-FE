@@ -68,7 +68,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     const [nguoiDaiDienKey, setNguoiDaiDienKey] = useState(0);
 
     const handleFillNguoiDaiDienCard = (card) => {
-        setLocalNguoiDaiDien({
+        const newCardData = {
             nguoiDaiDien_hoTen: card.fullName || "",
             nguoiDaiDien_gioiTinh: card.gender || "",
             nguoiDaiDien_ngaySinh: card.dob || "",
@@ -83,7 +83,11 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
             hienTai_tinh: card.currentAddress?.province || "",
             hienTai_xa: card.currentAddress?.ward || "",
             hienTai_soNha: card.currentAddress?.street || "",
-        });
+        };
+        setProvCode_thuongTru(newCardData.thuongTru_tinh);
+        setProvCode_hienTai(newCardData.hienTai_tinh);
+        
+        setLocalNguoiDaiDien(prev => ({ ...prev, ...newCardData }));
         setNguoiDaiDienKey((prev) => prev + 1);
     };
 
@@ -140,6 +144,9 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
 
     // Helper để lấy giá trị mặc định - ưu tiên dataJson, nếu không có thì lấy mapped
     const getDefaultValue = (fieldName, fallbackValue = "") => {
+        if (localNguoiDaiDien && localNguoiDaiDien[fieldName] !== undefined) {
+            return localNguoiDaiDien[fieldName];
+        }
         if (dataJson && dataJson[fieldName]) {
             return dataJson[fieldName];
         }
@@ -282,9 +289,12 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
             {/* ── Người đại diện & CCCD ── */}
-            <div className={styles.row}>
+            <div className={styles.row} key={`nguoi-dai-dien-${nguoiDaiDienKey}`}>
                 <div className={styles.colLeft}>
-                    <h3 className={styles.sectionTitle}>Tên người đại diện:</h3>
+                    <div style={{ display: "flex", alignItems: "center", marginBottom: "16px" }}>
+                        <h3 className={styles.sectionTitle} style={{ margin: 0, marginRight: "8px" }}>Tên người đại diện:</h3>
+                        <UserCardDropdown onSelect={handleFillNguoiDaiDienCard} />
+                    </div>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>

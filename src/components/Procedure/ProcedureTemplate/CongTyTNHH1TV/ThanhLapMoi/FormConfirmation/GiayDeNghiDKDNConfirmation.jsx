@@ -483,10 +483,10 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <strong>6. Vốn điều lệ:</strong>
                 </p>
                 <p>
-                    Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe}
+                    Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe} VNĐ
                 </p>
                 <p>
-                    Vốn điều lệ (<em>bằng chữ; VNĐ</em>): {vonDieuLe_bangChu}
+                    Vốn điều lệ (<em>bằng chữ; VNĐ</em>): ({vonDieuLe_bangChu} VNĐ)
                 </p>
                 <p>
                     Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>):{" "}

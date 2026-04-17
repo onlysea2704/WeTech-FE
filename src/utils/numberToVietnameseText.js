@@ -52,7 +52,7 @@ function numberToVietnameseText(number) {
     }
 
     result = result.trim().replace(/\s+/g, " ");
-    return result.charAt(0).toUpperCase() + result.slice(1) + " đồng";
+    return result.charAt(0).toUpperCase() + result.slice(1) + " VNĐ";
 }
 
 export default numberToVietnameseText;
