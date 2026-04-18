@@ -10,8 +10,8 @@ import { useEffect } from "react";
 export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
     const [provCode_chuSoHuu, setProvCode_chuSoHuu] = useState("");
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
-    const { provinces, communes: communes_chuSoHuu } = useFetchAddress(provCode_chuSoHuu);
-    const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
+    const { provinces, communes: communes_chuSoHuu, loadingCommunes: loadingCommunes_chuSoHuu } = useFetchAddress(provCode_chuSoHuu);
+    const { communes: communes_thuongTru, loadingCommunes: loadingCommunes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
     const [localData, setLocalData] = useState(dataJson || {});
     const [formKey, setFormKey] = useState(0);
@@ -54,7 +54,7 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                             <label className={styles.label}>
                                 Họ, chữ đệm và tên (ghi bằng chữ in hoa): <span className={styles.required}>*</span>
                             </label>
-                            <input type="text" className={styles.input} name="chuSoHuu_hoTen" defaultValue={localData?.chuSoHuu_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                            <input type="text" className={styles.input} name="chuSoHuu_hoTen" defaultValue={localData?.chuSoHuu_hoTen || ""} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -82,6 +82,7 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         provinceDefault={localData?.chuSoHuu_tinh || ""}
                         wardDefault={localData?.chuSoHuu_xa || ""}
                         houseNumberDefault={localData?.chuSoHuu_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_chuSoHuu}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -126,6 +127,7 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         provinceDefault={localData?.chuSoHuu_thuongTru_tinh || ""}
                         wardDefault={localData?.chuSoHuu_thuongTru_xa || ""}
                         houseNumberDefault={localData?.chuSoHuu_thuongTru_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_thuongTru}
                     />
                     <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                         <label className={styles.label}>Quốc gia:</label>

@@ -121,16 +121,18 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                 const payload = {
                     fullName: data[`${prefix}_hoTen`] || "",
                     cccd: docCccd,
+                    email: data[`${prefix}_email`] || "",
+                    phone: data[`${prefix}_phone`] || "",
                     gender: data[`${prefix}_gioiTinh`] || "",
                     dob: data[`${prefix}_ngaySinh`] || "",
                     nationality: data[`${prefix}_quocTich`] || "",
                     ethnicity: data[`${prefix}_danToc`] || "",
-                    permanentStreet: data[`${prefix}_thuongTru_soNha`] || "",
-                    permanentWard: data[`${prefix}_thuongTru_xa`] || "",
-                    permanentProvince: data[`${prefix}_thuongTru_tinh`] || "",
-                    currentStreet: prefix === "nguoiNop" ? (data[`lienLac_soNha`] || "") : (data[`${prefix}_soNha`] || ""),
-                    currentWard: prefix === "nguoiNop" ? (data[`lienLac_xa`] || "") : (data[`${prefix}_xa`] || ""),
-                    currentProvince: prefix === "nguoiNop" ? (data[`lienLac_tinh`] || "") : (data[`${prefix}_tinh`] || ""),
+                    permanentStreet: data[`${prefix}_thuongTru_soNha`] || data[`thuongTru_soNha`] || "",
+                    permanentWard: data[`${prefix}_thuongTru_xa`] || data[`thuongTru_xa`] || "",
+                    permanentProvince: data[`${prefix}_thuongTru_tinh`] || data[`thuongTru_tinh`] || "",
+                    currentStreet: prefix === "nguoiNop" ? (data[`lienLac_soNha`] || "") : (data[`${prefix}_hienTai_soNha`] || data[`hienTai_soNha`] || data[`${prefix}_soNha`] || ""),
+                    currentWard: prefix === "nguoiNop" ? (data[`lienLac_xa`] || "") : (data[`${prefix}_hienTai_xa`] || data[`hienTai_xa`] || data[`${prefix}_xa`] || ""),
+                    currentProvince: prefix === "nguoiNop" ? (data[`lienLac_tinh`] || "") : (data[`${prefix}_hienTai_tinh`] || data[`hienTai_tinh`] || data[`${prefix}_tinh`] || ""),
                 };
                 await authAxios.post("/api/users/my-card/create", payload);
                 if (refreshUserCards) refreshUserCards();
@@ -147,6 +149,7 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
             await checkAndSaveUserCard(data, "nguoiDaiDien");
             await checkAndSaveUserCard(data, "chuSoHuu");
             await checkAndSaveUserCard(data, "nguoiNop");
+            await checkAndSaveUserCard(data, "uyQuyen");
 
             if (hasServerData) {
                 await authAxios.post("/api/form-submission/update", { formId: currentForm.formId, dataJson: data });

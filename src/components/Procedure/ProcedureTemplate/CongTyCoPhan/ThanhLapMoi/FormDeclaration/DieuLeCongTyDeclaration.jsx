@@ -30,7 +30,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
 ) {
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
     const [coDongRows, setCoDongRows] = useState([]);
-    const [loaiCoPhanKhacTen, setLoaiCoPhanKhacTen] = useState("");
+    const [loaiCoPhanKhacList, setLoaiCoPhanKhacList] = useState([""]);
 
     // States for auto format Mệnh giá
     const [menhGiaSo, setMenhGiaSo] = useState("");
@@ -71,7 +71,18 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                 }));
             }
             setCoDongRows(initialCoDongRows);
-            setLoaiCoPhanKhacTen(dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || "");
+
+            let initialLoaiCoPhanKhacList = [""];
+            if (dataJson?.loaiCoPhanKhacList && Array.isArray(dataJson.loaiCoPhanKhacList)) {
+                initialLoaiCoPhanKhacList = dataJson.loaiCoPhanKhacList;
+            } else if (giayDeNghiData?.loaiCoPhanKhacList && Array.isArray(giayDeNghiData.loaiCoPhanKhacList)) {
+                initialLoaiCoPhanKhacList = giayDeNghiData.loaiCoPhanKhacList;
+            } else if (danhSachCoDongData?.loaiCoPhanKhacList && Array.isArray(danhSachCoDongData.loaiCoPhanKhacList)) {
+                initialLoaiCoPhanKhacList = danhSachCoDongData.loaiCoPhanKhacList;
+            } else if (dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten) {
+                initialLoaiCoPhanKhacList = [dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten];
+            }
+            setLoaiCoPhanKhacList(initialLoaiCoPhanKhacList);
 
             const menhGiaVal = dataJson?.menhGiaCoPhan_bangSo || giayDeNghiData?.menhGiaCoPhan || "";
             const parsed = formatNumber(String(menhGiaVal));
@@ -87,7 +98,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
         } else {
             setNganhNgheRows([]);
             setCoDongRows([]);
-            setLoaiCoPhanKhacTen("");
+            setLoaiCoPhanKhacList([""]);
             setMenhGiaSo("");
             setMenhGiaChu("");
         }
@@ -126,7 +137,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
             data.coDongRows = coDongRows;
-            data.loaiCoPhanKhacTen = loaiCoPhanKhacTen;
+            data.loaiCoPhanKhacList = loaiCoPhanKhacList;
+            data.loaiCoPhanKhacTen = loaiCoPhanKhacList[0] || "";
             return data;
         },
         getExportData: () => {
@@ -139,14 +151,22 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
             const data = Object.fromEntries(formData.entries());
             data.nganhNgheList = nganhNgheRows;
             data.coDongRows = coDongRows;
-            data.loaiCoPhanKhacTen = loaiCoPhanKhacTen;
+            data.loaiCoPhanKhacList = loaiCoPhanKhacList;
+            data.loaiCoPhanKhacTen = loaiCoPhanKhacList[0] || "";
             return data;
         },
         importData: (importedData) => {
             if (!importedData) return;
             setNganhNgheRows(importedData.nganhNgheList || []);
             setCoDongRows(importedData.coDongRows || []);
-            setLoaiCoPhanKhacTen(importedData.loaiCoPhanKhacTen || "");
+            
+            if (importedData.loaiCoPhanKhacList && Array.isArray(importedData.loaiCoPhanKhacList)) {
+                setLoaiCoPhanKhacList(importedData.loaiCoPhanKhacList);
+            } else if (importedData.loaiCoPhanKhacTen) {
+                setLoaiCoPhanKhacList([importedData.loaiCoPhanKhacTen]);
+            } else {
+                setLoaiCoPhanKhacList([""]);
+            }
 
             if (importedData.menhGiaCoPhan_bangSo !== undefined) {
                 const parsed = formatNumber(String(importedData.menhGiaCoPhan_bangSo));
@@ -169,7 +189,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
         const data = Object.fromEntries(formData.entries());
         data.nganhNgheList = nganhNgheRows;
         data.coDongRows = coDongRows;
-        data.loaiCoPhanKhacTen = loaiCoPhanKhacTen;
+        data.loaiCoPhanKhacList = loaiCoPhanKhacList;
+        data.loaiCoPhanKhacTen = loaiCoPhanKhacList[0] || "";
         if (onSubmit) onSubmit(data);
     };
 
@@ -186,6 +207,20 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
         const newRows = [...coDongRows];
         newRows[idx] = { ...newRows[idx], [name]: value };
         setCoDongRows(newRows);
+    };
+
+    const handleAddKhac = () => {
+        setLoaiCoPhanKhacList([...loaiCoPhanKhacList, ""]);
+    };
+
+    const handleRemoveKhac = (idx) => {
+        setLoaiCoPhanKhacList(loaiCoPhanKhacList.filter((_, i) => i !== idx));
+    };
+
+    const handleKhacNameChange = (idx, val) => {
+        const newList = [...loaiCoPhanKhacList];
+        newList[idx] = val;
+        setLoaiCoPhanKhacList(newList);
     };
 
     return (
@@ -248,53 +283,67 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                             <tr>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 40 }}>STT</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 150 }}>Tên cổ đông sáng lập</th>
-                                <th colSpan={8} className={styles.th}>Vốn góp</th>
+                                <th colSpan={8 + (loaiCoPhanKhacList.length - 1) * 2} className={styles.th}>Vốn góp</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 120 }}>Thời hạn góp vốn</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 60 }}>Thao tác</th>
                             </tr>
                             <tr>
                                 <th colSpan={2} className={styles.th}>Tổng số cổ phần</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 60 }}>Tỷ lệ (%)</th>
-                                <th colSpan={4} className={styles.th}>Loại cổ phần</th>
+                                <th colSpan={2 + loaiCoPhanKhacList.length * 2} className={styles.th}>Loại cổ phần</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 160 }}>Loại tài sản, số lượng, giá trị tài sản góp vốn</th>
                             </tr>
                             <tr>
                                 <th className={styles.th} style={{ minWidth: 80 }}>Số lượng</th>
                                 <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
                                 <th colSpan={2} className={styles.th}>Phổ thông</th>
-                                <th colSpan={2} className={styles.th} style={{ padding: "4px" }}>
-                                    <input
-                                        type="text"
-                                        className={styles.input}
-                                        placeholder="Nhập loại cổ phần khác..."
-                                        value={loaiCoPhanKhacTen}
-                                        onChange={(e) => setLoaiCoPhanKhacTen(e.target.value)}
-                                        style={{
-                                            outline: "none",
-                                            border: "none",
-                                            color: "#fff",
-                                            textAlign: "center",
-                                            backgroundColor: "transparent",
-                                            fontWeight: "bold",
-                                            width: "100%"
-                                        }}
-                                    />
-                                </th>
+                                {loaiCoPhanKhacList.map((ten, i) => (
+                                    <th colSpan={2} key={i} className={styles.th} style={{ padding: "4px", position: "relative" }}>
+                                        <input
+                                            type="text"
+                                            className={styles.input}
+                                            placeholder="Nhập loại cổ phần khác..."
+                                            value={ten}
+                                            onChange={(e) => handleKhacNameChange(i, e.target.value)}
+                                            style={{
+                                                outline: "none",
+                                                border: "none",
+                                                color: "#fff",
+                                                textAlign: "center",
+                                                backgroundColor: "transparent",
+                                                fontWeight: "bold",
+                                                width: "calc(100% - 40px)",
+                                                margin: "0 auto",
+                                                display: "block"
+                                            }}
+                                        />
+                                        {i === loaiCoPhanKhacList.length - 1 && (
+                                            <button type="button" onClick={handleAddKhac} style={{ position: "absolute", right: 2, top: "50%", transform: "translateY(-50%)", background: "#28a745", color: "white", border: "none", borderRadius: "50%", width: "20px", height: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", lineHeight: 1 }}>+</button>
+                                        )}
+                                        {i > 0 && (
+                                            <button type="button" onClick={() => handleRemoveKhac(i)} style={{ position: "absolute", left: 2, top: "50%", transform: "translateY(-50%)", background: "#dc3545", color: "white", border: "none", borderRadius: "50%", width: "20px", height: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", lineHeight: 1 }}>-</button>
+                                        )}
+                                    </th>
+                                ))}
                             </tr>
                             <tr>
                                 {/* Dummy row for Sub-Sub-headers */}
                                 <th colSpan={5} className={styles.th}></th>
                                 <th className={styles.th} style={{ minWidth: 80 }}>Số lượng</th>
                                 <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
-                                <th className={styles.th} style={{ minWidth: 80 }}>Số lượng</th>
-                                <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                                {loaiCoPhanKhacList.map((_, i) => (
+                                    <React.Fragment key={i}>
+                                        <th className={styles.th} style={{ minWidth: 80 }}>Số lượng</th>
+                                        <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                                    </React.Fragment>
+                                ))}
                                 <th colSpan={3} className={styles.th}></th>
                             </tr>
                         </thead>
                         <tbody>
                             {coDongRows.length === 0 ? (
                                 <tr>
-                                    <td colSpan={12} className={styles.td} style={{ textAlign: "center", padding: "20px" }}>
+                                    <td colSpan={12 + (loaiCoPhanKhacList.length - 1) * 2} className={styles.td} style={{ textAlign: "center", padding: "20px" }}>
                                         Chưa có cổ đông. Nhấn "Thêm dòng" để bắt đầu.
                                     </td>
                                 </tr>
@@ -320,12 +369,20 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
                                         <td className={styles.td}>
                                             <input type="text" className={styles.input} name="loaiCoPhan_phoThong_giaTri" value={row.loaiCoPhan_phoThong_giaTri} onChange={(e) => handleRowChange(idx, e)} />
                                         </td>
-                                        <td className={styles.td}>
-                                            <input type="text" className={styles.input} name="loaiCoPhan_khac_soLuong" value={row.loaiCoPhan_khac_soLuong} onChange={(e) => handleRowChange(idx, e)} />
-                                        </td>
-                                        <td className={styles.td}>
-                                            <input type="text" className={styles.input} name="loaiCoPhan_khac_giaTri" value={row.loaiCoPhan_khac_giaTri} onChange={(e) => handleRowChange(idx, e)} />
-                                        </td>
+                                        {loaiCoPhanKhacList.map((_, i) => {
+                                            const slKey = i === 0 ? "loaiCoPhan_khac_soLuong" : `loaiCoPhan_khac_soLuong_${i}`;
+                                            const gtKey = i === 0 ? "loaiCoPhan_khac_giaTri" : `loaiCoPhan_khac_giaTri_${i}`;
+                                            return (
+                                                <React.Fragment key={i}>
+                                                    <td className={styles.td}>
+                                                        <input type="text" className={styles.input} name={slKey} value={row[slKey] || ""} onChange={(e) => handleRowChange(idx, e)} />
+                                                    </td>
+                                                    <td className={styles.td}>
+                                                        <input type="text" className={styles.input} name={gtKey} value={row[gtKey] || ""} onChange={(e) => handleRowChange(idx, e)} />
+                                                    </td>
+                                                </React.Fragment>
+                                            );
+                                        })}
                                         <td className={styles.td}>
                                             <input type="text" className={styles.input} name="loaiTaiSan" value={row.loaiTaiSan} onChange={(e) => handleRowChange(idx, e)} />
                                         </td>

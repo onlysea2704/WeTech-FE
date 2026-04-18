@@ -89,10 +89,10 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                                         {row.diaChiLienLac}
                                     </td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>
-                                        {row.tyLeSoHuuVon}
+                                        {row.tyLeSoHuuVon ? row.tyLeSoHuuVon + '%' : ''}
                                     </td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>
-                                        {row.tyLeSoHuuBieuQuyet}
+                                        {row.tyLeSoHuuBieuQuyet ? row.tyLeSoHuuBieuQuyet + '%' : ''}
                                     </td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>
                                         {row.quyenChiPhoi}

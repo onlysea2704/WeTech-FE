@@ -6,7 +6,6 @@ import {
     QuocTichSelect,
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
-import Signature from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/Signature/Signature";
 import deleteIcon from "@/assets/delete-icon.png";
 import Select from "react-select";
 
@@ -230,7 +229,28 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                         <QuocTichSelect name="quocTich" defaultValue={row.quocTich} />
                                     </td>
                                     <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
-                                        <DanTocSelect name="danToc" defaultValue={row.danToc} />
+                                        <div className={styles.formGroup}>
+                                            <label className={styles.label}>
+                                                Dân tộc {row.quocTich !== "Việt Nam" && <span className={styles.required}>*</span>}
+                                            </label>
+                                            <select
+                                                key={row.danToc || "empty_dantoc"}
+                                                className={styles.select}
+                                                name="danToc"
+                                                defaultValue={row.danToc || ""}
+                                                required={row.quocTich !== "Việt Nam"}
+                                            >
+                                                <option value="" disabled></option>
+                                                <option value="Kinh">Kinh</option>
+                                                <option value="Tày">Tày</option>
+                                                <option value="Thái">Thái</option>
+                                                <option value="Mường">Mường</option>
+                                                <option value="Khmer">Khmer</option>
+                                                <option value="Hoa">Hoa</option>
+                                                <option value="Nùng">Nùng</option>
+                                                <option value="H'Mông">H'Mông</option>
+                                            </select>
+                                        </div>
                                     </td>
                                     <td className={styles.td}>
                                         <input

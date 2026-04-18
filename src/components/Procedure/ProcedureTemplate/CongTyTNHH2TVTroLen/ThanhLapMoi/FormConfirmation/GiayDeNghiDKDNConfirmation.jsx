@@ -284,7 +284,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 </table>
 
                 <p style={{ marginTop: "16px" }}><strong>5. Vốn điều lệ:</strong></p>
-                <p>Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe}</p>
+                <p>Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe} VNĐ</p>
                 <p>Vốn điều lệ (<em>bằng chữ; VNĐ</em>): {vonDieuLe_bangChu}</p>
                 <p>Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>): {vonDieuLe_ngoaiTe}</p>
                 <p>Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không? Có <Checkbox checked={false} /> Không <Checkbox checked={true} /></p>
@@ -302,27 +302,27 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nganSach_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe ? nguonVon_nganSach_tyLe + '%' : ''}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe ? nguonVon_tuNhan_tyLe + '%' : ''}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe ? nguonVon_nuocNgoai_tyLe + '%' : ''}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_khac_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe ? nguonVon_khac_tyLe + '%' : ''}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>Tổng cộng</td>
                             <td style={{ textAlign: "center" }}>{nguonVon_tongCong_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe}</td>
+                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe ? nguonVon_tongCong_tyLe + '%' : ''}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -355,7 +355,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                                     <td style={{ textAlign: "center" }}>{tv.quocTich}</td>
                                     <td>{tv.diaChiLienLac}</td>
                                     <td style={{ textAlign: "right" }}>{tv.phanVonGop}</td>
-                                    <td style={{ textAlign: "center" }}>{tv.tyLe}</td>
+                                    <td style={{ textAlign: "center" }}>{tv.tyLe ? tv.tyLe + '%' : ''}</td>
                                     <td style={{ textAlign: "center" }}>{tv.thoiHan}</td>
                                 </tr>
                             ))

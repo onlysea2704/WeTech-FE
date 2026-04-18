@@ -5,11 +5,7 @@ import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComp
 
 function DanhSachCoDongSangLapConfirmation({ dataJson }) {
     const rows = dataJson?.coDongList || [];
-    const loaiCoPhanKhacTen = dataJson?.loaiCoPhanKhac_ten || "........";
-    const {
-        chuKy_ten = "",
-        chuKy_hoTen = "",
-    } = dataJson || {};
+    const loaiCoPhanKhacList = dataJson?.loaiCoPhanKhacList?.length ? dataJson.loaiCoPhanKhacList : [dataJson?.loaiCoPhanKhac_ten || "........"];
 
     return (
         <div className={styles.wrapper}>
@@ -35,7 +31,7 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
                             <th rowSpan={4} className={styles.th}>Quốc tịch</th>
                             <th rowSpan={4} className={styles.th}>Dân tộc</th>
                             <th rowSpan={4} className={styles.th}>Địa chỉ liên lạc</th>
-                            <th colSpan={8} className={styles.th}>Vốn góp²</th>
+                            <th colSpan={8 + (loaiCoPhanKhacList.length - 1) * 2} className={styles.th}>Vốn góp²</th>
                             <th rowSpan={4} className={styles.th}>Thời hạn góp vốn⁴</th>
                             <th rowSpan={4} className={styles.th}>Chữ ký của cổ đông sáng lập⁵</th>
                             <th rowSpan={4} className={styles.th}>Ghi chú (nếu có)</th>
@@ -43,31 +39,37 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
                         <tr>
                             <th colSpan={2} className={styles.th}>Tổng số cổ phần</th>
                             <th rowSpan={3} className={styles.th}>Tỷ lệ (%)</th>
-                            <th colSpan={4} className={styles.th}>Loại cổ phần</th>
+                            <th colSpan={2 + loaiCoPhanKhacList.length * 2} className={styles.th}>Loại cổ phần</th>
                             <th rowSpan={3} className={styles.th}>Loại tài sản, số lượng, giá trị tài sản góp vốn³</th>
                         </tr>
                         <tr>
                             <th rowSpan={2} className={styles.th}>Số lượng</th>
                             <th rowSpan={2} className={styles.th}>Giá trị</th>
                             <th colSpan={2} className={styles.th}>Phổ thông</th>
-                            <th colSpan={2} className={styles.th}>Khác (ghi rõ): {loaiCoPhanKhacTen}</th>
+                            {loaiCoPhanKhacList.map((ten, idx) => (
+                                <th key={idx} colSpan={2} className={styles.th}>Khác (ghi rõ): {ten || "........"}</th>
+                            ))}
                         </tr>
                         <tr>
                             <th className={styles.th}>Số lượng</th>
                             <th className={styles.th}>Giá trị</th>
-                            <th className={styles.th}>Số lượng</th>
-                            <th className={styles.th}>Giá trị</th>
+                            {loaiCoPhanKhacList.map((_, idx) => (
+                                <React.Fragment key={idx}>
+                                    <th className={styles.th}>Số lượng</th>
+                                    <th className={styles.th}>Giá trị</th>
+                                </React.Fragment>
+                            ))}
                         </tr>
                         <tr className={styles.colNumberRow}>
-                            {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map((n) => (
-                                <td key={n} className={styles.colNumber}>{n}</td>
+                            {Array.from({ length: 17 + loaiCoPhanKhacList.length * 2 }).map((_, i) => (
+                                <td key={i} className={styles.colNumber}>{i + 1}</td>
                             ))}
                         </tr>
                     </thead>
                     <tbody>
                         {rows.length === 0 ? (
                             <tr>
-                                <td colSpan={19} className={styles.emptyCell}>
+                                <td colSpan={17 + loaiCoPhanKhacList.length * 2} className={styles.emptyCell}>
                                     Chưa có dữ liệu cổ đông sáng lập.
                                 </td>
                             </tr>
@@ -81,16 +83,24 @@ function DanhSachCoDongSangLapConfirmation({ dataJson }) {
                                     <td className={styles.td}>{row.giaTo}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quocTich}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.danToc}</td>
-                                    <td className={styles.td} style={{ minWidth: 250 }}>{row.diaChiLienLac}</td>
+                                    <td className={styles.td} style={{ minWidth: 120 }}>{row.diaChiLienLac}</td>
 
                                     {/* Vốn góp */}
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tongSoCoPhan_soLuong}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.tongSoCoPhan_giaTri}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe}</td>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe ? row.tyLe + '%' : ''}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiCoPhan_phoThong_soLuong}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiCoPhan_phoThong_giaTri}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiCoPhan_khac_soLuong}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiCoPhan_khac_giaTri}</td>
+                                    {loaiCoPhanKhacList.map((_, idxKhac) => {
+                                        const slKey = idxKhac === 0 ? "loaiCoPhan_khac_soLuong" : `loaiCoPhan_khac_soLuong_${idxKhac}`;
+                                        const gtKey = idxKhac === 0 ? "loaiCoPhan_khac_giaTri" : `loaiCoPhan_khac_giaTri_${idxKhac}`;
+                                        return (
+                                            <React.Fragment key={idxKhac}>
+                                                <td className={styles.td} style={{ textAlign: "center" }}>{row[slKey]}</td>
+                                                <td className={styles.td} style={{ textAlign: "center" }}>{row[gtKey]}</td>
+                                            </React.Fragment>
+                                        );
+                                    })}
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiTaiSanGopVon}</td>
 
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.thoiHanGopVon}</td>

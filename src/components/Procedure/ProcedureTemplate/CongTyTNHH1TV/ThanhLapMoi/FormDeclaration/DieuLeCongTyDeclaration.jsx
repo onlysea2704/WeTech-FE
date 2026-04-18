@@ -55,8 +55,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
     const [provCode_chuSoHuu, setProvCode_chuSoHuu] = useState("");
     const [provCode_nguoiDaiDien, setProvCode_nguoiDaiDien] = useState("");
 
-    const { provinces, communes: communes_chuSoHuu } = useFetchAddress(provCode_chuSoHuu);
-    const { communes: communes_nguoiDaiDien } = useFetchAddress(provCode_nguoiDaiDien);
+    const { provinces, communes: communes_chuSoHuu, loadingCommunes: loadingCommunes_chuSoHuu } = useFetchAddress(provCode_chuSoHuu);
+    const { communes: communes_nguoiDaiDien, loadingCommunes: loadingCommunes_nguoiDaiDien } = useFetchAddress(provCode_nguoiDaiDien);
 
     useEffect(() => {
         if (dataJson) {
@@ -72,8 +72,8 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
     const defaultTenCongTyEN = dataJson?.tenCongTyEN || giayDeNghiData?.tenCongTyEN || "";
     const defaultTenCongTyVietTat = dataJson?.tenCongTyVietTat || giayDeNghiData?.tenCongTyVietTat || "";
 
-    let defaultDiaChiTruSo = dataJson?.diaChiTruSo || "";
-    if (!defaultDiaChiTruSo && giayDeNghiData) {
+    let defaultDiaChiTruSo = "";
+    if (giayDeNghiData) {
         defaultDiaChiTruSo = [giayDeNghiData.truSo_soNha, giayDeNghiData.truSo_xa, giayDeNghiData.truSo_tinh].filter(Boolean).join(", ");
     }
 
@@ -152,7 +152,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
                     <label className={styles.label}>
                         Tên công ty viết bằng tiếng Việt (ghi bằng chữ in hoa) <span className={styles.required}>*</span>
                     </label>
-                    <input type="text" name="tenCongTyVN" className={styles.input} defaultValue={defaultTenCongTyVN} style={{ textTransform: "uppercase" }} required />
+                    <input type="text" name="tenCongTyVN" className={styles.input} defaultValue={defaultTenCongTyVN} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} required />
                 </div>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>
@@ -229,6 +229,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
                     provinceDefault={defaultChuSoHuu_tinh}
                     wardDefault={defaultChuSoHuu_xa}
                     houseNumberDefault={defaultChuSoHuu_soNha}
+                    isLoadingCommunes={loadingCommunes_chuSoHuu}
                 />
             </div>
 
@@ -275,6 +276,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
                     provinceDefault={defaultNguoiDaiDien_tinh}
                     wardDefault={defaultNguoiDaiDien_xa}
                     houseNumberDefault={defaultNguoiDaiDien_soNha}
+                    isLoadingCommunes={loadingCommunes_nguoiDaiDien}
                 />
                 <div className={styles.formGroup} style={{ marginTop: "16px" }}>
                     <label className={styles.label}>Chức danh <span className={styles.required}>*</span></label>

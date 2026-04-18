@@ -51,9 +51,9 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
     const [nhanUyQuyenLienLacKey, setNhanUyQuyenLienLacKey] = useState(0);
 
     // useFetchAddress: provinces cache toàn cục
-    const { provinces, communes: communes_uyQuyen } = useFetchAddress(provCode_uyQuyen);
-    const { communes: communes_nhanUyQuyen_thuongTru } = useFetchAddress(provCode_nhanUyQuyen_thuongTru);
-    const { communes: communes_nhanUyQuyen_lienLac } = useFetchAddress(provCode_nhanUyQuyen_lienLac);
+    const { provinces, communes: communes_uyQuyen, loadingCommunes: loadingCommunes_uyQuyen } = useFetchAddress(provCode_uyQuyen);
+    const { communes: communes_nhanUyQuyen_thuongTru, loadingCommunes: loadingCommunes_nhanUyQuyen_thuongTru } = useFetchAddress(provCode_nhanUyQuyen_thuongTru);
+    const { communes: communes_nhanUyQuyen_lienLac, loadingCommunes: loadingCommunes_nhanUyQuyen_lienLac } = useFetchAddress(provCode_nhanUyQuyen_lienLac);
 
     // Sync nhanUyQuyen contact address when corporate form or saved data changes
     useEffect(() => {
@@ -268,6 +268,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                             giayDeNghiData?.nguoiDaiDien_thuongTru_soNha ||
                             ""
                         }
+                        isLoadingCommunes={loadingCommunes_uyQuyen}
                     />
 
                     </div><div key={`nhanUyQuyen-${nhanUyQuyenKey}`}><h3 className={styles.sectionTitle} style={{ marginTop: "24px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
@@ -371,6 +372,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                             dataJson?.nhanUyQuyen_thuongTru_soNha || giayDeNghiData?.nguoiNop_thuongTru_soNha || ""
                         }
                         isRequired={false}
+                        isLoadingCommunes={loadingCommunes_nhanUyQuyen_thuongTru}
                     />
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>
@@ -387,6 +389,7 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                             provinceDefault={nhanUyQuyenLienLacAddressState.tinh}
                             wardDefault={nhanUyQuyenLienLacAddressState.xa}
                             houseNumberDefault={nhanUyQuyenLienLacAddressState.soNha}
+                            isLoadingCommunes={loadingCommunes_nhanUyQuyen_lienLac}
                         />
                     </div>
 

@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import FormattedNumberInput from "../FormattedNumberInput/FormattedNumberInput";
 
 export default function TaiSanGopVonSection({ dataJson, styles }) {
     const tableRef = useRef(null);
@@ -48,7 +49,35 @@ export default function TaiSanGopVonSection({ dataJson, styles }) {
                             <td style={{ textAlign: "center", verticalAlign: "top", paddingTop: "10px" }}>{stt}</td>
                             <td>{label}</td>
                             <td>
-                                <input type="text" className={styles.input} name={`${namePrefix}_giaTri`} defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""} />
+                                {namePrefix === "taiSan_khac" ? (
+                                    <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                            <span style={{ whiteSpace: "nowrap", width: "90px", fontSize: "0.9em" }}>Loại tài sản:</span>
+                                            <input type="text" className={styles.input} name={`${namePrefix}_loaiTaiSan`} defaultValue={dataJson?.[`${namePrefix}_loaiTaiSan`] || ""} style={{ flex: 1 }} />
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                            <span style={{ whiteSpace: "nowrap", width: "90px", fontSize: "0.9em" }}>Số lượng:</span>
+                                            <input type="text" className={styles.input} name={`${namePrefix}_soLuong`} defaultValue={dataJson?.[`${namePrefix}_soLuong`] || ""} style={{ flex: 1 }} />
+                                        </div>
+                                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                                            <span style={{ whiteSpace: "nowrap", width: "90px", fontSize: "0.9em" }}>Giá trị còn lại:</span>
+                                            <FormattedNumberInput
+                                                name={`${namePrefix}_giaTri`}
+                                                defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""}
+                                                onChange={handleChange}
+                                                className={styles.input}
+                                                style={{ flex: 1 }}
+                                            />
+                                        </div>
+                                    </div>
+                                ) : (
+                                    <FormattedNumberInput
+                                        name={`${namePrefix}_giaTri`}
+                                        defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""}
+                                        onChange={handleChange}
+                                        className={styles.input}
+                                    />
+                                )}
                             </td>
                             <td>
                                 <input type="text" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""} />

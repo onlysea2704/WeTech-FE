@@ -4,7 +4,7 @@
     /* Thêm max-width để form không bị kéo dãn toàn màn hình */
     margin: 0 auto;
     color: #000000;
-    padding: 0 40px;
+    padding: 10px 40px;
     background-color: #fff;
     border-radius: 8px;
     /* Tùy chọn để form có bo góc tự nhiên */

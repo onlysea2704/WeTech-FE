@@ -63,7 +63,7 @@ const mapCorporateDataToHousehold = (giayDeNghiData) => {
 const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, formRef }, componentRef) {
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
     // ── State ────────────────────────────────────────────────────────────────
-    
+
     const [localNguoiDaiDien, setLocalNguoiDaiDien] = useState({});
     const [nguoiDaiDienKey, setNguoiDaiDienKey] = useState(0);
 
@@ -86,7 +86,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
         };
         setProvCode_thuongTru(newCardData.thuongTru_tinh);
         setProvCode_hienTai(newCardData.hienTai_tinh);
-        
+
         setLocalNguoiDaiDien(prev => ({ ...prev, ...newCardData }));
         setNguoiDaiDienKey((prev) => prev + 1);
     };
@@ -137,10 +137,10 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
     };
 
     // ── useFetchAddress: provinces cache toàn cục → 1 lần fetch ─────────────
-    const { provinces, communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
-    const { communes: communes_hienTai } = useFetchAddress(provCode_hienTai);
-    const { communes: communes_truSo } = useFetchAddress(provCode_truSo);
-    const { communes: communes_thue } = useFetchAddress(provCode_thue);
+    const { provinces, communes: communes_thuongTru, loadingCommunes: loadingCommunes_thuongTru } = useFetchAddress(provCode_thuongTru);
+    const { communes: communes_hienTai, loadingCommunes: loadingCommunes_hienTai } = useFetchAddress(provCode_hienTai);
+    const { communes: communes_truSo, loadingCommunes: loadingCommunes_truSo } = useFetchAddress(provCode_truSo);
+    const { communes: communes_thue, loadingCommunes: loadingCommunes_thue } = useFetchAddress(provCode_thue);
 
     // Helper để lấy giá trị mặc định - ưu tiên dataJson, nếu không có thì lấy mapped
     const getDefaultValue = (fieldName, fallbackValue = "") => {
@@ -334,8 +334,8 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                                 name="nguoiDaiDien_cccd"
                                 defaultValue={getDefaultValue("nguoiDaiDien_cccd")}
                                 required
-                                pattern="[0-9]{9,12}"
-                                title="Số CCCD phải có 9–12 chữ số"
+                                pattern="[0-9]{12}"
+                                title="Số CCCD phải có 12 chữ số"
                             />
                         </div>
 
@@ -387,6 +387,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         provinceDefault={getDefaultValue("thuongTru_tinh")}
                         wardDefault={getDefaultValue("thuongTru_xa")}
                         houseNumberDefault={getDefaultValue("thuongTru_soNha")}
+                        isLoadingCommunes={loadingCommunes_thuongTru}
                     />
 
                     <h3 className={styles.sectionTitle}>Nơi ở hiện tại:</h3>
@@ -401,6 +402,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         provinceDefault={getDefaultValue("hienTai_tinh")}
                         wardDefault={getDefaultValue("hienTai_xa")}
                         houseNumberDefault={getDefaultValue("hienTai_soNha")}
+                        isLoadingCommunes={loadingCommunes_hienTai}
                     />
                 </div>
                 <div className={styles.colRight}>
@@ -461,6 +463,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         provinceDefault={getDefaultValue("truSo_tinh")}
                         wardDefault={getDefaultValue("truSo_xa")}
                         houseNumberDefault={getDefaultValue("truSo_soNha")}
+                        isLoadingCommunes={loadingCommunes_truSo}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -536,6 +539,7 @@ const GiayDeNghi = forwardRef(function GiayDeNghi({ formId, dataJson, onSubmit, 
                         provinceDefault={thueAddressState.tinh}
                         wardDefault={thueAddressState.xa}
                         houseNumberDefault={thueAddressState.soNha}
+                        isLoadingCommunes={loadingCommunes_thue}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>

@@ -70,7 +70,7 @@ function DanhSachThanhVienConfirmation({ dataJson }) {
                                         {row.phanVonGop ? `${row.phanVonGop} VNĐ` : ""}
                                         {row.phanVonGopNgoaiTe_GiaTri ? <><br />({row.phanVonGopNgoaiTe_GiaTri} {row.phanVonGopNgoaiTe_Loai})</> : ""}
                                     </td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe}</td>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLe ? row.tyLe + '%' : ''}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.loaiTaiSan}</td>
 
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.thoiHan}</td>

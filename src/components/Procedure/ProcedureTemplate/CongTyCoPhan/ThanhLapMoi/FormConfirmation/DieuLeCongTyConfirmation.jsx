@@ -5,12 +5,26 @@ import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/Proces
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
 
 export default function DieuLeCongTyConfirmation({ dataJson }) {
-    const coDongList = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập")?.coDongList || [];
+    const danhSachCoDongData = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập");
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    
+    const coDongList = danhSachCoDongData?.coDongList || [];
 
     if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Đang tải dữ liệu...</div>;
 
     const coDongRows = dataJson.coDongRows || [];
 
+    let loaiCoPhanKhacList = [""];
+    if (dataJson?.loaiCoPhanKhacList && Array.isArray(dataJson.loaiCoPhanKhacList)) {
+        loaiCoPhanKhacList = dataJson.loaiCoPhanKhacList;
+    } else if (giayDeNghiData?.loaiCoPhanKhacList && Array.isArray(giayDeNghiData.loaiCoPhanKhacList)) {
+        loaiCoPhanKhacList = giayDeNghiData.loaiCoPhanKhacList;
+    } else if (danhSachCoDongData?.loaiCoPhanKhacList && Array.isArray(danhSachCoDongData.loaiCoPhanKhacList)) {
+        loaiCoPhanKhacList = danhSachCoDongData.loaiCoPhanKhacList;
+    } else if (dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten) {
+        loaiCoPhanKhacList = [dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten];
+    }
+    
     const addressToString = (soNha, xa, tinh) => {
         return [soNha, xa, tinh].filter(Boolean).join(", ");
     };
@@ -345,7 +359,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                         <th rowSpan={3} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                             Tên cổ đông sáng lập
                         </th>
-                        <th colSpan={8} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
+                        <th colSpan={8 + (loaiCoPhanKhacList.length - 1) * 2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                             Vốn góp
                         </th>
                         <th rowSpan={3} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
@@ -359,7 +373,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                         <th rowSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                             Tỷ lệ (%)
                         </th>
-                        <th colSpan={4} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
+                        <th colSpan={2 + loaiCoPhanKhacList.length * 2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                             Loại cổ phần
                         </th>
                         <th rowSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
@@ -372,23 +386,29 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                         <th colSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                             Phổ thông
                         </th>
-                        <th colSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                            {dataJson.loaiCoPhanKhacTen || "Loại khác"}
-                        </th>
+                        {loaiCoPhanKhacList.map((ten, i) => (
+                            <th key={i} colSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
+                                {ten || "Loại khác"}
+                            </th>
+                        ))}
                     </tr>
                     <tr>
                         <th colSpan={5} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}></th>
                         <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Số lượng</th>
                         <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Giá trị</th>
-                        <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Số lượng</th>
-                        <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Giá trị</th>
+                        {loaiCoPhanKhacList.map((_, i) => (
+                            <React.Fragment key={i}>
+                                <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Số lượng</th>
+                                <th style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>Giá trị</th>
+                            </React.Fragment>
+                        ))}
                         <th colSpan={2} style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}></th>
                     </tr>
                 </thead>
                 <tbody>
                     {coDongRows.length === 0 ? (
                         <tr>
-                            <td colSpan={11} style={{ border: "1px solid #000", padding: "10px", textAlign: "center" }}>
+                            <td colSpan={9 + loaiCoPhanKhacList.length * 2} style={{ border: "1px solid #000", padding: "10px", textAlign: "center" }}>
                                 Chưa có dữ liệu cổ đông sáng lập đăng ký góp vốn.
                             </td>
                         </tr>
@@ -406,7 +426,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                     {row.tongSoCoPhan_giaTri}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.tyLe}
+                                    {row.tyLe ? row.tyLe + '%' : ''}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                                     {row.loaiCoPhan_phoThong_soLuong}
@@ -414,12 +434,20 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                                     {row.loaiCoPhan_phoThong_giaTri}
                                 </td>
-                                <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.loaiCoPhan_khac_soLuong}
-                                </td>
-                                <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.loaiCoPhan_khac_giaTri}
-                                </td>
+                                {loaiCoPhanKhacList.map((_, i) => {
+                                    const slKey = i === 0 ? "loaiCoPhan_khac_soLuong" : `loaiCoPhan_khac_soLuong_${i}`;
+                                    const gtKey = i === 0 ? "loaiCoPhan_khac_giaTri" : `loaiCoPhan_khac_giaTri_${i}`;
+                                    return (
+                                        <React.Fragment key={i}>
+                                            <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
+                                                {row[slKey] || ""}
+                                            </td>
+                                            <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
+                                                {row[gtKey] || ""}
+                                            </td>
+                                        </React.Fragment>
+                                    );
+                                })}
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.loaiTaiSan}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.thoiHan}</td>
                             </tr>

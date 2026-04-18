@@ -36,9 +36,9 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
     const [kinhGuiName, setKinhGuiName] = useState(() => _initParsed.name);
 
     // useFetchAddress: provinces cache toàn cục
-    const { provinces, communes: communes_uyQuyen } = useFetchAddress(provCode_uyQuyen);
-    const { communes: communes_nhanUyQuyen_thuongTru } = useFetchAddress(provCode_nhanUyQuyen_thuongTru);
-    const { communes: communes_nhanUyQuyen_lienLac } = useFetchAddress(provCode_nhanUyQuyen_lienLac);
+    const { provinces, communes: communes_uyQuyen, loadingCommunes: loadingCommunes_uyQuyen } = useFetchAddress(provCode_uyQuyen);
+    const { communes: communes_nhanUyQuyen_thuongTru, loadingCommunes: loadingCommunes_nhanUyQuyen_thuongTru } = useFetchAddress(provCode_nhanUyQuyen_thuongTru);
+    const { communes: communes_nhanUyQuyen_lienLac, loadingCommunes: loadingCommunes_nhanUyQuyen_lienLac } = useFetchAddress(provCode_nhanUyQuyen_lienLac);
 
     // Expose API cho DeclarationForms
     useImperativeHandle(componentRef, () => ({
@@ -203,6 +203,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                             provinceDefault={localUyQuyen.uyQuyen_tinh ?? (dataJson?.uyQuyen_tinh || giayDeNghiData?.hienTai_tinh || giayDeNghiData?.thuongTru_tinh || "")}
                             wardDefault={localUyQuyen.uyQuyen_xa ?? (dataJson?.uyQuyen_xa || giayDeNghiData?.hienTai_xa || giayDeNghiData?.thuongTru_xa || "")}
                             houseNumberDefault={localUyQuyen.uyQuyen_soNha ?? (dataJson?.uyQuyen_soNha || giayDeNghiData?.hienTai_soNha || giayDeNghiData?.thuongTru_soNha || "")}
+                            isLoadingCommunes={loadingCommunes_uyQuyen}
                         />
 
                     </div><div key={`nhanUyQuyen-${nhanUyQuyenKey}`}><h3 className={styles.sectionTitle} style={{ marginTop: "40px" }}>Bên nhận uỷ quyền (Bên B): <UserCardDropdown onSelect={handleFillNhanUyQuyenCard} /></h3>
@@ -284,6 +285,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                             provinceDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_tinh ?? (dataJson?.nhanUyQuyen_thuongTru_tinh || "")}
                             wardDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_xa ?? (dataJson?.nhanUyQuyen_thuongTru_xa || "")}
                             houseNumberDefault={localNhanUyQuyen.nhanUyQuyen_thuongTru_soNha ?? (dataJson?.nhanUyQuyen_thuongTru_soNha || "")}
+                            isLoadingCommunes={loadingCommunes_nhanUyQuyen_thuongTru}
                         />
 
                         <h3 className={styles.sectionTitle} style={{ marginTop: "16px" }}>Địa chỉ liên lạc của bên nhận uỷ quyền:</h3>
@@ -297,6 +299,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                             provinceDefault={localNhanUyQuyen.nhanUyQuyen_lienLac_tinh ?? (dataJson?.nhanUyQuyen_lienLac_tinh || "")}
                             wardDefault={localNhanUyQuyen.nhanUyQuyen_lienLac_xa ?? (dataJson?.nhanUyQuyen_lienLac_xa || "")}
                             houseNumberDefault={localNhanUyQuyen.nhanUyQuyen_lienLac_soNha ?? (dataJson?.nhanUyQuyen_lienLac_soNha || "")}
+                            isLoadingCommunes={loadingCommunes_nhanUyQuyen_lienLac}
                         />
 
                         {/* The grey text box */}

@@ -14,6 +14,7 @@ export default function AddressSelect({
     houseNumberDefault = "",
     provinces = [],
     communes = [],
+    isLoadingCommunes = false,
     onProvinceChange,
     onWardChange,
 }) {
@@ -132,7 +133,8 @@ export default function AddressSelect({
                         isClearable
                         required={isRequired}
                         classNamePrefix="react-select"
-                        isDisabled={!provValue}
+                        isDisabled={!provValue || isLoadingCommunes}
+                        isLoading={isLoadingCommunes}
                         noOptionsMessage={() => (!provValue ? "Chọn tỉnh/thành phố trước" : "Không tìm thấy")}
                     />
                 </div>

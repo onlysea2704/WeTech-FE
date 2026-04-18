@@ -48,7 +48,7 @@ export function generateHtmlString(element, options = {}) {
   <style>
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 20px;
+      margin: 0;
       padding: 0;
       background: #fff;
       color: #000;

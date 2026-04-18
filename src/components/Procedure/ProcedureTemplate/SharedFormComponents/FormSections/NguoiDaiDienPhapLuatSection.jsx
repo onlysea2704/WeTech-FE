@@ -10,8 +10,8 @@ import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFor
 export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
-    const { provinces, communes: communes_lienLac } = useFetchAddress(provCode_lienLac);
-    const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
+    const { provinces, communes: communes_lienLac, loadingCommunes: loadingCommunes_lienLac } = useFetchAddress(provCode_lienLac);
+    const { communes: communes_thuongTru, loadingCommunes: loadingCommunes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
     const [localData, setLocalData] = useState(dataJson || {});
     const [formKey, setFormKey] = useState(0);
@@ -39,6 +39,36 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
             nguoiDaiDien_thuongTru_soNha: card.permanentAddress?.street,
         }));
         setFormKey(k => k + 1);
+
+        setTimeout(() => {
+            const hoTenInput = document.querySelector('input[name="nguoiDaiDien_hoTen"]');
+            const form = hoTenInput?.closest("form");
+            if (form) {
+                // Kích hoạt sự kiện để ThongTinDangKyThueSection tự đồng bộ
+                ["nguoiDaiDien_hoTen", "nguoiDaiDien_gioiTinh", "nguoiDaiDien_cccd"].forEach(key => {
+                    const el = form.querySelector(`[name="${key}"]`);
+                    if (el) {
+                        el.dispatchEvent(new Event("input", { bubbles: true }));
+                    }
+                });
+
+                // Kích hoạt sự kiện cho ngày sinh
+                const nddNgaySinhHidden = form.querySelector('input[type="hidden"][name="nguoiDaiDien_ngaySinh"]');
+                if (nddNgaySinhHidden) {
+                    const displayInput = nddNgaySinhHidden.closest("div")?.querySelector('input[type="text"]');
+                    if (displayInput) {
+                        displayInput.dispatchEvent(new Event("input", { bubbles: true }));
+                    }
+                }
+
+                // Cập nhật trường phone của Giám đốc (do phần Người đại diện không có input phone)
+                const giamDocPhone = form.querySelector(`input[name="giamDoc_phone"]`);
+                if (giamDocPhone) {
+                    giamDocPhone.value = card.phone || "";
+                    giamDocPhone.dispatchEvent(new Event("input", { bubbles: true }));
+                }
+            }
+        }, 100);
     };
 
     const tooltipNguoiDaiDien = "Ghi thông tin của tất cả người đại diện theo pháp luật trong trường hợp công ty có nhiều hơn 01 người đại diện theo pháp luật.";
@@ -65,7 +95,7 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
 
         setChucDanhType(nextType);
         setChucDanhOther(nextOther);
-    }, [localData?.nguoiDaiDien_chucDanh, hasUserEditedChucDanh]);    
+    }, [localData?.nguoiDaiDien_chucDanh, hasUserEditedChucDanh]);
 
     return (
         <div className={styles.sectionGroup} key={formKey}>
@@ -81,7 +111,7 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Họ, chữ đệm và tên (ghi bằng chữ in hoa): <span className={styles.required}>*</span></label>
-                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={localData?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                            <input type="text" className={styles.input} name="nguoiDaiDien_hoTen" defaultValue={localData?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} required />
                         </div>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
@@ -139,6 +169,7 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         provinceDefault={localData?.nguoiDaiDien_tinh || ""}
                         wardDefault={localData?.nguoiDaiDien_xa || ""}
                         houseNumberDefault={localData?.nguoiDaiDien_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_lienLac}
                     />
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin cá nhân khác của người đại diện theo pháp luật:</h3>
@@ -173,6 +204,7 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         provinceDefault={localData?.nguoiDaiDien_thuongTru_tinh || ""}
                         wardDefault={localData?.nguoiDaiDien_thuongTru_xa || ""}
                         houseNumberDefault={localData?.nguoiDaiDien_thuongTru_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_thuongTru}
                     />
                     <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                         <label className={styles.label}>Quốc gia:</label>

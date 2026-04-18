@@ -11,8 +11,8 @@ import { useEffect } from "react";
 export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
     const [provCode_thuongTru, setProvCode_thuongTru] = useState("");
-    const { provinces, communes: communes_lienLac } = useFetchAddress(provCode_lienLac);
-    const { communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru);
+    const { provinces, communes: communes_lienLac, loadingCommunes: loadingCommunes_lienLac } = useFetchAddress(provCode_lienLac);
+    const { communes: communes_thuongTru, loadingCommunes: loadingCommunes_thuongTru } = useFetchAddress(provCode_thuongTru);
 
     const [localData, setLocalData] = useState(dataJson || {});
     const [formKey, setFormKey] = useState(0);
@@ -35,6 +35,7 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
             nguoiNop_danToc: card.ethnicity,
             nguoiNop_quocTich: card.nationality,
             nguoiNop_email: card.email,
+            nguoiNop_phone: card.phone,
             nguoiNop_thuongTru_tinh: card.permanentAddress?.province,
             nguoiNop_thuongTru_xa: card.permanentAddress?.ward,
             nguoiNop_thuongTru_soNha: card.permanentAddress?.street,
@@ -64,8 +65,7 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                                 className={styles.input}
                                 name="nguoiNop_hoTen"
                                 defaultValue={localData?.nguoiNop_hoTen || ""}
-                                style={{ textTransform: "uppercase" }}
-                                placeholder="HỌ VÀ TÊN"
+                                onChange={(e) => e.target.value = e.target.value.toUpperCase()}
                                 required
                             />
                         </div>
@@ -108,6 +108,7 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                         provinceDefault={localData?.lienLac_tinh || ""}
                         wardDefault={localData?.lienLac_xa || ""}
                         houseNumberDefault={localData?.lienLac_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_lienLac}
                     />
 
                     <div className={styles.grid2}>
@@ -153,6 +154,7 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                         provinceDefault={localData?.nguoiNop_thuongTru_tinh || ""}
                         wardDefault={localData?.nguoiNop_thuongTru_xa || ""}
                         houseNumberDefault={localData?.nguoiNop_thuongTru_soNha || ""}
+                        isLoadingCommunes={loadingCommunes_thuongTru}
                     />
                     <div className={styles.formGroup} style={{ marginTop: "8px" }}>
                         <label className={styles.label}>Quốc gia:</label>

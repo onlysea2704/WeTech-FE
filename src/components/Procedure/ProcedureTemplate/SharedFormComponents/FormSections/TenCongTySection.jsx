@@ -12,6 +12,7 @@ export default function TenCongTySection({ dataJson, styles }) {
                     name="tenCongTyVN"
                     defaultValue={dataJson?.tenCongTyVN || ""}
                     style={{ textTransform: "uppercase" }}
+                    onChange={(e) => e.target.value = e.target.value.toUpperCase()}
                     required
                 />
             </div>

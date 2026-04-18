@@ -285,7 +285,7 @@ export default function GiayDeNghi({ dataJson }) {
                 <span>Tổng số (bằng số): </span>
                 <span className={styles.infoValue}>{formatNumber(vonKinhDoanh)} VNĐ </span>
                 <span className={styles.infoValue} style={{ fontStyle: "italic" }}>
-                    ({vonKinhDoanh_bangChu} VNĐ)
+                    ({vonKinhDoanh_bangChu})
                 </span>
             </div>
 

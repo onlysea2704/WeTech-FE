@@ -55,7 +55,7 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
             <div className={styles.grid2}>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Tên doanh nghiệp (ghi bằng chữ in hoa):</label>
-                    <input type="text" className={styles.input} name="dnChuyenDoi_ten" defaultValue={dataJson?.dnChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} />
+                    <input type="text" className={styles.input} name="dnChuyenDoi_ten" defaultValue={dataJson?.dnChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} />
                 </div>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Mã số doanh nghiệp/Mã số thuế:</label>
@@ -72,7 +72,7 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
             <div className={styles.grid2}>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Tên hộ kinh doanh (ghi bằng chữ in hoa):</label>
-                    <input type="text" className={styles.input} name="hkdChuyenDoi_ten" defaultValue={dataJson?.hkdChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} />
+                    <input type="text" className={styles.input} name="hkdChuyenDoi_ten" defaultValue={dataJson?.hkdChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} />
                 </div>
                 <div className={styles.formGroup}>
                     <label className={styles.label}>Số Giấy chứng nhận đăng ký hộ kinh doanh (nếu có):</label>
@@ -143,7 +143,7 @@ export default function ThongTinChuyenDoiSection({ dataJson, styles }) {
             </h3>
             <div className={styles.formGroup}>
                 <label className={styles.label}>Tên cơ sở bảo trợ xã hội/quỹ xã hội/quỹ từ thiện (ghi bằng chữ in hoa):</label>
-                <input type="text" className={styles.input} name="csqChuyenDoi_ten" defaultValue={dataJson?.csqChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} />
+                <input type="text" className={styles.input} name="csqChuyenDoi_ten" defaultValue={dataJson?.csqChuyenDoi_ten || ""} style={{ textTransform: "uppercase" }} onChange={(e) => e.target.value = e.target.value.toUpperCase()} />
             </div>
             <div className={styles.formGroup}>
                 <label className={styles.label}>Số Giấy chứng nhận đăng ký thành lập (Đối với cơ sở bảo trợ xã hội)/Số Giấy phép thành lập và công nhận điều lệ quỹ (Đối với quỹ xã hội/quỹ từ thiện):</label>

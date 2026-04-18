@@ -515,7 +515,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                     {row.phanVonGop}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.tyLe}
+                                    {row.tyLe ? row.tyLe + '%' : ''}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                                     {row.loaiTaiSan}
