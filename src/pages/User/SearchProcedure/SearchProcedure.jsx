@@ -5,15 +5,15 @@ import styles from "./SearchProcedure.module.css";
 import { useNavigate } from "react-router-dom";
 import { publicAxios, authAxios } from "@/services/axios-instance";
 import typeCompanyOptions from "@/consts/typeCompany";
-import { downloadPdf } from "@/utils/downloadPdf";
 import DateInput from "@/components/DateInput/DateInput";
+import { useDownloadProcedureFiles } from "@/hooks/useDownloadProcedureFiles";
 
 export default function SearchProcedure() {
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState(0); // 0: Đã đăng ký, 1: Lưu tạm
 
     const [loading, setLoading] = useState(false);
-    const [downloadingId, setDownloadingId] = useState(null);
+    const { downloadingId, downloadZipById: handleDownloadFiles } = useDownloadProcedureFiles(null, { autoFetch: false });
     const [dataRegistered, setDataRegistered] = useState([]);
     const [dataDraft, setDataDraft] = useState([]);
 
@@ -82,34 +82,6 @@ export default function SearchProcedure() {
 
         const date = new Date(dateString);
         return date.toISOString().replace("Z", "");
-    };
-
-    const handleDownloadFiles = async (procedureId, fallbackName = "files.zip") => {
-        try {
-            setDownloadingId(procedureId);
-            const response = await authAxios.get("/api/procedurer/download-files", {
-                params: { procedureId },
-                responseType: "blob",
-            });
-
-            const blob = new Blob([response.data], { type: "application/zip" });
-
-            const url = window.URL.createObjectURL(blob);
-
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = fallbackName;
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error("Error downloading file:", error);
-        } finally {
-            setDownloadingId(null);
-        }
     };
 
     const handleViewAgain = (procedureId) => {

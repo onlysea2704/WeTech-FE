@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
-import { generateHtmlFile } from "@/utils/generateHtmlFile";
+import { generateHtmlFile, generateHtmlString } from "@/utils/generateHtmlFile";
+import htmlDocx from "html-docx-js/dist/html-docx";
 import { authAxios } from "@/services/axios-instance";
 import styles from "./DeclarationForms.module.css";
 
@@ -37,19 +38,24 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                 const filename = `${currentForm.code || "form"}.html`;
 
                 // Chuyển toàn bộ nội dung form đã render thành file HTML chuẩn.
-                // Server sẽ dùng file HTML này để sinh PDF (puppeteer, wkhtmltopdf, ...).
-                // CSS Modules (hash class) được tự động thu thập từ stylesheets của trang
-                // và nhúng inline vào <style> bên trong <head> — đảm bảo layout đúng.
-                const htmlFile = generateHtmlFile(element, filename, {
+                const htmlString = generateHtmlString(element, {
                     title: currentForm.code || "Biểu mẫu",
                     landscape,
                 });
-                console.log("htmlFile:", htmlFile);
+
+                const htmlBlob = new Blob([htmlString], { type: "text/html; charset=utf-8" });
+                const htmlFile = new File([htmlBlob], filename, { type: "text/html" });
+
+                // Tạo DOCX từ HTML hiển thị tốt hơn trên Word
+                const docxBlob = htmlDocx.asBlob(htmlString);
+                const docxFilename = `${currentForm.code || "form"}.docx`;
+                const docxFile = new File([docxBlob], docxFilename, { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
 
                 // Gửi FormData lên server
                 const formData = new FormData();
                 formData.append("formId", currentForm.formId);
                 formData.append("htmlFile", htmlFile);
+                formData.append("docxFile", docxFile);
                 formData.append("landscape", landscape);
 
                 await authAxios.post("/api/form-submission/confirm", formData, {

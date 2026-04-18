@@ -7,22 +7,52 @@ import successIcon from "@/assets/success-icon.png";
 import failureIcon from "@/assets/failure-icon.png";
 import loadIcon from "@/assets/Exchange_perspective_matte.png";
 import saveIcon from "@/assets/Save_perspective_matte.png";
-import successPaymentIcon from "@/assets/success-icon.png";
-import failurePaymentIcon from "@/assets/failure-icon.png";
-import { downloadPdf } from "@/utils/downloadPdf";
 import checkIcon from "@/assets/Check_perspective_matte.png";
 import pdfIcon from "@/assets/pdf-image.png";
+import docxIcon from "@/assets/word-image.png";
 import checkboxIcon from "@/assets/checkbox_icon.png";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
+import { useDownloadProcedureFiles } from "@/hooks/useDownloadProcedureFiles";
 
 export default function SubmitProcedure({ procedure, setActiveTab }) {
     const { id_procedure } = useParams();
     const [submitStep, setSubmitStep] = useState(1);
     const navigate = useNavigate();
     // Step 1 states
-    const [pdfUrls, setPdfUrls] = useState([]);
-    const [loadingPdfs, setLoadingPdfs] = useState(false);
-    const [downloadingAll, setDownloadingAll] = useState(false);
+    const [downloadFormat, setDownloadFormat] = useState("pdf"); // "pdf" | "docx"
+    const [fetchedDocx, setFetchedDocx] = useState(false);
+
+    const zipFileName = procedure?.title ? `${procedure.title}.zip` : "ho_so.zip";
+
+    const pdfHook = useDownloadProcedureFiles(submitStep === 1 ? id_procedure : null, {
+        format: "pdf",
+        zipFileName,
+    });
+
+    const docxHook = useDownloadProcedureFiles(submitStep === 1 ? id_procedure : null, {
+        format: "docx",
+        autoFetch: false,
+        zipFileName,
+    });
+
+    const activeHook = downloadFormat === "pdf" ? pdfHook : docxHook;
+    const {
+        fileUrls: pdfUrls,
+        loadingFiles: loadingPdfs,
+        downloadingAll,
+        downloadFile: handleDownload,
+        downloadAllAsZip: handleDownloadAll,
+    } = activeHook;
+
+    const handleFormatChange = (format) => {
+        if (format !== downloadFormat) {
+            setDownloadFormat(format);
+            if (format === "docx" && !fetchedDocx) {
+                docxHook.fetchFileUrls();
+                setFetchedDocx(true);
+            }
+        }
+    };
 
     // Step 2 states
     const [agencyType, setAgencyType] = useState("tinh_thanh"); // tinh_thanh, bo_nganh
@@ -36,80 +66,6 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     const [wardValue, setWardValue] = useState("");
 
     const { provinces, communes } = useFetchAddress(provCode);
-
-    useEffect(() => {
-        if (submitStep === 1 && id_procedure) {
-            setLoadingPdfs(true);
-            authAxios
-                .get("/api/form-submission/get/all-pdf-file-urls", {
-                    params: { procedureId: id_procedure },
-                })
-                .then((res) => {
-                    const data = res.data;
-                    // Parse PDF array gracefully based on expected formats
-                    if (Array.isArray(data)) {
-                        setPdfUrls(
-                            data.map((item) => {
-                                if (typeof item === "string") {
-                                    // extract filename roughly if possible
-                                    let nameStr = "Tài liệu " + (data.indexOf(item) + 1);
-                                    if (item.includes("-")) {
-                                        nameStr = item.split("-").slice(1).join("-").split(".")[0];
-                                    }
-                                    return { url: item, name: nameStr };
-                                }
-                                return item;
-                            }),
-                        );
-                    } else if (typeof data === "object" && data !== null) {
-                        const urls = [];
-                        for (const [key, val] of Object.entries(data)) {
-                            urls.push({ name: key, url: val });
-                        }
-                        setPdfUrls(urls);
-                    } else if (typeof data === "string" && data.length > 0) {
-                        setPdfUrls([{ url: data, name: "File PDF" }]);
-                    }
-                })
-                .catch((err) => {
-                    console.error("Lỗi lấy danh sách PDF: ", err);
-                })
-                .finally(() => {
-                    setLoadingPdfs(false);
-                });
-        }
-    }, [submitStep, id_procedure]);
-
-    const handleDownload = async (url, name) => {
-        const fileName = name ? `${name}.pdf` : "download.pdf";
-        await downloadPdf(url, fileName);
-    };
-
-    const handleDownloadAll = async () => {
-        try {
-            setDownloadingAll(true);
-            const response = await authAxios.get("/api/procedurer/download-files", {
-                params: { procedureId: id_procedure },
-                responseType: "blob",
-            });
-
-            const blob = new Blob([response.data], { type: "application/zip" });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement("a");
-            link.href = url;
-            link.download = procedure?.title ? `${procedure.title}.zip` : "ho_so.zip";
-
-            document.body.appendChild(link);
-            link.click();
-
-            link.remove();
-            window.URL.revokeObjectURL(url);
-        } catch (error) {
-            console.error("Error downloading all files:", error);
-        } finally {
-            setDownloadingAll(false);
-        }
-    };
 
     const handleProvChange = (selectedOption) => {
         setProvValue(selectedOption ? selectedOption.value : "");
@@ -216,7 +172,29 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
             </div>
 
             <div className={styles.greyBox}>
-                <div className={styles.greyBoxTitle}>Tải xuống File</div>
+                <div className={styles.greyBoxTitle}>Tải xuống File PDF hoặc DOCX</div>
+
+                {/* Format selector */}
+                <div className={styles.formatToggle}>
+                    <button
+                        className={`${styles.formatBtn} ${downloadFormat === "pdf" ? styles.formatBtnActive : ""}`}
+                        onClick={() => handleFormatChange("pdf")}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20 2H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8.5 7.5c0 .83-.67 1.5-1.5 1.5H9v2H7.5V7H10c.83 0 1.5.67 1.5 1.5v1zm5 2c0 .83-.67 1.5-1.5 1.5h-2.5V7H15c.83 0 1.5.67 1.5 1.5v3zm4-3H19v1h1.5V11H19v2h-1.5V7h3v1.5zM9 9.5h1v-1H9v1zM4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm10 5h1v-3h-1v3z" />
+                        </svg>
+                        PDF
+                    </button>
+                    <button
+                        className={`${styles.formatBtn} ${downloadFormat === "docx" ? styles.formatBtnActive : ""}`}
+                        onClick={() => handleFormatChange("docx")}
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.89 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13zm-4 8l-2-7h1.5l1.25 4.5L11 10h1.5l1.25 4.5L15 10h1.5l-2 7h-1.5l-1.25-4.5L10.5 17H9z" />
+                        </svg>
+                        DOCX
+                    </button>
+                </div>
 
                 {loadingPdfs ? (
                     <div className={styles.loadingOverlay}>Đang tải file...</div>
@@ -229,7 +207,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                         className={styles.pdfIconBox}
                                         onClick={() => handleDownload(item.url || item, item.name)}
                                     >
-                                        <img src={pdfIcon} alt="" />
+                                        <img src={downloadFormat === "docx" ? docxIcon : pdfIcon} alt="" />
                                     </div>
                                     <span
                                         className={styles.downloadBtn}
@@ -252,8 +230,8 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                                 </div>
                             ))
                         ) : (
-                            <div style={{ textAlign: "center", color: "var(--secondary-content)", fontSize: "16px" }}>
-                                Không có file PDF nào
+                            <div style={{ textAlign: "center", color: "var(--secondary-content)", fontSize: "16px", gridColumn: "1 / -1" }}>
+                                Không có file {downloadFormat.toUpperCase()} nào
                             </div>
                         )}
                     </div>
@@ -262,26 +240,35 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
 
             <div className={styles.step1Actions}>
                 <div>
-                    <button className={styles.btnAction} onClick={handleDownloadAll} disabled={downloadingAll}>
+
+                    <button
+                        className={styles.btnAction}
+                        onClick={() => handleDownloadAll()}
+                        disabled={downloadingAll}
+                        style={{ width: "calc(33.333% - 80px)" }}
+                    >
                         <img src={checkboxIcon} alt="" />
-                        {downloadingAll ? "ĐANG TẢI..." : "TẢI XUỐNG TẤT CẢ"}
+                        {downloadingAll ? "ĐANG TẢI..." : `TẢI XUỐNG TẤT CẢ DẠNG ${downloadFormat.toUpperCase()}`}
                     </button>
                 </div>
-                <div>
-                    <button className={styles.btnAction} onClick={() => setActiveTab(0)}>
-                        <img src={loadIcon} alt="" />
-                        LẤY LẠI DỮ LIỆU
-                    </button>
-                </div>
-                <div style={{ flex: 1, display: "flex", justifyContent: "space-between" }}>
+                <div style={{ flex: 1, display: "flex", justifyContent: "space-between", gap: "20px", margin: "10px 100px" }}>
                     <button
                         className={styles.btnAction}
                         onClick={() => navigate(`/list-procedures/${procedure?.typeCompany}`)}
+                        style={{ flex: 1 }}
                     >
                         <img src={saveIcon} alt="" />
                         Lưu và Thoát
                     </button>
-                    <button className={styles.btnAction} onClick={() => setSubmitStep(2)}>
+                    <button className={styles.btnAction} onClick={() => setActiveTab(0)} style={{ flex: 1 }}>
+                        <img src={loadIcon} alt="" />
+                        LẤY LẠI DỮ LIỆU
+                    </button>
+                    <button
+                        className={styles.btnAction}
+                        onClick={() => setSubmitStep(2)}
+                        style={{ flex: 1 }}
+                    >
                         <img src={checkIcon} alt="" />
                         Nộp hồ sơ trực tuyến
                     </button>
@@ -658,7 +645,7 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
                         <button className={styles.btnAgree} onClick={() => setSubmitStep(2)}>
                             Quay lại
                         </button>
-                        <button className={styles.btnAgree} onClick={() => {}}>
+                        <button className={styles.btnAgree} onClick={() => { }}>
                             Đồng ý
                         </button>
                     </div>

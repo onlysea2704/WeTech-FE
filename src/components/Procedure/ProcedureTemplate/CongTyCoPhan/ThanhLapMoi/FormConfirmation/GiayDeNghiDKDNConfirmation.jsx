@@ -196,6 +196,16 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return nameParts[nameParts.length - 1];
     };
 
+    const formatVND = (value) => {
+        if (!value || value === "0" || value === 0) return value || "";
+        return `${value} VNĐ`;
+    };
+
+    const formatPercent = (value) => {
+        if (!value || value === "0" || value === 0) return value || "";
+        return `${value}%`;
+    };
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -384,14 +394,28 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     </thead>
                     <tbody>
                         {(nganhNgheList || []).length > 0 ? (
-                            nganhNgheList.map((nganh, index) => (
-                                <tr key={index}>
-                                    <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                    <td>{nganh.tenNganh}</td>
-                                    <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
-                                    <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? 'x' : ''}</td>
-                                </tr>
-                            ))
+                            nganhNgheList.map((nganh, index) => {
+                                const chiTietTrim = nganh.chiTiet?.trim().toLowerCase() || "";
+                                const chiTiet = chiTietTrim.startsWith("chi tiết") ? (nganh.chiTiet.trim().charAt(0).toUpperCase() + nganh.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
+                                return (
+                                    <tr key={index}>
+                                        <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                        <td>
+                                            <div>{nganh.tenNganh}</div>
+                                            {nganh.chiTiet && <pre
+                                                style={{
+                                                    margin: 0,
+                                                    whiteSpace: "pre-wrap",
+                                                    wordBreak: "break-word",
+                                                    fontFamily: "inherit",
+                                                    fontSize: "inherit"
+                                                }}>{chiTiet}</pre>}
+                                        </td>
+                                        <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
+                                        <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? 'x' : ''}</td>
+                                    </tr>
+                                )
+                            })
                         ) : (
                             <tr>
                                 <td colSpan="4" style={{ textAlign: "center" }}><i>Không có</i></td>
@@ -418,28 +442,28 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe ? nguonVon_nganSach_tyLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nganSach_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nganSach_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe ? nguonVon_tuNhan_tyLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_tuNhan_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_tuNhan_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe ? nguonVon_nuocNgoai_tyLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nuocNgoai_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nuocNgoai_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_khac_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe ? nguonVon_khac_tyLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_khac_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_khac_tyLe)}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>Tổng cộng</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_soTien}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe ? nguonVon_tongCong_tyLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_tongCong_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_tongCong_tyLe)}</td>
                         </tr>
                     </tbody>
                 </table>

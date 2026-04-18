@@ -1,9 +1,13 @@
 import React, { useState, useMemo } from "react";
 import styles from "./UserCardDropdown.module.css";
+import sharedStyles from "@/components/Procedure/ProcedureTemplate/CongTyTNHH1TV/ThanhLapMoi/FormDeclaration/SharedDeclaration.module.css";
 import { useProcessProcedure } from "@/pages/User/ProcessProcedure/ProcessProcedure";
 import { formatDate } from "@/utils/dateTimeUtils";
 import { authAxios } from "@/services/axios-instance";
 import { useNotification } from "@/hooks/useNotification";
+import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
+import AddressSelect from "@/components/AddressSelect/AddressSelect";
+import { useFetchAddress } from "@/hooks/useFetchAddress";
 
 export default function UserCardDropdown({ onSelect }) {
     const { userCards, refreshUserCards } = useProcessProcedure();
@@ -15,6 +19,13 @@ export default function UserCardDropdown({ onSelect }) {
     const [editingCard, setEditingCard] = useState(null);
     const [editFormData, setEditFormData] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+
+    // Address province codes for fetching communes
+    const [permanentProvinceCode, setPermanentProvinceCode] = useState("");
+    const [currentProvinceCode, setCurrentProvinceCode] = useState("");
+
+    const { provinces, communes: permanentCommunes, loadingCommunes: loadingPermanentCommunes } = useFetchAddress(permanentProvinceCode);
+    const { communes: currentCommunes, loadingCommunes: loadingCurrentCommunes } = useFetchAddress(currentProvinceCode);
 
     const handleSelectCard = (card) => {
         if (onSelect) onSelect(card);
@@ -37,6 +48,9 @@ export default function UserCardDropdown({ onSelect }) {
 
     const handleEditClick = (e, card) => {
         e.stopPropagation();
+        const permProvinceName = card.permanentAddress?.province || "";
+        const currProvinceName = card.currentAddress?.province || "";
+
         setEditFormData({
             id: card.id,
             fullName: card.fullName || "",
@@ -49,11 +63,26 @@ export default function UserCardDropdown({ onSelect }) {
             ethnicity: card.ethnicity || "",
             permanentStreet: card.permanentAddress?.street || "",
             permanentWard: card.permanentAddress?.ward || "",
-            permanentProvince: card.permanentAddress?.province || "",
+            permanentProvince: permProvinceName,
             currentStreet: card.currentAddress?.street || "",
             currentWard: card.currentAddress?.ward || "",
-            currentProvince: card.currentAddress?.province || "",
+            currentProvince: currProvinceName,
         });
+
+        // Tra mã tỉnh để fetch communes ngay khi mở form sửa
+        if (permProvinceName && provinces.length > 0) {
+            const perm = provinces.find(p =>
+                p.name.trim().toLowerCase() === permProvinceName.trim().toLowerCase()
+            );
+            if (perm) setPermanentProvinceCode(perm.code);
+        }
+        if (currProvinceName && provinces.length > 0) {
+            const curr = provinces.find(p =>
+                p.name.trim().toLowerCase() === currProvinceName.trim().toLowerCase()
+            );
+            if (curr) setCurrentProvinceCode(curr.code);
+        }
+
         setEditingCard(card);
     };
 
@@ -62,10 +91,11 @@ export default function UserCardDropdown({ onSelect }) {
         setEditFormData(prev => ({ ...prev, [name]: value }));
     };
 
-    const handleEditSubmit = async (e) => {
-        if (e) e.preventDefault();
-        
-        // Manual validation since we're removing the form wrapper
+    const handleSelectChange = (name, value) => {
+        setEditFormData(prev => ({ ...prev, [name]: value }));
+    };
+
+    const handleEditSubmit = async () => {
         if (!editFormData.fullName || !editFormData.cccd || !editFormData.dob || !editFormData.gender) {
             showNotification("Vui lòng điền đầy đủ các trường bắt buộc", "error");
             return;
@@ -122,75 +152,92 @@ export default function UserCardDropdown({ onSelect }) {
                         <div className={styles.body}>
                             {editingCard ? (
                                 <div className={styles.editForm}>
-                                    <div className={styles.formGrid}>
-                                        <div className={styles.formGroup}>
-                                            <label>Họ và tên <span style={{ color: 'red' }}>*</span></label>
-                                            <input required name="fullName" value={editFormData.fullName} onChange={handleEditChange} />
+                                    <div className={sharedStyles.grid2}>
+                                        <div className={sharedStyles.formGroup}>
+                                            <label className={sharedStyles.label}>Họ và tên <span className={sharedStyles.required}>*</span></label>
+                                            <input className={sharedStyles.input} name="fullName" value={editFormData.fullName} onChange={handleEditChange} />
                                         </div>
-                                        <div className={styles.formGroup}>
-                                            <label>CCCD/CMND <span style={{ color: 'red' }}>*</span></label>
-                                            <input required name="cccd" value={editFormData.cccd} onChange={handleEditChange} />
+                                        <div className={sharedStyles.formGroup}>
+                                            <label className={sharedStyles.label}>CCCD/CMND <span className={sharedStyles.required}>*</span></label>
+                                            <input className={sharedStyles.input} name="cccd" value={editFormData.cccd} onChange={handleEditChange} />
                                         </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Ngày sinh <span style={{ color: 'red' }}>*</span></label>
-                                            <input type="date" required name="dob" value={editFormData.dob} onChange={handleEditChange} />
+                                        <div className={sharedStyles.formGroup}>
+                                            <label className={sharedStyles.label}>Ngày sinh <span className={sharedStyles.required}>*</span></label>
+                                            <input className={sharedStyles.input} type="date" name="dob" value={editFormData.dob} onChange={handleEditChange} />
                                         </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Giới tính <span style={{ color: 'red' }}>*</span></label>
-                                            <select name="gender" required value={editFormData.gender} onChange={handleEditChange}>
-                                                <option value="">Chọn giới tính</option>
-                                                <option value="Nam">Nam</option>
-                                                <option value="Nữ">Nữ</option>
-                                            </select>
+                                        <GioiTinhSelect
+                                            key={`gender-${editFormData.gender}`}
+                                            name="gender"
+                                            defaultValue={editFormData.gender}
+                                            required={true}
+                                            onChange={(val) => handleSelectChange("gender", val)}
+                                        />
+                                        <QuocTichSelect
+                                            key={`nationality-${editFormData.nationality}`}
+                                            name="nationality"
+                                            defaultValue={editFormData.nationality || ""}
+                                            required={false}
+                                            onChange={(val) => handleSelectChange("nationality", val)}
+                                        />
+                                        {editFormData.nationality === "Việt Nam" && (
+                                            <DanTocSelect
+                                                key={`ethnicity-${editFormData.ethnicity}`}
+                                                name="ethnicity"
+                                                defaultValue={editFormData.ethnicity}
+                                                required={false}
+                                                onChange={(val) => handleSelectChange("ethnicity", val)}
+                                            />
+                                        )}
+                                        <div className={sharedStyles.formGroup}>
+                                            <label className={sharedStyles.label}>Email</label>
+                                            <input className={sharedStyles.input} name="email" value={editFormData.email} onChange={handleEditChange} />
                                         </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Quốc tịch</label>
-                                            <input name="nationality" value={editFormData.nationality} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Dân tộc</label>
-                                            <input name="ethnicity" value={editFormData.ethnicity} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Email</label>
-                                            <input type="email" name="email" value={editFormData.email} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Số điện thoại</label>
-                                            <input type="tel" name="phone" value={editFormData.phone} onChange={handleEditChange} />
+                                        <div className={sharedStyles.formGroup}>
+                                            <label className={sharedStyles.label}>Số điện thoại</label>
+                                            <input className={sharedStyles.input} type="tel" name="phone" value={editFormData.phone} onChange={handleEditChange} />
                                         </div>
                                     </div>
 
                                     <h4 className={styles.sectionTitle}>Nơi thường trú</h4>
-                                    <div className={styles.formGrid}>
-                                        <div className={styles.formGroup}>
-                                            <label>Tỉnh/Thành phố</label>
-                                            <input name="permanentProvince" value={editFormData.permanentProvince} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Quận/Huyện/Phường/Xã</label>
-                                            <input name="permanentWard" value={editFormData.permanentWard} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Số nhà, đường phố</label>
-                                            <input name="permanentStreet" value={editFormData.permanentStreet} onChange={handleEditChange} />
-                                        </div>
+                                    <AddressSelect
+                                        isRequired={false}
+                                        hasHouseNumber={false}
+                                        provinceDefault={editFormData.permanentProvince}
+                                        wardDefault={editFormData.permanentWard}
+                                        provinces={provinces}
+                                        communes={permanentCommunes}
+                                        isLoadingCommunes={loadingPermanentCommunes}
+                                        onProvinceChange={(code) => {
+                                            setPermanentProvinceCode(code);
+                                            const prov = provinces.find(p => String(p.code) === String(code));
+                                            handleSelectChange("permanentProvince", prov ? prov.name : "");
+                                        }}
+                                        onWardChange={(val) => handleSelectChange("permanentWard", val)}
+                                    />
+                                    <div className={sharedStyles.formGroup}>
+                                        <label className={sharedStyles.label}>Số nhà, đường phố</label>
+                                        <input className={sharedStyles.input} name="permanentStreet" value={editFormData.permanentStreet} onChange={handleEditChange} />
                                     </div>
 
                                     <h4 className={styles.sectionTitle}>Nơi ở hiện tại</h4>
-                                    <div className={styles.formGrid}>
-                                        <div className={styles.formGroup}>
-                                            <label>Tỉnh/Thành phố</label>
-                                            <input name="currentProvince" value={editFormData.currentProvince} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Quận/Huyện/Phường/Xã</label>
-                                            <input name="currentWard" value={editFormData.currentWard} onChange={handleEditChange} />
-                                        </div>
-                                        <div className={styles.formGroup}>
-                                            <label>Số nhà, đường phố</label>
-                                            <input name="currentStreet" value={editFormData.currentStreet} onChange={handleEditChange} />
-                                        </div>
+                                    <AddressSelect
+                                        isRequired={false}
+                                        hasHouseNumber={false}
+                                        provinceDefault={editFormData.currentProvince}
+                                        wardDefault={editFormData.currentWard}
+                                        provinces={provinces}
+                                        communes={currentCommunes}
+                                        isLoadingCommunes={loadingCurrentCommunes}
+                                        onProvinceChange={(code) => {
+                                            setCurrentProvinceCode(code);
+                                            const prov = provinces.find(p => String(p.code) === String(code));
+                                            handleSelectChange("currentProvince", prov ? prov.name : "");
+                                        }}
+                                        onWardChange={(val) => handleSelectChange("currentWard", val)}
+                                    />
+                                    <div className={sharedStyles.formGroup}>
+                                        <label className={sharedStyles.label}>Số nhà, đường phố</label>
+                                        <input className={sharedStyles.input} name="currentStreet" value={editFormData.currentStreet} onChange={handleEditChange} />
                                     </div>
 
                                     <div className={styles.formActions}>

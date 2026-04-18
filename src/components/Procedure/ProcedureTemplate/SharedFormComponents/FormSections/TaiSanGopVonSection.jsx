@@ -20,8 +20,8 @@ export default function TaiSanGopVonSection({ dataJson, styles }) {
         });
         const tongGiaTriInput = table.querySelector('[name="taiSan_tongSo_giaTri"]');
         const tongTyLeInput = table.querySelector('[name="taiSan_tongSo_tyLe"]');
-        if (tongGiaTriInput) tongGiaTriInput.value = totalGiaTri ? totalGiaTri.toLocaleString('vi-VN') : "";
-        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe : "";
+        if (tongGiaTriInput) tongGiaTriInput.value = totalGiaTri ? totalGiaTri.toLocaleString('vi-VN') : "0";
+        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe : "0";
     };
 
     return (
@@ -61,33 +61,52 @@ export default function TaiSanGopVonSection({ dataJson, styles }) {
                                         </div>
                                         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
                                             <span style={{ whiteSpace: "nowrap", width: "90px", fontSize: "0.9em" }}>Giá trị còn lại:</span>
-                                            <FormattedNumberInput
-                                                name={`${namePrefix}_giaTri`}
-                                                defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""}
-                                                onChange={handleChange}
-                                                className={styles.input}
-                                                style={{ flex: 1 }}
-                                            />
+                                            <div style={{ display: "flex", alignItems: "center", gap: "6px", flex: 1 }}>
+                                                <FormattedNumberInput
+                                                    name={`${namePrefix}_giaTri`}
+                                                    defaultValue={dataJson?.[`${namePrefix}_giaTri`] || "0"}
+                                                    onChange={handleChange}
+                                                    className={styles.input}
+                                                    style={{ flex: 1 }}
+                                                />
+                                                <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>VNĐ</span>
+                                            </div>
                                         </div>
                                     </div>
                                 ) : (
-                                    <FormattedNumberInput
-                                        name={`${namePrefix}_giaTri`}
-                                        defaultValue={dataJson?.[`${namePrefix}_giaTri`] || ""}
-                                        onChange={handleChange}
-                                        className={styles.input}
-                                    />
+                                    <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                        <FormattedNumberInput
+                                            name={`${namePrefix}_giaTri`}
+                                            defaultValue={dataJson?.[`${namePrefix}_giaTri`] || "0"}
+                                            onChange={handleChange}
+                                            className={styles.input}
+                                        />
+                                        <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>VNĐ</span>
+                                    </div>
                                 )}
                             </td>
                             <td>
-                                <input type="text" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""} />
+                                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                    <input type="text" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || "0"} />
+                                    <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>%</span>
+                                </div>
                             </td>
                         </tr>
                     ))}
                     <tr>
                         <td colSpan={2} style={{ textAlign: "center", fontWeight: 600 }}>Tổng số</td>
-                        <td><input type="text" className={styles.input} name="taiSan_tongSo_giaTri" defaultValue={dataJson?.taiSan_tongSo_giaTri || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
-                        <td><input type="text" className={styles.input} name="taiSan_tongSo_tyLe" defaultValue={dataJson?.taiSan_tongSo_tyLe || ""} style={{ background: "#f5f5f5" }} readOnly /></td>
+                        <td>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                <input type="text" className={styles.input} name="taiSan_tongSo_giaTri" defaultValue={dataJson?.taiSan_tongSo_giaTri || "0"} style={{ background: "#f5f5f5" }} readOnly />
+                                <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>VNĐ</span>
+                            </div>
+                        </td>
+                        <td>
+                            <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                <input type="text" className={styles.input} name="taiSan_tongSo_tyLe" defaultValue={dataJson?.taiSan_tongSo_tyLe || "0"} style={{ background: "#f5f5f5" }} readOnly />
+                                <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>%</span>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>

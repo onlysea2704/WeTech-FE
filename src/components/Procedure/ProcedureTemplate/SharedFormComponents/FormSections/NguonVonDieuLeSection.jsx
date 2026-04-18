@@ -23,8 +23,8 @@ export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false
         });
         const tongSoTienInput = table.querySelector('[name="nguonVon_tongCong_soTien"]');
         const tongTyLeInput = table.querySelector('[name="nguonVon_tongCong_tyLe"]');
-        if (tongSoTienInput) tongSoTienInput.value = totalSoTien ? formatNumber(totalSoTien) : "";
-        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe.toFixed(1).replace('.0', '').replace('.', ',') : "";
+        if (tongSoTienInput) tongSoTienInput.value = formatNumber(totalSoTien) || "0";
+        if (tongTyLeInput) tongTyLeInput.value = totalTyLe ? totalTyLe.toFixed(1).replace('.0', '').replace('.', ',') : "0";
     };
 
     // Calculate on initial render if data exists
@@ -61,13 +61,16 @@ export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false
                                 <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
                                     <div>
                                         <label style={{ fontSize: "12px", color: "#555", marginBottom: "4px", display: "block" }}>Giá trị VNĐ:</label>
-                                        <FormattedNumberInput
-                                            className={styles.input}
-                                            name={`${namePrefix}_soTien`}
-                                            defaultValue={dataJson?.[`${namePrefix}_soTien`] || ""}
-                                            readOnly={readOnly}
-                                            style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
-                                        />
+                                        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                            <FormattedNumberInput
+                                                className={styles.input}
+                                                name={`${namePrefix}_soTien`}
+                                                defaultValue={dataJson?.[`${namePrefix}_soTien`] || "0"}
+                                                readOnly={readOnly}
+                                                style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
+                                            />
+                                            <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>VNĐ</span>
+                                        </div>
                                     </div>
                                     {namePrefix !== "nguonVon_tongCong" && (
                                         <div>
@@ -75,21 +78,24 @@ export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false
                                             <FormattedNumberInput
                                                 className={styles.input}
                                                 name={`${namePrefix}_ngoaiTe`}
-                                                defaultValue={dataJson?.[`${namePrefix}_ngoaiTe`] || ""}
+                                                defaultValue={dataJson?.[`${namePrefix}_ngoaiTe`] || "0"}
                                             />
                                         </div>
                                     )}
                                 </div>
                             </td>
                             <td>
-                                <input
-                                    type="text"
-                                    className={styles.input}
-                                    name={`${namePrefix}_tyLe`}
-                                    defaultValue={dataJson?.[`${namePrefix}_tyLe`] || ""}
-                                    readOnly={readOnly}
-                                    style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
-                                />
+                                <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                                    <input
+                                        type="text"
+                                        className={styles.input}
+                                        name={`${namePrefix}_tyLe`}
+                                        defaultValue={dataJson?.[`${namePrefix}_tyLe`] || "0"}
+                                        readOnly={readOnly}
+                                        style={readOnly ? { background: "#f5f5f5", fontWeight: 600 } : {}}
+                                    />
+                                    <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>%</span>
+                                </div>
                             </td>
                         </tr>
                     ))}

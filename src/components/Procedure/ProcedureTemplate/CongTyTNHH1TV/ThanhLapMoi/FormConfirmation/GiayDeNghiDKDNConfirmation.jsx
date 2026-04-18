@@ -95,6 +95,8 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         taiSan_qsdDat_tyLe = "",
         taiSan_shtt_giaTri = "",
         taiSan_shtt_tyLe = "",
+        taiSan_khac_loaiTaiSan = "",
+        taiSan_khac_soLuong = "",
         taiSan_khac_giaTri = "",
         taiSan_khac_tyLe = "",
         taiSan_tongSo_giaTri = "",
@@ -168,6 +170,17 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
             return Number(numStr).toLocaleString("vi-VN");
         }
         return str;
+    };
+
+    const formatVND = (value) => {
+        const formatted = formatCurrency(value);
+        if (!formatted || formatted === "0") return formatted || "";
+        return `${formatted} VNĐ`;
+    };
+
+    const formatPercent = (value) => {
+        if (!value || value === "0" || value === 0) return value || "";
+        return `${value}%`;
     };
 
     return (
@@ -388,23 +401,28 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     </thead>
                     <tbody>
                         {(nganhNgheList || []).length > 0 ? (
-                            nganhNgheList.map((nganh, index) => (
-                                <tr key={index}>
-                                    <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                    <td style={{ whiteSpace: "pre-wrap", wordBreak: "break-word" }}>
-                                        {nganh.tenNganh}
-                                        {nganh.chiTiet && (
-                                            <div style={{ marginTop: "4px" }}>
-                                                Chi tiết:
-                                                <br />
-                                                {nganh.chiTiet}
-                                            </div>
-                                        )}
-                                    </td>
-                                    <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
-                                    <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? "x" : ""}</td>
-                                </tr>
-                            ))
+                            nganhNgheList.map((nganh, index) => {
+                                const chiTietTrim = nganh.chiTiet?.trim().toLowerCase() || "";
+                                const chiTiet = chiTietTrim.startsWith("chi tiết") ? (nganh.chiTiet.trim().charAt(0).toUpperCase() + nganh.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
+                                return (
+                                    <tr key={index}>
+                                        <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                        <td>
+                                            <div>{nganh.tenNganh}</div>
+                                            {nganh.chiTiet && <pre
+                                                style={{
+                                                    margin: 0,
+                                                    whiteSpace: "pre-wrap",
+                                                    wordBreak: "break-word",
+                                                    fontFamily: "inherit",
+                                                    fontSize: "inherit"
+                                                }}>{chiTiet}</pre>}
+                                        </td>
+                                        <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
+                                        <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? "x" : ""}</td>
+                                    </tr>
+                                )
+                            })
                         ) : (
                             <tr>
                                 <td style={{ textAlign: "center" }}>1</td>
@@ -486,7 +504,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe} VNĐ
                 </p>
                 <p>
-                    Vốn điều lệ (<em>bằng chữ; VNĐ</em>): ({vonDieuLe_bangChu})
+                    Vốn điều lệ (<em>bằng chữ; VNĐ</em>): <span style={{ fontStyle: "italic" }}>{vonDieuLe_bangChu}</span>
                 </p>
                 <p>
                     Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>):{" "}
@@ -522,28 +540,28 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
-                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_nganSach_soTien)}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nganSach_tyLe ? `${nguonVon_nganSach_tyLe}%` : ""}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nganSach_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nganSach_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
-                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_tuNhan_soTien)}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tuNhan_tyLe ? `${nguonVon_tuNhan_tyLe}%` : ""}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_tuNhan_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_tuNhan_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
-                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_nuocNgoai_soTien)}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_nuocNgoai_tyLe ? `${nguonVon_nuocNgoai_tyLe}%` : ""}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nuocNgoai_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nuocNgoai_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
-                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_khac_soTien)}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_khac_tyLe ? `${nguonVon_khac_tyLe}%` : ""}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_khac_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_khac_tyLe)}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>Tổng cộng</td>
-                            <td style={{ textAlign: "center" }}>{formatCurrency(nguonVon_tongCong_soTien)}</td>
-                            <td style={{ textAlign: "center" }}>{nguonVon_tongCong_tyLe ? `${nguonVon_tongCong_tyLe}%` : ""}</td>
+                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_tongCong_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_tongCong_tyLe)}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -576,8 +594,8 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td className={styles.textCenter}>1</td>
                             <td>Đồng Việt Nam</td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_dongVN_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_dongVN_tyLe ? `${taiSan_dongVN_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_dongVN_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_dongVN_tyLe)}</td>
                         </tr>
                         <tr>
                             <td className={styles.textCenter}>2</td>
@@ -585,26 +603,26 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                                 Ngoại tệ tự do chuyển đổi (
                                 <em>ghi rõ loại ngoại tệ, số tiền được góp bằng mỗi loại ngoại tệ</em>)
                             </td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_ngoaiTe_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_ngoaiTe_tyLe ? `${taiSan_ngoaiTe_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_ngoaiTe_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_ngoaiTe_tyLe)}</td>
                         </tr>
                         <tr>
                             <td className={styles.textCenter}>3</td>
                             <td>Vàng</td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_vang_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_vang_tyLe ? `${taiSan_vang_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_vang_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_vang_tyLe)}</td>
                         </tr>
                         <tr>
                             <td className={styles.textCenter}>4</td>
                             <td>Quyền sử dụng đất</td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_qsdDat_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_qsdDat_tyLe ? `${taiSan_qsdDat_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_qsdDat_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_qsdDat_tyLe)}</td>
                         </tr>
                         <tr>
                             <td className={styles.textCenter}>5</td>
                             <td>Quyền sở hữu trí tuệ</td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_shtt_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_shtt_tyLe ? `${taiSan_shtt_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_shtt_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_shtt_tyLe)}</td>
                         </tr>
                         <tr>
                             <td className={styles.textCenter}>6</td>
@@ -616,15 +634,23 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                                 </em>
                                 )
                             </td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_khac_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_khac_tyLe ? `${taiSan_khac_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>
+                                {taiSan_khac_loaiTaiSan && (
+                                    <div style={{ fontSize: "0.9em" }}>Loại tài sản: {taiSan_khac_loaiTaiSan}</div>
+                                )}
+                                {taiSan_khac_soLuong && (
+                                    <div style={{ fontSize: "0.9em" }}>Số lượng: {taiSan_khac_soLuong}</div>
+                                )}
+                                {formatVND(taiSan_khac_giaTri)}
+                            </td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_khac_tyLe)}</td>
                         </tr>
                         <tr>
                             <td colSpan="2" className={styles.textCenter}>
                                 Tổng số
                             </td>
-                            <td className={styles.textCenter}>{formatCurrency(taiSan_tongSo_giaTri)}</td>
-                            <td className={styles.textCenter}>{taiSan_tongSo_tyLe ? `${taiSan_tongSo_tyLe}%` : ""}</td>
+                            <td className={styles.textCenter}>{formatVND(taiSan_tongSo_giaTri)}</td>
+                            <td className={styles.textCenter}>{formatPercent(taiSan_tongSo_tyLe)}</td>
                         </tr>
                     </tbody>
                 </table>

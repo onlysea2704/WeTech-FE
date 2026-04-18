@@ -9,7 +9,7 @@ import Overlay from "@/components/Loading/Overlay/Overlay";
 import typeCompanyOptions from "@/consts/typeCompany";
 import ProcedurePayment from "@/components/ProcedurePayment/ProcedurePayment";
 import SubmitProcedure from "@/components/SubmitProcedure/SubmitProcedure";
-import { downloadPdf } from "@/utils/downloadPdf";
+import { downloadFile } from "@/utils/downloadFile";
 import iconCheck from "@/assets/Check_perspective_matte.png";
 import iconCancel from "@/assets/Error_perspective_matte.png";
 import plusIcon from "@/assets/Plus_perspective_matte.png";
@@ -41,6 +41,7 @@ const ProcessProcedure = () => {
     const [isConfirming, setIsConfirming] = useState(false);
     const [isDownloading, setIsDownloading] = useState(false);
     const [isSubmittingForm, setIsSubmittingForm] = useState(false);
+    const [fileType, setFileType] = useState("pdf");
     const [editingFromConfirmation, setEditingFromConfirmation] = useState(null);
     const [userCards, setUserCards] = useState([]);
     const declarationFormsRef = useRef(null);
@@ -226,22 +227,23 @@ const ProcessProcedure = () => {
             setIsDownloading(true);
             const currentForm = forms?.[currentFormStep];
             if (!currentForm?.code) {
-                showNotification("Không tìm thấy mã form để tải PDF", "error");
+                showNotification("Không tìm thấy mã form để tải file", "error");
                 return;
             }
 
-            const response = await authAxios.get(`/api/form-submission/get/pdf-file-url`, {
-                params: { code: currentForm.code },
+            const response = await authAxios.get(`/api/form-submission/get/file-url`, {
+                params: { code: currentForm.code, fileType },
             });
-            console.log("PDF Response (Cloud URL):", response.data);
+            console.log("File Response (Cloud URL):", response.data);
 
             if (response.data) {
                 const url = response.data;
-                const fileName = currentForm?.name ? `${currentForm.name}.pdf` : "document.pdf";
-                await downloadPdf(url, fileName);
+                const ext = fileType === "docx" ? ".docx" : ".pdf";
+                const fileName = currentForm?.name ? `${currentForm.name}${ext}` : `document${ext}`;
+                await downloadFile(url, fileName);
             }
         } catch (err) {
-            console.error("Lỗi khi tải file PDF:", err);
+            console.error("Lỗi khi tải file:", err);
         } finally {
             setIsDownloading(false);
         }
@@ -318,25 +320,36 @@ const ProcessProcedure = () => {
                             <div className="footer-right-actions">
                                 {activeTab === 1 ? (
                                     viewMode === "see_again" ? (
-                                        <button
-                                            className="btn-action import"
-                                            onClick={handleDownloadPdf}
-                                            disabled={isDownloading}
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                width="15"
-                                                height="18"
-                                                viewBox="0 0 15 18"
-                                                fill="none"
+                                        <>
+                                            <select
+                                                className="file-type-select"
+                                                value={fileType}
+                                                onChange={(e) => setFileType(e.target.value)}
+                                                disabled={isDownloading}
                                             >
-                                                <path
-                                                    d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z"
-                                                    fill="#1B154B"
-                                                />
-                                            </svg>{" "}
-                                            {isDownloading ? "Đang tải..." : "Tải file"}
-                                        </button>
+                                                <option value="pdf">PDF</option>
+                                                <option value="docx">DOCX</option>
+                                            </select>
+                                            <button
+                                                className="btn-action import"
+                                                onClick={handleDownloadPdf}
+                                                disabled={isDownloading}
+                                            >
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    width="15"
+                                                    height="18"
+                                                    viewBox="0 0 15 18"
+                                                    fill="none"
+                                                >
+                                                    <path
+                                                        d="M15 6.35156H10.7156V0H4.28437V6.35156H0L7.5 13.7625L15 6.35156ZM0 15.8812V18H15V15.8812H0Z"
+                                                        fill="#1B154B"
+                                                    />
+                                                </svg>{" "}
+                                                {isDownloading ? "Đang tải..." : "Tải file"}
+                                            </button>
+                                        </>
                                     ) : (
                                         <button
                                             className="btn-action"
@@ -418,8 +431,8 @@ const ProcessProcedure = () => {
                                 >
                                     <img src={iconCheck} alt="" />
                                     {viewMode === "see_again" &&
-                                    activeTab === 1 &&
-                                    currentFormStep === formDeclarationSteps.length - 1
+                                        activeTab === 1 &&
+                                        currentFormStep === formDeclarationSteps.length - 1
                                         ? "Tạo mới"
                                         : "Tiếp theo"}
 

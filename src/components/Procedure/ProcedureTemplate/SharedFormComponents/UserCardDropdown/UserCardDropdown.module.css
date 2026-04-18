@@ -201,39 +201,6 @@
     padding-right: 8px;
 }
 
-.formGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 16px;
-}
-
-.formGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.formGroup label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #333;
-}
-
-.formGroup input,
-.formGroup select {
-    padding: 8px 12px;
-    border: 1px solid var(--border-color, #c8c7d4);
-    border-radius: 4px;
-    font-size: 0.95rem;
-    outline: none;
-    font-family: inherit;
-}
-
-.formGroup input:focus,
-.formGroup select:focus {
-    border-color: var(--info-color, #2b4e9a);
-}
-
 .sectionTitle {
     font-size: 1rem;
     font-weight: 600;

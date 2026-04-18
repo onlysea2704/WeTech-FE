@@ -1,4 +1,4 @@
-export const downloadPdf = async (urlSource, fallbackName = "document.pdf") => {
+export const downloadFile = async (urlSource, fallbackName = "document.pdf") => {
     let url = urlSource;
     if (urlSource && typeof urlSource === "object") {
         url = urlSource.url || urlSource.fileUrl || urlSource.link;
@@ -9,7 +9,14 @@ export const downloadPdf = async (urlSource, fallbackName = "document.pdf") => {
         return;
     }
 
-    if (url.toLowerCase().endsWith(".pdf") || url.includes(".pdf?")) {
+    if (
+        url.toLowerCase().endsWith(".pdf") || url.includes(".pdf?") ||
+        url.toLowerCase().endsWith(".docx") || url.includes(".docx?") ||
+        url.toLowerCase().endsWith(".doc") || url.includes(".doc?") ||
+        fallbackName.toLowerCase().endsWith(".pdf") ||
+        fallbackName.toLowerCase().endsWith(".docx") ||
+        fallbackName.toLowerCase().endsWith(".doc")
+    ) {
         try {
             const res = await fetch(url);
             const blob = await res.blob();
@@ -22,10 +29,10 @@ export const downloadPdf = async (urlSource, fallbackName = "document.pdf") => {
             document.body.removeChild(a);
             window.URL.revokeObjectURL(blobUrl);
         } catch (error) {
-            console.error("Lỗi khi tải bản PDF:", error);
-            window.open(url, "_blank");
+            console.error("Lỗi khi tải file:", error);
+            window.open(url, "_self");
         }
     } else {
-        window.open(url, "_blank");
+        window.open(url, "_self");
     }
 };
