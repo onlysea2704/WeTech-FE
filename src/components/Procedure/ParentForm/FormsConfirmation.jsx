@@ -4,6 +4,7 @@ import htmlDocx from "html-docx-js/dist/html-docx";
 import { authAxios } from "@/services/axios-instance";
 import styles from "./DeclarationForms.module.css";
 import { showAuthErrorNotification } from "@/utils/notificationHelper";
+import { useNotification } from "@/hooks/useNotification";
 
 const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess }, ref) => {
     const [dataJson, setDataJson] = useState(null);
@@ -11,6 +12,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
 
     const currentForm = forms?.[currentFormStep];
     const CurrentFormComponent = currentForm?.confirmation;
+    const { showNotification } = useNotification();
 
     useEffect(() => {
         async function fetchFormSubmission() {
@@ -67,7 +69,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                     onStepSubmitSuccess();
                 }
             } catch (err) {
-                showAuthErrorNotification(err?.response?.data?.message);
+                showNotification(err?.response?.data?.message, "error");
             }
         },
     }));
