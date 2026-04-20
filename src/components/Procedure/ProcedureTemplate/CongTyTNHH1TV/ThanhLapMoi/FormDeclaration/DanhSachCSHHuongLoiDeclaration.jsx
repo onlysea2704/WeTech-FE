@@ -2,8 +2,6 @@ import React, { forwardRef, useState, useEffect, useImperativeHandle } from "rea
 import styles from "./DanhSachCSHHuongLoiDeclaration.module.css";
 import {
     GioiTinhSelect,
-    DanTocSelect,
-    QuocTichSelect,
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import deleteIcon from "@/assets/delete-icon.png";
@@ -64,8 +62,6 @@ const EMPTY_ROW = {
     ngaySinh: "",
     gioiTinh: "",
     giaTo: "",
-    quocTich: "Việt Nam",
-    danToc: "",
     diaChiLienLac: "",
     tyLeSoHuuVon: "",
     tyLeSoHuuBieuQuyet: "",
@@ -168,8 +164,6 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 200 }}>
                                     Số, ngày cấp, cơ quan cấp Giấy tờ pháp lý của cá nhân
                                 </th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
-                                <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
                                 <th colSpan={3} className={styles.th}>Chủ sở hữu hưởng lợi của doanh nghiệp</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 150 }}>Ghi chú</th>
@@ -181,7 +175,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                 <th className={styles.th} style={{ minWidth: 100 }}>Quyền chi phối</th>
                             </tr>
                             <tr className={styles.colNumberRow}>
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, ""].map((n, i) => (
+                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, ""].map((n, i) => (
                                     <td key={i} className={styles.colNumber}>{n}</td>
                                 ))}
                             </tr>
@@ -189,7 +183,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                         <tbody>
                             {rows.length === 0 && (
                                 <tr>
-                                    <td colSpan={13} className={styles.emptyRow}>
+                                    <td colSpan={11} className={styles.emptyRow}>
                                         Chưa có chủ sở hữu hưởng lợi. Nhấn "Thêm dòng" để bắt đầu.
                                     </td>
                                 </tr>
@@ -224,33 +218,6 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                             value={row.giaTo}
                                             onChange={(e) => handleRowChange(idx, e)}
                                         />
-                                    </td>
-                                    <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
-                                        <QuocTichSelect name="quocTich" defaultValue={row.quocTich} />
-                                    </td>
-                                    <td className={styles.tdWrapper} onChange={(e) => handleRowChange(idx, e)}>
-                                        <div className={styles.formGroup}>
-                                            <label className={styles.label}>
-                                                Dân tộc {row.quocTich !== "Việt Nam" && <span className={styles.required}>*</span>}
-                                            </label>
-                                            <select
-                                                key={row.danToc || "empty_dantoc"}
-                                                className={styles.select}
-                                                name="danToc"
-                                                defaultValue={row.danToc || ""}
-                                                required={row.quocTich !== "Việt Nam"}
-                                            >
-                                                <option value="" disabled></option>
-                                                <option value="Kinh">Kinh</option>
-                                                <option value="Tày">Tày</option>
-                                                <option value="Thái">Thái</option>
-                                                <option value="Mường">Mường</option>
-                                                <option value="Khmer">Khmer</option>
-                                                <option value="Hoa">Hoa</option>
-                                                <option value="Nùng">Nùng</option>
-                                                <option value="H'Mông">H'Mông</option>
-                                            </select>
-                                        </div>
                                     </td>
                                     <td className={styles.td}>
                                         <input
