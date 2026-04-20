@@ -3,6 +3,7 @@ import { generateHtmlFile, generateHtmlString } from "@/utils/generateHtmlFile";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import { authAxios } from "@/services/axios-instance";
 import styles from "./DeclarationForms.module.css";
+import { showAuthErrorNotification } from "@/utils/notificationHelper";
 
 const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess }, ref) => {
     const [dataJson, setDataJson] = useState(null);
@@ -66,7 +67,7 @@ const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmit
                     onStepSubmitSuccess();
                 }
             } catch (err) {
-                console.error("Error saving HTML and confirming form:", err);
+                showAuthErrorNotification(err?.response?.data?.message);
             }
         },
     }));
