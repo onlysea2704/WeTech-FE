@@ -7,7 +7,7 @@ import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComp
 export default function DieuLeCongTyConfirmation({ dataJson }) {
     const danhSachCoDongData = useGetFormDataJsonFromName("Danh sách cổ đông sáng lập");
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
-    
+
     const coDongList = danhSachCoDongData?.coDongList || [];
 
     if (!dataJson) return <div style={{ padding: "20px", textAlign: "center" }}>Đang tải dữ liệu...</div>;
@@ -24,7 +24,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
     } else if (dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten) {
         loaiCoPhanKhacList = [dataJson?.loaiCoPhanKhacTen || danhSachCoDongData?.loaiCoPhanKhac_ten || giayDeNghiData?.loaiCoPhanKhac_ten];
     }
-    
+
     const addressToString = (soNha, xa, tinh) => {
         return [soNha, xa, tinh].filter(Boolean).join(", ");
     };
@@ -206,39 +206,35 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 </thead>
                 <tbody>
                     {dataJson.nganhNgheList && dataJson.nganhNgheList.length > 0 ? (
-                        dataJson.nganhNgheList.map((row, idx) => {
-                            const chiTietTrim = row.chiTiet?.trim().toLowerCase() || "";
-                            const chiTiet = chiTietTrim.startsWith("chi tiết") ? (row.chiTiet.trim().charAt(0).toUpperCase() + row.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
-                            return (
-                                <tr key={idx}>
-                                    <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
-                                        {idx + 1}
-                                    </td>
-                                    <td
+                        dataJson.nganhNgheList.map((row, idx) => (
+                            <tr key={idx}>
+                                <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
+                                    {idx + 1}
+                                </td>
+                                <td
+                                    style={{
+                                        border: "1px solid #000",
+                                        padding: "8px"
+                                    }}
+                                >
+                                    <div>{row.tenNganh}</div>
+                                    {row.chiTiet && <pre
                                         style={{
-                                            border: "1px solid #000",
-                                            padding: "8px"
-                                        }}
-                                    >
-                                        <div>{row.tenNganh}</div>
-                                        {row.chiTiet && <pre
-                                            style={{
-                                                margin: 0,
-                                                whiteSpace: "pre-wrap",
-                                                wordBreak: "break-word",
-                                                fontFamily: "inherit",
-                                                fontSize: "inherit"
-                                            }}>{chiTiet}</pre>}
-                                    </td>
-                                    <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
-                                        {row.maNganh}
-                                    </td>
-                                    <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
-                                        {row.laNganhChinh ? "X" : ""}
-                                    </td>
-                                </tr>
-                            )
-                        })
+                                            margin: 0,
+                                            whiteSpace: "pre-wrap",
+                                            wordBreak: "break-word",
+                                            fontFamily: "inherit",
+                                            fontSize: "inherit"
+                                        }}>{row.chiTiet}</pre>}
+                                </td>
+                                <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
+                                    {row.maNganh}
+                                </td>
+                                <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
+                                    {row.laNganhChinh ? "X" : ""}
+                                </td>
+                            </tr>
+                        ))
                     ) : (
                         <tr>
                             <td colSpan={4} style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>

@@ -157,6 +157,11 @@
 
 /* Actions */
 .actionCell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.actionFlex {
     display: flex;
     gap: 8px;
     align-items: center;

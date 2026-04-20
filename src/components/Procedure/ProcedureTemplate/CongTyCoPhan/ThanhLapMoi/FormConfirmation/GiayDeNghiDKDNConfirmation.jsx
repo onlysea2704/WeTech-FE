@@ -394,28 +394,24 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     </thead>
                     <tbody>
                         {(nganhNgheList || []).length > 0 ? (
-                            nganhNgheList.map((nganh, index) => {
-                                const chiTietTrim = nganh.chiTiet?.trim().toLowerCase() || "";
-                                const chiTiet = chiTietTrim.startsWith("chi tiết") ? (nganh.chiTiet.trim().charAt(0).toUpperCase() + nganh.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
-                                return (
-                                    <tr key={index}>
-                                        <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                        <td>
-                                            <div>{nganh.tenNganh}</div>
-                                            {nganh.chiTiet && <pre
-                                                style={{
-                                                    margin: 0,
-                                                    whiteSpace: "pre-wrap",
-                                                    wordBreak: "break-word",
-                                                    fontFamily: "inherit",
-                                                    fontSize: "inherit"
-                                                }}>{chiTiet}</pre>}
-                                        </td>
-                                        <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
-                                        <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? 'x' : ''}</td>
-                                    </tr>
-                                )
-                            })
+                            nganhNgheList.map((nganh, index) => (
+                                <tr key={index}>
+                                    <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                    <td>
+                                        <div>{nganh.tenNganh}</div>
+                                        {nganh.chiTiet && <pre
+                                            style={{
+                                                margin: 0,
+                                                whiteSpace: "pre-wrap",
+                                                wordBreak: "break-word",
+                                                fontFamily: "inherit",
+                                                fontSize: "inherit"
+                                            }}>{nganh.chiTiet}</pre>}
+                                    </td>
+                                    <td style={{ textAlign: "center" }}>{nganh.maNganh}</td>
+                                    <td style={{ textAlign: "center" }}>{nganh.laNganhChinh ? 'x' : ''}</td>
+                                </tr>
+                            ))
                         ) : (
                             <tr>
                                 <td colSpan="4" style={{ textAlign: "center" }}><i>Không có</i></td>

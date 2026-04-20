@@ -7,8 +7,10 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import { useAuth } from "@/context/AuthContext";
 
 const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit, formRef }, componentRef) {
+    const { user } = useAuth();
     const [provCode_uyQuyen, setProvCode_uyQuyen] = useState("");
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký hộ kinh doanh");
     const hkd_tenVN = giayDeNghiData?.hkd_tenVN?.toUpperCase();
@@ -217,7 +219,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                                     type="text"
                                     className={styles.input}
                                     name="nhanUyQuyen_hoTen"
-                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_hoTen ?? (dataJson?.nhanUyQuyen_hoTen || "")}
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_hoTen || user?.fullname || (dataJson?.nhanUyQuyen_hoTen || "")}
                                     required
                                 />
                             </div>
@@ -256,7 +258,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                                     type="tel"
                                     className={styles.input}
                                     name="nhanUyQuyen_phone"
-                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_phone ?? (dataJson?.nhanUyQuyen_phone || "")}
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_phone || user?.phone || (dataJson?.nhanUyQuyen_phone || "")}
                                     required
                                     pattern="(0|\+84)[0-9]{9,10}"
                                 />
@@ -267,7 +269,7 @@ const GiayUyQuyen = forwardRef(function GiayUyQuyen({ formId, dataJson, onSubmit
                                     type="email"
                                     className={styles.input}
                                     name="nhanUyQuyen_email"
-                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_email ?? (dataJson?.nhanUyQuyen_email || "")}
+                                    defaultValue={localNhanUyQuyen.nhanUyQuyen_email || user?.email || (dataJson?.nhanUyQuyen_email || "")}
                                 />
                             </div>
                             <DanTocSelect name="nhanUyQuyen_danToc" defaultValue={localNhanUyQuyen.nhanUyQuyen_danToc ?? (dataJson?.nhanUyQuyen_danToc)} required={false} />
