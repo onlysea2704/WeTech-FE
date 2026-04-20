@@ -272,6 +272,7 @@ export default function SearchProcedure() {
                                 <th>Xem</th>
                                 <th>Mã hồ sơ</th>
                                 <th>Tên Thủ tục pháp lý</th>
+                                <th>Loại hình doanh nghiệp</th>
                                 <th>Lần đăng ký</th>
                                 <th>Cơ quan thuế tiếp nhận</th>
                                 <th>{activeTab === 0 ? "Ngày nộp" : "Ngày thực hiện"}</th>
@@ -312,6 +313,7 @@ export default function SearchProcedure() {
                                         </td>
                                         <td>{item.code || "-"}</td>
                                         <td>{item.serviceTypeTitle}</td>
+                                        <td>{item.typeCompanyTitle}</td>
                                         <td>{item.submissionCount}</td>
                                         <td>{item.taxAuthority || "-"}</td>
                                         <td>
