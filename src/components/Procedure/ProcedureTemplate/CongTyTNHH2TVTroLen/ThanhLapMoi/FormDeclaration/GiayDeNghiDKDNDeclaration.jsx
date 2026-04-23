@@ -85,7 +85,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             <TinhTrangThanhLapSection dataJson={dataJson} styles={styles} />
 
             {/* TÊN CÔNG TY */}
-            <TenCongTySection dataJson={dataJson} styles={styles} />
+            <TenCongTySection dataJson={dataJson} styles={styles} prefix="CÔNG TY TNHH" />
 
             {/* ĐỊA CHỈ TRỤ SỞ */}
             <DiaChiTruSoSection dataJson={dataJson} styles={styles} />

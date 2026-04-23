@@ -137,7 +137,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={formKey}>
             {/* 1. TÊN CÔNG TY – lấy từ Form 1 */}
-            <TenCongTySection dataJson={mergedData} styles={styles} />
+            <TenCongTySection dataJson={mergedData} styles={styles} prefix="CÔNG TY TNHH" />
 
             {/* 2. ĐỊA CHỈ TRỤ SỞ – lấy từ Form 1 */}
             <DiaChiTruSoSection dataJson={mergedData} styles={styles} />

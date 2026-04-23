@@ -71,7 +71,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 <strong>1. Tên công ty:</strong>
             </p>
             <p>
-                Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>):{" "}
+                Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): CÔNG TY TNHH{" "}
                 {dataJson.tenCongTyVN?.toUpperCase() || "................................................"}
             </p>
             <p>
@@ -798,8 +798,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                     </p>
                 </div>
                 <div className={styles.signatureBox}>
-                    <p className={styles.bold}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT</p>
-                    <p className={styles.bold}>GIÁM ĐỐC</p>
+                    <p className={styles.bold}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY</p>
                     <p className={styles.signatureName}>
                         <em>(Ký, ghi rõ họ tên)</em>
                     </p>

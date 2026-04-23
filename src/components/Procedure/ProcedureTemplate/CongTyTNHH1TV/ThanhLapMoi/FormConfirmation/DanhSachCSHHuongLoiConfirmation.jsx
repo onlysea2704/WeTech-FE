@@ -35,7 +35,7 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                         </tr>
                         <tr>
                             <th className={styles.th}>Tỷ lệ sở hữu cổ phần vốn điều lệ</th>
-                            <th className={styles.th}>Tỷ lệ sở hữu cổ phần co quyền biểu quyết</th>
+                            <th className={styles.th}>Tỷ lệ sở hữu cổ phần có quyền biểu quyết</th>
                             <th className={styles.th}>Quyền chi phối</th>
                         </tr>
                         <tr className={styles.colNumberRow}>
@@ -75,8 +75,8 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
 
             <div className={styles.signatureBlock}>
                 <p className={styles.signatureDate}><CurrentDate /></p>
-                <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT /<br />QUẢN TRỊ CỦA CÔNG TY</p>
-                <p className={styles.signatureSubtitle}>(<em>Ký và ghi họ tên</em>)</p>
+                <p className={styles.signatureTitle}>NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT CỦA CÔNG TY</p>
+                <p className={styles.signatureSubtitle}>(<em>Ký và ghi rõ họ tên</em>)</p>
             </div>
         </div>
     );

@@ -190,7 +190,7 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration(
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
-            <TenCongTySection dataJson={mergedData} styles={styles} />
+            <TenCongTySection dataJson={mergedData} styles={styles} prefix="CÔNG TY CỔ PHẦN" />
             <DiaChiTruSoSection dataJson={mergedData} styles={styles} />
 
             <div className={styles.sectionGroup}>

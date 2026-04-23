@@ -152,7 +152,10 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
                     <label className={styles.label}>
                         Tên công ty viết bằng tiếng Việt (ghi bằng chữ in hoa) <span className={styles.required}>*</span>
                     </label>
-                    <input type="text" name="tenCongTyVN" className={styles.input} defaultValue={defaultTenCongTyVN} style={{ textTransform: "uppercase" }} required />
+                    <div className={styles.inputPrefixWrapper}>
+                        <p>CÔNG TY TNHH</p>
+                        <input type="text" name="tenCongTyVN" className={styles.inputNoBorder} defaultValue={defaultTenCongTyVN} style={{ textTransform: "uppercase" }} required />
+                    </div>
                 </div>
                 <div className={styles.grid2}>
                     <div className={styles.formGroup}>

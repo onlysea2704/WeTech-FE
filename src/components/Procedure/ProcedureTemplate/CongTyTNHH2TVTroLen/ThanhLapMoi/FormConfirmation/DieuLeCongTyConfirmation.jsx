@@ -213,7 +213,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 Điều 2. Tên Doanh nghiệp
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
-                Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>):{" "}
+                Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): CÔNG TY TNHH{" "}
                 {dataJson.tenCongTyVN?.toUpperCase() || "................................................"}
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>

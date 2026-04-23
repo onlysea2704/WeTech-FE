@@ -83,7 +83,7 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
 
             <TinhTrangThanhLapSection dataJson={dataJson} styles={styles} isNote={true} />
             <ThongTinChuyenDoiSection dataJson={dataJson} styles={styles} />
-            <TenCongTySection dataJson={dataJson} styles={styles} />
+            <TenCongTySection dataJson={dataJson} styles={styles} prefix="CÔNG TY CỔ PHẦN" />
             <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
 
             <div className={styles.sectionGroup}>

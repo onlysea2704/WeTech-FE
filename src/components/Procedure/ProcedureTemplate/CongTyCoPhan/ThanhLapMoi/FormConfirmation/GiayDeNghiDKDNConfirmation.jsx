@@ -333,7 +333,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 )}
 
                 <p style={{ marginTop: "16px" }}><strong>2. Tên công ty:</strong></p>
-                <p>Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): <span style={{ textTransform: "uppercase" }}>{tenCongTyVN}</span></p>
+                <p>Tên công ty viết bằng tiếng Việt (<em>ghi bằng chữ in hoa</em>): CÔNG TY CỔ PHẦN <span style={{ textTransform: "uppercase" }}>{tenCongTyVN}</span></p>
                 <p>Tên công ty viết bằng tiếng nước ngoài (<em>nếu có</em>): {tenCongTyEN}</p>
                 <p>Tên công ty viết tắt (<em>nếu có</em>): {tenCongTyVietTat}</p>
 
