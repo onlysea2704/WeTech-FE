@@ -2,8 +2,23 @@ import React from "react";
 import { formatDate, getToday } from "@/utils/dateTimeUtils";
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/confirmation.module.css";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
+import { useGetFormDataJsonFromName, useProcessProcedure } from "@/pages/User/ProcessProcedure/ProcessProcedure";
 
 export default function GiayUyQuyenConfirmation({ dataJson }) {
+    const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    const { procedure } = useProcessProcedure();
+
+    let typeCompanyPrefix = "CÔNG TY CỔ PHẦN";
+    if (procedure?.typeCompany === "cong_ty_tnhh_mot_thanh_vien") {
+        typeCompanyPrefix = "CÔNG TY TNHH MỘT THÀNH VIÊN";
+    } else if (procedure?.typeCompany === "cong_ty_tnhh_hai_thanh_vien_tro_len") {
+        typeCompanyPrefix = "CÔNG TY TNHH HAI THÀNH VIÊN TRỞ LÊN";
+    }
+
+    const companyName = giayDeNghiData?.tenCongTyVN 
+        ? `${typeCompanyPrefix} ${giayDeNghiData.tenCongTyVN.toUpperCase()}`
+        : "doanh nghiệp";
+
     if (!dataJson) return null;
 
     const {
@@ -159,7 +174,7 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
             </div>
             <div className={styles.infoLine} style={{ lineHeight: "1.8", textAlign: "left" }}>
-                <span>Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới doanh nghiệp tại Phòng {phongThucHien}</span>
+                <span>Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới {companyName} tại Phòng {phongThucHien}</span>
             </div>
 
             <div
