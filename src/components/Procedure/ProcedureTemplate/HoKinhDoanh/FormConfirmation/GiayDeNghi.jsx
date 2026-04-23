@@ -252,28 +252,24 @@ export default function GiayDeNghi({ dataJson }) {
                     </thead>
                     <tbody>
                         {nganhNgheList.length > 0 &&
-                            nganhNgheList.map((row, idx) => {
-                                const chiTietTrim = row.chiTiet?.trim().toLowerCase() || "";
-                                const chiTiet = chiTietTrim.startsWith("chi tiết") ? (row.chiTiet.trim().charAt(0).toUpperCase() + row.chiTiet.trim().slice(1)) : ("Chi tiết:\n" + chiTietTrim);
-                                return (
-                                    <tr key={idx}>
-                                        <td>{idx + 1}</td>
-                                        <td>
-                                            <div>{row.tenNganh}</div>
-                                            {row.chiTiet && <pre
-                                                style={{
-                                                    margin: 0,
-                                                    whiteSpace: "pre-wrap",
-                                                    wordBreak: "break-word",
-                                                    fontFamily: "Roboto",
-                                                    fontSize: "16px"
-                                                }}>{chiTiet}</pre>}
-                                        </td>
-                                        <td style={{ textAlign: "center" }}>{row.maNganh}</td>
-                                        <td style={{ textAlign: "center" }}>{row.laNganhChinh ? "X" : ""}</td>
-                                    </tr>
-                                )
-                            })}
+                            nganhNgheList.map((row, idx) => (
+                                <tr key={idx}>
+                                    <td>{idx + 1}</td>
+                                    <td>
+                                        <div>{row.tenNganh}</div>
+                                        {row.chiTiet && <pre
+                                            style={{
+                                                margin: 0,
+                                                whiteSpace: "pre-wrap",
+                                                wordBreak: "break-word",
+                                                fontFamily: "Roboto",
+                                                fontSize: "16px"
+                                            }}>{row.chiTiet}</pre>}
+                                    </td>
+                                    <td style={{ textAlign: "center" }}>{row.maNganh}</td>
+                                    <td style={{ textAlign: "center" }}>{row.laNganhChinh ? "X" : ""}</td>
+                                </tr>
+                            ))}
                     </tbody>
                 </table>
             </div>
@@ -285,7 +281,7 @@ export default function GiayDeNghi({ dataJson }) {
                 <span>Tổng số (bằng số): </span>
                 <span className={styles.infoValue}>{formatNumber(vonKinhDoanh)} VNĐ </span>
                 <span className={styles.infoValue} style={{ fontStyle: "italic" }}>
-                    ({vonKinhDoanh_bangChu} VNĐ)
+                    ({vonKinhDoanh_bangChu})
                 </span>
             </div>
 

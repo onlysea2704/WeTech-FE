@@ -17,7 +17,6 @@ export function generateHtmlString(element, options = {}) {
 
   // ── 1. Lấy HTML nội dung đã render ────────────────────────────────────
   const bodyHtml = element.outerHTML;
-  console.log("bodyHtml:", bodyHtml)
   // ── 2. Thu thập toàn bộ CSS hiện có trên trang ────────────────────────
   //       Bao gồm CSS Modules (đã được hash class name và inject vào DOM).
   let cssText = "";
@@ -46,15 +45,30 @@ export function generateHtmlString(element, options = {}) {
   <meta name="pdf-orientation" content="${landscape ? "landscape" : "portrait"}" />
   <title>${title}</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
     *, *::before, *::after { box-sizing: border-box; }
     html, body {
-      margin: 20px;
+      margin: 0;
       padding: 0;
       background: #fff;
       color: #000;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Roboto', sans-serif !important;
       font-size: 14pt;
       line-height: 1.5;
+    }
+    
+    table {
+      width: 100% !important;
+      max-width: 100% !important;
+      zoom: 0.85 !important;
+    }
+    
+    table td, table th {
+      word-wrap: break-word !important;
+      overflow-wrap: break-word !important;
+      word-break: normal !important;
+      white-space: normal !important;
+      font-size: 11pt !important;
     }
 
     ${cssText}
@@ -77,7 +91,6 @@ export function generateHtmlString(element, options = {}) {
  */
 export function generateHtmlFile(element, filename, options = {}) {
   const htmlString = generateHtmlString(element, { title: filename, ...options });
-  console.log("htmlString:", htmlString)
   const blob = new Blob([htmlString], { type: "text/html; charset=utf-8" });
   return new File([blob], filename, { type: "text/html" });
 }

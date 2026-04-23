@@ -35,7 +35,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
     componentRef,
 ) {
     const [rows, setRows] = useState([]);
-    const [loaiCoPhanKhacTen, setLoaiCoPhanKhacTen] = useState("");
+    const [loaiCoPhanKhacList, setLoaiCoPhanKhacList] = useState([""]);
 
     useEffect(() => {
         if (dataJson?.coDongList?.length) {
@@ -43,9 +43,14 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
         } else {
             setRows([]);
         }
-        if (dataJson?.loaiCoPhanKhac_ten) {
-            setLoaiCoPhanKhacTen(dataJson.loaiCoPhanKhac_ten);
+
+        let initialLoaiCoPhanKhacList = [""];
+        if (dataJson?.loaiCoPhanKhacList && Array.isArray(dataJson.loaiCoPhanKhacList)) {
+            initialLoaiCoPhanKhacList = dataJson.loaiCoPhanKhacList;
+        } else if (dataJson?.loaiCoPhanKhac_ten) {
+            initialLoaiCoPhanKhacList = [dataJson.loaiCoPhanKhac_ten];
         }
+        setLoaiCoPhanKhacList(initialLoaiCoPhanKhacList);
     }, [dataJson]);
 
     useImperativeHandle(componentRef, () => ({
@@ -54,7 +59,8 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
             const formData = new FormData(formRef.current);
             return {
                 coDongList: rows,
-                loaiCoPhanKhac_ten: loaiCoPhanKhacTen,
+                loaiCoPhanKhacList: loaiCoPhanKhacList,
+                loaiCoPhanKhac_ten: loaiCoPhanKhacList[0] || "",
                 chuKy_ten: formData.get("chuKy_ten") || "",
                 chuKy_hoTen: formData.get("chuKy_hoTen") || ""
             };
@@ -72,14 +78,21 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
             const formData = new FormData(formRef.current);
             return {
                 coDongList: rows,
-                loaiCoPhanKhac_ten: loaiCoPhanKhacTen,
+                loaiCoPhanKhacList: loaiCoPhanKhacList,
+                loaiCoPhanKhac_ten: loaiCoPhanKhacList[0] || "",
                 chuKy_ten: formData.get("chuKy_ten") || "",
                 chuKy_hoTen: formData.get("chuKy_hoTen") || ""
             };
         },
         importData: (imported) => {
             if (imported?.coDongList?.length) setRows(imported.coDongList);
-            if (imported?.loaiCoPhanKhac_ten) setLoaiCoPhanKhacTen(imported.loaiCoPhanKhac_ten);
+            if (imported?.loaiCoPhanKhacList && Array.isArray(imported.loaiCoPhanKhacList)) {
+                setLoaiCoPhanKhacList(imported.loaiCoPhanKhacList);
+            } else if (imported?.loaiCoPhanKhac_ten) {
+                setLoaiCoPhanKhacList([imported.loaiCoPhanKhac_ten]);
+            } else {
+                setLoaiCoPhanKhacList([""]);
+            }
         },
     }));
 
@@ -88,7 +101,8 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
         const formData = new FormData(e.target);
         if (onSubmit) onSubmit({
             coDongList: rows,
-            loaiCoPhanKhac_ten: loaiCoPhanKhacTen,
+            loaiCoPhanKhacList: loaiCoPhanKhacList,
+            loaiCoPhanKhac_ten: loaiCoPhanKhacList[0] || "",
             chuKy_ten: formData.get("chuKy_ten") || "",
             chuKy_hoTen: formData.get("chuKy_hoTen") || ""
         });
@@ -107,6 +121,20 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
         const newRows = [...rows];
         newRows[idx] = { ...newRows[idx], [name]: value };
         setRows(newRows);
+    };
+
+    const handleAddKhac = () => {
+        setLoaiCoPhanKhacList([...loaiCoPhanKhacList, ""]);
+    };
+
+    const handleRemoveKhac = (idx) => {
+        setLoaiCoPhanKhacList(loaiCoPhanKhacList.filter((_, i) => i !== idx));
+    };
+
+    const handleKhacNameChange = (idx, val) => {
+        const newList = [...loaiCoPhanKhacList];
+        newList[idx] = val;
+        setLoaiCoPhanKhacList(newList);
     };
 
     return (
@@ -140,7 +168,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Quốc tịch</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 100 }}>Dân tộc</th>
                                 <th rowSpan={4} className={styles.th} style={{ minWidth: 150 }}>Địa chỉ liên lạc</th>
-                                <th colSpan={8} className={styles.th}>
+                                <th colSpan={8 + (loaiCoPhanKhacList.length - 1) * 2} className={styles.th}>
                                     Vốn góp
                                     <InfoTooltip color="#fff" content="Ghi giá trị vốn cổ phần của từng cổ đông sáng lập. Tài sản hình thành giá trị vốn cổ phần cần được liệt kê cụ thể" />
                                 </th>
@@ -154,7 +182,7 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                             <tr>
                                 <th colSpan={2} className={styles.th}>Tổng số cổ phần</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 60 }}>Tỷ lệ (%)</th>
-                                <th colSpan={4} className={styles.th}>Loại cổ phần</th>
+                                <th colSpan={2 + loaiCoPhanKhacList.length * 2} className={styles.th}>Loại cổ phần</th>
                                 <th rowSpan={3} className={styles.th} style={{ minWidth: 160 }}>
                                     Loại tài sản, số lượng, giá trị tài sản góp vốn
                                     <InfoTooltip color="#fff" content="Loại tài sản góp vốn bao gồm: Đồng Việt Nam; Ngoại tệ tự do chuyển đổi; Vàng; Quyền sử dụng đất; Quyền sở hữu trí tuệ; Công nghệ; Bí quyết kỹ thuật; Tài sản khác" />
@@ -164,38 +192,55 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
                                 <th rowSpan={2} className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
                                 <th colSpan={2} className={styles.th}>Phổ thông</th>
-                                <th colSpan={2} className={styles.th} style={{ padding: "4px" }}>
-                                    <input
-                                        type="text"
-                                        className={styles.input}
-                                        placeholder="Nhập loại cổ phần khác..."
-                                        value={loaiCoPhanKhacTen}
-                                        onChange={(e) => setLoaiCoPhanKhacTen(e.target.value)}
-                                        style={{
-                                            color: "#fff",
-                                            textAlign: "center", backgroundColor: "transparent",
-                                            border: "none",
-                                            outline: "none"
-                                        }}
-                                    />
-                                </th>
+                                {loaiCoPhanKhacList.map((ten, i) => (
+                                    <th colSpan={2} key={i} className={styles.th} style={{ padding: "4px", position: "relative" }}>
+                                        <input
+                                            type="text"
+                                            className={styles.input}
+                                            placeholder="Nhập loại cổ phần khác..."
+                                            value={ten}
+                                            onChange={(e) => handleKhacNameChange(i, e.target.value)}
+                                            style={{
+                                                color: "#fff",
+                                                textAlign: "center", backgroundColor: "transparent",
+                                                border: "none",
+                                                outline: "none",
+                                                width: "calc(100% - 40px)",
+                                                margin: "0 auto",
+                                                display: "block",
+                                                fontWeight: "bold"
+                                            }}
+                                        />
+                                        {i === loaiCoPhanKhacList.length - 1 && (
+                                            <button type="button" onClick={handleAddKhac} style={{ position: "absolute", right: 2, top: "50%", transform: "translateY(-50%)", background: "#28a745", color: "white", border: "none", borderRadius: "50%", width: "20px", height: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", lineHeight: 1 }}>+</button>
+                                        )}
+                                        {i > 0 && (
+                                            <button type="button" onClick={() => handleRemoveKhac(i)} style={{ position: "absolute", left: 2, top: "50%", transform: "translateY(-50%)", background: "#dc3545", color: "white", border: "none", borderRadius: "50%", width: "20px", height: "20px", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "14px", lineHeight: 1 }}>-</button>
+                                        )}
+                                    </th>
+                                ))}
                             </tr>
                             <tr>
                                 <th className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
                                 <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
-                                <th className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
-                                <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                                {loaiCoPhanKhacList.map((_, i) => (
+                                    <React.Fragment key={i}>
+                                        <th className={styles.th} style={{ minWidth: 100 }}>Số lượng</th>
+                                        <th className={styles.th} style={{ minWidth: 100 }}>Giá trị</th>
+                                    </React.Fragment>
+                                ))}
                             </tr>
                             <tr className={styles.colNumberRow}>
-                                {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, ""].map((n, i) => (
-                                    <td key={i} className={styles.colNumber}>{n}</td>
+                                {Array.from({ length: 16 + loaiCoPhanKhacList.length * 2 }).map((_, i) => (
+                                    <td key={i} className={styles.colNumber}>{i + 1}</td>
                                 ))}
+                                <td className={styles.colNumber}></td>
                             </tr>
                         </thead>
                         <tbody>
                             {rows.length === 0 && (
                                 <tr>
-                                    <td colSpan={20} className={styles.emptyRow}>
+                                    <td colSpan={17 + loaiCoPhanKhacList.length * 2} className={styles.emptyRow}>
                                         Chưa có cổ đông sáng lập. Nhấn "Thêm dòng" để bắt đầu.
                                     </td>
                                 </tr>
@@ -263,12 +308,20 @@ const DanhSachCoDongSangLapDeclaration = forwardRef(function DanhSachCoDongSangL
                                     <td className={styles.td}>
                                         <input className={styles.input} name="loaiCoPhan_phoThong_giaTri" value={row.loaiCoPhan_phoThong_giaTri} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>
-                                    <td className={styles.td}>
-                                        <input className={styles.input} name="loaiCoPhan_khac_soLuong" value={row.loaiCoPhan_khac_soLuong} onChange={(e) => handleRowChange(idx, e)} />
-                                    </td>
-                                    <td className={styles.td}>
-                                        <input className={styles.input} name="loaiCoPhan_khac_giaTri" value={row.loaiCoPhan_khac_giaTri} onChange={(e) => handleRowChange(idx, e)} />
-                                    </td>
+                                    {loaiCoPhanKhacList.map((_, i) => {
+                                        const slKey = i === 0 ? "loaiCoPhan_khac_soLuong" : `loaiCoPhan_khac_soLuong_${i}`;
+                                        const gtKey = i === 0 ? "loaiCoPhan_khac_giaTri" : `loaiCoPhan_khac_giaTri_${i}`;
+                                        return (
+                                            <React.Fragment key={i}>
+                                                <td className={styles.td}>
+                                                    <input className={styles.input} name={slKey} value={row[slKey] || ""} onChange={(e) => handleRowChange(idx, e)} />
+                                                </td>
+                                                <td className={styles.td}>
+                                                    <input className={styles.input} name={gtKey} value={row[gtKey] || ""} onChange={(e) => handleRowChange(idx, e)} />
+                                                </td>
+                                            </React.Fragment>
+                                        );
+                                    })}
                                     <td className={styles.td}>
                                         <input className={styles.input} name="loaiTaiSanGopVon" value={row.loaiTaiSanGopVon} onChange={(e) => handleRowChange(idx, e)} />
                                     </td>

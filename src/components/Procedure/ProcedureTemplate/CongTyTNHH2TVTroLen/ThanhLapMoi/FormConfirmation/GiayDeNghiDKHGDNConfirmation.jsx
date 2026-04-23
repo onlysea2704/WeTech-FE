@@ -258,8 +258,6 @@ export default function GiayDeNghiDKHGDNConfirmation({ dataJson }) {
                                         {row.tenNganh}
                                         {row.chiTiet && (
                                             <div style={{ marginTop: "4px" }}>
-                                                Chi tiết:
-                                                <br />
                                                 {row.chiTiet}
                                             </div>
                                         )}

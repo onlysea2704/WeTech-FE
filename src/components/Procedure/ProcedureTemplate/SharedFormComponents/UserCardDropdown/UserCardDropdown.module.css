@@ -41,7 +41,7 @@
 .modal {
     background: #fff;
     width: 90%;
-    max-width: 900px;
+    max-width: 1000px;
     max-height: 85vh;
     border-radius: 8px;
     display: flex;
@@ -153,4 +153,106 @@
     text-align: center;
     padding: 32px;
     color: var(--secondary-content, #505050);
+}
+
+/* Actions */
+.actionCell {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.actionFlex {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.editBtn,
+.deleteBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+
+.editBtn {
+    color: #0b5ed7;
+}
+
+.editBtn:hover {
+    background-color: #e2eafc;
+}
+
+.deleteBtn {
+    color: #dc3545;
+}
+
+.deleteBtn:hover {
+    background-color: #f8dbdf;
+}
+
+/* Edit Form */
+.editForm {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    padding-right: 8px;
+}
+
+.sectionTitle {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #1b154b;
+    margin: 16px 0 8px 0;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 4px;
+}
+
+.formActions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #eee;
+}
+
+.btnCancel {
+    padding: 8px 16px;
+    background-color: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btnCancel:hover {
+    background-color: #e9ecef;
+}
+
+.btnSubmit {
+    padding: 8px 16px;
+    background-color: #1b154b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+.btnSubmit:hover {
+    background-color: #2b227a;
+}
+
+.btnSubmit:disabled {
+    background-color: #a09eb5;
+    cursor: not-allowed;
 }

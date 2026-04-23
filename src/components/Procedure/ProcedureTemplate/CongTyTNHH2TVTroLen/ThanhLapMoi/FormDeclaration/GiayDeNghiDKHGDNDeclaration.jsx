@@ -124,10 +124,10 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
     // ── useFetchAddress: provinces cache toàn cục → 1 lần fetch ─────────────
     // Load provinces on mount with a default code, then provinces are cached globally
     const { provinces: _provCache } = useFetchAddress("01");
-    const { provinces, communes: communes_thuongTru } = useFetchAddress(provCode_thuongTru || "");
-    const { communes: communes_hienTai } = useFetchAddress(provCode_hienTai);
-    const { communes: communes_truSo } = useFetchAddress(provCode_truSo);
-    const { communes: communes_thue } = useFetchAddress(provCode_thue);
+    const { provinces, communes: communes_thuongTru, loadingCommunes: loadingCommunes_thuongTru } = useFetchAddress(provCode_thuongTru || "");
+    const { communes: communes_hienTai, loadingCommunes: loadingCommunes_hienTai } = useFetchAddress(provCode_hienTai);
+    const { communes: communes_truSo, loadingCommunes: loadingCommunes_truSo } = useFetchAddress(provCode_truSo);
+    const { communes: communes_thue, loadingCommunes: loadingCommunes_thue } = useFetchAddress(provCode_thue);
 
     // ── Sync từ dataJson và giayDeNghiData ─────────────────────────────────────
     useEffect(() => {
@@ -381,6 +381,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                         provinceDefault={getDefaultValue("thuongTru_tinh")}
                         wardDefault={getDefaultValue("thuongTru_xa")}
                         houseNumberDefault={getDefaultValue("thuongTru_soNha")}
+                        isLoadingCommunes={loadingCommunes_thuongTru}
                     />
 
                     <h3 className={styles.sectionTitle}>Nơi ở hiện tại:</h3>
@@ -396,6 +397,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                             provinceDefault={hienTaiAddressState.tinh}
                             wardDefault={hienTaiAddressState.xa}
                             houseNumberDefault={hienTaiAddressState.soNha}
+                            isLoadingCommunes={loadingCommunes_hienTai}
                         />
                     </div>
                 </div>
@@ -457,6 +459,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                         provinceDefault={getDefaultValue("truSo_tinh")}
                         wardDefault={getDefaultValue("truSo_xa")}
                         houseNumberDefault={getDefaultValue("truSo_soNha")}
+                        isLoadingCommunes={loadingCommunes_truSo}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -532,6 +535,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                         provinceDefault={thueAddressState.tinh}
                         wardDefault={thueAddressState.xa}
                         houseNumberDefault={thueAddressState.soNha}
+                        isLoadingCommunes={loadingCommunes_thue}
                     />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>

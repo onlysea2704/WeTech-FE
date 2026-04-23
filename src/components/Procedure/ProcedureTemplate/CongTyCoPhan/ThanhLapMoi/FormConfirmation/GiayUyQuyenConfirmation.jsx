@@ -2,7 +2,6 @@ import React from "react";
 import { formatDate, getToday } from "@/utils/dateTimeUtils";
 import styles from "@/components/Procedure/ProcedureTemplate/HoKinhDoanh/FormConfirmation/confirmation.module.css";
 import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CurrentDate/CurrentDate";
-import SignatureBlock from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/SignatureBlock/SignatureBlock";
 
 export default function GiayUyQuyenConfirmation({ dataJson }) {
     if (!dataJson) return null;

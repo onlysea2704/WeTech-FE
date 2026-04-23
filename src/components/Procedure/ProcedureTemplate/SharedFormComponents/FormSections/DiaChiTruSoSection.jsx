@@ -4,7 +4,7 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 
 export default function DiaChiTruSoSection({ dataJson, styles }) {
     const [provCode, setProvCode] = useState("");
-    const { provinces, communes } = useFetchAddress(provCode);
+    const { provinces, communes, loadingCommunes } = useFetchAddress(provCode);
 
     return (
         <div className={styles.sectionGroup}>
@@ -19,6 +19,7 @@ export default function DiaChiTruSoSection({ dataJson, styles }) {
                 provinceDefault={dataJson?.truSo_tinh || ""}
                 wardDefault={dataJson?.truSo_xa || ""}
                 houseNumberDefault={dataJson?.truSo_soNha || ""}
+                isLoadingCommunes={loadingCommunes}
             />
             <div className={styles.grid2}>
                 <div className={styles.formGroup}>

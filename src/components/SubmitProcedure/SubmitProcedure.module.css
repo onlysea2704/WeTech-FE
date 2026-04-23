@@ -63,9 +63,6 @@
 }
 
 .pdfIconBox {
-    width: 60px;
-    height: 70px;
-    background-color: #fff;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -78,6 +75,12 @@
 
 .pdfIconBox:hover {
     background-color: #f0f4f8;
+}
+
+.pdfIconBox img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
 }
 
 .downloadBtn {
@@ -107,7 +110,6 @@
 }
 
 .btnAction {
-    width: 220px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -122,6 +124,7 @@
     color: #1b154b;
     margin: 0 auto;
     transition: all 0.2s;
+    white-space: nowrap;
 }
 
 .btnAction:hover {
@@ -385,4 +388,44 @@
 
 .btnCloseModal:hover {
     background: #e2e8f0;
+}
+
+/* Format Toggle (PDF / DOCX) */
+.formatToggle {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 20px;
+    background: #eef0f4;
+    border-radius: 8px;
+    padding: 4px;
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.formatBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 20px;
+    border-radius: 6px;
+    border: none;
+    background: transparent;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.5px;
+}
+
+.formatBtn:hover {
+    color: #1b154b;
+}
+
+.formatBtnActive {
+    background: #fff;
+    color: #1b154b;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }

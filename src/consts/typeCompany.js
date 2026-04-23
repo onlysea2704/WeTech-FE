@@ -62,6 +62,11 @@ const typeCompanyOptions = [
                                 declaration: DieuLeCongTyDeclaration,
                                 confirmation: DieuLeCongTyConfirmation,
                             },
+                            {
+                                title: "Giấy ủy quyền",
+                                declaration: GiayUyQuyenDeclaration_CP,
+                                confirmation: GiayUyQuyenConfirmation_CP,
+                            }
                         ],
                     },
                 ],

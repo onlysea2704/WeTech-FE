@@ -50,9 +50,6 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
 
     const currentForm = forms?.[currentFormStep];
     const CurrentFormComponent = currentForm?.declaration;
-    console.log("currentForm", currentForm);
-    console.log("forms", forms);
-    console.log("currentFormStep", currentFormStep);
 
     const isUyQuyen =
         currentForm?.name?.toLowerCase().includes("uỷ quyền") || currentForm?.name?.toLowerCase().includes("ủy quyền");
@@ -112,30 +109,45 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
         fetchFormSubmission();
     }, [currentForm?.formId]);
 
-    const checkAndSaveUserCard = async (data, prefix) => {
-        const docCccd = data[`${prefix}_cccd`];
-        if (!docCccd) return;
-        const exists = userCards?.find((c) => c.cccd === docCccd);
-        if (!exists) {
-            try {
+    const saveMissingUserCards = async (data) => {
+        const prefixes = ["nguoiDaiDien", "chuSoHuu", "nguoiNop", "uyQuyen", "nhanUyQuyen"];
+        const newCardsData = [];
+        const seenCccds = new Set(userCards?.map(c => c.cccd) || []);
+
+        for (const prefix of prefixes) {
+            const docCccd = data[`${prefix}_cccd`];
+            if (docCccd && !seenCccds.has(docCccd)) {
+                seenCccds.add(docCccd); // Prevent duplicates in the same form
                 const payload = {
                     fullName: data[`${prefix}_hoTen`] || "",
                     cccd: docCccd,
+                    email: data[`${prefix}_email`] || "",
+                    phone: data[`${prefix}_phone`] || "",
                     gender: data[`${prefix}_gioiTinh`] || "",
                     dob: data[`${prefix}_ngaySinh`] || "",
                     nationality: data[`${prefix}_quocTich`] || "",
                     ethnicity: data[`${prefix}_danToc`] || "",
-                    permanentStreet: data[`${prefix}_thuongTru_soNha`] || "",
-                    permanentWard: data[`${prefix}_thuongTru_xa`] || "",
-                    permanentProvince: data[`${prefix}_thuongTru_tinh`] || "",
-                    currentStreet: prefix === "nguoiNop" ? (data[`lienLac_soNha`] || "") : (data[`${prefix}_soNha`] || ""),
-                    currentWard: prefix === "nguoiNop" ? (data[`lienLac_xa`] || "") : (data[`${prefix}_xa`] || ""),
-                    currentProvince: prefix === "nguoiNop" ? (data[`lienLac_tinh`] || "") : (data[`${prefix}_tinh`] || ""),
+                    permanentStreet: data[`${prefix}_thuongTru_soNha`] || data[`thuongTru_soNha`] || "",
+                    permanentWard: data[`${prefix}_thuongTru_xa`] || data[`thuongTru_xa`] || "",
+                    permanentProvince: data[`${prefix}_thuongTru_tinh`] || data[`thuongTru_tinh`] || "",
+                    currentStreet: prefix === "nguoiNop" ? (data[`lienLac_soNha`] || "") : (data[`${prefix}_hienTai_soNha`] || data[`hienTai_soNha`] || data[`${prefix}_soNha`] || ""),
+                    currentWard: prefix === "nguoiNop" ? (data[`lienLac_xa`] || "") : (data[`${prefix}_hienTai_xa`] || data[`hienTai_xa`] || data[`${prefix}_xa`] || ""),
+                    currentProvince: prefix === "nguoiNop" ? (data[`lienLac_tinh`] || "") : (data[`${prefix}_hienTai_tinh`] || data[`hienTai_tinh`] || data[`${prefix}_tinh`] || ""),
                 };
-                await authAxios.post("/api/users/my-card/create", payload);
+                newCardsData.push(payload);
+            }
+        }
+
+        if (newCardsData.length > 0) {
+            try {
+                await Promise.all(
+                    newCardsData.map(payload =>
+                        authAxios.post("/api/users/my-card/create", payload).catch(err => console.error("Failed to save card:", err))
+                    )
+                );
                 if (refreshUserCards) refreshUserCards();
             } catch (err) {
-                console.error(`Failed to save user card for ${prefix}:`, err);
+                console.error("Error saving user cards:", err);
             }
         }
     };
@@ -143,10 +155,8 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
     async function handleFormSubmission(data) {
         if (setIsSubmittingForm) setIsSubmittingForm(true);
         try {
-            // Check and save user cards
-            await checkAndSaveUserCard(data, "nguoiDaiDien");
-            await checkAndSaveUserCard(data, "chuSoHuu");
-            await checkAndSaveUserCard(data, "nguoiNop");
+            // Check and save user cards parallelly
+            await saveMissingUserCards(data);
 
             if (hasServerData) {
                 await authAxios.post("/api/form-submission/update", { formId: currentForm.formId, dataJson: data });

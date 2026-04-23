@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./PersonalSelects.module.css";
 
-export const GioiTinhSelect = ({ name, defaultValue, required = true }) => {
+export const GioiTinhSelect = ({ name, defaultValue, required = true, onChange }) => {
     return (
         <div className={styles.formGroup}>
             <label className={styles.label}>
@@ -13,6 +13,7 @@ export const GioiTinhSelect = ({ name, defaultValue, required = true }) => {
                 name={name}
                 defaultValue={defaultValue || ""}
                 required={required}
+                onChange={onChange ? (e) => onChange(e.target.value) : undefined}
             >
                 <option value="" disabled>--Chọn giới tính--</option>
                 <option value="Nam">Nam</option>
@@ -22,7 +23,7 @@ export const GioiTinhSelect = ({ name, defaultValue, required = true }) => {
     );
 };
 
-export const DanTocSelect = ({ name, defaultValue, required = true }) => {
+export const DanTocSelect = ({ name, defaultValue, required = true, onChange }) => {
     return (
         <div className={styles.formGroup}>
             <label className={styles.label}>
@@ -34,6 +35,7 @@ export const DanTocSelect = ({ name, defaultValue, required = true }) => {
                 name={name}
                 defaultValue={defaultValue || ""}
                 required={required}
+                onChange={onChange ? (e) => onChange(e.target.value) : undefined}
             >
                 <option value="" disabled>--Chọn dân tộc--</option>
                 <option value="Kinh">Kinh</option>
@@ -49,7 +51,7 @@ export const DanTocSelect = ({ name, defaultValue, required = true }) => {
     );
 };
 
-export const QuocTichSelect = ({ name, defaultValue, required = true }) => {
+export const QuocTichSelect = ({ name, defaultValue, required = true, onChange }) => {
     return (
         <div className={styles.formGroup}>
             <label className={styles.label}>
@@ -61,6 +63,7 @@ export const QuocTichSelect = ({ name, defaultValue, required = true }) => {
                 name={name}
                 defaultValue={defaultValue || ""}
                 required={required}
+                onChange={onChange ? (e) => onChange(e.target.value) : undefined}
             >
                 <option value="" disabled>--Chọn quốc tịch--</option>
                 <option value="Việt Nam">Việt Nam</option>

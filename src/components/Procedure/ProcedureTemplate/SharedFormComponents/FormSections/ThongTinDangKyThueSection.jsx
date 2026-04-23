@@ -9,7 +9,7 @@ import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/Shared
 
 export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = false }) {
     const [provCode_thongBaoThue, setProvCode_thongBaoThue] = useState("");
-    const { provinces, communes: communes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
+    const { provinces, communes: communes_thongBaoThue, loadingCommunes: loadingCommunes_thongBaoThue } = useFetchAddress(provCode_thongBaoThue);
     const sectionRef = useRef(null);
     const [giamDocNgaySinh, setGiamDocNgaySinh] = useState(dataJson?.giamDoc_ngaySinh || dataJson?.nguoiDaiDien_ngaySinh || "");
 
@@ -216,7 +216,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                             <div className={styles.grid2}>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Họ, chữ đệm và tên Giám đốc/Tổng giám đốc: <span className={styles.required}>*</span></label>
-                                    <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || dataJson?.nguoiDaiDien_hoTen || ""} style={{ textTransform: "uppercase" }} required />
+                                    <input type="text" className={styles.input} name="giamDoc_hoTen" defaultValue={dataJson?.giamDoc_hoTen || dataJson?.nguoiDaiDien_hoTen || ""} onChange={(e) => e.target.value = e.target.value.toUpperCase()} required />
                                 </div>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Ngày, tháng, năm sinh: <span className={styles.required}>*</span></label>
@@ -238,14 +238,14 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.2</td>
                         <td>
                             <p className={styles.sectionTitle}>Thông tin về Kế toán trưởng/Phụ trách kế toán (nếu có):</p>
-                            <CopyAddressCheckbox 
+                            <CopyAddressCheckbox
                                 label="Tích chọn nếu Kế toán trưởng/Phụ trách kế toán đồng thời là người soạn hồ sơ"
-                                onChange={handleCopyNguoiNopToKeToan} 
+                                onChange={handleCopyNguoiNopToKeToan}
                             />
                             <div key={`ketoan-group-${keToanKey}`}>
                                 <div className={styles.formGroup}>
                                     <label className={styles.label}>Họ, chữ đệm và tên Kế toán trưởng/Phụ trách kế toán:</label>
-                                    <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={keToanState.hoTen} style={{ textTransform: "uppercase" }} />
+                                    <input type="text" className={styles.input} name="keToan_hoTen" defaultValue={keToanState.hoTen} onChange={(e) => e.target.value = e.target.value.toUpperCase()} />
                                 </div>
                                 <div className={styles.grid2}>
                                     <div className={styles.formGroup}>
@@ -282,6 +282,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                                     provinceDefault={thueAddressState.tinh}
                                     wardDefault={thueAddressState.xa}
                                     houseNumberDefault={thueAddressState.soNha}
+                                    isLoadingCommunes={loadingCommunes_thongBaoThue}
                                 />
                                 <div className={styles.grid2} style={{ marginTop: "16px" }}>
                                     <div className={styles.formGroup}>

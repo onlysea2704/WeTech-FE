@@ -232,7 +232,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 Điều 3. Trụ sở chính và địa chỉ chi nhánh, văn phòng đại diện
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
-                <strong>Địa chỉ trụ sở chính:</strong>{" "}
+                <span>Địa chỉ trụ sở chính:</span>{" "}
                 {addressToString(dataJson.truSo_soNha, dataJson.truSo_xa, dataJson.truSo_tinh) ||
                     "........................................................................"}
             </p>
@@ -277,19 +277,18 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                 <td
                                     style={{
                                         border: "1px solid #000",
-                                        padding: "8px",
-                                        whiteSpace: "pre-wrap",
-                                        wordBreak: "break-word",
+                                        padding: "8px"
                                     }}
                                 >
-                                    {row.tenNganh}
-                                    {row.chiTiet && (
-                                        <div style={{ marginTop: "4px" }}>
-                                            Chi tiết:
-                                            <br />
-                                            {row.chiTiet}
-                                        </div>
-                                    )}
+                                    <div>{row.tenNganh}</div>
+                                    {row.chiTiet && <pre
+                                        style={{
+                                            margin: 0,
+                                            whiteSpace: "pre-wrap",
+                                            wordBreak: "break-word",
+                                            fontFamily: "inherit",
+                                            fontSize: "inherit"
+                                        }}>{row.chiTiet}</pre>}
                                 </td>
                                 <td style={{ textAlign: "center", border: "1px solid #000", padding: "8px" }}>
                                     {row.maNganh}
@@ -512,10 +511,10 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px" }}>{row.hoTen}</td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.phanVonGop}
+                                    {row.phanVonGop ? row.phanVonGop + ' VNĐ' : '0'}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
-                                    {row.tyLe}
+                                    {row.tyLe ? row.tyLe + '%' : '0'}
                                 </td>
                                 <td style={{ border: "1px solid #000", padding: "5px", textAlign: "center" }}>
                                     {row.loaiTaiSan}

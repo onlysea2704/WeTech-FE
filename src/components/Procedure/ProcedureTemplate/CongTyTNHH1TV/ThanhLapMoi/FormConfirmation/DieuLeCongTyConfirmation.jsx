@@ -45,7 +45,7 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
             <p className={styles.articleTitle}>Điều 1: Hình thức</p>
             <p>
                 1. CÔNG TY TNHH {dataJson.tenCongTyVN?.toUpperCase() || ".............................."} thuộc hình
-                thức Công ty trách nhiệm hữu hạn một thành viên và thuộc sở hữu của cá nhân Ông/Bà{" "}
+                thức Công ty trách nhiệm hữu hạn một thành viên và thuộc sở hữu của cá nhân {dataJson.chuSoHuu_gioiTinh === "Nam" ? "Ông" : "Bà"}{" "}
                 {dataJson.chuSoHuu_hoTen || ".............................."}
             </p>
             <p>
@@ -134,8 +134,6 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                                     {row.tenNganh}
                                     {row.chiTiet && (
                                         <div style={{ marginTop: "4px" }}>
-                                            Chi tiết:
-                                            <br />
                                             {row.chiTiet}
                                         </div>
                                     )}

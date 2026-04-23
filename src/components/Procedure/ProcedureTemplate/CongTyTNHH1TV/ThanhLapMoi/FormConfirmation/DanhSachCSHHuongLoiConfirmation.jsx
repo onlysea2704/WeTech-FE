@@ -61,9 +61,9 @@ function DanhSachCSHHuongLoiConfirmation({ dataJson }) {
                                     <td className={styles.td}>{row.giaTo}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quocTich}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.danToc}</td>
-                                    <td className={styles.td} style={{ minWidth: 250 }}>{row.diaChiLienLac}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuVon}</td>
-                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuBieuQuyet}</td>
+                                    <td className={styles.td} style={{ textAlign: "center", minWidth: 120 }}>{row.diaChiLienLac}</td>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuVon ? `${row.tyLeSoHuuVon}%` : ""}</td>
+                                    <td className={styles.td} style={{ textAlign: "center" }}>{row.tyLeSoHuuBieuQuyet ? `${row.tyLeSoHuuBieuQuyet}%` : ""}</td>
                                     <td className={styles.td} style={{ textAlign: "center" }}>{row.quyenChiPhoi}</td>
                                     <td className={styles.td}>{row.ghiChu}</td>
                                 </tr>
