@@ -437,7 +437,7 @@ const ProcessProcedure = () => {
                                         : "Tiếp theo"}
 
                                     {(isConfirming || isSubmittingForm) && (
-                                        <div className="overlay-loading" title="Đang tải dữ liệu...">
+                                        <div className="overlay-loading" title="Đang xử lý...">
                                             <div className="spinner-border spinner-border-sm" role="status"></div>
                                         </div>
                                     )}

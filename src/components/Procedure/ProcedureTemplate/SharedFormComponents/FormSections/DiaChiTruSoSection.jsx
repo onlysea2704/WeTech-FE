@@ -2,9 +2,17 @@ import { useState } from "react";
 import AddressSelect from "@/components/AddressSelect/AddressSelect";
 import { useFetchAddress } from "@/hooks/useFetchAddress";
 
-export default function DiaChiTruSoSection({ dataJson, styles }) {
+export default function DiaChiTruSoSection({ dataJson, styles, onProvinceNameChange }) {
     const [provCode, setProvCode] = useState("");
     const { provinces, communes, loadingCommunes } = useFetchAddress(provCode);
+
+    const handleProvinceChange = (code) => {
+        setProvCode(code);
+        if (onProvinceNameChange) {
+            const matched = provinces.find((p) => String(p.code) === String(code));
+            onProvinceNameChange(matched ? matched.name : "");
+        }
+    };
 
     return (
         <div className={styles.sectionGroup}>
@@ -12,7 +20,7 @@ export default function DiaChiTruSoSection({ dataJson, styles }) {
             <AddressSelect
                 provinces={provinces}
                 communes={communes}
-                onProvinceChange={setProvCode}
+                onProvinceChange={handleProvinceChange}
                 provinceName="truSo_tinh"
                 wardName="truSo_xa"
                 houseNumberName="truSo_soNha"

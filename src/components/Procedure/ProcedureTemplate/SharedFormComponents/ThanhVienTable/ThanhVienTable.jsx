@@ -45,11 +45,11 @@ export default function ThanhVienTable({ rows, onChangeRows, disabled = false })
                         <col style={{ width: "160px", minWidth: "160px" }} />
                         <col style={{ width: "180px", minWidth: "180px" }} />
                         <col style={{ width: "140px", minWidth: "140px" }} />
-                        <col style={{ width: "90px", minWidth: "90px" }} />
+                        <col style={{ width: "120px", minWidth: "120px" }} />
+                        <col style={{ width: "140px", minWidth: "140px" }} />
                         <col style={{ width: "100px", minWidth: "100px" }} />
-                        <col style={{ width: "90px", minWidth: "90px" }} />
-                        <col style={{ width: "160px", minWidth: "160px" }} />
-                        <col style={{ width: "160px", minWidth: "160px" }} />
+                        <col style={{ width: "190px", minWidth: "190px" }} />
+                        <col style={{ width: "190px", minWidth: "190px" }} />
                         <col style={{ width: "100px", minWidth: "100px" }} />
                     </colgroup>
                     <thead>

@@ -87,7 +87,7 @@ export default function NguonVonDieuLeSection({ dataJson, styles, isNote = false
                             <td>
                                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
                                     <input
-                                        type="text"
+                                        type="number"
                                         className={styles.input}
                                         name={`${namePrefix}_tyLe`}
                                         defaultValue={dataJson?.[`${namePrefix}_tyLe`] || "0"}

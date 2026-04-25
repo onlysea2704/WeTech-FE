@@ -51,14 +51,6 @@ export default function GiayUyQuyenConfirmation({ dataJson }) {
         email: nhanUyQuyen_email || "",
     };
 
-    const today = getToday();
-
-    function getLastName(name) {
-        if (!name) return "";
-        let arr = name.split(/\s+/);
-        return arr[arr.length - 1];
-    }
-
     function formatWard(ward) {
         if (!ward) return "";
         return ward.charAt(0).toUpperCase() + ward.slice(1).toLowerCase();

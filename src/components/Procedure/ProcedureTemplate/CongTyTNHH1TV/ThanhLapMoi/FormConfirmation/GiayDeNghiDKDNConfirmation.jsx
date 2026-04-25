@@ -44,6 +44,8 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         truSo_fax = "",
         truSo_email = "",
         truSo_website = "",
+        truSo_loaiKhu = "",
+        truSo_anNinhQuocPhong = "Không",
 
         nganhNgheList = [],
 
@@ -344,25 +346,25 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td>Khu công nghiệp</td>
                             <td style={{ textAlign: "center", width: "40px" }}>
-                                <Checkbox checked={false} />
+                                <Checkbox checked={truSo_loaiKhu === "Khu công nghiệp"} />
                             </td>
                         </tr>
                         <tr>
                             <td>Khu chế xuất</td>
                             <td style={{ textAlign: "center" }}>
-                                <Checkbox checked={false} />
+                                <Checkbox checked={truSo_loaiKhu === "Khu chế xuất"} />
                             </td>
                         </tr>
                         <tr>
                             <td>Khu kinh tế</td>
                             <td style={{ textAlign: "center" }}>
-                                <Checkbox checked={false} />
+                                <Checkbox checked={truSo_loaiKhu === "Khu kinh tế"} />
                             </td>
                         </tr>
                         <tr>
                             <td>Khu công nghệ cao</td>
                             <td style={{ textAlign: "center" }}>
-                                <Checkbox checked={false} />
+                                <Checkbox checked={truSo_loaiKhu === "Khu công nghệ cao"} />
                             </td>
                         </tr>
                     </tbody>
@@ -370,9 +372,9 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                 <div style={{ marginTop: "8px" }}>
                     - Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven
                     biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh: Có
-                    <Checkbox checked={false} />
+                    <Checkbox checked={truSo_anNinhQuocPhong === "Có"} />
                     <span style={{ marginLeft: "20px" }}></span>
-                    Không <Checkbox checked={true} />
+                    Không <Checkbox checked={truSo_anNinhQuocPhong === "Không" || !truSo_anNinhQuocPhong} />
                 </div>
 
                 <p style={{ marginTop: "16px" }}>

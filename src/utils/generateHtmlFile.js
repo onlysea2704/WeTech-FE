@@ -60,7 +60,7 @@ export function generateHtmlString(element, options = {}) {
     table {
       width: 100% !important;
       max-width: 100% !important;
-      zoom: 0.85 !important;
+      zoom: ${landscape ? 1 : 0.85} !important;
     }
     
     table td, table th {

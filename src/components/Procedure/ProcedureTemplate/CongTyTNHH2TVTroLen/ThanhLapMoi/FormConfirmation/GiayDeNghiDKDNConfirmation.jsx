@@ -50,6 +50,8 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         truSo_fax = "",
         truSo_email = "",
         truSo_website = "",
+        truSo_loaiKhu = "",
+        truSo_anNinhQuocPhong = "Không",
 
         nganhNgheList = [],
 
@@ -58,12 +60,16 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         vonDieuLe_ngoaiTe = "",
 
         nguonVon_nganSach_soTien = "",
+        nguonVon_nganSach_ngoaiTe = "",
         nguonVon_nganSach_tyLe = "",
         nguonVon_tuNhan_soTien = "",
+        nguonVon_tuNhan_ngoaiTe = "",
         nguonVon_tuNhan_tyLe = "",
         nguonVon_nuocNgoai_soTien = "",
+        nguonVon_nuocNgoai_ngoaiTe = "",
         nguonVon_nuocNgoai_tyLe = "",
         nguonVon_khac_soTien = "",
+        nguonVon_khac_ngoaiTe = "",
         nguonVon_khac_tyLe = "",
         nguonVon_tongCong_soTien = "",
         nguonVon_tongCong_tyLe = "",
@@ -123,9 +129,28 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return [soNha, xa, tinh].filter(Boolean).join(", ");
     };
 
+    const formatCurrency = (value) => {
+        if (value === null || value === undefined || value === "") return "";
+        const str = value.toString().trim();
+        const numStr = str.replace(/\./g, "").replace(/,/g, "");
+        if (!isNaN(numStr) && numStr !== "") {
+            return Number(numStr).toLocaleString("vi-VN");
+        }
+        return str;
+    };
+
     const formatVND = (value) => {
-        if (!value || value === "0" || value === 0) return value || "";
-        return `${value} VNĐ`;
+        const formatted = formatCurrency(value);
+        if (!formatted || formatted === "0") return formatted || "";
+        return `${formatted} VNĐ`;
+    };
+
+    const formatVNDWithForeign = (vnd, foreign) => {
+        let result = formatVND(vnd);
+        if (foreign && foreign !== "0") {
+            result += ` (Tương đương: ${foreign})`;
+        }
+        return result;
     };
 
     const formatPercent = (value) => {
@@ -170,7 +195,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td>
                                 <p>Dân tộc: {nguoiNop_danToc} &nbsp; &nbsp; Quốc tịch: {nguoiNop_quocTich}</p>
                                 <p>Số Hộ chiếu (<em>đối với cá nhân Việt Nam không có số định danh cá nhân</em>)/Số Hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế hộ chiếu nước ngoài (<em>đối với cá nhân là người nước ngoài</em>): {nguoiNop_soHoChieu}</p>
-                                <p>Ngày cấp: {nguoiNop_ngayCapHoChieu} &nbsp; &nbsp; Nơi cấp: {nguoiNop_noiCapHoChieu}</p>
+                                <p>Ngày cấp: {formatDate(nguoiNop_ngayCapHoChieu)} &nbsp; &nbsp; Nơi cấp: {nguoiNop_noiCapHoChieu}</p>
                                 <p>Nơi thường trú:</p>
                                 <p>Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {nguoiNop_thuongTru_soNha}</p>
                                 <p>Xã/Phường/Đặc khu: {nguoiNop_thuongTru_xa}</p>
@@ -236,27 +261,27 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Khu công nghiệp</td>
-                            <td style={{ textAlign: "center", width: "40px" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center", width: "40px" }}><Checkbox checked={truSo_loaiKhu === "Khu công nghiệp"} /></td>
                         </tr>
                         <tr>
                             <td>Khu chế xuất</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu chế xuất"} /></td>
                         </tr>
                         <tr>
                             <td>Khu kinh tế</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu kinh tế"} /></td>
                         </tr>
                         <tr>
                             <td>Khu công nghệ cao</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu công nghệ cao"} /></td>
                         </tr>
                     </tbody>
                 </table>
                 <p style={{ marginTop: "8px" }}>
                     - Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh: Có
-                    <Checkbox checked={false} />
+                    <Checkbox checked={truSo_anNinhQuocPhong === "Có"} />
                     <span style={{ marginLeft: "20px" }}></span>
-                    Không <Checkbox checked={true} />
+                    Không <Checkbox checked={truSo_anNinhQuocPhong === "Không" || !truSo_anNinhQuocPhong} />
                 </p>
 
                 <p style={{ marginTop: "16px" }}><strong>4. Ngành, nghề kinh doanh </strong>(<em>ghi tên và mã theo ngành cấp 4 trong Hệ thống ngành kinh tế của Việt Nam</em>):</p>
@@ -315,22 +340,22 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Vốn ngân sách nhà nước</td>
-                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nganSach_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatVNDWithForeign(nguonVon_nganSach_soTien, nguonVon_nganSach_ngoaiTe)}</td>
                             <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nganSach_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn tư nhân</td>
-                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_tuNhan_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatVNDWithForeign(nguonVon_tuNhan_soTien, nguonVon_tuNhan_ngoaiTe)}</td>
                             <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_tuNhan_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn nước ngoài</td>
-                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_nuocNgoai_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatVNDWithForeign(nguonVon_nuocNgoai_soTien, nguonVon_nuocNgoai_ngoaiTe)}</td>
                             <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_nuocNgoai_tyLe)}</td>
                         </tr>
                         <tr>
                             <td>Vốn khác</td>
-                            <td style={{ textAlign: "center" }}>{formatVND(nguonVon_khac_soTien)}</td>
+                            <td style={{ textAlign: "center" }}>{formatVNDWithForeign(nguonVon_khac_soTien, nguonVon_khac_ngoaiTe)}</td>
                             <td style={{ textAlign: "center" }}>{formatPercent(nguonVon_khac_tyLe)}</td>
                         </tr>
                         <tr>
@@ -398,7 +423,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                             <td>
                                 <p>Dân tộc: {nguoiDaiDien_danToc} &nbsp; &nbsp; Quốc tịch: {nguoiDaiDien_quocTich}</p>
                                 <p>Số Hộ chiếu (<em>đối với cá nhân Việt Nam không có số định danh cá nhân</em>)/Số Hộ chiếu nước ngoài hoặc giấy tờ có giá trị thay thế hộ chiếu nước ngoài (<em>đối với cá nhân là người nước ngoài</em>): {nguoiDaiDien_soHoChieu}</p>
-                                <p>Ngày cấp: {nguoiDaiDien_ngayCapHoChieu} &nbsp; &nbsp; Nơi cấp: {nguoiDaiDien_noiCapHoChieu}</p>
+                                <p>Ngày cấp: {formatDate(nguoiDaiDien_ngayCapHoChieu)} &nbsp; &nbsp; Nơi cấp: {nguoiDaiDien_noiCapHoChieu}</p>
                                 <p>Nơi thường trú:</p>
                                 <p>Số nhà/phòng, ngách/hẻm, ngõ/kiệt, đường/phố/đại lộ, tổ/xóm/ấp/thôn: {nguoiDaiDien_thuongTru_soNha}</p>
                                 <p>Xã/Phường/Đặc khu: {nguoiDaiDien_thuongTru_xa}</p>
@@ -454,7 +479,7 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td style={{ textAlign: "center", verticalAlign: "top" }}>9.4</td>
                             <td colSpan="2">
-                                <p>Ngày bắt đầu hoạt động (<em>trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này</em>): {ngayBatDauHoatDong}</p>
+                                <p>Ngày bắt đầu hoạt động (<em>trường hợp doanh nghiệp dự kiến bắt đầu hoạt động kể từ ngày được cấp Giấy chứng nhận đăng ký doanh nghiệp thì không cần kê khai nội dung này</em>): {formatDate(ngayBatDauHoatDong)}</p>
                             </td>
                         </tr>
                         <tr>

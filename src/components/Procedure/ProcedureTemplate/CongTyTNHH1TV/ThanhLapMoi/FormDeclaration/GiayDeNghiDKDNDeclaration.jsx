@@ -16,21 +16,30 @@ import NguoiDaiDienPhapLuatSection from "@/components/Procedure/ProcedureTemplat
 import ThongTinDangKyThueSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinDangKyThueSection";
 import BaoHiemXaHoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/BaoHiemXaHoiSection";
 import ChuSoHuuHuongLoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ChuSoHuuHuongLoiSection";
+import { buildKinhGui } from "@/consts/provinceRoomMap";
+
 
 const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
     { formId, dataJson, onSubmit, formRef },
     componentRef,
 ) {
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
+    const [kinhGuiValue, setKinhGuiValue] = useState("");
 
     // Sync state from dataJson
     useEffect(() => {
         if (dataJson) {
             setNganhNgheRows(dataJson.nganhNgheList || []);
+            setKinhGuiValue(dataJson.kinhGui || "");
         } else {
             setNganhNgheRows([]);
+            setKinhGuiValue("");
         }
     }, [dataJson]);
+
+    const handleProvinceNameChange = (provinceName) => {
+        setKinhGuiValue(buildKinhGui(provinceName));
+    };
 
     // Expose API
     useImperativeHandle(componentRef, () => ({
@@ -71,7 +80,6 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
 
             {/* KÍNH GỬI + NGƯỜI NỘP HỒ SƠ */}
             <div className={styles.sectionGroup}>
-                <KinhGuiSection dataJson={dataJson} styles={styles} />
                 <ThongTinNguoiNopSection dataJson={dataJson} styles={styles} />
             </div>
 
@@ -82,7 +90,14 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
             <TenCongTySection dataJson={dataJson} styles={styles} prefix="CÔNG TY TNHH" />
 
             {/* ĐỊA CHỈ TRỤ SỞ */}
-            <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
+            <DiaChiTruSoSection
+                dataJson={dataJson}
+                styles={styles}
+                onProvinceNameChange={handleProvinceNameChange}
+            />
+
+            {/* KÍNH GỬI – tự động cập nhật theo tỉnh/thành phố trụ sở */}
+            <KinhGuiSection dataJson={dataJson} styles={styles} autoKinhGui={kinhGuiValue} />
 
             {/* NGÀNH NGHỀ KINH DOANH */}
             <div className={styles.sectionGroup}>

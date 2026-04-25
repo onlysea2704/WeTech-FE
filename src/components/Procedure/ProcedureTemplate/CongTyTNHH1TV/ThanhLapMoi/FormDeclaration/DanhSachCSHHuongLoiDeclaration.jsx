@@ -171,7 +171,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                             </tr>
                             <tr>
                                 <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu vốn điều lệ (%)</th>
-                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu quyền biểu quyết (%)</th>
+                                <th className={styles.th} style={{ minWidth: 50 }}>Tỷ lệ sở hữu cổ phần có quyền biểu quyết (%)</th>
                                 <th className={styles.th} style={{ minWidth: 100 }}>Quyền chi phối</th>
                             </tr>
                             <tr className={styles.colNumberRow}>

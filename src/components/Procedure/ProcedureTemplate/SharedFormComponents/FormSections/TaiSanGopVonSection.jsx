@@ -87,7 +87,7 @@ export default function TaiSanGopVonSection({ dataJson, styles }) {
                             </td>
                             <td>
                                 <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                                    <input type="text" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || "0"} />
+                                    <input type="number" className={styles.input} name={`${namePrefix}_tyLe`} defaultValue={dataJson?.[`${namePrefix}_tyLe`] || "0"} />
                                     <span style={{ whiteSpace: "nowrap", fontSize: "0.85em", color: "#555" }}>%</span>
                                 </div>
                             </td>

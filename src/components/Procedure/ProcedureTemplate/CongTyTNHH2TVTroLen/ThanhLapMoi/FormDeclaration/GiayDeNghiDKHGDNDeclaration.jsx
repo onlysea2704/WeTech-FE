@@ -15,6 +15,7 @@ import DateInput from "@/components/DateInput/DateInput";
 import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
 import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 
 /**
  * Map fields from corporate form (Giấy đề nghị đăng ký doanh nghiệp)
@@ -88,6 +89,13 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
     });
     const [hienTaiKey, setHienTaiKey] = useState(0);
 
+    const [thuongTruAddressState, setThuongTruAddressState] = useState({
+        tinh: dataJson?.thuongTru_tinh || "",
+        xa: dataJson?.thuongTru_xa || "",
+        soNha: dataJson?.thuongTru_soNha || "",
+    });
+    const [thuongTruKey, setThuongTruKey] = useState(0);
+
     const [thueAddressState, setThueAddressState] = useState({
         tinh: dataJson?.thue_tinh || "",
         xa: dataJson?.thue_xa || "",
@@ -141,6 +149,15 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                 soNha: mapped.hienTai_soNha || "",
             });
             setHienTaiKey((prev) => prev + 1);
+
+            // Sync nơi thường trú (thuongTru) from corporate form
+            setThuongTruAddressState({
+                tinh: mapped.thuongTru_tinh || "",
+                xa: mapped.thuongTru_xa || "",
+                soNha: mapped.thuongTru_soNha || "",
+            });
+            setThuongTruKey((prev) => prev + 1);
+
             // Sync ngành nghề from corporate form if available
             if (giayDeNghiData.nganhNgheList && giayDeNghiData.nganhNgheList.length > 0) {
                 setNganhNgheRows(giayDeNghiData.nganhNgheList);
@@ -178,6 +195,14 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                 soNha: dataJson.hienTai_soNha || "",
             });
             setHienTaiKey((prev) => prev + 1);
+
+            setThuongTruAddressState({
+                tinh: dataJson.thuongTru_tinh || "",
+                xa: dataJson.thuongTru_xa || "",
+                soNha: dataJson.thuongTru_soNha || "",
+            });
+            setThuongTruKey((prev) => prev + 1);
+
             setThueAddressState({
                 tinh: dataJson.thue_tinh || "",
                 xa: dataJson.thue_xa || "",
@@ -198,6 +223,15 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
             });
             setProvCode_hienTai("");
             setHienTaiKey((prev) => prev + 1);
+
+            setThuongTruAddressState({
+                tinh: "",
+                xa: "",
+                soNha: "",
+            });
+            setProvCode_thuongTru("");
+            setThuongTruKey((prev) => prev + 1);
+
             setThueAddressState({
                 tinh: "",
                 xa: "",
@@ -263,6 +297,56 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
         },
     }));
 
+    const handleSelectUserCard = (card) => {
+        if (!formRef?.current) return;
+        const form = formRef.current;
+
+        const setVal = (name, val) => {
+            if (!val) return;
+            const input = form.querySelector(`[name="${name}"]`);
+            if (input) {
+                input.value = val;
+                input.dispatchEvent(new Event("change", { bubbles: true }));
+            }
+        };
+
+        setVal("nguoiDaiDien_hoTen", card.fullName);
+        setVal("nguoiDaiDien_cccd", card.cccd);
+        setVal("nguoiDaiDien_phone", card.phone);
+        setVal("nguoiDaiDien_email", card.email);
+
+        if (card.dob) setVal("nguoiDaiDien_ngaySinh", card.dob);
+        if (card.gender) setVal("nguoiDaiDien_gioiTinh", card.gender);
+        if (card.ethnicity) setVal("nguoiDaiDien_danToc", card.ethnicity);
+        if (card.nationality) setVal("nguoiDaiDien_quocTich", card.nationality);
+
+        if (card.permanentAddress) {
+            setThuongTruAddressState({
+                tinh: card.permanentAddress.province || "",
+                xa: card.permanentAddress.ward || "",
+                soNha: card.permanentAddress.street || "",
+            });
+            if (card.permanentAddress.province) {
+                const prov = provinces.find((p) => p.name === card.permanentAddress.province);
+                if (prov) setProvCode_thuongTru(prov.code);
+            }
+            setThuongTruKey((prev) => prev + 1);
+        }
+
+        if (card.currentAddress) {
+            setHienTaiAddressState({
+                tinh: card.currentAddress.province || "",
+                xa: card.currentAddress.ward || "",
+                soNha: card.currentAddress.street || "",
+            });
+            if (card.currentAddress.province) {
+                const prov = provinces.find((p) => p.name === card.currentAddress.province);
+                if (prov) setProvCode_hienTai(prov.code);
+            }
+            setHienTaiKey((prev) => prev + 1);
+        }
+    };
+
     // ── Submit ───────────────────────────────────────────────────────────────
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -293,7 +377,10 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
             {/* ── Người đại diện & CCCD ── */}
             <div className={styles.row}>
                 <div className={styles.colLeft}>
-                    <h3 className={styles.sectionTitle}>Tên người đại diện:</h3>
+                    <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "15px" }}>
+                        <h3 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Tên người đại diện: <UserCardDropdown onSelect={handleSelectUserCard} /></h3>
+
+                    </div>
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>
@@ -370,19 +457,21 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                     </div>
 
                     <h3 className={styles.sectionTitle}>Nơi thường trú:</h3>
-                    <AddressSelect
-                        isRequired={false}
-                        provinces={provinces}
-                        communes={communes_thuongTru}
-                        onProvinceChange={setProvCode_thuongTru}
-                        provinceName="thuongTru_tinh"
-                        wardName="thuongTru_xa"
-                        houseNumberName="thuongTru_soNha"
-                        provinceDefault={getDefaultValue("thuongTru_tinh")}
-                        wardDefault={getDefaultValue("thuongTru_xa")}
-                        houseNumberDefault={getDefaultValue("thuongTru_soNha")}
-                        isLoadingCommunes={loadingCommunes_thuongTru}
-                    />
+                    <div key={`thuongTru-group-${thuongTruKey}`}>
+                        <AddressSelect
+                            isRequired={false}
+                            provinces={provinces}
+                            communes={communes_thuongTru}
+                            onProvinceChange={setProvCode_thuongTru}
+                            provinceName="thuongTru_tinh"
+                            wardName="thuongTru_xa"
+                            houseNumberName="thuongTru_soNha"
+                            provinceDefault={thuongTruAddressState.tinh || getDefaultValue("thuongTru_tinh")}
+                            wardDefault={thuongTruAddressState.xa || getDefaultValue("thuongTru_xa")}
+                            houseNumberDefault={thuongTruAddressState.soNha || getDefaultValue("thuongTru_soNha")}
+                            isLoadingCommunes={loadingCommunes_thuongTru}
+                        />
+                    </div>
 
                     <h3 className={styles.sectionTitle}>Nơi ở hiện tại:</h3>
                     <div key={`hienTai-group-${hienTaiKey}`}>

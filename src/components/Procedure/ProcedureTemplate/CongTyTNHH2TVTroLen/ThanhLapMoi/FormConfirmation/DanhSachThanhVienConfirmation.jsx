@@ -6,11 +6,6 @@ import CurrentDate from "@/components/Procedure/ProcedureTemplate/SharedFormComp
 
 function DanhSachThanhVienConfirmation({ dataJson }) {
     const rows = dataJson?.thanhVienList || [];
-    const {
-        chuKy_ten = "",
-        chuKy_hoTen = "",
-    } = dataJson || {};
-
     return (
         <div className={styles.wrapper}>
             <h2 className={styles.tableTitle} style={{ textAlign: "center", marginTop: "12px", marginBottom: "6px" }}>DANH SÁCH THÀNH VIÊN CÔNG TY TRÁCH NHIỆM HỮU HẠN HAI THÀNH VIÊN TRỞ LÊN</h2>

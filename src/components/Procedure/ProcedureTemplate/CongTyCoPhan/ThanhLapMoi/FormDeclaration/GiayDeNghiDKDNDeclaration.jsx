@@ -17,20 +17,31 @@ import BaoHiemXaHoiSection from "@/components/Procedure/ProcedureTemplate/Shared
 import ChuSoHuuHuongLoiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ChuSoHuuHuongLoiSection";
 import ThongTinCoPhanSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/ThongTinCoPhanSection";
 import CoDongNhaDauTuNuocNgoaiSection from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/FormSections/CoDongNhaDauTuNuocNgoaiSection";
+
+import { buildKinhGui } from "@/consts/provinceRoomMap";
+
 const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
     { formId, dataJson, onSubmit, formRef },
     componentRef,
 ) {
     const [nganhNgheRows, setNganhNgheRows] = useState([]);
+    const [kinhGuiValue, setKinhGuiValue] = useState("");
 
     // Sync state from dataJson
     useEffect(() => {
         if (dataJson) {
             setNganhNgheRows(dataJson.nganhNgheList || []);
+            // Restore kinhGui from saved data if no province auto-fill yet
+            setKinhGuiValue(dataJson.kinhGui || "");
         } else {
             setNganhNgheRows([]);
+            setKinhGuiValue("");
         }
     }, [dataJson]);
+
+    const handleProvinceNameChange = (provinceName) => {
+        setKinhGuiValue(buildKinhGui(provinceName));
+    };
 
     // Expose API
     useImperativeHandle(componentRef, () => ({
@@ -76,15 +87,24 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
+            {/* NGƯỜI NỘP HỒ SƠ */}
             <div className={styles.sectionGroup}>
-                <KinhGuiSection dataJson={dataJson} styles={styles} />
                 <ThongTinNguoiNopSection dataJson={dataJson} styles={styles} isNote={true} />
             </div>
 
             <TinhTrangThanhLapSection dataJson={dataJson} styles={styles} isNote={true} />
             <ThongTinChuyenDoiSection dataJson={dataJson} styles={styles} />
             <TenCongTySection dataJson={dataJson} styles={styles} prefix="CÔNG TY CỔ PHẦN" />
-            <DiaChiTruSoSection dataJson={dataJson} styles={styles} />
+
+            {/* ĐỊA CHỈ TRỤ SỞ */}
+            <DiaChiTruSoSection
+                dataJson={dataJson}
+                styles={styles}
+                onProvinceNameChange={handleProvinceNameChange}
+            />
+
+            {/* KÍNH GỬI – tự động cập nhật theo tỉnh/thành phố trụ sở */}
+            <KinhGuiSection dataJson={dataJson} styles={styles} autoKinhGui={kinhGuiValue} />
 
             <div className={styles.sectionGroup}>
                 <NganhNgheTable rows={nganhNgheRows} onChangeRows={setNganhNgheRows} />
@@ -109,3 +129,4 @@ const GiayDeNghiDKDNDeclaration = forwardRef(function GiayDeNghiDKDNDeclaration(
 });
 
 export default GiayDeNghiDKDNDeclaration;
+

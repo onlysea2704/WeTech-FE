@@ -9,7 +9,7 @@ import {
     DanTocSelect,
     QuocTichSelect,
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
-import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
+import { useGetFormDataJsonFromName, useProcessProcedure } from "@/pages/User/ProcessProcedure/ProcessProcedure";
 import DateInput from "@/components/DateInput/DateInput";
 
 const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
@@ -17,6 +17,18 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
     componentRef,
 ) {
     const giayDeNghiData = useGetFormDataJsonFromName("Giấy đề nghị đăng ký doanh nghiệp");
+    const { procedure } = useProcessProcedure();
+
+    let typeCompanyPrefix = "CÔNG TY CỔ PHẦN";
+    if (procedure?.typeCompany === "cong_ty_tnhh_mot_thanh_vien") {
+        typeCompanyPrefix = "CÔNG TY TNHH MỘT THÀNH VIÊN";
+    } else if (procedure?.typeCompany === "cong_ty_tnhh_hai_thanh_vien_tro_len") {
+        typeCompanyPrefix = "CÔNG TY TNHH HAI THÀNH VIÊN TRỞ LÊN";
+    }
+
+    const companyName = giayDeNghiData?.tenCongTyVN
+        ? `${typeCompanyPrefix} ${giayDeNghiData.tenCongTyVN.toUpperCase()}`
+        : "doanh nghiệp";
 
     const [provCode_uyQuyen, setProvCode_uyQuyen] = useState("");
     const [provCode_nhanUyQuyen_thuongTru, setProvCode_nhanUyQuyen_thuongTru] = useState("");
@@ -72,7 +84,10 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         getDraftData: () => {
             if (!formRef?.current) return null;
             const formData = new FormData(formRef.current);
-            return Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData.entries());
+            data.companyName = companyName;
+            data.phongThucHien = phongThucHienDefault;
+            return data;
         },
         getExportData: () => {
             if (!formRef?.current) return null;
@@ -81,7 +96,10 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                 return null;
             }
             const formData = new FormData(formRef.current);
-            return Object.fromEntries(formData.entries());
+            const data = Object.fromEntries(formData.entries());
+            data.companyName = companyName;
+            data.phongThucHien = phongThucHienDefault;
+            return data;
         },
         importData: (importedData) => {
             if (!importedData) return;
@@ -140,14 +158,27 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
         setNhanUyQuyenKey((prev) => prev + 1);
     };
 
+    function buildPhongThucHienDefault() {
+        let phongThucHienDefault = dataJson?.phongThucHien || giayDeNghiData?.kinhGui || "";
+        if (phongThucHienDefault.startsWith("Kính gửi")) {
+            phongThucHienDefault = phongThucHienDefault.substring(9).trim();
+        }
+        return phongThucHienDefault;
+    }
+
+    const phongThucHienDefault = buildPhongThucHienDefault();
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());
+        data.companyName = companyName;
+        data.phongThucHien = phongThucHienDefault;
         if (onSubmit) {
             onSubmit(data);
         }
     };
+
 
     return (
         <form onSubmit={handleSubmit} ref={formRef} key={dataJson ? "loaded" : "empty"}>
@@ -388,16 +419,8 @@ const GiayUyQuyenDeclaration = forwardRef(function GiayUyQuyenDeclaration(
                         <div className={styles.greyBoxContent} style={{ display: "block", lineHeight: "1.6" }}>
                             <span className={styles.greyText}>
                                 Bên A ủy quyền cho bên B thực hiện các công việc sau đây:
-                                <br />- Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới doanh nghiệp tại Phòng
+                                <br />- {`Nộp hồ sơ và nhận kết quả thủ tục đăng ký mới ${companyName} tại ${phongThucHienDefault}`}
                             </span>
-                            <input
-                                className={styles.spacer}
-                                type="text"
-                                name="phongThucHien"
-                                defaultValue={dataJson?.phongThucHien || ""}
-                                style={{ width: "200px", marginLeft: "8px", borderBottom: "1px dashed #333" }}
-                                required
-                            />
                         </div>
                     </div>
                 </div>

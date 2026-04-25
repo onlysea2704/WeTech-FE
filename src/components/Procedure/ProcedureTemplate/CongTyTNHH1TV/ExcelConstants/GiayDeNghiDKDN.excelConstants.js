@@ -15,6 +15,12 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "CCCD người nộp (*)": "nguoiNop_cccd",
     "Điện thoại người nộp": "nguoiNop_phone",
     "Email người nộp": "nguoiNop_email",
+    "Dân tộc người nộp": "nguoiNop_danToc",
+    "Quốc tịch người nộp": "nguoiNop_quocTich",
+    "Số hộ chiếu người nộp": "nguoiNop_soHoChieu",
+    "Ngày cấp hộ chiếu người nộp (dd/mm/yyyy)": "nguoiNop_ngayCapHoChieu",
+    "Nơi cấp hộ chiếu người nộp": "nguoiNop_noiCapHoChieu",
+    "Quốc gia thường trú người nộp": "nguoiNop_thuongTru_quocGia",
     // Tên công ty
     "Tên tiếng Việt (*) (chữ in hoa)": "tenCongTyVN",
     "Tên tiếng nước ngoài": "tenCongTyEN",
@@ -31,10 +37,17 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "CCCD chủ sở hữu (*)": "chuSoHuu_cccd",
     "Điện thoại chủ sở hữu": "chuSoHuu_phone",
     "Email chủ sở hữu": "chuSoHuu_email",
+    "Dân tộc chủ sở hữu": "chuSoHuu_danToc",
+    "Quốc tịch chủ sở hữu": "chuSoHuu_quocTich",
+    "Số hộ chiếu chủ sở hữu": "chuSoHuu_soHoChieu",
+    "Ngày cấp hộ chiếu chủ sở hữu (dd/mm/yyyy)": "chuSoHuu_ngayCapHoChieu",
+    "Nơi cấp hộ chiếu chủ sở hữu": "chuSoHuu_noiCapHoChieu",
+    "Quốc gia thường trú chủ sở hữu": "chuSoHuu_thuongTru_quocGia",
     // Vốn điều lệ
     "Vốn điều lệ (số, VNĐ) (*)": "vonDieuLe",
     "Vốn điều lệ (bằng chữ)": "vonDieuLe_bangChu",
-    "Giá trị tương đương ngoại tệ": "vonDieuLe_ngoaiTe",
+    "Giá trị tương đương ngoại tệ (bằng số)": "vonDieuLe_ngoaiTeBangSo",
+    "Giá trị tương đương ngoại tệ (đơn vị)": "vonDieuLe_ngoaiTeDonVi",
     "Hiển thị ngoại tệ trên GCNĐKDN (co/khong)": "hienThiNgoaiTe",
     // Thông tin cổ phần
     "Mệnh giá cổ phần (VNĐ)": "menhGiaCoPhan",
@@ -55,9 +68,9 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Cổ phần ưu đãi khác - Tổng giá trị": "cp_cpudk_giaTri",
     "Cổ phần ưu đãi khác - Tỷ lệ (%)": "cp_cpudk_tiLe",
     // Nhà đầu tư nước ngoài
-    "Mã số dự án đầu tư": "maSoDuAn",
-    "Ngày cấp dự án (yyyy-mm-dd)": "ngayCapDuAn",
-    "Cơ quan cấp dự án": "coQuanCapDuAn",
+    "Mã số dự án đầu tư": "chuSoHuu_maSoDuAn",
+    "Ngày cấp dự án (yyyy-mm-dd)": "chuSoHuu_ngayCapDuAn",
+    "Cơ quan cấp dự án": "chuSoHuu_coQuanCapDuAn",
     // Nguồn vốn
     "Vốn ngân sách nhà nước - Số tiền": "nguonVon_nganSach_soTien",
     "Vốn ngân sách nhà nước - Tỷ lệ (%)": "nguonVon_nganSach_tyLe",
@@ -96,6 +109,35 @@ export const FIELD_LABEL_MAP_GIAY_DKDN = {
     "Giới tính người đại diện (*) (Nam/Nữ)": "nguoiDaiDien_gioiTinh",
     "CCCD người đại diện (*)": "nguoiDaiDien_cccd",
     "Chức danh người đại diện (*)": "nguoiDaiDien_chucDanh",
+    "Dân tộc người đại diện": "nguoiDaiDien_danToc",
+    "Quốc tịch người đại diện": "nguoiDaiDien_quocTich",
+    "Số hộ chiếu người đại diện": "nguoiDaiDien_soHoChieu",
+    "Ngày cấp hộ chiếu người đại diện (dd/mm/yyyy)": "nguoiDaiDien_ngayCapHoChieu",
+    "Nơi cấp hộ chiếu người đại diện": "nguoiDaiDien_noiCapHoChieu",
+    "Quốc gia thường trú người đại diện": "nguoiDaiDien_thuongTru_quocGia",
+    // Các thông tin khác
+    "Tình trạng thành lập": "tinhTrangThanhLap",
+    "Phương thức đóng bảo hiểm xã hội": "phuongThucDongBHXH",
+    "Doanh nghiệp có CSH hưởng lợi không?": "doanhNghiepCoCSHHuongLoi",
+    // Thông tin kế toán
+    "Họ tên Kế toán trưởng": "keToan_hoTen",
+    "Ngày sinh Kế toán (dd/mm/yyyy)": "keToan_ngaySinh",
+    "Giới tính Kế toán (Nam/Nữ)": "keToan_gioiTinh",
+    "CCCD Kế toán": "keToan_cccd",
+    "Điện thoại Kế toán": "keToan_phone",
+    // Địa chỉ nhận thông báo thuế
+    "Điện thoại thông báo thuế": "thongBaoThue_phone",
+    "Fax thông báo thuế": "thongBaoThue_fax",
+    "Email thông báo thuế": "thongBaoThue_email",
+    // Hoạt động & Thuế
+    "Ngày bắt đầu hoạt động (dd/mm/yyyy)": "ngayBatDauHoatDong",
+    "Hình thức hạch toán": "hinhThucHachToan",
+    "Có báo cáo tài chính hợp nhất": "baoCaoTaiChinhHopNhat",
+    "Năm tài chính từ ngày": "namTaiChinh_tuNgay",
+    "Năm tài chính đến ngày": "namTaiChinh_denNgay",
+    "Tổng số lao động": "tongSoLaoDong",
+    "Hoạt động dự án BOT": "hoatDongDuAn",
+    "Phương pháp tính thuế GTGT": "phuongPhapTinhThueGTGT",
 };
 
 // ── Section-based address map ────────────────────────────────────────────────
@@ -104,6 +146,11 @@ export const SECTION_FIELD_MAP_GIAY_DKDN = {
         "Tỉnh/Thành phố": "lienLac_tinh",
         "Xã/Phường": "lienLac_xa",
         "Số nhà, đường": "lienLac_soNha",
+    },
+    "ĐỊA CHỈ THƯỜNG TRÚ (NGƯỜI NỘP)": {
+        "Tỉnh/Thành phố": "nguoiNop_thuongTru_tinh",
+        "Xã/Phường": "nguoiNop_thuongTru_xa",
+        "Số nhà, đường": "nguoiNop_thuongTru_soNha",
     },
     "ĐỊA CHỈ TRỤ SỞ CHÍNH": {
         "Tỉnh/Thành phố": "truSo_tinh",
@@ -115,10 +162,25 @@ export const SECTION_FIELD_MAP_GIAY_DKDN = {
         "Xã/Phường": "chuSoHuu_xa",
         "Số nhà, đường": "chuSoHuu_soNha",
     },
+    "ĐỊA CHỈ THƯỜNG TRÚ (CHỦ SỞ HỮU)": {
+        "Tỉnh/Thành phố": "chuSoHuu_thuongTru_tinh",
+        "Xã/Phường": "chuSoHuu_thuongTru_xa",
+        "Số nhà, đường": "chuSoHuu_thuongTru_soNha",
+    },
     "ĐỊA CHỈ NGƯỜI ĐẠI DIỆN": {
         "Tỉnh/Thành phố": "nguoiDaiDien_tinh",
         "Xã/Phường": "nguoiDaiDien_xa",
         "Số nhà, đường": "nguoiDaiDien_soNha",
+    },
+    "ĐỊA CHỈ THƯỜNG TRÚ (NGƯỜI ĐẠI DIỆN)": {
+        "Tỉnh/Thành phố": "nguoiDaiDien_thuongTru_tinh",
+        "Xã/Phường": "nguoiDaiDien_thuongTru_xa",
+        "Số nhà, đường": "nguoiDaiDien_thuongTru_soNha",
+    },
+    "ĐỊA CHỈ NHẬN THÔNG BÁO THUẾ": {
+        "Tỉnh/Thành phố": "thongBaoThue_tinh",
+        "Xã/Phường": "thongBaoThue_xa",
+        "Số nhà, đường": "thongBaoThue_soNha",
     },
 };
 
@@ -135,11 +197,22 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["CCCD người nộp (*)", src.nguoiNop_cccd || ""]);
     rows.push(["Điện thoại người nộp", src.nguoiNop_phone || ""]);
     rows.push(["Email người nộp", src.nguoiNop_email || ""]);
+    rows.push(["Dân tộc người nộp", src.nguoiNop_danToc || ""]);
+    rows.push(["Quốc tịch người nộp", src.nguoiNop_quocTich || ""]);
+    rows.push(["Số hộ chiếu người nộp", src.nguoiNop_soHoChieu || ""]);
+    rows.push(["Ngày cấp hộ chiếu người nộp (dd/mm/yyyy)", formatDateExcel(src.nguoiNop_ngayCapHoChieu)]);
+    rows.push(["Nơi cấp hộ chiếu người nộp", src.nguoiNop_noiCapHoChieu || ""]);
 
     rows.push(["[ĐỊA CHỈ LIÊN LẠC (NGƯỜI NỘP)]", ""]);
     rows.push(["Tỉnh/Thành phố", src.lienLac_tinh || ""]);
     rows.push(["Xã/Phường", src.lienLac_xa || ""]);
     rows.push(["Số nhà, đường", src.lienLac_soNha || ""]);
+
+    rows.push(["[ĐỊA CHỈ THƯỜNG TRÚ (NGƯỜI NỘP)]", ""]);
+    rows.push(["Tỉnh/Thành phố", src.nguoiNop_thuongTru_tinh || ""]);
+    rows.push(["Xã/Phường", src.nguoiNop_thuongTru_xa || ""]);
+    rows.push(["Số nhà, đường", src.nguoiNop_thuongTru_soNha || ""]);
+    rows.push(["Quốc gia thường trú người nộp", src.nguoiNop_thuongTru_quocGia || ""]);
 
     rows.push(["[TÊN CÔNG TY]", ""]);
     rows.push(["Tên tiếng Việt (*) (chữ in hoa)", src.tenCongTyVN || ""]);
@@ -162,16 +235,28 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["CCCD chủ sở hữu (*)", src.chuSoHuu_cccd || ""]);
     rows.push(["Điện thoại chủ sở hữu", src.chuSoHuu_phone || ""]);
     rows.push(["Email chủ sở hữu", src.chuSoHuu_email || ""]);
+    rows.push(["Dân tộc chủ sở hữu", src.chuSoHuu_danToc || ""]);
+    rows.push(["Quốc tịch chủ sở hữu", src.chuSoHuu_quocTich || ""]);
+    rows.push(["Số hộ chiếu chủ sở hữu", src.chuSoHuu_soHoChieu || ""]);
+    rows.push(["Ngày cấp hộ chiếu chủ sở hữu (dd/mm/yyyy)", formatDateExcel(src.chuSoHuu_ngayCapHoChieu)]);
+    rows.push(["Nơi cấp hộ chiếu chủ sở hữu", src.chuSoHuu_noiCapHoChieu || ""]);
 
     rows.push(["[ĐỊA CHỈ CHỦ SỞ HỮU]", ""]);
     rows.push(["Tỉnh/Thành phố", src.chuSoHuu_tinh || ""]);
     rows.push(["Xã/Phường", src.chuSoHuu_xa || ""]);
     rows.push(["Số nhà, đường", src.chuSoHuu_soNha || ""]);
 
+    rows.push(["[ĐỊA CHỈ THƯỜNG TRÚ (CHỦ SỞ HỮU)]", ""]);
+    rows.push(["Tỉnh/Thành phố", src.chuSoHuu_thuongTru_tinh || ""]);
+    rows.push(["Xã/Phường", src.chuSoHuu_thuongTru_xa || ""]);
+    rows.push(["Số nhà, đường", src.chuSoHuu_thuongTru_soNha || ""]);
+    rows.push(["Quốc gia thường trú chủ sở hữu", src.chuSoHuu_thuongTru_quocGia || ""]);
+
     rows.push(["[VỐN ĐIỀU LỆ]", ""]);
     rows.push(["Vốn điều lệ (số, VNĐ) (*)", src.vonDieuLe || ""]);
     rows.push(["Vốn điều lệ (bằng chữ)", src.vonDieuLe_bangChu || ""]);
-    rows.push(["Giá trị tương đương ngoại tệ", src.vonDieuLe_ngoaiTe || ""]);
+    rows.push(["Giá trị tương đương ngoại tệ (bằng số)", src.vonDieuLe_ngoaiTeBangSo || ""]);
+    rows.push(["Giá trị tương đương ngoại tệ (đơn vị)", src.vonDieuLe_ngoaiTeDonVi || ""]);
     rows.push(["Hiển thị ngoại tệ trên GCNĐKDN (co/khong)", src.hienThiNgoaiTe || "khong"]);
 
     rows.push(["[THÔNG TIN CỔ PHẦN (Công ty Cổ phần)]", ""]);
@@ -229,9 +314,9 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["Tổng tài sản góp vốn - Tỷ lệ (%)", src.taiSan_tongSo_tyLe || ""]);
 
     rows.push(["[NHÀ ĐẦU TƯ / CỔ ĐÔNG NƯỚC NGOÀI]", ""]);
-    rows.push(["Mã số dự án đầu tư", src.maSoDuAn || ""]);
-    rows.push(["Ngày cấp dự án (yyyy-mm-dd)", src.ngayCapDuAn || ""]);
-    rows.push(["Cơ quan cấp dự án", src.coQuanCapDuAn || ""]);
+    rows.push(["Mã số dự án đầu tư", src.chuSoHuu_maSoDuAn || ""]);
+    rows.push(["Ngày cấp dự án (yyyy-mm-dd)", src.chuSoHuu_ngayCapDuAn || ""]);
+    rows.push(["Cơ quan cấp dự án", src.chuSoHuu_coQuanCapDuAn || ""]);
 
     rows.push(["[NGƯỜI ĐẠI DIỆN THEO PHÁP LUẬT]", ""]);
     rows.push(["Họ tên người đại diện (*) (chữ in hoa)", src.nguoiDaiDien_hoTen || ""]);
@@ -239,11 +324,52 @@ export function buildExportRowsGiayDKDN(src, SENTINEL_NGANH, NGANH_NGHE_HEADERS)
     rows.push(["Giới tính người đại diện (*) (Nam/Nữ)", src.nguoiDaiDien_gioiTinh || ""]);
     rows.push(["CCCD người đại diện (*)", src.nguoiDaiDien_cccd || ""]);
     rows.push(["Chức danh người đại diện (*)", src.nguoiDaiDien_chucDanh || ""]);
+    rows.push(["Dân tộc người đại diện", src.nguoiDaiDien_danToc || ""]);
+    rows.push(["Quốc tịch người đại diện", src.nguoiDaiDien_quocTich || ""]);
+    rows.push(["Số hộ chiếu người đại diện", src.nguoiDaiDien_soHoChieu || ""]);
+    rows.push(["Ngày cấp hộ chiếu người đại diện (dd/mm/yyyy)", formatDateExcel(src.nguoiDaiDien_ngayCapHoChieu)]);
+    rows.push(["Nơi cấp hộ chiếu người đại diện", src.nguoiDaiDien_noiCapHoChieu || ""]);
 
     rows.push(["[ĐỊA CHỈ NGƯỜI ĐẠI DIỆN]", ""]);
     rows.push(["Tỉnh/Thành phố", src.nguoiDaiDien_tinh || ""]);
     rows.push(["Xã/Phường", src.nguoiDaiDien_xa || ""]);
     rows.push(["Số nhà, đường", src.nguoiDaiDien_soNha || ""]);
+
+    rows.push(["[ĐỊA CHỈ THƯỜNG TRÚ (NGƯỜI ĐẠI DIỆN)]", ""]);
+    rows.push(["Tỉnh/Thành phố", src.nguoiDaiDien_thuongTru_tinh || ""]);
+    rows.push(["Xã/Phường", src.nguoiDaiDien_thuongTru_xa || ""]);
+    rows.push(["Số nhà, đường", src.nguoiDaiDien_thuongTru_soNha || ""]);
+    rows.push(["Quốc gia thường trú người đại diện", src.nguoiDaiDien_thuongTru_quocGia || ""]);
+
+    rows.push(["[THÔNG TIN KHÁC]", ""]);
+    rows.push(["Tình trạng thành lập", src.tinhTrangThanhLap || ""]);
+    rows.push(["Phương thức đóng bảo hiểm xã hội", src.phuongThucDongBHXH || ""]);
+    rows.push(["Doanh nghiệp có CSH hưởng lợi không?", src.doanhNghiepCoCSHHuongLoi || ""]);
+
+    rows.push(["[THÔNG TIN ĐĂNG KÝ THUẾ - KẾ TOÁN]", ""]);
+    rows.push(["Họ tên Kế toán trưởng", src.keToan_hoTen || ""]);
+    rows.push(["Ngày sinh Kế toán (dd/mm/yyyy)", formatDateExcel(src.keToan_ngaySinh)]);
+    rows.push(["Giới tính Kế toán (Nam/Nữ)", src.keToan_gioiTinh || ""]);
+    rows.push(["CCCD Kế toán", src.keToan_cccd || ""]);
+    rows.push(["Điện thoại Kế toán", src.keToan_phone || ""]);
+
+    rows.push(["[ĐỊA CHỈ NHẬN THÔNG BÁO THUẾ]", ""]);
+    rows.push(["Tỉnh/Thành phố", src.thongBaoThue_tinh || ""]);
+    rows.push(["Xã/Phường", src.thongBaoThue_xa || ""]);
+    rows.push(["Số nhà, đường", src.thongBaoThue_soNha || ""]);
+    rows.push(["Điện thoại thông báo thuế", src.thongBaoThue_phone || ""]);
+    rows.push(["Fax thông báo thuế", src.thongBaoThue_fax || ""]);
+    rows.push(["Email thông báo thuế", src.thongBaoThue_email || ""]);
+
+    rows.push(["[HOẠT ĐỘNG VÀ THUẾ]", ""]);
+    rows.push(["Ngày bắt đầu hoạt động (dd/mm/yyyy)", formatDateExcel(src.ngayBatDauHoatDong)]);
+    rows.push(["Hình thức hạch toán", src.hinhThucHachToan || ""]);
+    rows.push(["Có báo cáo tài chính hợp nhất", src.baoCaoTaiChinhHopNhat || ""]);
+    rows.push(["Năm tài chính từ ngày", src.namTaiChinh_tuNgay || ""]);
+    rows.push(["Năm tài chính đến ngày", src.namTaiChinh_denNgay || ""]);
+    rows.push(["Tổng số lao động", src.tongSoLaoDong || ""]);
+    rows.push(["Hoạt động dự án BOT", src.hoatDongDuAn || ""]);
+    rows.push(["Phương pháp tính thuế GTGT", src.phuongPhapTinhThueGTGT || ""]);
 
     // Bảng ngành nghề
     rows.push(["", ""]);

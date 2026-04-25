@@ -131,7 +131,7 @@ export default function UserCardDropdown({ onSelect }) {
                 type="button"
                 className={styles.iconButton}
                 onClick={() => setIsOpen(true)}
-                title="Lịch sử thông tin cá nhân"
+                title="Lịch sử khai báo thông tin cá nhân"
             >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <rect x="3" y="3" width="18" height="18" rx="2" stroke="#1b154b" strokeWidth="2" />

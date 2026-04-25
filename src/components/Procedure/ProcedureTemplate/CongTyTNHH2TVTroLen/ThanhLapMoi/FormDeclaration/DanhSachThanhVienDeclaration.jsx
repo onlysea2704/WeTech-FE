@@ -45,11 +45,8 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
     useImperativeHandle(componentRef, () => ({
         getDraftData: () => {
             if (!formRef?.current) return null;
-            const formData = new FormData(formRef.current);
             return {
                 thanhVienList: rows,
-                chuKy_ten: formData.get("chuKy_ten") || "",
-                chuKy_hoTen: formData.get("chuKy_hoTen") || ""
             };
         },
         getExportData: () => {
@@ -62,11 +59,8 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
                 formRef.current.reportValidity();
                 return null;
             }
-            const formData = new FormData(formRef.current);
             return {
                 thanhVienList: rows,
-                chuKy_ten: formData.get("chuKy_ten") || "",
-                chuKy_hoTen: formData.get("chuKy_hoTen") || ""
             };
         },
         importData: (imported) => {
@@ -76,11 +70,8 @@ const DanhSachThanhVienDeclaration = forwardRef(function DanhSachThanhVienDeclar
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const formData = new FormData(e.target);
         if (onSubmit) onSubmit({
-            thanhVienList: rows,
-            chuKy_ten: formData.get("chuKy_ten") || "",
-            chuKy_hoTen: formData.get("chuKy_hoTen") || ""
+            thanhVienList: rows
         });
     };
 

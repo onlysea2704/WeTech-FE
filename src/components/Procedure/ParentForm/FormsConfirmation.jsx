@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useRef, forwardRef, useImperativeHandle } from "react";
-import { generateHtmlFile, generateHtmlString } from "@/utils/generateHtmlFile";
+import { generateHtmlString } from "@/utils/generateHtmlFile";
 import htmlDocx from "html-docx-js/dist/html-docx";
 import { authAxios } from "@/services/axios-instance";
 import styles from "./DeclarationForms.module.css";
-import { showAuthErrorNotification } from "@/utils/notificationHelper";
 import { useNotification } from "@/hooks/useNotification";
 
 const FormsConfirmation = forwardRef(({ forms, currentFormStep = 0, onStepSubmitSuccess }, ref) => {

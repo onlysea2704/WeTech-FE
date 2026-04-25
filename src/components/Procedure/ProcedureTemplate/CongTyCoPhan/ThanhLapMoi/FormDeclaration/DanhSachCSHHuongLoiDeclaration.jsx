@@ -177,7 +177,7 @@ const DanhSachCSHHuongLoiDeclaration = forwardRef(function DanhSachCSHHuongLoiDe
                                     <InfoTooltip color="#fff" content={`Trường hợp thông qua sở hữu vốn điều lệ/cổ phần:\n- Cá nhân là cổ đông sở hữu từ 25% tổng số cổ phần có quyền biểu quyết trở lên;\n- Cá nhân là thành viên sở hữu từ 25% vốn điều lệ trở lên đối với công ty TNHH 2TV trở lên;\n- Cá nhân là chủ sở hữu công ty TNHH 1TV;\n- Cá nhân là thành viên hợp danh.`} />
                                 </th>
                                 <th className={styles.th} style={{ minWidth: 50 }}>
-                                    Tỷ lệ sở hữu quyền biểu quyết (%)
+                                    Tỷ lệ sở hữu cổ phần có quyền biểu quyết (%)
                                     <InfoTooltip color="#fff" content="(= Số cổ phần có quyền biểu quyết của chủ sở hữu hưởng lợi / tổng số cổ phần có quyền biểu quyết của công ty)" />
                                 </th>
                                 <th className={styles.th} style={{ minWidth: 100 }}>

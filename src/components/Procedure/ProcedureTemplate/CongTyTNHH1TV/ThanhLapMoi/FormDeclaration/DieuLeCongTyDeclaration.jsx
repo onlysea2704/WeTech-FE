@@ -169,9 +169,9 @@ const DieuLeCongTyDeclaration = forwardRef(function DieuLeCongTyDeclaration({ fo
                 </div>
 
                 <div className={styles.formGroup}>
-                    <label className={styles.label}>
+                    <div className={styles.sectionTitle} style={{ marginBottom: "10px" }}>
                         Địa chỉ trụ sở chính <span className={styles.required}>*</span>
-                    </label>
+                    </div>
                     <input type="text" name="diaChiTruSo" className={styles.input} defaultValue={defaultDiaChiTruSo} required />
                 </div>
                 <div className={styles.grid2}>

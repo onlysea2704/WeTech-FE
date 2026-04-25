@@ -430,7 +430,12 @@ const DeclarationForms = forwardRef(({ forms, currentFormStep = 0, onStepSubmitS
                     const key = LABEL_MAP[col0];
                     if (key) {
                         let finalValue = value;
-                        if (key.toLowerCase().includes("ngaysinh") || key === "ngayBatDau" || key === "ngayCapDuAn") {
+                        if (
+                            key.toLowerCase().includes("ngaysinh") ||
+                            key.toLowerCase().includes("ngaycap") ||
+                            key === "ngayBatDau" ||
+                            key === "ngayBatDauHoatDong"
+                        ) {
                             finalValue = parseDateExcel(finalValue);
                         }
                         importedData[key] = finalValue;

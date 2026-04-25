@@ -22,17 +22,17 @@ export default function SubmitProcedure({ procedure, setActiveTab }) {
     const [downloadFormat, setDownloadFormat] = useState("pdf"); // "pdf" | "docx"
     const [fetchedDocx, setFetchedDocx] = useState(false);
 
-    const zipFileName = procedure?.title ? `${procedure.title}.zip` : "ho_so.zip";
+    const baseZipFileName = procedure?.title ? procedure.title : "ho_so";
 
     const pdfHook = useDownloadProcedureFiles(submitStep === 1 ? id_procedure : null, {
         format: "pdf",
-        zipFileName,
+        zipFileName: `${baseZipFileName}_pdf.zip`,
     });
 
     const docxHook = useDownloadProcedureFiles(submitStep === 1 ? id_procedure : null, {
         format: "docx",
         autoFetch: false,
-        zipFileName,
+        zipFileName: `${baseZipFileName}_docx.zip`,
     });
 
     const activeHook = downloadFormat === "pdf" ? pdfHook : docxHook;
