@@ -51,12 +51,16 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         truSo_fax = "",
         truSo_email = "",
         truSo_website = "",
+        truSo_loaiKhu = "",
+        truSo_anNinhQuocPhong = "Không",
 
         nganhNgheList = [],
 
         vonDieuLe = "",
         vonDieuLe_bangChu = "",
-        vonDieuLe_ngoaiTe = "",
+        vonDieuLe_ngoaiTeBangSo = "",
+        vonDieuLe_ngoaiTeDonVi = "",
+        hienThiNgoaiTe = "khong",
         menhGiaCoPhan = "10.000",
         cp_cptt_soLuong = "",
         cp_cptt_giaTri = "",
@@ -190,19 +194,13 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
         return [soNha, xa, tinh].filter(Boolean).join(", ");
     };
 
-    const getLastName = (fullName) => {
-        if (!fullName) return "";
-        const nameParts = fullName.trim().split(" ");
-        return nameParts[nameParts.length - 1];
-    };
-
     const formatVND = (value) => {
-        if (!value || value === "0" || value === 0) return value || "";
+        if (!value || value === "0" || value === 0) return "0";
         return `${value} VNĐ`;
     };
 
     const formatPercent = (value) => {
-        if (!value || value === "0" || value === 0) return value || "";
+        if (!value || value === "0" || value === 0) return "0";
         return `${value}%`;
     };
 
@@ -359,27 +357,27 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                     <tbody>
                         <tr>
                             <td>Khu công nghiệp</td>
-                            <td style={{ textAlign: "center", width: "40px" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center", width: "40px" }}><Checkbox checked={truSo_loaiKhu === "Khu công nghiệp"} /></td>
                         </tr>
                         <tr>
                             <td>Khu chế xuất</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu chế xuất"} /></td>
                         </tr>
                         <tr>
                             <td>Khu kinh tế</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu kinh tế"} /></td>
                         </tr>
                         <tr>
                             <td>Khu công nghệ cao</td>
-                            <td style={{ textAlign: "center" }}><Checkbox checked={false} /></td>
+                            <td style={{ textAlign: "center" }}><Checkbox checked={truSo_loaiKhu === "Khu công nghệ cao"} /></td>
                         </tr>
                     </tbody>
                 </table>
                 <p style={{ marginTop: "8px" }}>
                     - Doanh nghiệp có Giấy chứng nhận quyền sử dụng đất tại đảo và xã, phường biên giới; xã, phường ven biển; khu vực khác có ảnh hưởng đến quốc phòng, an ninh: Có
-                    <Checkbox checked={false} />
+                    <Checkbox checked={truSo_anNinhQuocPhong === "Có"} />
                     <span style={{ marginLeft: "20px" }}></span>
-                    Không <Checkbox checked={true} />
+                    Không <Checkbox checked={truSo_anNinhQuocPhong === "Không"} />
                 </p>
 
                 <p style={{ marginTop: "16px" }}><strong>4. Ngành, nghề kinh doanh </strong>(<em>ghi tên và mã theo ngành cấp 4 trong Hệ thống ngành kinh tế của Việt Nam</em>):</p>
@@ -422,9 +420,9 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
 
                 <p style={{ marginTop: "16px" }}><strong>5. Vốn điều lệ:</strong></p>
                 <p>Vốn điều lệ (<em>bằng số; VNĐ</em>): {vonDieuLe} VNĐ</p>
-                <p>Vốn điều lệ (<em>bằng chữ; VNĐ</em>): {vonDieuLe_bangChu}</p>
-                <p>Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>): {vonDieuLe_ngoaiTe}</p>
-                <p>Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không? Có <Checkbox checked={false} /> Không <Checkbox checked={true} /></p>
+                <p>Vốn điều lệ (<em>bằng chữ; VNĐ</em>): <span style={{ fontStyle: "italic" }}>{vonDieuLe_bangChu}</span></p>
+                <p>Giá trị tương đương theo đơn vị tiền nước ngoài (<em>nếu có, bằng số, loại ngoại tệ</em>): {vonDieuLe_ngoaiTeBangSo ? `${vonDieuLe_ngoaiTeBangSo} ${vonDieuLe_ngoaiTeDonVi}` : ""}</p>
+                <p>Có hiển thị thông tin về giá trị tương đương theo đơn vị tiền tệ nước ngoài trên Giấy chứng nhận đăng ký doanh nghiệp hay không? Có <Checkbox checked={hienThiNgoaiTe === "co"} /> Không <Checkbox checked={hienThiNgoaiTe === "khong"} /></p>
 
                 <p style={{ marginTop: "16px" }}><strong>6. Nguồn vốn điều lệ:</strong></p>
                 <table className={styles.borderTable} style={{ width: "100%", marginTop: "8px" }}>
@@ -480,43 +478,43 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td style={{ textAlign: "center" }}>1</td>
                             <td>Cổ phần phổ thông</td>
-                            <td style={{ textAlign: "center" }}>{cp_cptt_soLuong}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cptt_giaTri}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cptt_tiLe ? cp_cptt_tiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cptt_soLuong || '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cptt_giaTri ? `${cp_cptt_giaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cptt_tiLe ? cp_cptt_tiLe + '%' : '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>2</td>
                             <td>Cổ phần ưu đãi biểu quyết</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudbq_soLuong}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudbq_giaTri}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudbq_tiLe ? cp_cpudbq_tiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudbq_soLuong || '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudbq_giaTri ? `${cp_cpudbq_giaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudbq_tiLe ? cp_cpudbq_tiLe + '%' : '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>3</td>
                             <td>Cổ phần ưu đãi cổ tức</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudct_soLuong}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudct_giaTri}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudct_tiLe ? cp_cpudct_tiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudct_soLuong || '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudct_giaTri ? `${cp_cpudct_giaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudct_tiLe ? cp_cpudct_tiLe + '%' : '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>4</td>
                             <td>Cổ phần ưu đãi hoàn lại</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudhl_soLuong}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudhl_giaTri}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudhl_tiLe ? cp_cpudhl_tiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudhl_soLuong || '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudhl_giaTri ? `${cp_cpudhl_giaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudhl_tiLe ? cp_cpudhl_tiLe + '%' : '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>5</td>
                             <td>Các cổ phần ưu đãi khác</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudk_soLuong}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudk_giaTri}</td>
-                            <td style={{ textAlign: "center" }}>{cp_cpudk_tiLe ? cp_cpudk_tiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudk_soLuong || '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudk_giaTri ? `${cp_cpudk_giaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cpudk_tiLe ? cp_cpudk_tiLe + '%' : '0'}</td>
                         </tr>
                         <tr>
                             <td colSpan={2} style={{ textAlign: "center", fontWeight: "bold" }}>Tổng số</td>
-                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongSoLuong}</td>
-                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongGiaTri}</td>
-                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongTiLe ? cp_tongTiLe + '%' : ''}</td>
+                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongSoLuong || '0'}</td>
+                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongGiaTri ? `${cp_tongGiaTri} VNĐ` : '0'}</td>
+                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_tongTiLe ? cp_tongTiLe + '%' : '0'}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -534,31 +532,31 @@ function GiayDeNghiDKDNConfirmation({ dataJson }) {
                         <tr>
                             <td style={{ textAlign: "center" }}>1</td>
                             <td>Cổ phần phổ thông</td>
-                            <td style={{ textAlign: "center" }}>{cp_cb_cptt_soLuong}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cb_cptt_soLuong || '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>2</td>
                             <td>Cổ phần ưu đãi biểu quyết</td>
-                            <td style={{ textAlign: "center" }}>{cp_cb_cpudbq_soLuong}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cb_cpudbq_soLuong || '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>3</td>
                             <td>Cổ phần ưu đãi cổ tức</td>
-                            <td style={{ textAlign: "center" }}>{cp_cb_cpudct_soLuong}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cb_cpudct_soLuong || '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>4</td>
                             <td>Cổ phần ưu đãi hoàn lại</td>
-                            <td style={{ textAlign: "center" }}>{cp_cb_cpudhl_soLuong}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cb_cpudhl_soLuong || '0'}</td>
                         </tr>
                         <tr>
                             <td style={{ textAlign: "center" }}>5</td>
                             <td>Cổ phần ưu đãi khác</td>
-                            <td style={{ textAlign: "center" }}>{cp_cb_cpudk_soLuong}</td>
+                            <td style={{ textAlign: "center" }}>{cp_cb_cpudk_soLuong || '0'}</td>
                         </tr>
                         <tr>
                             <td colSpan={2} style={{ textAlign: "center", fontWeight: "bold" }}>Tổng số</td>
-                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_cb_tongSoLuong}</td>
+                            <td style={{ textAlign: "center", fontWeight: "bold" }}>{cp_cb_tongSoLuong || '0'}</td>
                         </tr>
                     </tbody>
                 </table>

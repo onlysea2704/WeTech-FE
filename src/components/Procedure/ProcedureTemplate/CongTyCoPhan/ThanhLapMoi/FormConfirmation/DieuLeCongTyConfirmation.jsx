@@ -332,19 +332,18 @@ export default function DieuLeCongTyConfirmation({ dataJson }) {
                 lệ công ty.
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
-                - Vốn điều lệ của công ty là: {dataJson.vonDieuLe || "........................."} VNĐ (
-                <em>{dataJson.vonDieuLe_bangChu || "........................................................."}</em>),
-                trong đó:
+                - Vốn điều lệ của công ty là: {dataJson.vonDieuLe || "........................."} (Ghi bằng chữ:{" "}
+                {dataJson.vonDieuLe_bangChu || "........................................................."}), trong đó:
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
                 - Tổng số cổ phần cổ đông sáng lập đăng ký mua:{" "}
                 {dataJson.soCoPhanCoDongSangLap || "........................"}
             </p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
-                - Mệnh giá cổ phần: {dataJson.menhGiaCoPhan_bangSo || "........................"} VNĐ (
-                <em>{dataJson.menhGiaCoPhan_bangChu || "................."}</em>)/01 cổ phần
+                - Mệnh giá cổ phần: {dataJson.menhGiaCoPhan_bangSo || "........................"} (Ghi bằng chữ:{" "}
+                {dataJson.menhGiaCoPhan_bangChu || "................."})/01 cổ phần
             </p>
-            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>- Loại cổ phần: phổ thông</p>
+            <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>- Loại cổ phần: {dataJson.loaiCoPhan?.toLowerCase() || "phổ thông"}</p>
             <p style={{ textAlign: "justify", marginTop: "6px", marginBottom: "6px" }}>
                 2. Cổ đông sáng lập, số cổ phần, giá trị cổ phần của từng cổ đông sáng lập, thời hạn góp vốn:
             </p>
