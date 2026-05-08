@@ -81,6 +81,22 @@ const Navbar = () => {
         };
     }, [isServicesDropdownOpen]);
 
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (procedureDropdownRef.current && !procedureDropdownRef.current.contains(event.target)) {
+                setIsProcedureDropdownOpen(false);
+            }
+        };
+        if (isProcedureDropdownOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isProcedureDropdownOpen]);
+
     return (
         <div className={styles["navbar"]}>
             <div className={styles["navbar-top-bar"]}></div>

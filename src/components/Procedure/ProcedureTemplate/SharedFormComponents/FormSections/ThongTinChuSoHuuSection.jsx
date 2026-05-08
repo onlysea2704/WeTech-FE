@@ -5,6 +5,7 @@ import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Proce
 import DateInput from "@/components/DateInput/DateInput";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
 import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
+import QuocGiaInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/QuocGiaInput/QuocGiaInput";
 import { useEffect } from "react";
 
 export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
@@ -84,6 +85,11 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         houseNumberDefault={localData?.chuSoHuu_soNha || ""}
                         isLoadingCommunes={loadingCommunes_chuSoHuu}
                     />
+                    <QuocGiaInput
+                        name="chuSoHuu_lienLac_quocGia"
+                        defaultValue={localData?.chuSoHuu_lienLac_quocGia}
+                        styles={styles}
+                    />
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
                             <label className={styles.label}>Điện thoại (nếu có):</label>
@@ -129,10 +135,11 @@ export default function ThongTinChuSoHuuSection({ dataJson, styles }) {
                         houseNumberDefault={localData?.chuSoHuu_thuongTru_soNha || ""}
                         isLoadingCommunes={loadingCommunes_thuongTru}
                     />
-                    <div className={styles.formGroup} style={{ marginTop: "8px" }}>
-                        <label className={styles.label}>Quốc gia:</label>
-                        <input type="text" className={styles.input} name="chuSoHuu_thuongTru_quocGia" defaultValue={localData?.chuSoHuu_thuongTru_quocGia || ""} />
-                    </div>
+                    <QuocGiaInput
+                        name="chuSoHuu_thuongTru_quocGia"
+                        defaultValue={localData?.chuSoHuu_thuongTru_quocGia ?? ""}
+                        styles={styles}
+                    />
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin về Giấy chứng nhận đăng ký đầu tư <span style={{ fontWeight: "normal", fontStyle: "italic" }}>(chỉ kê khai nếu chủ sở hữu là nhà đầu tư nước ngoài)</span>:</h3>
                     <div className={styles.formGroup}>

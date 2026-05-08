@@ -48,46 +48,44 @@ function AppContent() {
 
     return (
         <CartProvider>
-            <NotificationProvider>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/login" element={<LoginForm />} />
-                    <Route path="/register" element={<RegisterForm />} />
-                    <Route path="/forgot-password" element={<ForgotPassword />} />
-                    <Route path="/update-password" element={<UpdatePassword />} />
-                    <Route path="/list-courses" element={<ListCourses />} />
-                    <Route path="/my-courses" element={<MyCourses />} />
-                    <Route path="/course-filter/:category" element={<CourseFilter />} />
-                    <Route path="/course-filter" element={<CourseFilter />} />
-                    <Route path="/procedure-filter" element={<ProcedureFilter />} />
-                    <Route path="/detail-course/:courseId" element={<DetailCourse />} />
-                    <Route path="/list-procedures/:typeCompany" element={<ListProcedures />} />
-                    <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
-                    <Route path="/procedure/search" element={<SearchProfile />} />
-                    <Route path="/contact-us" element={<ContactUs />} />
-                    <Route path="/profile" element={<Profile />} />
-                    <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/not-found" element={<NotFoundPage />} />
-                    <Route path="/faq" element={<FaqPage />} />
-                    <Route path="/register-payment/:idTransaction" element={<RegisterPayment />} />
-                    <Route path="/scan-qr/:idTransaction" element={<ScanQR />} />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<LoginForm />} />
+                <Route path="/register" element={<RegisterForm />} />
+                <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/update-password" element={<UpdatePassword />} />
+                <Route path="/list-courses" element={<ListCourses />} />
+                <Route path="/my-courses" element={<MyCourses />} />
+                <Route path="/course-filter/:category" element={<CourseFilter />} />
+                <Route path="/course-filter" element={<CourseFilter />} />
+                <Route path="/procedure-filter" element={<ProcedureFilter />} />
+                <Route path="/detail-course/:courseId" element={<DetailCourse />} />
+                <Route path="/list-procedures/:typeCompany" element={<ListProcedures />} />
+                <Route path="/process-procedure/:id_procedure" element={<ProcessProcedure />} />
+                <Route path="/procedure/search" element={<SearchProfile />} />
+                <Route path="/contact-us" element={<ContactUs />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/change-password" element={<ChangePassword />} />
+                <Route path="/not-found" element={<NotFoundPage />} />
+                <Route path="/faq" element={<FaqPage />} />
+                <Route path="/register-payment/:idTransaction" element={<RegisterPayment />} />
+                <Route path="/scan-qr/:idTransaction" element={<ScanQR />} />
 
-                    <Route path="/dashboard" element={<DashBoard />} />
-                    <Route path="/list-customer" element={<ListCustomer />} />
-                    <Route path="/sales" element={<Transactions />} />
-                    <Route path="/list-course" element={<ListCourse />} />
-                    <Route path="/list-procedure" element={<ListProcedure />} />
-                    <Route path="/create-procedure" element={<ProcedureManager />} />
-                    <Route path="/manage-procedure/:procedureId" element={<ProcedureManager />} />
-                    <Route path="/manage-course/:courseId" element={<CourseManager />} />
-                    <Route path="/cart" element={<CartPage />} />
+                <Route path="/dashboard" element={<DashBoard />} />
+                <Route path="/list-customer" element={<ListCustomer />} />
+                <Route path="/sales" element={<Transactions />} />
+                <Route path="/list-course" element={<ListCourse />} />
+                <Route path="/list-procedure" element={<ListProcedure />} />
+                <Route path="/create-procedure" element={<ProcedureManager />} />
+                <Route path="/manage-procedure/:procedureId" element={<ProcedureManager />} />
+                <Route path="/manage-course/:courseId" element={<CourseManager />} />
+                <Route path="/cart" element={<CartPage />} />
 
-                    {/* Catch-all route for 404 */}
-                    <Route path="*" element={<NotFoundPage />} />
-                </Routes>
-                <Notification />
-                {!hideChatWidget && <ChatWidget />}
-            </NotificationProvider>
+                {/* Catch-all route for 404 */}
+                <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+            <Notification />
+            {!hideChatWidget && <ChatWidget />}
         </CartProvider>
     );
 }

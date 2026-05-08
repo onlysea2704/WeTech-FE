@@ -6,6 +6,7 @@ import DateInput from "@/components/DateInput/DateInput";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
 import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
+import QuocGiaInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/QuocGiaInput/QuocGiaInput";
 
 export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote = false }) {
     const [provCode_lienLac, setProvCode_lienLac] = useState("");
@@ -171,6 +172,11 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         houseNumberDefault={localData?.nguoiDaiDien_soNha || ""}
                         isLoadingCommunes={loadingCommunes_lienLac}
                     />
+                    <QuocGiaInput
+                        name="nguoiDaiDien_lienLac_quocGia"
+                        defaultValue={localData?.nguoiDaiDien_lienLac_quocGia}
+                        styles={styles}
+                    />
 
                     <h3 className={styles.sectionTitle} style={{ marginTop: "25px" }}>Thông tin cá nhân khác của người đại diện theo pháp luật:</h3>
                     <p className={styles.subLabel} style={{ marginTop: "16px", fontStyle: "italic", fontSize: "14px" }}>Trường hợp không có số định danh cá nhân hoặc việc kết nối giữa Cơ sở dữ liệu quốc gia về đăng ký doanh nghiệp với Cơ sở dữ liệu quốc gia về dân cư bị gián đoạn thì đề nghị kê khai các thông tin cá nhân dưới đây:</p>
@@ -206,10 +212,11 @@ export default function NguoiDaiDienPhapLuatSection({ dataJson, styles, isNote =
                         houseNumberDefault={localData?.nguoiDaiDien_thuongTru_soNha || ""}
                         isLoadingCommunes={loadingCommunes_thuongTru}
                     />
-                    <div className={styles.formGroup} style={{ marginTop: "8px" }}>
-                        <label className={styles.label}>Quốc gia:</label>
-                        <input type="text" className={styles.input} name="nguoiDaiDien_thuongTru_quocGia" defaultValue={localData?.nguoiDaiDien_thuongTru_quocGia || "Việt Nam"} />
-                    </div>
+                    <QuocGiaInput
+                        name="nguoiDaiDien_thuongTru_quocGia"
+                        defaultValue={localData?.nguoiDaiDien_thuongTru_quocGia ?? ""}
+                        styles={styles}
+                    />
                 </div>
                 <div style={{ width: "320px", flexShrink: 0, marginTop: "22px" }}>
                     <UploadCCCD />

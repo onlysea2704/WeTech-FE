@@ -123,33 +123,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
         }
     };
 
-    const handleCopyTruSoToThue = (isChecked, e) => {
-        if (isChecked) {
-            const form = e.target.closest('form');
-            if (form) {
-                const fd = new FormData(form);
-                setThueAddressState({
-                    tinh: fd.get("truSo_tinh") || "",
-                    xa: fd.get("truSo_xa") || "",
-                    soNha: fd.get("truSo_soNha") || "",
-                    phone: fd.get("truSo_phone") || "",
-                    fax: fd.get("truSo_fax") || "",
-                    email: fd.get("truSo_email") || ""
-                });
-                setThueKey(prev => prev + 1);
-            }
-        } else {
-            setThueAddressState({
-                tinh: dataJson?.thongBaoThue_tinh || "",
-                xa: dataJson?.thongBaoThue_xa || "",
-                soNha: dataJson?.thongBaoThue_soNha || "",
-                phone: dataJson?.thongBaoThue_phone || "",
-                fax: dataJson?.thongBaoThue_fax || "",
-                email: dataJson?.thongBaoThue_email || ""
-            });
-            setThueKey(prev => prev + 1);
-        }
-    };
+
 
     useEffect(() => {
         if (dataJson) {
@@ -269,7 +243,7 @@ export default function ThongTinDangKyThueSection({ dataJson, styles, isNote = f
                         <td style={{ textAlign: "center" }}>10.3</td>
                         <td>
                             <p className={styles.sectionTitle}>Địa chỉ nhận thông báo thuế (chỉ kê khai nếu địa chỉ nhận thông báo thuế khác địa chỉ trụ sở chính):</p>
-                            <CopyAddressCheckbox onChange={handleCopyTruSoToThue} />
+
                             <div key={`thue-group-${thueKey}`}>
                                 <AddressSelect
                                     isRequired={false}

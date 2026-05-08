@@ -13,7 +13,7 @@ import {
 } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import CapitalInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CapitalInput/CapitalInput";
-import CopyAddressCheckbox from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/CopyAddressCheckbox/CopyAddressCheckbox";
+
 import { useGetFormDataJsonFromName } from "@/pages/User/ProcessProcedure/ProcessProcedure";
 import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 
@@ -105,29 +105,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
     });
     const [thueKey, setThueKey] = useState(0);
 
-    const handleCopyTruSoToThue = (isChecked, e) => {
-        if (isChecked) {
-            if (!formRef?.current) return;
-            const fd = new FormData(formRef.current);
-            setThueAddressState({
-                tinh: fd.get("truSo_tinh") || "",
-                xa: fd.get("truSo_xa") || "",
-                soNha: fd.get("truSo_soNha") || "",
-                phone: fd.get("truSo_phone") || "",
-                email: fd.get("truSo_email") || "",
-            });
-            setThueKey((prev) => prev + 1);
-        } else {
-            setThueAddressState({
-                tinh: dataJson?.thue_tinh || "",
-                xa: dataJson?.thue_xa || "",
-                soNha: dataJson?.thue_soNha || "",
-                phone: dataJson?.thue_phone || "",
-                email: dataJson?.thue_email || "",
-            });
-            setThueKey((prev) => prev + 1);
-        }
-    };
+
 
     // ── useFetchAddress: provinces cache toàn cục → 1 lần fetch ─────────────
     // Load provinces on mount with a default code, then provinces are cached globally
@@ -611,7 +589,7 @@ const GiayDeNghiDKHGDNDeclaration = forwardRef(function GiayDeNghiDKHGDNDeclarat
                 <h3 className={styles.sectionTitle}>
                     Địa chỉ nhận thông báo thuế (chỉ kê khai nếu khác địa chỉ trụ sở):
                 </h3>
-                <CopyAddressCheckbox onChange={handleCopyTruSoToThue} />
+
                 <div key={`thue-group-${thueKey}`}>
                     <AddressSelect
                         isRequired={false}

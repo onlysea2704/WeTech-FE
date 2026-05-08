@@ -4,6 +4,7 @@ import { useFetchAddress } from "@/hooks/useFetchAddress";
 import { GioiTinhSelect, DanTocSelect, QuocTichSelect } from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/PersonalSelects/PersonalSelects";
 import DateInput from "@/components/DateInput/DateInput";
 import InfoTooltip from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/InfoTooltip/InfoTooltip";
+import QuocGiaInput from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/QuocGiaInput/QuocGiaInput";
 import UploadCCCD from "@/components/UploadCCCD/UploadCCCD";
 import UserCardDropdown from "@/components/Procedure/ProcedureTemplate/SharedFormComponents/UserCardDropdown/UserCardDropdown";
 import { useEffect } from "react";
@@ -110,6 +111,11 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                         houseNumberDefault={localData?.lienLac_soNha || ""}
                         isLoadingCommunes={loadingCommunes_lienLac}
                     />
+                    <QuocGiaInput
+                        name="lienLac_quocGia"
+                        defaultValue={localData?.lienLac_quocGia}
+                        styles={styles}
+                    />
 
                     <div className={styles.grid2}>
                         <div className={styles.formGroup}>
@@ -156,10 +162,11 @@ export default function ThongTinNguoiNopSection({ dataJson, styles, isNote = fal
                         houseNumberDefault={localData?.nguoiNop_thuongTru_soNha || ""}
                         isLoadingCommunes={loadingCommunes_thuongTru}
                     />
-                    <div className={styles.formGroup} style={{ marginTop: "8px" }}>
-                        <label className={styles.label}>Quốc gia:</label>
-                        <input type="text" className={styles.input} name="nguoiNop_thuongTru_quocGia" defaultValue={localData?.nguoiNop_thuongTru_quocGia || ""} />
-                    </div>
+                    <QuocGiaInput
+                        name="nguoiNop_thuongTru_quocGia"
+                        defaultValue={localData?.nguoiNop_thuongTru_quocGia ?? ""}
+                        styles={styles}
+                    />
                 </div>
                 <div style={{ width: "320px", flexShrink: 0, marginTop: "22px" }}>
                     <UploadCCCD />
